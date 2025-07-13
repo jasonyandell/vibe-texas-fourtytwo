@@ -12,8 +12,8 @@ Implement exactly one development story from the plan checklist below. Follow th
 **Story Implementation Checklist:**
 [x] implement stories/initial-features-1.md
 [x] implement stories/initial-features-2.md
-[ ] implement stories/initial-features-3.md
-[ ] implement stories/initial-features-4.md
+[x] implement stories/initial-features-3.md
+[x] implement stories/initial-features-4.md
 [ ] implement stories/initial-features-5.md
 [ ] implement stories/initial-features-6.md
 [ ] implement stories/initial-features-7.md

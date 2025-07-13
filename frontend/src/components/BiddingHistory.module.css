@@ -1,0 +1,236 @@
+/* BiddingHistory Component Styles */
+
+.biddingHistory {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 300px;
+  max-height: 400px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.header h4 {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.bidCount {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  background: var(--color-background);
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--color-border-light);
+}
+
+.emptyState {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+.bidList {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.bidItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  border-radius: 6px;
+  border: 1px solid var(--color-border-light);
+  background: var(--color-background);
+  transition: all 0.2s ease;
+}
+
+.bidItem:hover {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.bidInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.playerName {
+  font-weight: 600;
+  color: var(--color-text-primary);
+  font-size: 0.875rem;
+}
+
+.bidAmount {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.trumpSuit {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  text-transform: capitalize;
+}
+
+.bidOrder {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  background: var(--color-surface);
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  min-width: 2rem;
+  text-align: center;
+}
+
+/* Bid Type Styles */
+.normalBid .bidAmount {
+  color: var(--color-primary);
+}
+
+.highBid {
+  background: var(--color-primary-light);
+  border-color: var(--color-primary);
+}
+
+.highBid .bidAmount {
+  color: var(--color-primary-dark);
+}
+
+.passBid .bidAmount {
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+.passBid {
+  opacity: 0.7;
+}
+
+.summary {
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--color-border-light);
+  background: var(--color-background);
+  border-radius: 4px;
+  padding: 0.75rem;
+}
+
+.highestBid {
+  font-size: 0.875rem;
+  color: var(--color-text-primary);
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .biddingHistory {
+    max-width: 100%;
+    padding: 0.75rem;
+  }
+
+  .header h4 {
+    font-size: 0.875rem;
+  }
+
+  .bidItem {
+    padding: 0.5rem;
+  }
+
+  .playerName {
+    font-size: 0.8rem;
+  }
+
+  .bidAmount {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .biddingHistory {
+    padding: 0.5rem;
+    max-height: 300px;
+  }
+
+  .bidList {
+    gap: 0.25rem;
+  }
+
+  .bidItem {
+    padding: 0.5rem;
+  }
+
+  .summary {
+    padding: 0.5rem;
+  }
+
+  .highestBid {
+    font-size: 0.8rem;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .biddingHistory {
+    border: 2px solid var(--color-border);
+  }
+
+  .bidItem {
+    border: 2px solid var(--color-border-light);
+  }
+
+  .bidItem:hover {
+    border: 2px solid var(--color-border);
+  }
+
+  .highBid {
+    border: 2px solid var(--color-primary);
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .bidItem {
+    transition: none;
+  }
+
+  .bidItem:hover {
+    transform: none;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .biddingHistory {
+    box-shadow: none;
+    border: 1px solid #000;
+    break-inside: avoid;
+  }
+
+  .bidItem:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}

@@ -231,8 +231,8 @@ describe('Visual Validation Tests', () => {
       // Check scores
       expect(screen.getByText('15')).toBeInTheDocument() // North-South score
       expect(screen.getByText('12')).toBeInTheDocument() // East-West score
-      expect(screen.getByText('(3)')).toBeInTheDocument() // North-South game score
-      expect(screen.getByText('(2)')).toBeInTheDocument() // East-West game score
+      expect(screen.getByText('Games: 3')).toBeInTheDocument() // North-South game score
+      expect(screen.getByText('Games: 2')).toBeInTheDocument() // East-West game score
     })
 
     it('shows player information with proper styling', () => {

@@ -83,43 +83,47 @@ export const Lobby: React.FC = () => {
         </div>
       )}
 
-      <div className={styles.lobbyControls}>
-        <div className={styles.filterControls}>
-          <label htmlFor="status-filter">Filter by status:</label>
-          <select
-            id="status-filter"
-            value={filterStatus}
-            onChange={(e) => setFilterStatus(e.target.value as LobbyGame['status'] | 'all')}
-            className={styles.filterSelect}
-          >
-            <option value="all">All Games</option>
-            <option value="waiting">Waiting for Players</option>
-            <option value="playing">In Progress</option>
-            <option value="finished">Completed</option>
-          </select>
+      <div className={styles.gamesSection}>
+        <h3>Available Games</h3>
+
+        <div className={styles.lobbyControls}>
+          <div className={styles.filterControls}>
+            <label htmlFor="status-filter">Filter by status:</label>
+            <select
+              id="status-filter"
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value as LobbyGame['status'] | 'all')}
+              className={styles.filterSelect}
+            >
+              <option value="all">All Games</option>
+              <option value="waiting">Waiting for Players</option>
+              <option value="playing">In Progress</option>
+              <option value="finished">Completed</option>
+            </select>
+          </div>
+
+          <div className={styles.sortControls}>
+            <label htmlFor="sort-select">Sort by:</label>
+            <select
+              id="sort-select"
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
+              className={styles.sortSelect}
+            >
+              <option value="newest">Newest First</option>
+              <option value="oldest">Oldest First</option>
+              <option value="playerCount">Player Count</option>
+              <option value="name">Game Name</option>
+            </select>
+          </div>
         </div>
 
-        <div className={styles.sortControls}>
-          <label htmlFor="sort-select">Sort by:</label>
-          <select
-            id="sort-select"
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
-            className={styles.sortSelect}
-          >
-            <option value="newest">Newest First</option>
-            <option value="oldest">Oldest First</option>
-            <option value="playerCount">Player Count</option>
-            <option value="name">Game Name</option>
-          </select>
-        </div>
+        <LobbyList
+          games={sortedGames}
+          loading={isLoading}
+          error={error}
+        />
       </div>
-
-      <LobbyList
-        games={sortedGames}
-        loading={isLoading}
-        error={error}
-      />
 
       {showCreateModal && (
         <CreateGameModal

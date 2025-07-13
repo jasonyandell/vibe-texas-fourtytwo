@@ -1,6 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 
-const FRONTEND_PORT = process.env.FRONTEND_PORT || '4200';
+const FRONTEND_PORT = process.env.FRONTEND_PORT || '3000';
 const BACKEND_PORT = process.env.BACKEND_PORT || '4201';
 
 /**
@@ -76,21 +76,11 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
-  webServer: [
-    {
-      command: `npm run dev`,
-      port: parseInt(FRONTEND_PORT),
-      reuseExistingServer: !process.env.CI,
-      stdout: 'ignore',
-      stderr: 'pipe',
-    },
-    {
-      command: `npm run --workspace=backend dev`,
-      port: parseInt(BACKEND_PORT),
-      reuseExistingServer: !process.env.CI,
-      stdout: 'ignore',
-      stderr: 'pipe',
-      cwd: '../',
-    },
-  ],
+  webServer: {
+    command: `npm run dev -- --port ${FRONTEND_PORT}`,
+    port: parseInt(FRONTEND_PORT),
+    reuseExistingServer: !process.env.CI,
+    stdout: 'ignore',
+    stderr: 'pipe',
+  },
 });

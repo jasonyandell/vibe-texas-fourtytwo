@@ -9,3 +9,5 @@ export { EmptyState, type EmptyStateProps } from './EmptyState';
 export { CreateGameModal, type CreateGameModalProps } from './CreateGameModal';
 export { ReadySystem, type ReadySystemProps } from './ReadySystem';
 export { GameStartManager, type GameStartManagerProps } from './GameStartManager';
+export { SpectatorManager, type SpectatorManagerProps } from './SpectatorManager';
+export { SpectatorView, type SpectatorViewProps, type SpectatorInfo } from './SpectatorView';

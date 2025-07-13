@@ -1,0 +1,366 @@
+/* BiddingPanel Component Styles */
+
+.biddingPanel {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.currentBidInfo {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: var(--color-background);
+  border-radius: 6px;
+  border: 1px solid var(--color-border-light);
+}
+
+.currentBid {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.currentBid span {
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.minimumBid {
+  text-align: center;
+}
+
+.minimumBid span {
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.biddingControls {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  font-weight: 600;
+  color: var(--color-text-primary);
+  font-size: 0.875rem;
+}
+
+.bidInput,
+.trumpSelect {
+  padding: 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-size: 1rem;
+  background: var(--color-background);
+  color: var(--color-text-primary);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.bidInput:focus,
+.trumpSelect:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(var(--color-primary-rgb), 0.2);
+}
+
+.bidInput:disabled,
+.trumpSelect:disabled {
+  background: var(--color-surface-disabled);
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+}
+
+.helpText {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  margin-top: 0.25rem;
+}
+
+.errorMessage {
+  background: var(--color-error-light);
+  color: var(--color-error);
+  padding: 0.75rem;
+  border-radius: 4px;
+  border: 1px solid var(--color-error);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.bidButton,
+.passButton {
+  flex: 1;
+}
+
+.bidButton {
+  background: var(--color-primary);
+  color: white;
+}
+
+.bidButton:hover:not(:disabled) {
+  background: var(--color-primary-dark);
+}
+
+.bidButton:disabled {
+  background: var(--color-surface-disabled);
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+}
+
+.passButton {
+  background: var(--color-secondary);
+  color: var(--color-text-primary);
+}
+
+.passButton:hover:not(:disabled) {
+  background: var(--color-secondary-dark);
+}
+
+.passButton:disabled {
+  background: var(--color-surface-disabled);
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .biddingPanel {
+    padding: 1rem;
+    max-width: 100%;
+  }
+
+  .currentBid {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+
+  .actionButtons {
+    flex-direction: column;
+  }
+
+  .bidButton,
+  .passButton {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .biddingPanel {
+    padding: 0.75rem;
+  }
+
+  .currentBidInfo {
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .biddingControls {
+    gap: 1rem;
+  }
+
+  .inputGroup {
+    gap: 0.25rem;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .biddingPanel {
+    border: 2px solid var(--color-border);
+  }
+
+  .bidInput,
+  .trumpSelect {
+    border: 2px solid var(--color-border);
+  }
+
+  .bidInput:focus,
+  .trumpSelect:focus {
+    border: 2px solid var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.3);
+  }
+
+  .errorMessage {
+    border: 2px solid var(--color-error);
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .bidInput,
+  .trumpSelect {
+    transition: none;
+  }
+}
+
+/* Integrated Bidding Panel Styles */
+.header {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.header h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.bidAmountSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.trumpSuitSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.trumpFieldset {
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 1rem;
+  margin: 0;
+  background: var(--color-background);
+}
+
+.trumpFieldset:disabled {
+  background: var(--color-surface-disabled);
+  color: var(--color-text-disabled);
+}
+
+.trumpLegend {
+  font-weight: 600;
+  color: var(--color-text-primary);
+  font-size: 0.875rem;
+  padding: 0 0.5rem;
+}
+
+.trumpOptions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.trumpOption {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.trumpOption:hover {
+  background: var(--color-surface-hover);
+}
+
+.trumpOption input[type="radio"] {
+  margin: 0;
+  cursor: pointer;
+}
+
+.trumpLabel {
+  font-size: 0.875rem;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  user-select: none;
+}
+
+.error {
+  background: var(--color-error-light);
+  color: var(--color-error);
+  padding: 0.75rem;
+  border-radius: 4px;
+  border: 1px solid var(--color-error);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.bidButton,
+.passButton {
+  flex: 1;
+}
+
+/* Responsive Design for Integrated Panel */
+@media (max-width: 768px) {
+  .trumpOptions {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .bidButton,
+  .passButton {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .content {
+    gap: 1rem;
+  }
+
+  .trumpOptions {
+    grid-template-columns: 1fr;
+  }
+
+  .trumpOption {
+    padding: 0.75rem;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .biddingPanel {
+    box-shadow: none;
+    border: 1px solid #000;
+  }
+
+  .actionButtons,
+  .actions {
+    display: none;
+  }
+}

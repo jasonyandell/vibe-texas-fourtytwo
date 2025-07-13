@@ -29,11 +29,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
         </svg>
       </div>
       
-      <h3>No games available</h3>
-      <p>
-        There are currently no active games in the lobby. 
-        Create a new game to get started!
-      </p>
+      <p>No games available. Create one to get started!</p>
       
       {onCreateGame && (
         <Button 

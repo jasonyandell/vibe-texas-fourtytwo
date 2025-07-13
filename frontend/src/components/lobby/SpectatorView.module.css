@@ -1,0 +1,425 @@
+/* SpectatorView Component Styles */
+
+.spectatorView {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--color-green) 0%, var(--color-brown) 100%);
+}
+
+.spectatorHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+}
+
+.headerInfo h2 {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.gamePhase {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.spectatorActions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.viewControls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+.controlGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.controlGroup label {
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.controlGroup input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--color-blue);
+}
+
+.playerSelector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.playerSelector label {
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.playerSelector select {
+  padding: 0.4rem 0.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 0.9rem;
+  min-width: 150px;
+}
+
+.playerSelector select:focus {
+  outline: 2px solid var(--color-blue);
+  outline-offset: 2px;
+}
+
+.gameContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.gameBoard {
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.allHands h3,
+.focusedPlayer h3 {
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.handsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.playerHandContainer {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.playerHandContainer:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.selected {
+  background: rgba(0, 102, 204, 0.1) !important;
+  border-color: rgba(0, 102, 204, 0.3) !important;
+}
+
+.playerInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.playerInfo h4 {
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.spectatorHand {
+  margin: 0.75rem 0;
+}
+
+.handStats {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.spectatorList {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.spectatorListHeader {
+  padding: 1rem 1rem 0.5rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.spectatorListHeader h4 {
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.spectatorItems {
+  padding: 0.5rem;
+}
+
+.noSpectators {
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+  text-align: center;
+  padding: 1rem;
+  margin: 0;
+}
+
+.spectatorItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.spectatorItem:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.currentSpectator {
+  background: rgba(0, 102, 204, 0.1);
+  border: 1px solid rgba(0, 102, 204, 0.3);
+}
+
+.spectatorName {
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.joinTime {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.8rem;
+}
+
+/* Position-specific styling for player hands */
+.north {
+  border-top: 3px solid var(--color-blue);
+}
+
+.east {
+  border-right: 3px solid var(--color-gold);
+}
+
+.south {
+  border-bottom: 3px solid var(--color-blue);
+}
+
+.west {
+  border-left: 3px solid var(--color-gold);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .spectatorView {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .spectatorHeader {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  .headerInfo h2 {
+    font-size: 1.25rem;
+    text-align: center;
+  }
+
+  .gamePhase {
+    justify-content: center;
+  }
+
+  .spectatorActions {
+    justify-content: center;
+  }
+
+  .viewControls {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  .handsGrid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .playerHandContainer {
+    padding: 0.75rem;
+  }
+
+  .spectatorItem {
+    flex-direction: column;
+    gap: 0.25rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .spectatorView {
+    padding: 0.75rem;
+  }
+
+  .headerInfo h2 {
+    font-size: 1.1rem;
+  }
+
+  .playerInfo {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+
+  .spectatorActions {
+    flex-direction: column;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .spectatorView {
+    background: #000;
+  }
+
+  .spectatorHeader {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: #000;
+  }
+
+  .headerInfo h2 {
+    color: #000;
+    text-shadow: none;
+  }
+
+  .controlGroup label,
+  .playerSelector label {
+    color: #000;
+  }
+
+  .playerSelector select {
+    background: #fff;
+    color: #000;
+    border-color: #000;
+  }
+
+  .playerHandContainer {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: #000;
+  }
+
+  .playerInfo h4 {
+    color: #000;
+  }
+
+  .spectatorList {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: #000;
+  }
+
+  .spectatorListHeader h4 {
+    color: #000;
+  }
+
+  .spectatorName {
+    color: #000;
+  }
+
+  .joinTime {
+    color: #666;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .playerHandContainer {
+    transition: none;
+  }
+
+  .playerHandContainer:hover {
+    transform: none;
+  }
+
+  .spectatorItem {
+    transition: none;
+  }
+}
+
+/* Focus management */
+.spectatorView:focus-within {
+  outline: none;
+}
+
+.playerHandContainer:focus {
+  outline: 2px solid var(--color-blue);
+  outline-offset: 2px;
+}
+
+/* Loading states */
+.spectatorView[data-loading="true"] {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* Animation for spectator joining/leaving */
+@keyframes spectatorJoin {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.spectatorItem[data-new="true"] {
+  animation: spectatorJoin 0.3s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spectatorItem[data-new="true"] {
+    animation: none;
+  }
+}
