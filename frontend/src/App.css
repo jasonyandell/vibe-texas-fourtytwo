@@ -1,0 +1,55 @@
+.app {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Texas 42 specific styling */
+.texas42-container {
+  background: var(--color-felt-green);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.domino-table {
+  background: radial-gradient(ellipse at center, var(--color-felt-green) 0%, var(--color-felt-green-dark) 100%);
+  border: 8px solid var(--color-wood-brown);
+  border-radius: 50%;
+  position: relative;
+}
+
+.game-header {
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.score-display {
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.player-area {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.player-north { top: 10px; left: 50%; transform: translateX(-50%); }
+.player-east { right: 10px; top: 50%; transform: translateY(-50%); }
+.player-south { bottom: 10px; left: 50%; transform: translateX(-50%); }
+.player-west { left: 10px; top: 50%; transform: translateY(-50%); }

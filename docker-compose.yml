@@ -1,0 +1,100 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  database:
+    image: postgres:15-alpine
+    container_name: texas42-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-texas42_dev}
+      POSTGRES_USER: ${POSTGRES_USER:-texas42_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-texas42_password}
+    ports:
+      - "${DATABASE_PORT:-5433}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/sql/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-texas42_user} -d ${POSTGRES_DB:-texas42_dev}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - texas42-network
+
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: production
+    container_name: texas42-backend
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://${POSTGRES_USER:-texas42_user}:${POSTGRES_PASSWORD:-texas42_password}@database:5432/${POSTGRES_DB:-texas42_dev}
+      PORT: ${BACKEND_PORT:-4201}
+      JWT_SECRET: ${JWT_SECRET}
+      SESSION_SECRET: ${SESSION_SECRET}
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+    ports:
+      - "${BACKEND_PORT:-4201}:${BACKEND_PORT:-4201}"
+    depends_on:
+      database:
+        condition: service_healthy
+    volumes:
+      - ./backend/logs:/app/logs
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:${BACKEND_PORT:-4201}/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - texas42-network
+
+  # Frontend Application
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: production
+    container_name: texas42-frontend
+    restart: unless-stopped
+    environment:
+      VITE_API_URL: http://localhost:${BACKEND_PORT:-4201}
+      VITE_WS_URL: ws://localhost:${BACKEND_PORT:-4201}
+    ports:
+      - "${FRONTEND_PORT:-4200}:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - texas42-network
+
+  # Nginx Reverse Proxy (Optional - for production-like setup)
+  nginx:
+    image: nginx:alpine
+    container_name: texas42-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - texas42-network
+    profiles:
+      - production
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  texas42-network:
+    driver: bridge

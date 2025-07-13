@@ -1,0 +1,51 @@
+{
+  "name": "fourtytwo",
+  "version": "1.0.0",
+  "description": "Texas 42 Web Game - Authentic domino game implementation",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "start": "npm run check-prereqs && npm run setup-env && docker-compose up --build",
+    "develop": "npm run check-prereqs && npm run setup-env && concurrently \"docker-compose -f docker-compose.db.yml up\" \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "tdd": "npm run check-prereqs && npm run setup-env && concurrently \"npm run test:backend:watch\" \"npm run test:frontend:watch\"",
+    "dev:frontend": "npm run --workspace=frontend dev",
+    "dev:backend": "npm run --workspace=backend dev",
+    "test:frontend": "npm run --workspace=frontend test",
+    "test:backend": "npm run --workspace=backend test",
+    "test:frontend:watch": "npm run --workspace=frontend test:watch",
+    "test:backend:watch": "npm run --workspace=backend test:watch",
+    "test:e2e": "npm run --workspace=frontend test:e2e",
+    "build": "npm run build:backend && npm run build:frontend",
+    "build:frontend": "npm run --workspace=frontend build",
+    "build:backend": "npm run --workspace=backend build",
+    "check-prereqs": "node scripts/check-prereqs.js",
+    "setup-env": "node scripts/setup-env.js",
+    "verify-setup": "node scripts/verify-setup.js",
+    "clean": "npm run clean:frontend && npm run clean:backend",
+    "clean:frontend": "npm run --workspace=frontend clean",
+    "clean:backend": "npm run --workspace=backend clean",
+    "cleanup": "node scripts/cleanup.js"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "keywords": [
+    "texas-42",
+    "domino",
+    "game",
+    "web",
+    "typescript",
+    "react",
+    "fastify"
+  ],
+  "author": "Texas 42 Development Team",
+  "license": "MIT"
+}

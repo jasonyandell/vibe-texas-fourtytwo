@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database for Development
+  database:
+    image: postgres:15-alpine
+    container_name: texas42-db-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-texas42_dev}
+      POSTGRES_USER: ${POSTGRES_USER:-texas42_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-texas42_password}
+    ports:
+      - "${DATABASE_PORT:-5433}:5432"
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+      - ./backend/sql/init:/docker-entrypoint-initdb.d
+      - ./backend/sql/dev-data:/docker-entrypoint-initdb.d/dev-data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-texas42_user} -d ${POSTGRES_DB:-texas42_dev}"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - texas42-dev-network
+
+  # Redis for Session Storage (Development)
+  redis:
+    image: redis:7-alpine
+    container_name: texas42-redis-dev
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_dev_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - texas42-dev-network
+
+  # Database Administration Tool (Optional)
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: texas42-pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@texas42.local
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "5050:80"
+    depends_on:
+      database:
+        condition: service_healthy
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - texas42-dev-network
+    profiles:
+      - admin
+
+volumes:
+  postgres_dev_data:
+    driver: local
+  redis_dev_data:
+    driver: local
+  pgadmin_data:
+    driver: local
+
+networks:
+  texas42-dev-network:
+    driver: bridge

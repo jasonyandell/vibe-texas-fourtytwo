@@ -1,0 +1,52 @@
+{
+  "name": "@fourtytwo/backend",
+  "version": "1.0.0",
+  "description": "Texas 42 Web Game - Fastify Backend",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint . --ext ts --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint . --ext ts --fix",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist node_modules/.cache",
+    "db:migrate": "node scripts/migrate.js",
+    "db:seed": "node scripts/seed.js"
+  },
+  "dependencies": {
+    "fastify": "^4.24.3",
+    "@fastify/cors": "^8.4.0",
+    "@fastify/websocket": "^8.3.1",
+    "@fastify/env": "^4.2.0",
+    "@fastify/jwt": "^7.2.4",
+    "@fastify/session": "^10.7.0",
+    "@fastify/redis": "^6.1.1",
+    "pg": "^8.11.3",
+    "zod": "^3.22.4",
+    "nanoid": "^5.0.4",
+    "pino": "^8.16.2",
+    "pino-pretty": "^10.2.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.4",
+    "@types/pg": "^8.10.9",
+    "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "@typescript-eslint/parser": "^6.14.0",
+    "@vitest/coverage-v8": "^1.0.4",
+    "@vitest/ui": "^1.0.4",
+    "eslint": "^8.55.0",
+    "tsx": "^4.6.2",
+    "typescript": "^5.3.3",
+    "vitest": "^1.0.4"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}
