@@ -1,0 +1,155 @@
+/* EmptyState Component Styles */
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  min-height: 300px;
+  gap: 1.5rem;
+}
+
+.emptyIcon {
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 0.5rem;
+}
+
+.emptyIcon svg {
+  width: 64px;
+  height: 64px;
+  stroke-width: 1.5;
+}
+
+.emptyState h3 {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.emptyState p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0;
+  max-width: 400px;
+}
+
+.createButton {
+  margin-top: 0.5rem;
+}
+
+/* Hover effect */
+.emptyState:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-2px);
+  transition: all 0.2s ease;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .emptyState {
+    padding: 2rem 1rem;
+    min-height: 250px;
+    gap: 1rem;
+  }
+
+  .emptyIcon svg {
+    width: 48px;
+    height: 48px;
+  }
+
+  .emptyState h3 {
+    font-size: 1.25rem;
+  }
+
+  .emptyState p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .emptyState {
+    padding: 1.5rem 0.75rem;
+    min-height: 200px;
+  }
+
+  .emptyIcon svg {
+    width: 40px;
+    height: 40px;
+  }
+
+  .emptyState h3 {
+    font-size: 1.1rem;
+  }
+
+  .emptyState p {
+    font-size: 0.85rem;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .emptyState {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: #000;
+    color: #000;
+  }
+
+  .emptyIcon {
+    color: #666;
+  }
+
+  .emptyState h3 {
+    color: #000;
+    text-shadow: none;
+  }
+
+  .emptyState p {
+    color: #333;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .emptyState:hover {
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Focus management */
+.emptyState:focus-within {
+  outline: 2px solid var(--color-blue);
+  outline-offset: 2px;
+}
+
+/* Animation for when empty state appears */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.emptyState {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .emptyState {
+    animation: none;
+  }
+}

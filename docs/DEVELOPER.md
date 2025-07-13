@@ -46,6 +46,37 @@ The project uses npm workspaces to manage a monorepo with two main packages:
 - **Frontend** (`frontend/`): React + Vite + TypeScript
 - **Backend** (`backend/`): Fastify + TypeScript + PostgreSQL
 
+### Component Library
+
+The frontend includes a comprehensive component library with authentic Texas 42 domino visuals:
+
+#### Core Game Components
+
+- **DominoComponent**: Renders individual dominoes with authentic double-6 visual design
+  - Supports all 28 domino combinations (0-0 through 6-6)
+  - Face-up/face-down states with proper pip layouts
+  - Hover, selection, and interactive states
+  - Horizontal/vertical orientations
+  - Responsive scaling and accessibility features
+
+- **DominoHand**: Displays 7 dominoes in traditional 2-row layout
+  - 4 dominoes on top row, 3 on bottom (centered)
+  - Supports gaps where dominoes have been played
+  - Responsive design for different screen sizes
+  - Interactive domino selection and click handling
+
+- **GameBoard**: Baseball diamond layout for 4-player Texas 42
+  - Responsive positioning system for North/East/South/West players
+  - Center area for current trick display
+  - Score tracking and game state visualization
+  - Mobile-friendly responsive design
+
+#### UI Primitives
+
+- **Button**: Configurable button component with variants (primary, secondary, danger, ghost)
+- **Card**: Flexible card container with header, content, and footer sections
+- **CSS Modules**: Scoped styling with authentic Texas 42 color palette
+
 ### Technology Stack
 
 #### Frontend
@@ -215,6 +246,102 @@ VITE_ENABLE_DEBUG_MODE=true
 DATABASE_URL=postgresql://user:pass@localhost:5433/texas42_dev
 JWT_SECRET=your-jwt-secret
 SESSION_SECRET=your-session-secret
+```
+
+## 🧩 Component Usage Guide
+
+### DominoComponent
+
+Basic domino rendering with authentic Texas 42 styling:
+
+```tsx
+import { DominoComponent } from '@/components/DominoComponent';
+
+// Basic domino
+<DominoComponent domino={{ id: '1', high: 6, low: 3 }} />
+
+// Interactive domino with states
+<DominoComponent
+  domino={{ id: '2', high: 4, low: 4 }}
+  isPlayable={true}
+  selected={true}
+  onClick={() => handleDominoClick(domino)}
+  orientation="vertical"
+/>
+
+// Face-down domino (for opponents)
+<DominoComponent
+  domino={{ id: '3', high: 2, low: 1 }}
+  faceDown={true}
+/>
+```
+
+### DominoHand
+
+Display a player's hand of dominoes:
+
+```tsx
+import { DominoHand } from '@/components/DominoHand';
+
+// Player's hand (face-up, interactive)
+<DominoHand
+  dominoes={playerDominoes}
+  onDominoClick={handleDominoPlay}
+  playableDominoes={validMoves}
+  selectedDomino={selectedDomino}
+/>
+
+// Opponent's hand (face-down)
+<DominoHand
+  dominoes={opponentDominoes}
+  faceDown={true}
+/>
+
+// Hand with gaps (played dominoes)
+<DominoHand
+  dominoes={[domino1, null, domino3, domino4, null, domino6, domino7]}
+/>
+```
+
+### GameBoard
+
+Main game interface with baseball diamond layout:
+
+```tsx
+import { GameBoard } from '@/components/GameBoard';
+
+<GameBoard
+  gameState={currentGameState}
+  currentPlayerId={userId}
+  onDominoPlay={handleDominoPlay}
+/>
+```
+
+### UI Components
+
+```tsx
+import { Button, Card, CardHeader, CardContent, CardFooter } from '@/components/ui';
+
+// Buttons with variants
+<Button variant="primary" size="large" onClick={handleAction}>
+  Primary Action
+</Button>
+
+<Button variant="secondary" loading={isLoading}>
+  Secondary Action
+</Button>
+
+// Cards for game information
+<Card variant="elevated">
+  <CardHeader>Game Information</CardHeader>
+  <CardContent>
+    <p>Current phase: {gameState.phase}</p>
+    <p>Trump: {gameState.trump}</p>
+  </CardContent>
+  <CardFooter>
+    <Button variant="ghost">Close</Button>
+  </CardFooter>
+</Card>
 ```
 
 ### Automatic Environment Setup

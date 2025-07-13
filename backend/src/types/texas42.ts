@@ -48,6 +48,53 @@ export interface Trick {
   leadSuit?: DominoSuit;
 }
 
+// Bidding state
+export interface BiddingState {
+  currentBidder?: string;
+  currentBid?: Bid;
+  bidHistory: Bid[];
+  biddingComplete: boolean;
+  passCount: number;
+  minimumBid: number;
+}
+
+// Scoring state
+export interface ScoringState {
+  currentTrickWinner?: string;
+  trickPoints: number;
+  countDominoes: Domino[];
+  bonusPoints: number;
+  penaltyPoints: number;
+  roundComplete: boolean;
+}
+
+// Partnership state for Texas 42 (North-South vs East-West)
+export interface PartnershipState {
+  northSouth: {
+    players: [string, string]; // [north player id, south player id]
+    score: number;
+    gameScore: number;
+    tricksWon: number;
+    currentBid?: Bid;
+  };
+  eastWest: {
+    players: [string, string]; // [east player id, west player id]
+    score: number;
+    gameScore: number;
+    tricksWon: number;
+    currentBid?: Bid;
+  };
+}
+
+// Player state (alias for Player interface for story compliance)
+export type PlayerState = Player;
+
+// Domino state (alias for Domino interface for story compliance)
+export type DominoState = Domino;
+
+// Trick state (alias for Trick interface for story compliance)
+export type TrickState = Trick;
+
 // Game state
 export interface GameState {
   id: string;
@@ -69,6 +116,9 @@ export interface GameState {
     eastWest: number;
   };
   boneyard: Domino[];
+  biddingState?: BiddingState;
+  scoringState?: ScoringState;
+  partnershipState?: PartnershipState;
   createdAt: string;
   updatedAt: string;
 }

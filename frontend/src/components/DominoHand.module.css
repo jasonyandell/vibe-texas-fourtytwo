@@ -1,0 +1,277 @@
+/* DominoHand Component Styles - 2-row layout for Texas 42 */
+
+.dominoHand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  min-height: 120px;
+  position: relative;
+}
+
+.topRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: nowrap;
+}
+
+.bottomRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: nowrap;
+  margin-top: 4px;
+}
+
+.handDomino {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+}
+
+.handDomino:hover {
+  transform: translateY(-4px);
+  z-index: 10;
+}
+
+.handDomino.selected {
+  transform: translateY(-8px);
+  z-index: 20;
+}
+
+.dominoGap {
+  width: 80px;
+  height: 40px;
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  opacity: 0.5;
+}
+
+.dominoGap::before {
+  content: '';
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive design */
+.responsive {
+  max-width: 100%;
+  overflow: visible;
+}
+
+/* Tablet and smaller screens */
+@media (max-width: 768px) {
+  .dominoHand {
+    gap: 6px;
+    padding: 8px;
+    min-height: 100px;
+  }
+  
+  .topRow,
+  .bottomRow {
+    gap: 4px;
+  }
+  
+  .handDomino:hover {
+    transform: translateY(-2px);
+  }
+  
+  .handDomino.selected {
+    transform: translateY(-4px);
+  }
+  
+  .dominoGap {
+    width: 60px;
+    height: 30px;
+  }
+  
+  .dominoGap::before {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+/* Mobile screens */
+@media (max-width: 480px) {
+  .dominoHand {
+    gap: 4px;
+    padding: 6px;
+    min-height: 80px;
+  }
+  
+  .topRow,
+  .bottomRow {
+    gap: 3px;
+  }
+  
+  .handDomino:hover {
+    transform: translateY(-1px);
+  }
+  
+  .handDomino.selected {
+    transform: translateY(-2px);
+  }
+  
+  .dominoGap {
+    width: 50px;
+    height: 25px;
+  }
+  
+  .dominoGap::before {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+/* Very small screens - stack dominoes if needed */
+@media (max-width: 360px) {
+  .topRow,
+  .bottomRow {
+    flex-wrap: wrap;
+    max-width: 100%;
+  }
+  
+  .dominoHand {
+    min-height: auto;
+  }
+}
+
+/* Vertical orientation adjustments */
+.dominoHand:has(.handDomino.vertical) .dominoGap {
+  width: 40px;
+  height: 80px;
+}
+
+@media (max-width: 768px) {
+  .dominoHand:has(.handDomino.vertical) .dominoGap {
+    width: 30px;
+    height: 60px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dominoHand:has(.handDomino.vertical) .dominoGap {
+    width: 25px;
+    height: 50px;
+  }
+}
+
+/* Animation for domino interactions */
+.handDomino {
+  animation-duration: 0.2s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
+}
+
+.handDomino.playable {
+  cursor: pointer;
+}
+
+.handDomino.playable:hover {
+  animation-name: dominoHover;
+}
+
+.handDomino.selected {
+  animation-name: dominoSelect;
+}
+
+@keyframes dominoHover {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes dominoSelect {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-8px);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .handDomino {
+    transition: none;
+    animation: none;
+  }
+  
+  .handDomino:hover,
+  .handDomino.selected {
+    transform: none;
+  }
+  
+  @keyframes dominoHover,
+  @keyframes dominoSelect {
+    0%, 100% {
+      transform: none;
+    }
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .dominoHand {
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid #fff;
+  }
+  
+  .dominoGap {
+    border-color: #fff;
+    background: rgba(0, 0, 0, 0.2);
+  }
+  
+  .dominoGap::before {
+    border-color: #fff;
+    background: rgba(255, 255, 255, 0.2);
+  }
+}
+
+/* Focus management for keyboard navigation */
+.handDomino:focus-within {
+  outline: 2px solid var(--color-blue);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Player position specific adjustments */
+.dominoHand.playerNorth,
+.dominoHand.playerSouth {
+  /* Horizontal layout for north/south players */
+}
+
+.dominoHand.playerEast,
+.dominoHand.playerWest {
+  /* Could be adjusted for vertical layout if needed */
+  transform: rotate(0deg);
+}
+
+/* Opponent hand styling (face-down dominoes) */
+.dominoHand:has(.handDomino.faceDown) {
+  opacity: 0.8;
+}
+
+.dominoHand:has(.handDomino.faceDown) .handDomino:hover {
+  transform: translateY(-2px);
+}
+
+.dominoHand:has(.handDomino.faceDown) .handDomino.selected {
+  transform: translateY(-4px);
+}

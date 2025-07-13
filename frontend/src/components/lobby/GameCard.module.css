@@ -1,0 +1,239 @@
+/* GameCard Component Styles */
+
+.gameCard {
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.gameCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.gameInfo {
+  flex: 1;
+}
+
+.gameName {
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  line-height: 1.2;
+}
+
+.gameMetadata {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.playerCount {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.createdAt {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.8rem;
+}
+
+.cardActions {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.playerActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.playerActions button {
+  flex: 1;
+}
+
+.finishedBadge {
+  align-self: center;
+  margin-top: 0.5rem;
+}
+
+/* Game status specific styling */
+.gameCard[data-status="waiting"] {
+  border-left: 4px solid var(--color-gold);
+}
+
+.gameCard[data-status="playing"] {
+  border-left: 4px solid #28a745;
+}
+
+.gameCard[data-status="finished"] {
+  border-left: 4px solid #6c757d;
+  opacity: 0.8;
+}
+
+/* User participation indicators */
+.gameCard[data-user-in-game="true"] {
+  background: rgba(0, 102, 204, 0.1);
+  border-color: rgba(0, 102, 204, 0.3);
+}
+
+.gameCard[data-user-in-game="true"]:hover {
+  border-color: rgba(0, 102, 204, 0.5);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .gameCard {
+    margin-bottom: 1rem;
+  }
+
+  .cardHeader {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  .gameName {
+    font-size: 1.1rem;
+  }
+
+  .gameMetadata {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .playerActions {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .gameName {
+    font-size: 1rem;
+  }
+
+  .gameMetadata {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .playerCount,
+  .createdAt {
+    font-size: 0.8rem;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .gameCard {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: #000;
+  }
+
+  .cardHeader {
+    border-bottom-color: #000;
+  }
+
+  .gameName {
+    color: #000;
+    text-shadow: none;
+  }
+
+  .playerCount {
+    color: #333;
+  }
+
+  .createdAt {
+    color: #666;
+  }
+
+  .gameCard[data-status="waiting"] {
+    border-left-color: #ff6600;
+  }
+
+  .gameCard[data-status="playing"] {
+    border-left-color: #008000;
+  }
+
+  .gameCard[data-status="finished"] {
+    border-left-color: #666;
+  }
+
+  .gameCard[data-user-in-game="true"] {
+    background: rgba(0, 102, 204, 0.2);
+    border-color: #0066cc;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .gameCard {
+    transition: none;
+  }
+
+  .gameCard:hover {
+    transform: none;
+  }
+}
+
+/* Focus management */
+.gameCard:focus-within {
+  outline: 2px solid var(--color-blue);
+  outline-offset: 2px;
+}
+
+/* Loading state */
+.gameCard[data-loading="true"] {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.gameCard[data-loading="true"]::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* Accessibility improvements */
+.gameCard[role="button"] {
+  cursor: pointer;
+}
+
+.gameCard[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}

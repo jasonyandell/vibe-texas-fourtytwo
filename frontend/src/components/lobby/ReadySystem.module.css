@@ -1,0 +1,298 @@
+/* ReadySystem Component Styles */
+
+.readySystem {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.waitingMessage {
+  text-align: center;
+  padding: 1rem;
+}
+
+.readyStatus {
+  margin-bottom: 1rem;
+}
+
+.statusHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.statusHeader h4 {
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.playerReadyList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.playerReadyItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.ready {
+  background: rgba(40, 167, 69, 0.1);
+  border: 1px solid rgba(40, 167, 69, 0.3);
+}
+
+.notReady {
+  background: rgba(255, 193, 7, 0.1);
+  border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.playerName {
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.youBadge {
+  flex-shrink: 0;
+}
+
+.readyActions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.startSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.countdown {
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.02);
+  }
+}
+
+.cancelCountdown {
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+/* Success button variant */
+.readyActions button[data-variant="success"] {
+  background: #28a745;
+  color: white;
+  border: 2px solid #28a745;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.readyActions button[data-variant="success"]:hover:not(:disabled) {
+  background: #218838;
+  border-color: #218838;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .readySystem {
+    padding: 0.75rem;
+  }
+
+  .statusHeader {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: stretch;
+    text-align: center;
+  }
+
+  .playerReadyItem {
+    padding: 0.4rem 0.6rem;
+  }
+
+  .playerName {
+    font-size: 0.85rem;
+  }
+
+  .startSection {
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .playerReadyItem {
+    flex-direction: column;
+    gap: 0.25rem;
+    text-align: center;
+  }
+
+  .playerName {
+    justify-content: center;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .readySystem {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: #000;
+  }
+
+  .statusHeader h4 {
+    color: #000;
+    text-shadow: none;
+  }
+
+  .playerName {
+    color: #000;
+  }
+
+  .ready {
+    background: #d4edda;
+    border-color: #28a745;
+  }
+
+  .notReady {
+    background: #fff3cd;
+    border-color: #ffc107;
+  }
+
+  .readyActions button[data-variant="success"] {
+    background: #28a745;
+    border-color: #000;
+  }
+
+  .readyActions button[data-variant="success"]:hover:not(:disabled) {
+    background: #218838;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .playerReadyItem {
+    transition: none;
+  }
+
+  .countdown {
+    animation: none;
+  }
+
+  .readyActions button[data-variant="success"]:hover:not(:disabled) {
+    transform: none;
+  }
+}
+
+/* Focus management */
+.readySystem:focus-within {
+  outline: 2px solid var(--color-blue);
+  outline-offset: 2px;
+}
+
+/* Loading state */
+.readySystem[data-loading="true"] {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* Animation for ready state changes */
+@keyframes readyStateChange {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.playerReadyItem[data-updated="true"] {
+  animation: readyStateChange 0.3s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .playerReadyItem[data-updated="true"] {
+    animation: none;
+  }
+}
+
+/* Accessibility improvements */
+.readySystem[role="region"] {
+  /* Screen reader region for ready status */
+}
+
+.countdown[aria-live="assertive"] {
+  /* Live region for countdown announcements */
+}
+
+/* Auto-start warning */
+.startSection[data-auto-starting="true"] {
+  background: rgba(40, 167, 69, 0.1);
+  border: 1px solid rgba(40, 167, 69, 0.3);
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 0.5rem 0;
+}
+
+/* Button states */
+.readyActions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.readyActions button[data-loading="true"] {
+  position: relative;
+  color: transparent;
+}
+
+.readyActions button[data-loading="true"]::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  color: white;
+}
+
+@keyframes spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}

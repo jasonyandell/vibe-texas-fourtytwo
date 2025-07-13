@@ -1,0 +1,2 @@
+replay feature.  after a game is complete, add a button to replay the game.  this will use the URL serialization to replay the game.  it will step through each move and display the game state at each step.  it will also display the trick history and the trick winner.  it will also display the scores and the marks.  it will also display the trump suit and the bidder.  it will also display the dealer and the current player.  it will also display the game phase.  it will also display the game status
+

@@ -1,0 +1,334 @@
+/* Domino Component Styles - Authentic Texas 42 Design */
+
+.domino {
+  position: relative;
+  background: var(--color-domino-white);
+  border: 2px solid var(--color-domino-black);
+  border-radius: 8px;
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Horizontal orientation (default) */
+.domino.horizontal {
+  width: 80px;
+  height: 40px;
+  flex-direction: row;
+}
+
+/* Vertical orientation */
+.domino.vertical {
+  width: 40px;
+  height: 80px;
+  flex-direction: column;
+}
+
+/* Face states */
+.domino.faceUp {
+  background: var(--color-domino-white);
+}
+
+.domino.faceDown {
+  background: var(--color-domino-black);
+  border-color: var(--color-wood-brown);
+}
+
+.domino.faceDown::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60%;
+  height: 60%;
+  background: repeating-linear-gradient(
+    45deg,
+    var(--color-wood-brown),
+    var(--color-wood-brown) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  border-radius: 4px;
+}
+
+/* Interactive states */
+.domino.playable {
+  cursor: pointer;
+}
+
+.domino.playable:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  border-color: var(--color-blue);
+}
+
+.domino.playable:active {
+  transform: translateY(0);
+  box-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.domino.selected {
+  border-color: var(--color-gold);
+  box-shadow: 
+    0 0 0 2px var(--color-gold),
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.domino:not(.playable) {
+  cursor: default;
+  opacity: 0.7;
+}
+
+/* Domino halves */
+.dominoHalf {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  position: relative;
+  padding: 4px;
+}
+
+.domino.horizontal .dominoHalf {
+  width: 50%;
+  height: 100%;
+}
+
+.domino.vertical .dominoHalf {
+  width: 100%;
+  height: 50%;
+}
+
+/* Divider between halves */
+.dominoDivider {
+  background: var(--color-domino-black);
+  z-index: 1;
+}
+
+.domino.horizontal .dominoDivider {
+  width: 2px;
+  height: 80%;
+}
+
+.domino.vertical .dominoDivider {
+  width: 80%;
+  height: 2px;
+}
+
+/* Pip styles */
+.pip {
+  width: 6px;
+  height: 6px;
+  background: var(--color-domino-black);
+  border-radius: 50%;
+  position: absolute;
+  transition: opacity 0.2s ease;
+}
+
+/* Pip layouts for different numbers - using class-based approach for better browser support */
+/* 0 pips - no layout needed */
+
+/* 1 pip - center */
+.pips1 .pip1 {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* 2 pips - diagonal */
+.pips2 .pip1 {
+  top: 25%;
+  left: 25%;
+  transform: translate(-50%, -50%);
+}
+
+.pips2 .pip2 {
+  top: 75%;
+  left: 75%;
+  transform: translate(-50%, -50%);
+}
+
+/* 3 pips - diagonal line */
+.pips3 .pip1 {
+  top: 25%;
+  left: 25%;
+  transform: translate(-50%, -50%);
+}
+
+.pips3 .pip2 {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.pips3 .pip3 {
+  top: 75%;
+  left: 75%;
+  transform: translate(-50%, -50%);
+}
+
+/* 4 pips - corners */
+.pips4 .pip1 {
+  top: 25%;
+  left: 25%;
+  transform: translate(-50%, -50%);
+}
+
+.pips4 .pip2 {
+  top: 25%;
+  left: 75%;
+  transform: translate(-50%, -50%);
+}
+
+.pips4 .pip3 {
+  top: 75%;
+  left: 25%;
+  transform: translate(-50%, -50%);
+}
+
+.pips4 .pip4 {
+  top: 75%;
+  left: 75%;
+  transform: translate(-50%, -50%);
+}
+
+/* 5 pips - corners + center */
+.pips5 .pip1 {
+  top: 25%;
+  left: 25%;
+  transform: translate(-50%, -50%);
+}
+
+.pips5 .pip2 {
+  top: 25%;
+  left: 75%;
+  transform: translate(-50%, -50%);
+}
+
+.pips5 .pip3 {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.pips5 .pip4 {
+  top: 75%;
+  left: 25%;
+  transform: translate(-50%, -50%);
+}
+
+.pips5 .pip5 {
+  top: 75%;
+  left: 75%;
+  transform: translate(-50%, -50%);
+}
+
+/* 6 pips - two columns */
+.pips6 .pip1 {
+  top: 20%;
+  left: 35%;
+  transform: translate(-50%, -50%);
+}
+
+.pips6 .pip2 {
+  top: 20%;
+  left: 65%;
+  transform: translate(-50%, -50%);
+}
+
+.pips6 .pip3 {
+  top: 50%;
+  left: 35%;
+  transform: translate(-50%, -50%);
+}
+
+.pips6 .pip4 {
+  top: 50%;
+  left: 65%;
+  transform: translate(-50%, -50%);
+}
+
+.pips6 .pip5 {
+  top: 80%;
+  left: 35%;
+  transform: translate(-50%, -50%);
+}
+
+.pips6 .pip6 {
+  top: 80%;
+  left: 65%;
+  transform: translate(-50%, -50%);
+}
+
+/* Responsive scaling */
+@media (max-width: 768px) {
+  .domino.horizontal {
+    width: 60px;
+    height: 30px;
+  }
+  
+  .domino.vertical {
+    width: 30px;
+    height: 60px;
+  }
+  
+  .pip {
+    width: 4px;
+    height: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .domino.horizontal {
+    width: 50px;
+    height: 25px;
+  }
+  
+  .domino.vertical {
+    width: 25px;
+    height: 50px;
+  }
+  
+  .pip {
+    width: 3px;
+    height: 3px;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .domino {
+    border-width: 3px;
+  }
+  
+  .pip {
+    background: #000;
+  }
+  
+  .domino.face-up {
+    background: #fff;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .domino {
+    transition: none;
+  }
+  
+  .pip {
+    transition: none;
+  }
+}

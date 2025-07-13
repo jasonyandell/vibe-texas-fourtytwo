@@ -1,0 +1,125 @@
+/* LoadingSpinner Component Styles */
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+.spinner {
+  position: relative;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-top: 3px solid var(--color-blue);
+  animation: spin 1s linear infinite;
+}
+
+.small {
+  width: 24px;
+  height: 24px;
+  border-width: 2px;
+}
+
+.medium {
+  width: 40px;
+  height: 40px;
+  border-width: 3px;
+}
+
+.large {
+  width: 60px;
+  height: 60px;
+  border-width: 4px;
+}
+
+.spinnerInner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  background: var(--color-blue);
+  border-radius: 50%;
+  opacity: 0.8;
+}
+
+.small .spinnerInner {
+  width: 4px;
+  height: 4px;
+}
+
+.large .spinnerInner {
+  width: 8px;
+  height: 8px;
+}
+
+.loadingMessage {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .spinner {
+    border-color: #000;
+    border-top-color: #fff;
+  }
+
+  .spinnerInner {
+    background: #fff;
+  }
+
+  .loadingMessage {
+    color: #fff;
+    text-shadow: none;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: none;
+    border-top-color: var(--color-blue);
+  }
+
+  .spinner::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background: var(--color-blue);
+    border-radius: 50%;
+  }
+}
+
+/* Accessibility improvements */
+.loadingContainer[aria-busy="true"] {
+  pointer-events: none;
+}
+
+/* Focus management */
+.loadingContainer:focus {
+  outline: 2px solid var(--color-blue);
+  outline-offset: 2px;
+  border-radius: 8px;
+}

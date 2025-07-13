@@ -1,0 +1,332 @@
+/* GameStartManager Component Styles */
+
+.gameStartManager {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+}
+
+.statusSection {
+  margin-bottom: 1.5rem;
+}
+
+.statusHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.statusHeader h4 {
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.readyBreakdown {
+  margin-top: 1rem;
+}
+
+.readyGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+
+.playerStatus {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.ready {
+  background: rgba(40, 167, 69, 0.1);
+  border: 1px solid rgba(40, 167, 69, 0.3);
+}
+
+.notReady {
+  background: rgba(255, 193, 7, 0.1);
+  border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.playerName {
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.readyIndicator {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.ready .readyIndicator {
+  color: #28a745;
+}
+
+.notReady .readyIndicator {
+  color: #ffc107;
+}
+
+.errorMessage {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background: rgba(220, 53, 69, 0.1);
+  border: 1px solid rgba(220, 53, 69, 0.3);
+  border-radius: 8px;
+}
+
+.actionSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.startHint {
+  text-align: center;
+  padding: 0.5rem;
+  background: rgba(40, 167, 69, 0.1);
+  border: 1px solid rgba(40, 167, 69, 0.3);
+  border-radius: 8px;
+}
+
+.startHint p {
+  color: #28a745;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.startingProgress {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(0, 102, 204, 0.1);
+  border: 1px solid rgba(0, 102, 204, 0.3);
+  border-radius: 8px;
+}
+
+.progressSteps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.progressStep {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: white;
+  font-size: 0.9rem;
+  opacity: 0.8;
+  animation: fadeInStep 0.5s ease-out;
+}
+
+.stepIcon {
+  font-size: 1.2rem;
+  width: 24px;
+  text-align: center;
+}
+
+@keyframes fadeInStep {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 0.8;
+    transform: translateX(0);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .gameStartManager {
+    padding: 1rem;
+  }
+
+  .statusHeader {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: stretch;
+    text-align: center;
+  }
+
+  .readyGrid {
+    grid-template-columns: 1fr;
+    gap: 0.4rem;
+  }
+
+  .playerStatus {
+    padding: 0.4rem 0.6rem;
+  }
+
+  .playerName {
+    font-size: 0.85rem;
+  }
+
+  .errorMessage {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+
+  .progressSteps {
+    gap: 0.4rem;
+  }
+
+  .progressStep {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .statusHeader h4 {
+    font-size: 1rem;
+  }
+
+  .playerStatus {
+    flex-direction: column;
+    gap: 0.25rem;
+    text-align: center;
+  }
+
+  .progressStep {
+    justify-content: center;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .gameStartManager {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: #000;
+  }
+
+  .statusHeader h4 {
+    color: #000;
+    text-shadow: none;
+  }
+
+  .playerName {
+    color: #000;
+  }
+
+  .ready {
+    background: #d4edda;
+    border-color: #28a745;
+  }
+
+  .notReady {
+    background: #fff3cd;
+    border-color: #ffc107;
+  }
+
+  .startHint {
+    background: #d4edda;
+    border-color: #28a745;
+  }
+
+  .startHint p {
+    color: #155724;
+  }
+
+  .startingProgress {
+    background: #cce7ff;
+    border-color: #0066cc;
+  }
+
+  .progressStep {
+    color: #000;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .playerStatus {
+    transition: none;
+  }
+
+  .progressStep {
+    animation: none;
+  }
+}
+
+/* Focus management */
+.gameStartManager:focus-within {
+  outline: 2px solid var(--color-blue);
+  outline-offset: 2px;
+}
+
+/* Loading state */
+.gameStartManager[data-loading="true"] {
+  opacity: 0.8;
+}
+
+/* Success state animation */
+@keyframes successPulse {
+  0%, 100% {
+    background: rgba(40, 167, 69, 0.1);
+  }
+  50% {
+    background: rgba(40, 167, 69, 0.2);
+  }
+}
+
+.gameStartManager[data-all-ready="true"] {
+  animation: successPulse 2s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gameStartManager[data-all-ready="true"] {
+    animation: none;
+    background: rgba(40, 167, 69, 0.15);
+  }
+}
+
+/* Accessibility improvements */
+.gameStartManager[role="region"] {
+  /* Screen reader region for game start status */
+}
+
+.startingProgress[aria-live="polite"] {
+  /* Live region for progress updates */
+}
+
+/* Button enhancements */
+.actionSection button[data-variant="primary"] {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.actionSection button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Progress step animations */
+.progressStep:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.progressStep:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.progressStep:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.progressStep:nth-child(4) {
+  animation-delay: 0.6s;
+}

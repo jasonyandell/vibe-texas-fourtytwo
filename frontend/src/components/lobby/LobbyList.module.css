@@ -1,0 +1,115 @@
+/* LobbyList Component Styles */
+
+.lobbyList {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.gameGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem 0;
+}
+
+.errorState {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: rgba(220, 53, 69, 0.1);
+  border: 2px solid rgba(220, 53, 69, 0.3);
+  border-radius: 12px;
+  color: #dc3545;
+}
+
+.errorState h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.errorState p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .gameGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0.5rem 0;
+  }
+
+  .errorState {
+    padding: 2rem 1rem;
+  }
+
+  .errorState h3 {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .gameGrid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .errorState {
+    padding: 1.5rem 0.75rem;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .errorState {
+    background: #fff;
+    color: #000;
+    border-color: #000;
+  }
+}
+
+/* Loading animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.gameGrid {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .gameGrid {
+    animation: none;
+  }
+}
+
+/* Focus management */
+.lobbyList:focus-within {
+  outline: none;
+}
+
+/* Empty state styling */
+.lobbyList:has(.emptyState) {
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+}
+
+/* Loading state styling */
+.lobbyList:has(.loadingSpinner) {
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}

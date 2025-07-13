@@ -1,0 +1,221 @@
+/* Lobby Component Styles */
+
+.lobby {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--color-green) 0%, var(--color-brown) 100%);
+}
+
+.lobbyHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.lobbyHeader h2 {
+  color: white;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.connectedPlayers {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
+  font-weight: 500;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.lobbyActions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.errorMessage {
+  background: rgba(220, 53, 69, 0.1);
+  border: 1px solid rgba(220, 53, 69, 0.3);
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #dc3545;
+}
+
+.errorMessage p {
+  margin: 0;
+  font-weight: 500;
+}
+
+.lobbyControls {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.filterControls,
+.sortControls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filterControls label,
+.sortControls label {
+  color: white;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.filterSelect,
+.sortSelect {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 0.9rem;
+  min-width: 150px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filterSelect:hover,
+.sortSelect:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.filterSelect:focus,
+.sortSelect:focus {
+  outline: 2px solid var(--color-blue);
+  outline-offset: 2px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.filterSelect option,
+.sortSelect option {
+  background: var(--color-brown);
+  color: white;
+  padding: 0.5rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .lobby {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .lobbyHeader {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .lobbyHeader h2 {
+    font-size: 1.5rem;
+  }
+
+  .lobbyActions {
+    justify-content: center;
+  }
+
+  .lobbyControls {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  .filterControls,
+  .sortControls {
+    justify-content: space-between;
+  }
+
+  .filterSelect,
+  .sortSelect {
+    min-width: auto;
+    flex: 1;
+  }
+
+  .errorMessage {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .lobby {
+    background: #000;
+  }
+
+  .lobbyHeader {
+    border-bottom-color: #fff;
+  }
+
+  .lobbyHeader h2 {
+    color: #fff;
+    text-shadow: none;
+  }
+
+  .connectedPlayers {
+    background: #fff;
+    color: #000;
+    border-color: #fff;
+  }
+
+  .lobbyControls {
+    background: #333;
+    border-color: #fff;
+  }
+
+  .filterSelect,
+  .sortSelect {
+    background: #fff;
+    color: #000;
+    border-color: #000;
+  }
+
+  .filterSelect option,
+  .sortSelect option {
+    background: #fff;
+    color: #000;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .filterSelect,
+  .sortSelect {
+    transition: none;
+  }
+}
+
+/* Loading state */
+.lobby[data-loading="true"] {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* Focus management */
+.lobby:focus-within .lobbyControls {
+  outline: 2px solid var(--color-blue);
+  outline-offset: 2px;
+}
