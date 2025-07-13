@@ -27,7 +27,8 @@
     "clean": "npm run clean:frontend && npm run clean:backend",
     "clean:frontend": "npm run --workspace=frontend clean",
     "clean:backend": "npm run --workspace=backend clean",
-    "cleanup": "node scripts/cleanup.js"
+    "cleanup": "node scripts/cleanup.js",
+    "setup:github-projects": "node scripts/setup-github-projects.js"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",

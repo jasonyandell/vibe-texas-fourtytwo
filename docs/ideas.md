@@ -4,8 +4,29 @@ suggest system. when the game does something unexpected, allow users to add a su
 
 github integration.  just go full github integration. stories and tasks and branches and just go for it
 
+convert stories/ into github issues.  change the titles from the file name to an appropriate name.    
+for `*plan*md`, make a project board. give the project a good summary name, not necessarily relatead to what the plan filenames are. the goal is to be able to give the instruction "in the [x] project, implement the first incomplete story"
+
 design check in - gap analysis and implementation plan to align with design
 
 simplify. simplify. simplify.
 
 figma export/modify/import
+
+use canonical 42 names for internal game concepts (no baseball diamond, no NSEW)
+
+ai players.  personalities.  first personality is "robot" and it plays the best it can, given the odds.  other personalities might include 
+- "aggressive", which bids more often
+- "conservative", which plays defensively
+- "low" which goes low more often
+ai player custom personalities
+- gather possible personality parameters
+- allow a user to tweak those parameters to create a custom personality
+- add a low-cost LLM agent to help translate user desires to personality parameters
+
+ai player community learning
+- when replaying a game, allow user to "like" a move
+- periodically run a script to analyze the liked moves and adjust the personalities accordingly
+- allow user to add custom reasoning for a move, "I would have/should have played X here because ..."
+- allow user to "dislike" a move
+, which is also fed into the LLM to adjust the personalities

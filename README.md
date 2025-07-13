@@ -1,5 +1,10 @@
 # Texas 42 Web Game
 
+[![CI/CD Pipeline](https://github.com/YOUR_USERNAME/texas-42-web-game/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_USERNAME/texas-42-web-game/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3+-blue)](https://www.typescriptlang.org/)
+
 An authentic implementation of the Texas 42 domino game for the web. Built with modern technologies and following Test-Driven Development practices.
 
 ## 🎯 Quick Start
@@ -8,8 +13,8 @@ Get up and running in under 2 minutes:
 
 ```bash
 # Clone the repository
-git clone <repository-url>
-cd fourtytwo
+git clone https://github.com/YOUR_USERNAME/texas-42-web-game.git
+cd texas-42-web-game
 
 # Install dependencies
 npm install
