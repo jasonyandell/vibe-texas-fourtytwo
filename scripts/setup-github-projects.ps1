@@ -88,7 +88,7 @@ Please follow the detailed requirements in the story file for implementation.
 Write-Host ""
 Write-Host "📋 Creating main development project..." -ForegroundColor Yellow
 try {
-    $mainProjectUrl = gh project create --title "Texas 42 Development Board" --body "Main development tracking for Texas 42 Web Game stories and features"
+    $mainProjectUrl = gh project create --title "Texas 42 Development Board" --owner "@me"
     Write-Host "✅ Main project created: $mainProjectUrl" -ForegroundColor Green
 } catch {
     Write-Host "❌ Failed to create main project: $($_.Exception.Message)" -ForegroundColor Red
@@ -98,7 +98,7 @@ try {
 Write-Host ""
 Write-Host "🧪 Creating E2E fixes project..." -ForegroundColor Yellow
 try {
-    $e2eProjectUrl = gh project create --title "E2E Test Fixes" --body "Tracking E2E test fixes and improvements"
+    $e2eProjectUrl = gh project create --title "E2E Test Fixes" --owner "@me"
     Write-Host "✅ E2E project created: $e2eProjectUrl" -ForegroundColor Green
 } catch {
     Write-Host "❌ Failed to create E2E project: $($_.Exception.Message)" -ForegroundColor Red
@@ -108,7 +108,7 @@ try {
 Write-Host ""
 Write-Host "📚 Creating rules research project..." -ForegroundColor Yellow
 try {
-    $rulesProjectUrl = gh project create --title "Texas 42 Rules Research" --body "Research and validation of Texas 42 game rules"
+    $rulesProjectUrl = gh project create --title "Texas 42 Rules Research" --owner "@me"
     Write-Host "✅ Rules project created: $rulesProjectUrl" -ForegroundColor Green
 } catch {
     Write-Host "❌ Failed to create rules project: $($_.Exception.Message)" -ForegroundColor Red

@@ -128,9 +128,10 @@ function createProject(config) {
   console.log(`\n📋 Creating project: ${config.title}`);
   
   // Create the project
-  const createCmd = `gh project create --title "${config.title}" --body "${config.description}"`;
+  const createCmd = `gh project create --title "${config.title}" --owner "@me"`;
   const projectUrl = exec(createCmd, { silent: true });
   console.log(`✅ Project created: ${projectUrl}`);
+  console.log(`📝 Description: ${config.description}`);
   
   // Extract project number from URL
   const projectNumber = projectUrl.match(/projects\/(\d+)/)?.[1];

@@ -40,7 +40,7 @@ echo ""
 echo "📋 Creating main development project..."
 MAIN_PROJECT_URL=$(gh project create \
     --title "Texas 42 Development Board" \
-    --body "Main development tracking for Texas 42 Web Game stories and features")
+    --owner "@me")
 
 echo "✅ Main project created: $MAIN_PROJECT_URL"
 
@@ -49,7 +49,7 @@ echo ""
 echo "🧪 Creating E2E fixes project..."
 E2E_PROJECT_URL=$(gh project create \
     --title "E2E Test Fixes" \
-    --body "Tracking E2E test fixes and improvements")
+    --owner "@me")
 
 echo "✅ E2E project created: $E2E_PROJECT_URL"
 
@@ -58,7 +58,7 @@ echo ""
 echo "📚 Creating rules research project..."
 RULES_PROJECT_URL=$(gh project create \
     --title "Texas 42 Rules Research" \
-    --body "Research and validation of Texas 42 game rules")
+    --owner "@me")
 
 echo "✅ Rules project created: $RULES_PROJECT_URL"
 
