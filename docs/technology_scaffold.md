@@ -1,10 +1,19 @@
 # Technology Scaffolding Plan
 
-This document outlines the plan for scaffolding the initial project structure based on the design principles in `design.md`. It provides a complete implementation guide that adheres to all design mandates including simplicity, developer experience, and testability.
+This document outlines the plan for scaffolding the initial project structure based on the design principles in `design.md`. It provides a complete implementation guide that adheres to all design mandates including simplicity, developer experience, testability, **Test-Driven Development (TDD)**, and **Texas 42 game-specific requirements**.
+
+## Core Principles Integration
+
+This scaffold strictly follows the established Augment Rules:
+- **TDD Mandatory**: All implementation follows Red-Green-Refactor cycle
+- **Game State Serialization**: Complete game state must be URL-compatible and serializable
+- **Separation of Concerns**: Clear boundaries between game state and lobby state
+- **Texas 42 Authenticity**: Implements authentic domino game rules and mechanics
+- **Developer Experience**: Hot-reloading, fast feedback loops, and simple workflows
 
 ## 1. Root Directory Structure
 
-The root directory will be a monorepo managed by npm workspaces. It will contain:
+The root directory will be a monorepo managed by npm workspaces. It includes **game-specific directories** for Texas 42 implementation and follows **TDD structure** with tests alongside implementation:
 
 ```
 fourtytwo/
@@ -20,23 +29,56 @@ fourtytwo/
 │   ├── .env.example
 │   ├── tsconfig.json
 │   ├── vite.config.ts
-│   └── src/
+│   ├── playwright.config.ts
+│   ├── src/
+│   │   ├── components/         # React components (domino visuals, game board)
+│   │   ├── game/              # Game state management and validation
+│   │   ├── types/             # TypeScript types for Texas 42
+│   │   └── utils/             # Game utilities and serialization
+│   └── tests/                 # Playwright E2E tests
 ├── backend/                    # Node.js backend application
 │   ├── package.json
 │   ├── .env.example
 │   ├── tsconfig.json
-│   └── src/
+│   ├── vitest.config.ts
+│   ├── src/
+│   │   ├── game/              # Texas 42 game logic and rules engine
+│   │   ├── api/               # REST endpoints for game actions
+│   │   ├── types/             # Shared TypeScript types
+│   │   ├── utils/             # Game state serialization utilities
+│   │   └── test/              # Test utilities and setup
+│   └── tests/                 # Vitest unit tests
 ├── scripts/                    # Helper scripts (modular, single-purpose)
 │   ├── check-prereqs.js        # Prerequisite verification (Node.js)
 │   ├── setup-env.js           # Environment file management
 │   └── utils.js               # Shared script utilities
+├── stories/                    # User stories and feature specifications
+│   ├── game-state-management.md # Game state architecture story
+│   ├── texas-42-rules-research.md # Texas 42 rules research
+│   └── texas-42-implementation.md # Implementation strategy
 └── docs/                      # Required documentation
     ├── design.md              # Single source of truth for design
     ├── DEVELOPER.md           # Developer contribution guide
     └── DEBUGGING.md           # Living troubleshooting document
 ```
 
-### 1.1 Root Environment Configuration (`.env.example`)
+### 1.1 Texas 42 Game Architecture Integration
+
+The directory structure specifically supports Texas 42 game requirements:
+
+#### Game State Management
+- **Serializable State**: All game state must fit in URL parameters
+- **Separation of Concerns**: Game state (current game) vs Lobby state (player management)
+- **Frontend Validation**: Move validation happens in frontend for immediate feedback
+- **Backend Authority**: All game logic computation happens in backend
+
+#### Texas 42 Specific Structure
+- **Domino Components**: Real double-6 domino visuals in frontend/src/components/
+- **Game Logic**: Complete Texas 42 rules engine in backend/src/game/
+- **State Serialization**: URL-compatible game state utilities in both frontend and backend
+- **Baseball Diamond Layout**: UI components arranged in diamond formation
+
+### 1.2 Root Environment Configuration (`.env.example`)
 ```env
 # Port Configuration - Centralized port management
 # These ports are chosen to avoid common conflicts
@@ -60,7 +102,7 @@ DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_N
 
 ## 2. Root `package.json`
 
-This file is the central script manifest and main entry point for developers. It implements the two-path workflow mandated by the design:
+This file is the central script manifest and main entry point for developers. It implements the two-path workflow mandated by the design and **supports TDD workflow** with continuous testing:
 
 ```json
 {
@@ -84,6 +126,9 @@ This file is the central script manifest and main entry point for developers. It
 
     "//-- UTILITY SCRIPTS --//": "",
     "test": "npm run test --workspace=backend && npm run test --workspace=frontend",
+    "test:unit": "npm run test --workspace=backend",
+    "test:e2e": "npm run test --workspace=frontend",
+    "tdd": "concurrently --names \"BE_TDD,FE_TDD\" -c \"bgRed.bold,bgBlue.bold\" \"npm:test:backend\" \"npm:test:frontend\"",
     "build": "npm run build --workspace=backend && npm run build --workspace=frontend",
     "clean": "npm run clean --workspace=backend && npm run clean --workspace=frontend",
     "install-all": "npm install && npm install --workspace=frontend && npm install --workspace=backend",
@@ -98,6 +143,8 @@ This file is the central script manifest and main entry point for developers. It
 
 ### Key Features:
 - **Two-Path Workflow**: `npm start` (production-like) and `npm run develop` (high-velocity)
+- **TDD Support**: `npm run tdd` for pure test-driven development workflow
+- **Continuous Testing**: Tests run in watch mode during development
 - **Prerequisite Automation**: Both paths run prerequisite and environment checks first
 - **Modular Scripts**: Short, single-purpose scripts that call other scripts
 - **Workspace Integration**: Uses npm workspaces for seamless monorepo management
@@ -107,9 +154,14 @@ This file is the central script manifest and main entry point for developers. It
 
 ### 3.1 Technology Stack
 - **Framework**: Vite + React + TypeScript
-- **Testing**: Playwright for end-to-end tests
-- **State Management**: React Context + Custom Hooks
-- **Styling**: CSS Modules or Styled Components (TBD)
+- **Testing**: Playwright for end-to-end tests (TDD approach)
+- **State Management**: React Context + Custom Hooks for game state
+- **Styling**: CSS Modules for domino and game board components
+- **Game Features**:
+  - **Real Domino Visuals**: Authentic double-6 domino components
+  - **Baseball Diamond Layout**: 4-player arrangement in diamond formation
+  - **Move Validation**: Frontend validates moves before sending to backend
+  - **Game State Serialization**: URL-compatible state management
 
 ### 3.2 Package.json Configuration
 ```json
@@ -159,10 +211,16 @@ VITE_LOG_LEVEL=debug
 
 ### 4.1 Technology Stack
 - **Framework**: Node.js + Fastify + TypeScript
-- **Testing**: Vitest for unit tests
+- **Testing**: Vitest for unit tests (TDD approach)
 - **Database**: PostgreSQL with connection pooling
 - **Validation**: Zod for request/response validation
 - **Hot-Reloading**: tsx for development
+- **Game Engine Features**:
+  - **Texas 42 Rules Engine**: Complete implementation of authentic game rules
+  - **Game State Authority**: Backend is source of truth for all game logic
+  - **Serialization**: Compact, URL-compatible game state encoding
+  - **Partnership Logic**: Handles 4-player partnership mechanics
+  - **Scoring System**: Authentic Texas 42 scoring and trick calculation
 
 ### 4.2 Package.json Configuration
 ```json
@@ -662,33 +720,118 @@ If you encounter port conflicts:
 [More issues will be added as they're encountered]
 ```
 
-## 10. Implementation Checklist
+## 10. Test-Driven Development Implementation Strategy
 
-### Phase 1: Foundation
-- [ ] Create root directory structure
-- [ ] Set up root `package.json` with workspaces
+### 10.1 TDD Workflow Integration
+All implementation must follow the **Red-Green-Refactor** cycle:
+
+1. **Red Phase**: Write failing test first
+   - Define expected behavior before implementation
+   - Tests should fail for the right reason
+   - Use `npm run tdd` for continuous test feedback
+
+2. **Green Phase**: Write minimal code to pass test
+   - Implement only what's needed to make the test pass
+   - No premature optimization or extra features
+   - Focus on making the test green as quickly as possible
+
+3. **Refactor Phase**: Improve code while keeping tests green
+   - Clean up implementation
+   - Update documentation
+   - Ensure hot-reloading still works
+
+### 10.2 Texas 42 TDD Approach
+Game implementation follows specific TDD patterns:
+
+#### Game State Tests First
+```typescript
+// Example: Write test before implementing game state
+describe('GameState serialization', () => {
+  it('should serialize complete game state to URL-compatible string', () => {
+    const gameState = createTestGameState();
+    const serialized = serializeGameState(gameState);
+    expect(serialized.length).toBeLessThan(2000); // URL limit
+    expect(deserializeGameState(serialized)).toEqual(gameState);
+  });
+});
+```
+
+#### Game Rules Tests First
+```typescript
+// Example: Write test before implementing Texas 42 rules
+describe('Texas 42 bidding', () => {
+  it('should require minimum bid of 30', () => {
+    const game = createNewGame();
+    expect(() => placeBid(game, 'player1', 25)).toThrow('Minimum bid is 30');
+    expect(placeBid(game, 'player1', 30)).toBeTruthy();
+  });
+});
+```
+
+### 10.3 TDD Tools and Scripts
+- **`npm run tdd`**: Pure TDD mode with only test watchers
+- **`npm run develop`**: Full development mode including tests
+- **`npm test`**: Run all tests once (for CI/CD)
+- **Test Coverage**: Vitest provides coverage reports for backend
+- **E2E Coverage**: Playwright tests cover complete user workflows
+
+## 11. Implementation Checklist
+
+### Phase 1: Foundation (TDD Setup)
+- [ ] Create root directory structure with game-specific folders
+- [ ] Set up root `package.json` with workspaces and TDD scripts
 - [ ] Create root `.env.example` with port configuration
 - [ ] Create prerequisite checker script
 - [ ] Create environment setup script
 - [ ] Set up Docker compose files with environment variable support
+- [ ] **Write first failing test** for basic project structure
 
-### Phase 2: Frontend Scaffold
+### Phase 2: Frontend Scaffold (TDD Game Components)
+- [ ] **Write failing tests** for domino component rendering
 - [ ] Initialize Vite + React + TypeScript
 - [ ] Configure Vite to use VITE_PORT environment variable
 - [ ] Set up Playwright testing with configurable ports
-- [ ] Set up basic routing structure
+- [ ] **Write failing tests** for game state serialization
+- [ ] Implement game state management with URL compatibility
+- [ ] **Write failing tests** for baseball diamond layout
+- [ ] Create domino visual components
+- [ ] **Write failing tests** for move validation
+- [ ] Implement frontend move validation logic
 
-### Phase 3: Backend Scaffold
+### Phase 3: Backend Scaffold (TDD Game Engine)
+- [ ] **Write failing tests** for Texas 42 game rules
 - [ ] Initialize Fastify + TypeScript
 - [ ] Configure server to use PORT environment variable
-- [ ] Set up Vitest testing
+- [ ] Set up Vitest testing with coverage
+- [ ] **Write failing tests** for game state serialization
+- [ ] Implement game state serialization utilities
+- [ ] **Write failing tests** for partnership logic
+- [ ] Implement Texas 42 rules engine
+- [ ] **Write failing tests** for scoring system
+- [ ] Implement authentic Texas 42 scoring
 - [ ] Create database connection with configurable host/port
 
-### Phase 4: Integration
+### Phase 4: Integration & Game Flow (TDD End-to-End)
+- [ ] **Write failing E2E tests** for complete game flow
 - [ ] Test both development paths with custom ports
 - [ ] Verify hot-reloading works on configured ports
+- [ ] **Write failing tests** for game state URL serialization
+- [ ] Implement complete game state URL compatibility
+- [ ] **Write failing tests** for lobby/game state separation
 - [ ] Test port conflict resolution
+- [ ] **Write failing tests** for authentic Texas 42 gameplay
+- [ ] Verify all Texas 42 rules work correctly
 - [ ] Create initial documentation with port configuration guide
+- [ ] **Ensure all tests pass** before considering phase complete
 
-This scaffold plan ensures complete adherence to the design mandates while providing a solid foundation for rapid, test-driven development with configurable ports to avoid common conflicts.
+### Phase 5: Texas 42 Game Completion (TDD Polish)
+- [ ] **Write failing tests** for edge cases in Texas 42 rules
+- [ ] Handle all game edge cases and error conditions
+- [ ] **Write failing tests** for performance requirements
+- [ ] Optimize game state serialization for URL limits
+- [ ] **Write failing tests** for accessibility features
+- [ ] Implement keyboard navigation and screen reader support
+- [ ] **All tests must pass** and documentation must be current
+
+This scaffold plan ensures complete adherence to the design mandates while providing a solid foundation for rapid, **test-driven development** with **authentic Texas 42 implementation** and configurable ports to avoid common conflicts.
 ```
