@@ -28,6 +28,32 @@ That's it! The application will be available at:
 - **Backend API**: http://localhost:4201
 - **Database**: PostgreSQL on port 5433
 
+## 📊 Project Management
+
+Track development progress and contribute to the project through our organized GitHub project boards:
+
+### 🎯 [Texas 42 Development Board](https://github.com/users/jasonyandell/projects/1)
+Main development tracking for core features, stories, and enhancements. This board contains all primary development work including game engine implementation, UI components, and feature development.
+
+**Columns:** 📋 Backlog → 🚧 In Progress → 👀 Review → ✅ Done
+
+### 🧪 [E2E Test Fixes](https://github.com/users/jasonyandell/projects/2)
+Dedicated board for end-to-end test improvements and fixes. Tracks Playwright test issues, test automation enhancements, and testing infrastructure improvements.
+
+**Columns:** 📋 To Fix → 🔧 Fixing → ✅ Fixed
+
+### 📚 [Texas 42 Rules Research](https://github.com/users/jasonyandell/projects/3)
+Research and validation board for authentic Texas 42 game rules. Ensures our implementation follows traditional gameplay, scoring, and tournament standards.
+
+**Columns:** 📚 Research → 📝 Documenting → ✅ Complete
+
+### 🎫 GitHub Issues
+All development work is tracked through [GitHub Issues](https://github.com/jasonyandell/vibe-texas-fourtytwo/issues) with appropriate labels:
+- `story` - Development stories and features
+- `rules` - Texas 42 rules research and validation
+- `e2e-tests` - End-to-end testing improvements
+- `core-features` - Essential game functionality
+
 ## 🛠️ Development Workflows
 
 This project supports two official development paths:
