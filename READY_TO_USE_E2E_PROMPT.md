@@ -29,10 +29,13 @@ npm run dev
 
 **IMPORTANT: Use correct test commands:**
 ```powershell
-# Run E2E tests from frontend directory:
-cd frontend
-npm run test:e2e -- lobby.spec.ts --grep "Game Creation"
+# Run E2E tests from PROJECT ROOT (not frontend directory):
+npm run test:e2e
 
+# For specific tests, use from PROJECT ROOT:
+npm run test:e2e -- --grep "Game Creation"
+
+# NOT: cd frontend && npm run test:e2e (this works but use root level)
 # NOT: npx playwright test (this fails with config issues)
 ```
 
@@ -138,8 +141,8 @@ Check for PRs with no review decision
 
 **Test Command Example:**
 ```powershell
-# For story #3 (Basic Lobby Display)
-npx playwright test lobby.spec.ts --grep "Basic Display"
+# For story #3 (Basic Lobby Display) - run from PROJECT ROOT:
+npm run test:e2e -- --grep "Basic Display"
 # Must show: "3 passed" with zero failures
 ```
 
