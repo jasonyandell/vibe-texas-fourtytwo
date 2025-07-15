@@ -257,7 +257,7 @@ All work must align with `docs/design.md` requirements:
 **Every story task MUST meet these criteria before completion:**
 
 1. **All story-specific E2E tests pass 100%**
-   - Run: `npx playwright test lobby.spec.ts --grep "Basic Display"` (example)
+   - Run: `npm run test:e2e -- --grep "Basic Display"` (example from PROJECT ROOT)
    - **Zero failures allowed** - any failing test blocks completion
    - Tests must pass consistently (not flaky)
 
@@ -323,8 +323,9 @@ npm run dev
 # 4. Test connectivity (optional)
 curl http://localhost:3000
 
-# 5. Run tests
-npx playwright test lobby.spec.ts --grep "Basic Display"
+# 5. Run tests from PROJECT ROOT (not frontend directory)
+cd ..
+npm run test:e2e -- --grep "Basic Display"
 ```
 
 **Prevention:**
@@ -333,6 +334,40 @@ npx playwright test lobby.spec.ts --grep "Basic Display"
 - Consider adding health check endpoint for automated validation
 
 **Last Updated:** 2025-07-15 (Issue #3 - Basic Lobby Display)
+
+### Issue: Incorrect E2E Test Command Instructions
+
+**Symptoms:**
+- Previous instructions suggested running E2E tests from frontend directory
+- Instructions used `npx playwright test` directly instead of npm scripts
+- Confusion about correct working directory for test execution
+
+**Root Cause:**
+- Project uses workspace structure with root-level npm scripts
+- Root-level `npm run test:e2e` properly delegates to frontend workspace
+- Direct playwright commands may miss workspace configuration
+
+**Resolution:**
+```powershell
+# CORRECT: Run E2E tests from PROJECT ROOT
+npm run test:e2e
+
+# CORRECT: Run specific tests from PROJECT ROOT
+npm run test:e2e -- --grep "Game Creation"
+
+# INCORRECT: Running from frontend directory (works but not preferred)
+cd frontend && npm run test:e2e
+
+# INCORRECT: Direct playwright command (may miss config)
+npx playwright test
+```
+
+**Prevention:**
+- Always use root-level npm scripts for consistency
+- Update all documentation to reflect correct commands
+- Test commands in clean environment to verify they work
+
+**Last Updated:** 2025-07-15 (E2E Command Investigation)
 
 ### Issue: Application Takes >2s to Load Despite Dev Server Running
 

@@ -21,12 +21,23 @@ git status
 # Check if server is running (should respond)
 curl http://localhost:3000
 
-# If not running, start it:
+# If not running, start it in frontend directory:
 cd frontend
 npm run dev
 # Wait for "ready in XXXms" message
 ```
 
+**IMPORTANT: Use correct test commands:**
+```powershell
+# Run E2E tests from PROJECT ROOT (not frontend directory):
+npm run test:e2e
+
+# For specific tests, use from PROJECT ROOT:
+npm run test:e2e -- --grep "Game Creation"
+
+# NOT: cd frontend && npm run test:e2e (this works but use root level)
+# NOT: npx playwright test (this fails with config issues)
+```
 **If dev server issues occur:**
 - Document the problem in `docs/E2E_WORKFLOW_AUTOMATION.md` under "Known Issues"
 - Update workflow instructions with resolution steps
@@ -129,8 +140,8 @@ Check for PRs with no review decision
 
 **Test Command Example:**
 ```powershell
-# For story #3 (Basic Lobby Display)
-npx playwright test lobby.spec.ts --grep "Basic Display"
+# For story #3 (Basic Lobby Display) - run from PROJECT ROOT:
+npm run test:e2e -- --grep "Basic Display"
 # Must show: "3 passed" with zero failures
 ```
 
