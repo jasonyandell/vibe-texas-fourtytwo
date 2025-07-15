@@ -68,7 +68,7 @@ export const GameCard: React.FC<GameCardProps> = ({
   };
 
   return (
-    <Card variant="elevated" className={styles.gameCard}>
+    <Card variant="elevated" className={styles.gameCard} data-testid="game-card">
       <div className={styles.cardHeader}>
         <div className={styles.gameInfo}>
           <h3 className={styles.gameName}>{game.name}</h3>

@@ -31,7 +31,7 @@ export const Lobby: React.FC = () => {
     const newGame: LobbyGame = {
       id: `game-${Date.now()}`,
       name: gameName,
-      playerCount: 0,
+      playerCount: 1, // Creator automatically joins the game
       maxPlayers: 4,
       status: 'waiting',
       createdAt: new Date().toISOString()

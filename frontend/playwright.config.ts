@@ -83,11 +83,11 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
-  webServer: {
-    command: `npm run dev -- --port ${FRONTEND_PORT}`,
-    port: parseInt(FRONTEND_PORT),
-    reuseExistingServer: !process.env.CI,
-    stdout: 'ignore',
-    stderr: 'pipe',
-  },
+  // webServer: {
+  //   command: `npm run dev -- --port ${FRONTEND_PORT}`,
+  //   port: parseInt(FRONTEND_PORT),
+  //   reuseExistingServer: !process.env.CI,
+  //   stdout: 'ignore',
+  //   stderr: 'pipe',
+  // },
 });

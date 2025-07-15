@@ -58,11 +58,11 @@ test.describe('Texas 42 Lobby - Game Creation', () => {
     // Click create game button
     await page.getByRole('button', { name: 'Create New Game' }).click()
 
-    // Try to submit with empty name
-    await page.getByRole('button', { name: 'Create Game' }).click()
+    // Check that Create Game button is disabled with empty name
+    await expect(page.getByRole('button', { name: 'Create Game' })).toBeDisabled()
 
     // Should still be in modal (validation failed)
-    await expect(page.getByText('Create New Game')).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Create New Game' })).toBeVisible()
 
     // Try with too short name
     await page.getByLabel('Game Name').fill('AB')
@@ -78,13 +78,13 @@ test.describe('Texas 42 Lobby - Game Creation', () => {
 
     // Open modal
     await page.getByRole('button', { name: 'Create New Game' }).click()
-    await expect(page.getByText('Create New Game')).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Create New Game' })).toBeVisible()
 
     // Cancel
     await page.getByRole('button', { name: 'Cancel' }).click()
 
     // Modal should be closed
-    await expect(page.getByText('Create New Game')).not.toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Create New Game' })).not.toBeVisible()
   })
 })
 
