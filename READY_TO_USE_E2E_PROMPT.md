@@ -53,7 +53,7 @@ Check for approved PRs: `gh pr list --state open --json reviewDecision,mergeable
 **IF** any PR is approved and mergeable:
 - Merge the PR: `gh pr merge {pr-number} --squash --delete-branch`
 - Update issue status to Done
-- **STOP** - Task complete
+- **STOP IMMEDIATELY** - Task complete, do not proceed to next task
 
 ### Task B: Fix Blocking PR Comments
 Check open PRs for blocking review comments
@@ -61,15 +61,15 @@ Check open PRs for blocking review comments
 - Switch to that branch
 - Fix the blocking issues
 - Commit and push fixes
-- **STOP** - Task complete
+- **STOP IMMEDIATELY** - Task complete, do not proceed to next task
 
-### Task C: Review Unreviewed PRs  
+### Task C: Review Unreviewed PRs
 Check for PRs with no review decision
 **IF** any unreviewed PR exists:
 - Review against issue requirements and docs/design.md
-- **IF** aligned: Approve and merge
+- **IF** aligned: Approve and merge (or merge directly if self-approval blocked)
 - **IF** not aligned: Add specific comments about issues
-- **STOP** - Task complete
+- **STOP IMMEDIATELY** - Task complete, do not proceed to next task
 
 ### Task D: Work Next Priority Issue
 **IF** no PRs need attention:
@@ -86,16 +86,17 @@ Check for PRs with no review decision
 - Commit: `git commit -m "fix(e2e): {description} - fixes #{issue-number}"`
 - Push: `git push -u origin {branch-name}`
 - Create PR if needed: `gh pr create --title "Fix E2E: {Issue Title} - #{issue-number}"`
-- **STOP** - Task complete
+- **STOP IMMEDIATELY** - Task complete, do not proceed to next task
 
 ## Rules
-- Execute ONLY ONE task per context
+- **EXECUTE ONLY ONE TASK PER CONTEXT - THEN STOP IMMEDIATELY**
 - Always query project board state first
 - Work only on "📋 Backlog" or "🚧 In Progress" issues
 - Always check PRs before working on new issues
 - Ensure alignment with docs/design.md
 - Use branch naming: `fix-e2e-{issue-number}-{description}`
 - **ALWAYS commit and push ALL changes before task completion**
+- **NEVER proceed to next task - each task requires a new context/prompt**
 
 ## 📋 Definition of Done - MANDATORY
 **Task is NOT complete until:**
@@ -111,6 +112,16 @@ Check for PRs with no review decision
 npx playwright test lobby.spec.ts --grep "Basic Display"
 # Must show: "3 passed" with zero failures
 ```
+
+## ⚠️ CRITICAL: STOP AFTER ONE TASK
+
+**After completing ANY task above:**
+1. **STOP IMMEDIATELY** - Do not proceed to next task
+2. **Do not query project board again**
+3. **Do not check for more PRs**
+4. **Do not start working on next issue**
+
+**Each task requires a fresh context/prompt to ensure proper isolation and control.**
 
 ## Next Context Prompt
 After completing your task, use this for the next context:
