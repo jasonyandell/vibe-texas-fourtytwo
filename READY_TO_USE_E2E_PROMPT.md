@@ -95,6 +95,7 @@ Check for PRs with no review decision
 - Always check PRs before working on new issues
 - Ensure alignment with docs/design.md
 - Use branch naming: `fix-e2e-{issue-number}-{description}`
+- **ALWAYS commit and push ALL changes before task completion**
 
 ## 📋 Definition of Done - MANDATORY
 **Task is NOT complete until:**
@@ -102,6 +103,7 @@ Check for PRs with no review decision
 2. **No regressions in existing tests** (run full suite to verify)
 3. **Performance requirements met** (under timeout limits)
 4. **Dev server running and accessible** throughout testing
+5. **ALL changes committed and pushed to branch** (including config, docs, etc.)
 
 **Test Command Example:**
 ```powershell

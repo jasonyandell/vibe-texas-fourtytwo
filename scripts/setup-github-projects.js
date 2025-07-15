@@ -252,44 +252,81 @@ Please follow the detailed requirements in the story file for implementation.
 }
 
 /**
+ * Add issues to appropriate projects
+ */
+function addIssuesToProjects(issues) {
+  console.log('\n📌 Adding issues to projects...');
+
+  const projectMapping = {
+    'rules': 3, // Texas 42 Rules Research
+    'e2e-tests': 2, // E2E Test Fixes
+    'story': 1, // Texas 42 Development Board
+    'core-features': 1 // Also goes to main board
+  };
+
+  for (const issue of issues) {
+    if (!issue.issueNumber) continue;
+
+    const issueUrl = `https://github.com/jasonyandell/vibe-texas-fourtytwo/issues/${issue.issueNumber}`;
+
+    // Add to appropriate projects based on labels
+    for (const label of issue.labels) {
+      const projectNumber = projectMapping[label];
+      if (projectNumber) {
+        try {
+          const addCmd = `gh project item-add ${projectNumber} --owner jasonyandell --url "${issueUrl}"`;
+          exec(addCmd, { silent: true });
+          console.log(`✅ Added issue #${issue.issueNumber} to project ${projectNumber}`);
+        } catch (error) {
+          console.log(`⚠️  Could not add issue #${issue.issueNumber} to project ${projectNumber}`);
+        }
+      }
+    }
+  }
+}
+
+/**
  * Main execution function
  */
 async function main() {
   console.log('🚀 GitHub Projects Setup Automation');
   console.log('=====================================\n');
-  
+
   // Check prerequisites
   checkPrerequisites();
-  
+
   // Create projects
   console.log('\n📋 Creating GitHub Projects...');
-  
+
   const mainProject = createProject(CONFIG.mainProject);
   const e2eProject = createProject(CONFIG.e2eProject);
   const rulesProject = createProject(CONFIG.rulesProject);
-  
+
   // Parse story files
   const stories = parseStoryFiles();
-  
+
   // Create issues from stories
   const issues = createIssuesFromStories(stories);
-  
+
+  // Add issues to projects
+  addIssuesToProjects(issues);
+
   // Summary
   console.log('\n🎉 Setup Complete!');
   console.log('==================');
   console.log(`✅ Created ${Object.keys(CONFIG).length} projects`);
   console.log(`✅ Created ${issues.length} issues from story files`);
-  
+  console.log(`✅ Added issues to appropriate project boards`);
+
   console.log('\n📋 Next Steps:');
   console.log('1. Visit your GitHub repository to see the created projects and issues');
   console.log('2. Manually set up project columns in the web interface');
-  console.log('3. Add issues to appropriate project boards');
-  console.log('4. Configure project automation rules if desired');
-  
+  console.log('3. Configure project automation rules if desired');
+
   if (mainProject) {
     console.log(`\n🔗 Main Project: ${mainProject.projectUrl}`);
   }
-  
+
   console.log('\n💡 Tip: You can also use the GitHub web interface to:');
   console.log('   - Drag issues between project columns');
   console.log('   - Set up automation rules');

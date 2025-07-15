@@ -433,9 +433,73 @@ docker-compose -f docker-compose.db.yml up
 4. Submit pull request
 5. Code review and merge
 
+## 🤖 Automated Workflow Management
+
+### GitHub Project Integration
+
+The project uses dynamic GitHub Project board integration for automated issue management:
+
+```powershell
+# Query current project state (Windows-compatible)
+$projectData = gh project item-list 2 --owner jasonyandell --format json | ConvertFrom-Json
+
+# Filter and sort issues by priority
+$workableIssues = $projectData.items | Where-Object {
+    $_.labels -contains "e2e-tests" -and
+    $_.status -in @("Backlog", "In Progress")
+} | Select-Object @{Name='Number';Expression={$_.content.number}},
+                  @{Name='Title';Expression={$_.title}},
+                  @{Name='Priority';Expression={
+                      switch -Regex ($_.labels -join ' ') {
+                          'priority-1-critical' { 1 }
+                          'priority-2-high' { 2 }
+                          'priority-3-medium' { 3 }
+                          'priority-4-low' { 4 }
+                          'priority-5-later' { 5 }
+                          default { 6 }
+                      }
+                  }} | Sort-Object Priority, Number
+```
+
+### Windows PowerShell Compatibility
+
+All project automation scripts are Windows-compatible. Key patterns:
+
+#### Branch Detection
+```powershell
+# Method 1: git branch --list (preferred)
+$branchExists = git branch --list "*fix-e2e-$issueNumber*"
+
+# Method 2: Select-String (alternative to grep)
+$branchExists = git branch -a | Select-String "fix-e2e-$issueNumber"
+```
+
+#### JSON Processing
+```powershell
+# GitHub CLI with PowerShell JSON parsing
+$prs = gh pr list --state open --json number,title,reviewDecision,mergeable | ConvertFrom-Json
+```
+
+### Priority-Based Issue Management
+
+Issues are automatically sorted by priority labels:
+- `priority-1-critical` → Highest priority (1)
+- `priority-2-high` → High priority (2)
+- `priority-3-medium` → Medium priority (3)
+- `priority-4-low` → Low priority (4)
+- `priority-5-later` → Lowest priority (5)
+
+### Automated Workflow Scripts
+
+Located in `docs/prompts/` and `docs/testing/`:
+- **E2E Workflow Prompts**: Dynamic, project-aware automation
+- **Test Validation Scripts**: Framework verification tools
+- **Windows-Compatible Commands**: All scripts work on Windows PowerShell
+
 ## 📚 Additional Resources
 
 - **[Design Document](design.md)**: Architecture decisions
 - **[Technology Scaffold](technology_scaffold.md)**: Implementation details
 - **[Debugging Guide](DEBUGGING.md)**: Troubleshooting help
+- **[E2E Workflow Test Results](testing/e2e-workflow-test-results.md)**: Automation framework validation
 - **[Texas 42 Rules](https://en.wikipedia.org/wiki/42_(dominoes))**: Game rules reference

@@ -196,10 +196,11 @@ npm run --workspace=backend db:seed     # Seed development data
 
 ## 📚 Documentation
 
-- **[Developer Guide](docs/DEVELOPER.md)** - Detailed development setup
+- **[Developer Guide](docs/DEVELOPER.md)** - Detailed development setup and automation workflows
 - **[Debugging Guide](docs/DEBUGGING.md)** - Common issues and solutions
 - **[Design Document](docs/design.md)** - Architecture and design decisions
 - **[Technology Scaffold](docs/technology_scaffold.md)** - Technical implementation details
+- **[E2E Workflow Automation](docs/E2E_WORKFLOW_AUTOMATION.md)** - Automated project management system
 
 ## 🤝 Contributing
 

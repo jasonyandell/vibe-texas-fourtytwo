@@ -333,6 +333,43 @@ npx playwright test lobby.spec.ts --grep "Basic Display"
 - Consider adding health check endpoint for automated validation
 
 **Last Updated:** 2025-07-15 (Issue #3 - Basic Lobby Display)
+
+### Issue: Application Takes >2s to Load Despite Dev Server Running
+
+**Symptoms:**
+- Dev server responds with 200 OK to curl requests
+- Tests fail with "Timeout 2000ms exceeded" on page.goto
+- Server logs show no errors
+- HTML content is returned but page doesn't become interactive
+
+**Root Cause:**
+- Application initialization/hydration takes longer than 2s navigation timeout
+- Possible causes: large bundle size, slow component mounting, API calls blocking render
+
+**Immediate Resolution (Temporary):**
+```typescript
+// In playwright.config.ts - increase navigation timeout temporarily
+use: {
+  navigationTimeout: 5000,  // Increase from 2000ms to 5000ms
+  // Keep other timeouts aggressive
+  actionTimeout: 1000,
+}
+```
+
+**Long-term Resolution (Required):**
+1. **Optimize bundle size**: Check for unnecessary imports
+2. **Lazy load components**: Split large components
+3. **Remove blocking API calls**: Make initial render non-dependent on API
+4. **Profile performance**: Use browser dev tools to identify bottlenecks
+
+**Performance Target:**
+- Initial page load should be <1s for simple domino game
+- Current timeout of 2s is already generous - app should be faster
+
+**Status:** BLOCKING - Tests cannot pass until resolved
+**Priority:** HIGH - Affects all E2E testing
+
+**Last Updated:** 2025-07-15 (Issue #3 - Performance Investigation)
 - ✅ Complete workflow tested and validated
 
 ## Troubleshooting

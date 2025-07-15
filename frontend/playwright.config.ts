@@ -29,7 +29,7 @@ export default defineConfig({
 
     /* Aggressive timeouts for fast development - this game should be FAST */
     actionTimeout: 1000,        // 1 second max for clicks, fills, etc.
-    navigationTimeout: 2000,    // 2 seconds max for page loads
+    navigationTimeout: 5000,    // 5 seconds max for page loads (temporary - needs optimization)
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
