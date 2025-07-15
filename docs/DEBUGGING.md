@@ -301,6 +301,75 @@ npm run develop
 - Close browser tabs
 - Restart development servers periodically
 
+### Windows PowerShell Issues
+
+#### Unicode Emoji Encoding Errors
+**Problem**: PowerShell scripts fail with Unicode emoji characters
+```
+Cannot process argument because the value of argument "name" is not valid
+```
+
+**Solution**:
+Replace Unicode emojis with plain text in PowerShell scripts:
+```powershell
+# Instead of: "📋 Backlog", "🚧 In Progress"
+# Use: "Backlog", "In Progress"
+$workableStatuses = @("Backlog", "In Progress")
+```
+
+#### PowerShell Function Parameter Syntax
+**Problem**: PowerShell function calls fail with parameter binding errors
+```
+A parameter cannot be found that matches parameter name
+```
+
+**Solution**:
+Use proper PowerShell function syntax:
+```powershell
+# Correct syntax
+function Write-TestResult {
+    param([bool]$success, [string]$message)
+    # function body
+}
+
+# Call with proper parameters
+Write-TestResult -success $true -message "Test passed"
+```
+
+#### GitHub CLI JSON Parsing
+**Problem**: Complex JSON parsing fails in PowerShell one-liners
+
+**Solution**:
+Break complex operations into multiple steps:
+```powershell
+# Instead of complex one-liner, use step-by-step approach
+$projectData = gh project item-list 2 --owner jasonyandell --format json | ConvertFrom-Json
+$e2eIssues = $projectData.items | Where-Object { $_.labels -contains "e2e-tests" }
+$sortedIssues = $e2eIssues | Sort-Object Priority, Number
+```
+
+### Automated Workflow Issues
+
+#### GitHub Project API Rate Limits
+**Problem**: Frequent project queries hit API rate limits
+
+**Solution**:
+1. Cache project data when possible
+2. Use `gh auth status` to check authentication
+3. Implement retry logic with exponential backoff
+4. Consider using GitHub tokens with higher rate limits
+
+#### Branch Detection False Positives
+**Problem**: Branch detection finds unrelated branches
+
+**Solution**:
+Use more specific patterns:
+```powershell
+# More specific pattern matching
+$branchPattern = "*fix-e2e-$issueNumber-*"
+$branchExists = git branch --list $branchPattern
+```
+
 ## 📞 Support
 
 If you're still experiencing issues:

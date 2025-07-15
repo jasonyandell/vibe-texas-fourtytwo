@@ -2,6 +2,52 @@
 
 This directory contains automation scripts for the Texas 42 Web Game project.
 
+## 🚀 E2E Workflow Automation
+
+**SIMPLE APPROACH**: Just type a trigger phrase in Augment Code!
+
+### ⚡ Quick Start (Recommended)
+```bash
+# Windows - Run this script
+scripts\e2e-quick.bat
+
+# Then in Augment Code, type:
+work e2e queue
+```
+
+### 🎯 How It Works
+1. **Run:** `scripts\e2e-quick.bat` (shows trigger phrase)
+2. **Open:** Augment Code chat window
+3. **Type:** `work e2e queue`
+4. **Done:** Augment automatically executes the E2E workflow!
+
+### 🔄 Trigger Phrases
+Augment recognizes these commands:
+- `work e2e queue`
+- `e2e workflow`
+- `next e2e task`
+- `e2e queue`
+- `work e2e`
+
+### ✨ Features
+- **Single-Task Execution**: One task per run for controlled progress
+- **Dynamic Project Integration**: Reads GitHub Project #2 in real-time
+- **Priority-Based Ordering**: Automatic issue prioritization
+- **Simple Trigger Commands**: No complex prompts needed
+- **Augment Rules Integration**: Built into Augment's rule system
+
+### 📋 Alternative Methods
+For advanced users who want full control:
+
+```bash
+# Full workflow scripts (traditional approach)
+.\scripts\start-e2e-workflow.ps1        # Windows PowerShell
+scripts\start-e2e-workflow.bat          # Windows Command Prompt
+./scripts/start-e2e-workflow.sh         # Unix/Linux/macOS
+```
+
+**See [E2E Workflow Documentation](../docs/E2E_WORKFLOW_AUTOMATION.md) for complete details.**
+
 ## GitHub Projects Setup
 
 Automate the creation of GitHub Projects and Issues from your story files.
