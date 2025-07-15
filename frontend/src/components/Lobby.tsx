@@ -57,6 +57,10 @@ export const Lobby: React.FC = () => {
         </div>
       </div>
 
+      <div className={styles.welcomeMessage}>
+        <p>Welcome to Texas 42!</p>
+      </div>
+
       <div className={styles.lobbyActions}>
         <Button
           variant="primary"
