@@ -18,13 +18,15 @@ git status
 ### 2. Dev Server Must Be Running
 **Verify dev server is running:**
 ```powershell
-# Check if server is running (should respond)
+# Check if frontend server is running (should respond)
 curl http://localhost:3000
 
-# If not running, start it in frontend directory:
-cd frontend
-npm run dev
-# Wait for "ready in XXXms" message
+# If not running, start the frontend dev server:
+npm run dev:frontend
+# Wait for "Local: http://localhost:3000/" message
+
+# Alternative: Start full development environment (includes backend + database):
+npm run develop
 ```
 
 **IMPORTANT: Use correct test commands:**
@@ -38,7 +40,10 @@ npm run test:e2e -- --grep "Game Creation"
 # NOT: cd frontend && npm run test:e2e (this works but use root level)
 # NOT: npx playwright test (this fails with config issues)
 ```
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8728ed23ed0bfafb12a78a3622c43a0e4d1a1f2c
 **If dev server issues occur:**
 - Document the problem in `docs/E2E_WORKFLOW_AUTOMATION.md` under "Known Issues"
 - Update workflow instructions with resolution steps
