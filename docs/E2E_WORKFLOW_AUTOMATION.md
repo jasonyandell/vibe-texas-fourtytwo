@@ -248,8 +248,8 @@ All work must align with `docs/design.md` requirements:
 **Before executing any E2E workflow task:**
 
 1. **Check dev server status**: Verify `http://localhost:3000` is accessible
-2. **Start if needed**: Run `npm run dev` in frontend directory
-3. **Validate startup**: Ensure server shows "ready" message
+2. **Start if needed**: Run `npm run dev:frontend` from project root
+3. **Validate startup**: Ensure server shows "Local: http://localhost:3000/" message
 4. **Test connectivity**: Quick browser check or curl test
 
 ### 📋 Definition of Done - 100% Test Pass Requirement
@@ -311,20 +311,16 @@ All work must align with `docs/design.md` requirements:
 
 **Resolution:**
 ```powershell
-# 1. Navigate to frontend directory
-cd frontend
+# 1. Start dev server from project root
+npm run dev:frontend
 
-# 2. Start dev server
-npm run dev
-
-# 3. Verify server is ready (should show "ready in XXXms")
+# 2. Verify server is ready (should show "ready in XXXms")
 # Look for: "Local: http://localhost:3000/"
 
-# 4. Test connectivity (optional)
+# 3. Test connectivity (optional)
 curl http://localhost:3000
 
-# 5. Run tests from PROJECT ROOT (not frontend directory)
-cd ..
+# 4. Run tests from PROJECT ROOT
 npm run test:e2e -- --grep "Basic Display"
 ```
 

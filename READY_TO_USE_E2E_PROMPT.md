@@ -18,13 +18,15 @@ git status
 ### 2. Dev Server Must Be Running
 **Verify dev server is running:**
 ```powershell
-# Check if server is running (should respond)
+# Check if frontend server is running (should respond)
 curl http://localhost:3000
 
-# If not running, start it in frontend directory:
-cd frontend
-npm run dev
-# Wait for "ready in XXXms" message
+# If not running, start the frontend dev server:
+npm run dev:frontend
+# Wait for "Local: http://localhost:3000/" message
+
+# Alternative: Start full development environment (includes backend + database):
+npm run develop
 ```
 
 **IMPORTANT: Use correct test commands:**
