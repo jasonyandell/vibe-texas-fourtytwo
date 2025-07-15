@@ -126,10 +126,10 @@ test.describe('Texas 42 Lobby - Player Management', () => {
     const gameCard = page.locator('[data-testid="game-card"]').first()
 
     // Check position labels and empty slot indicators
-    await expect(gameCard.getByText('North')).toBeVisible()
-    await expect(gameCard.getByText('East')).toBeVisible()
-    await expect(gameCard.getByText('South')).toBeVisible()
-    await expect(gameCard.getByText('West')).toBeVisible()
+    await expect(gameCard.getByText('North', { exact: true })).toBeVisible()
+    await expect(gameCard.getByText('East', { exact: true })).toBeVisible()
+    await expect(gameCard.getByText('South', { exact: true })).toBeVisible()
+    await expect(gameCard.getByText('West', { exact: true })).toBeVisible()
 
     // Check for empty slot text (should appear multiple times for empty slots)
     await expect(gameCard.getByText('Empty slot').first()).toBeVisible()
@@ -276,7 +276,7 @@ test.describe('Texas 42 Lobby - Error Handling', () => {
     await page.goto('/')
 
     // Test that the page loads even if some network requests fail
-    await expect(page.getByText('Texas 42')).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Texas 42', exact: true })).toBeVisible()
     await expect(page.getByText('Available Games')).toBeVisible()
   })
 

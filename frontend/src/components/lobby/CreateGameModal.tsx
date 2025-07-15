@@ -44,7 +44,7 @@ export const CreateGameModal: React.FC<CreateGameModalProps> = ({
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    
+
     if (!gameName.trim()) {
       return;
     }
@@ -52,6 +52,10 @@ export const CreateGameModal: React.FC<CreateGameModalProps> = ({
     setIsCreating(true);
     try {
       await onCreateGame(gameName.trim());
+      // Close modal after successful creation
+      onClose();
+    } catch (error) {
+      console.error('Failed to create game:', error);
     } finally {
       setIsCreating(false);
     }

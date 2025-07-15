@@ -27,7 +27,7 @@ export const Lobby: React.FC = () => {
     filterStatus === 'all' || game.status === filterStatus
   );
 
-  const handleCreateGame = (gameName: string) => {
+  const handleCreateGame = async (gameName: string) => {
     const newGame: LobbyGame = {
       id: `game-${Date.now()}`,
       name: gameName,
@@ -36,7 +36,11 @@ export const Lobby: React.FC = () => {
       status: 'waiting',
       createdAt: new Date().toISOString()
     };
+
+    // Add game to state
     addGame(newGame);
+
+    // Close modal (handled by modal component now)
     setShowCreateModal(false);
   };
 
