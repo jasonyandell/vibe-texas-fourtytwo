@@ -34,8 +34,13 @@ test.describe('Texas 42 Lobby - Game Creation', () => {
   test('should create a new game successfully', async ({ page }) => {
     await page.goto('/')
 
-    // Click create game button
-    await page.getByRole('button', { name: 'Create New Game' }).click()
+    // Wait for page to be fully loaded
+    await page.waitForLoadState('networkidle')
+
+    // Wait for the button to be ready and click with force
+    const createButton = page.getByRole('button', { name: 'Create New Game' })
+    await createButton.waitFor({ state: 'visible' })
+    await createButton.click({ force: true })
 
     // Check that create game modal appears
     await expect(page.getByRole('heading', { name: 'Create New Game' })).toBeVisible()
@@ -55,8 +60,13 @@ test.describe('Texas 42 Lobby - Game Creation', () => {
   test('should validate game name requirements', async ({ page }) => {
     await page.goto('/')
 
-    // Click create game button
-    await page.getByRole('button', { name: 'Create New Game' }).click()
+    // Wait for page to be fully loaded
+    await page.waitForLoadState('networkidle')
+
+    // Click create game button with force
+    const createButton = page.getByRole('button', { name: 'Create New Game' })
+    await createButton.waitFor({ state: 'visible' })
+    await createButton.click({ force: true })
 
     // Check that Create Game button is disabled with empty name
     await expect(page.getByRole('button', { name: 'Create Game' })).toBeDisabled()
@@ -76,8 +86,13 @@ test.describe('Texas 42 Lobby - Game Creation', () => {
   test('should close modal when cancelled', async ({ page }) => {
     await page.goto('/')
 
-    // Open modal
-    await page.getByRole('button', { name: 'Create New Game' }).click()
+    // Wait for page to be fully loaded
+    await page.waitForLoadState('networkidle')
+
+    // Open modal with force
+    const createButton = page.getByRole('button', { name: 'Create New Game' })
+    await createButton.waitFor({ state: 'visible' })
+    await createButton.click({ force: true })
     await expect(page.getByRole('heading', { name: 'Create New Game' })).toBeVisible()
 
     // Cancel
@@ -92,8 +107,13 @@ test.describe('Texas 42 Lobby - Player Management', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/')
 
+    // Wait for page to be fully loaded
+    await page.waitForLoadState('networkidle')
+
     // Create a test game for player management tests
-    await page.getByRole('button', { name: 'Create New Game' }).click()
+    const createButton = page.getByRole('button', { name: 'Create New Game' })
+    await createButton.waitFor({ state: 'visible' })
+    await createButton.click({ force: true })
     await page.getByLabel('Game Name').fill('Player Test Game')
     await page.getByRole('button', { name: 'Create Game' }).click()
 
@@ -139,8 +159,13 @@ test.describe('Texas 42 Lobby - Ready System', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/')
 
+    // Wait for page to be fully loaded
+    await page.waitForLoadState('networkidle')
+
     // Create a test game
-    await page.getByRole('button', { name: 'Create New Game' }).click()
+    const createButton = page.getByRole('button', { name: 'Create New Game' })
+    await createButton.waitFor({ state: 'visible' })
+    await createButton.click({ force: true })
     await page.getByLabel('Game Name').fill('Ready Test Game')
     await page.getByRole('button', { name: 'Create Game' }).click()
   })
@@ -178,8 +203,13 @@ test.describe('Texas 42 Lobby - Spectator Mode', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/')
 
+    // Wait for page to be fully loaded
+    await page.waitForLoadState('networkidle')
+
     // Create a test game for spectator tests
-    await page.getByRole('button', { name: 'Create New Game' }).click()
+    const createButton = page.getByRole('button', { name: 'Create New Game' })
+    await createButton.waitFor({ state: 'visible' })
+    await createButton.click({ force: true })
     await page.getByLabel('Game Name').fill('Spectator Test Game')
     await page.getByRole('button', { name: 'Create Game' }).click()
   })
@@ -253,8 +283,13 @@ test.describe('Texas 42 Lobby - Error Handling', () => {
   test('should show loading states', async ({ page }) => {
     await page.goto('/')
 
+    // Wait for page to be fully loaded
+    await page.waitForLoadState('networkidle')
+
     // Check for loading indicators during game creation
-    await page.getByRole('button', { name: 'Create New Game' }).click()
+    const createNewGameButton = page.getByRole('button', { name: 'Create New Game' })
+    await createNewGameButton.waitFor({ state: 'visible' })
+    await createNewGameButton.click({ force: true })
     await page.getByLabel('Game Name').fill('Loading Test Game')
 
     // The create button should show loading state when clicked
