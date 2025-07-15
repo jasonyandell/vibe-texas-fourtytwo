@@ -2,9 +2,21 @@
 
 You are working on the E2E Test Fixes project board for Texas 42 Web Game. Execute EXACTLY ONE task from this dynamic, priority-ordered workflow, then stop.
 
-## ⚠️ PREREQUISITE: Dev Server Must Be Running
+## ⚠️ PREREQUISITES: Setup Before Any Task
 
-**BEFORE starting any task, verify dev server is running:**
+### 1. Ensure Clean Main Branch State
+**BEFORE starting any task:**
+```powershell
+# Switch to main and get latest changes
+git checkout main
+git pull
+
+# Verify clean state
+git status
+```
+
+### 2. Dev Server Must Be Running
+**Verify dev server is running:**
 ```powershell
 # Check if server is running (should respond)
 curl http://localhost:3000
@@ -58,7 +70,8 @@ Check for approved PRs: `gh pr list --state open --json reviewDecision,mergeable
 ### Task B: Fix Blocking PR Comments
 Check open PRs for blocking review comments
 **IF** any PR has blocking issues:
-- Switch to that branch
+- Switch to that branch: `git checkout {branch-name}`
+- Pull latest main and resolve conflicts: `git pull origin main`
 - Fix the blocking issues
 - Commit and push fixes
 - **STOP IMMEDIATELY** - Task complete, do not proceed to next task
@@ -80,8 +93,13 @@ Check for PRs with no review decision
   # OR
   git branch -a | Select-String "fix-e2e-{issue-number}"
   ```
-- **IF** no branch exists → Create: `git checkout -b fix-e2e-{issue-number}-{description}`
-- **IF** branch exists → Switch to it: `git checkout fix-e2e-{issue-number}-{description}`
+- **IF** no branch exists → Create from main: `git checkout -b fix-e2e-{issue-number}-{description}`
+- **IF** branch exists → Switch and update:
+  ```powershell
+  git checkout fix-e2e-{issue-number}-{description}
+  git pull origin main  # Merge latest main changes
+  # Resolve any conflicts if they occur
+  ```
 - Implement changes according to issue requirements
 - Commit: `git commit -m "fix(e2e): {description} - fixes #{issue-number}"`
 - Push: `git push -u origin {branch-name}`
@@ -90,9 +108,12 @@ Check for PRs with no review decision
 
 ## Rules
 - **EXECUTE ONLY ONE TASK PER CONTEXT - THEN STOP IMMEDIATELY**
+- **ALWAYS start from clean main branch** (`git checkout main && git pull`)
 - Always query project board state first
 - Work only on "📋 Backlog" or "🚧 In Progress" issues
 - Always check PRs before working on new issues
+- **Pull latest main into feature branches** before working (`git pull origin main`)
+- **Resolve any merge conflicts** before proceeding with work
 - Ensure alignment with docs/design.md
 - Use branch naming: `fix-e2e-{issue-number}-{description}`
 - **ALWAYS commit and push ALL changes before task completion**
