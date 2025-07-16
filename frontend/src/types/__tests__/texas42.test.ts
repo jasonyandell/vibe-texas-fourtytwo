@@ -31,32 +31,32 @@ import {
 describe('Texas 42 Type Validation', () => {
   describe('Domino Validation', () => {
     it('validates correct domino', () => {
-      const domino: Domino = { id: '1', high: 6, low: 3 }
+      const domino: Domino = { id: '1', high: 6, low: 3, pointValue: 0, isCountDomino: false }
       expect(isValidDomino(domino)).toBe(true)
     })
 
     it('validates blank domino', () => {
-      const domino: Domino = { id: '2', high: 0, low: 0 }
+      const domino: Domino = { id: '2', high: 0, low: 0, pointValue: 0, isCountDomino: false }
       expect(isValidDomino(domino)).toBe(true)
     })
 
     it('rejects domino with invalid high value', () => {
-      const domino = { id: '3', high: 7, low: 3 }
+      const domino = { id: '3', high: 7, low: 3, pointValue: 0, isCountDomino: false }
       expect(isValidDomino(domino)).toBe(false)
     })
 
     it('rejects domino with invalid low value', () => {
-      const domino = { id: '4', high: 3, low: -1 }
+      const domino = { id: '4', high: 3, low: -1, pointValue: 0, isCountDomino: false }
       expect(isValidDomino(domino)).toBe(false)
     })
 
     it('rejects domino with missing id', () => {
-      const domino = { high: 3, low: 2 }
+      const domino = { high: 3, low: 2, pointValue: 5, isCountDomino: true }
       expect(isValidDomino(domino)).toBe(false)
     })
 
     it('rejects domino where low > high', () => {
-      const domino = { id: '5', high: 2, low: 5 }
+      const domino = { id: '5', high: 2, low: 5, pointValue: 0, isCountDomino: false }
       expect(isValidDomino(domino)).toBe(false)
     })
   })
@@ -88,7 +88,10 @@ describe('Texas 42 Type Validation', () => {
     it('validates player with dominoes in hand', () => {
       const player = {
         ...validPlayer,
-        hand: [{ id: '1', high: 6, low: 3 }, { id: '2', high: 4, low: 2 }]
+        hand: [
+          { id: '1', high: 6, low: 3, pointValue: 0, isCountDomino: false },
+          { id: '2', high: 4, low: 2, pointValue: 0, isCountDomino: false }
+        ]
       }
       expect(isValidPlayer(player)).toBe(true)
     })
@@ -96,7 +99,7 @@ describe('Texas 42 Type Validation', () => {
     it('rejects player with invalid dominoes in hand', () => {
       const player = {
         ...validPlayer,
-        hand: [{ id: '1', high: 7, low: 3 }] // Invalid domino
+        hand: [{ id: '1', high: 7, low: 3, pointValue: 0, isCountDomino: false }] // Invalid domino
       }
       expect(isValidPlayer(player)).toBe(false)
     })
@@ -144,7 +147,7 @@ describe('Texas 42 Type Validation', () => {
       id: 'trick-1',
       dominoes: [
         {
-          domino: { id: '1', high: 6, low: 3 },
+          domino: { id: '1', high: 6, low: 3, pointValue: 0, isCountDomino: false },
           playerId: 'player-1',
           position: 'north'
         }
@@ -159,10 +162,10 @@ describe('Texas 42 Type Validation', () => {
       const trick: Trick = {
         ...validTrick,
         dominoes: [
-          { domino: { id: '1', high: 6, low: 3 }, playerId: 'player-1', position: 'north' },
-          { domino: { id: '2', high: 5, low: 2 }, playerId: 'player-2', position: 'east' },
-          { domino: { id: '3', high: 4, low: 1 }, playerId: 'player-3', position: 'south' },
-          { domino: { id: '4', high: 3, low: 0 }, playerId: 'player-4', position: 'west' }
+          { domino: { id: '1', high: 6, low: 3, pointValue: 0, isCountDomino: false }, playerId: 'player-1', position: 'north' },
+          { domino: { id: '2', high: 5, low: 2, pointValue: 0, isCountDomino: false }, playerId: 'player-2', position: 'east' },
+          { domino: { id: '3', high: 4, low: 1, pointValue: 5, isCountDomino: true }, playerId: 'player-3', position: 'south' },
+          { domino: { id: '4', high: 3, low: 0, pointValue: 0, isCountDomino: false }, playerId: 'player-4', position: 'west' }
         ],
         winner: 'player-1',
         leadSuit: 'sixes'
@@ -349,7 +352,7 @@ describe('Texas 42 Type Validation', () => {
     it('validates scoring state with count dominoes', () => {
       const scoringState = {
         trickPoints: 5,
-        countDominoes: [{ id: '5-0', high: 5, low: 0 }],
+        countDominoes: [{ id: '5-0', high: 5, low: 0, pointValue: 5, isCountDomino: true }],
         bonusPoints: 10,
         penaltyPoints: 0,
         roundComplete: true,
@@ -361,7 +364,7 @@ describe('Texas 42 Type Validation', () => {
     it('rejects scoring state with invalid count dominoes', () => {
       const scoringState = {
         trickPoints: 5,
-        countDominoes: [{ id: '5-0', high: 8, low: 0 }], // Invalid domino
+        countDominoes: [{ id: '5-0', high: 8, low: 0, pointValue: 5, isCountDomino: true }], // Invalid domino
         bonusPoints: 10,
         penaltyPoints: 0,
         roundComplete: false

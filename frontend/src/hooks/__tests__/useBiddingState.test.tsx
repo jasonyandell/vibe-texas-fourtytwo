@@ -1,15 +1,16 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 import { useBiddingState } from '../useBiddingState';
-import { useGameState } from '@/contexts/GameStateContext';
 import { GameState, Player, BiddingState } from '@/types/texas42';
 
-// Mock the useGameState hook
+// Mock the useGameStateContext hook
 vi.mock('@/contexts/GameStateContext', () => ({
-  useGameState: vi.fn()
+  useGameStateContext: vi.fn()
 }));
 
-const mockUseGameState = vi.mocked(useGameState);
+// Import the mocked function
+const { useGameStateContext } = await import('@/contexts/GameStateContext');
+const mockUseGameStateContext = vi.mocked(useGameStateContext);
 
 describe('useBiddingState', () => {
   const players: Player[] = [
@@ -47,7 +48,7 @@ describe('useBiddingState', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    mockUseGameState.mockReturnValue({
+    mockUseGameStateContext.mockReturnValue({
       gameState: baseGameState,
       updateGameState: mockUpdateGameState,
       isLoading: false,
@@ -70,7 +71,7 @@ describe('useBiddingState', () => {
     });
 
     it('handles missing game state gracefully', () => {
-      mockUseGameState.mockReturnValue({
+      mockUseGameStateContext.mockReturnValue({
         gameState: null,
         updateGameState: mockUpdateGameState,
         isLoading: false,
@@ -115,7 +116,7 @@ describe('useBiddingState', () => {
     });
 
     it('rejects bid when not current player', () => {
-      mockUseGameState.mockReturnValue({
+      mockUseGameStateContext.mockReturnValue({
         gameState: { ...baseGameState, currentPlayer: 'player2' },
         updateGameState: mockUpdateGameState,
         isLoading: false,
@@ -172,7 +173,7 @@ describe('useBiddingState', () => {
     });
 
     it('handles missing current player', async () => {
-      mockUseGameState.mockReturnValue({
+      mockUseGameStateContext.mockReturnValue({
         gameState: { ...baseGameState, currentPlayer: undefined },
         updateGameState: mockUpdateGameState,
         isLoading: false,
@@ -215,7 +216,7 @@ describe('useBiddingState', () => {
     });
 
     it('handles missing current player', async () => {
-      mockUseGameState.mockReturnValue({
+      mockUseGameStateContext.mockReturnValue({
         gameState: { ...baseGameState, currentPlayer: undefined },
         updateGameState: mockUpdateGameState,
         isLoading: false,

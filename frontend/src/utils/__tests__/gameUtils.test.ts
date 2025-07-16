@@ -23,9 +23,9 @@ describe('Game Utils', () => {
     { id: 'p4', name: 'Player 4', position: 'west', hand: [], isConnected: true, isReady: true }
   ]
 
-  const mockDomino: Domino = { id: 'd1', high: 6, low: 3 }
-  const mockDomino2: Domino = { id: 'd2', high: 5, low: 2 }
-  const mockDomino3: Domino = { id: 'd3', high: 4, low: 1 }
+  const mockDomino: Domino = { id: 'd1', high: 6, low: 3, pointValue: 0, isCountDomino: false }
+  const mockDomino2: Domino = { id: 'd2', high: 5, low: 2, pointValue: 0, isCountDomino: false }
+  const mockDomino3: Domino = { id: 'd3', high: 4, low: 1, pointValue: 5, isCountDomino: true }
 
   const baseGameState: GameState = {
     id: 'game-1',
@@ -85,8 +85,8 @@ describe('Game Utils', () => {
     })
 
     it('enforces follow suit rules', () => {
-      const foursDomino = { id: 'd-four', high: 4, low: 2 } // Fours suit (not trump, not lead)
-      const fivesDomino = { id: 'd-five', high: 5, low: 1 } // Fives suit (lead suit)
+      const foursDomino = { id: 'd-four', high: 4, low: 2, pointValue: 0, isCountDomino: false } // Fours suit (not trump, not lead)
+      const fivesDomino = { id: 'd-five', high: 5, low: 1, pointValue: 0, isCountDomino: false } // Fives suit (lead suit)
 
       const gameState = {
         ...baseGameState,
@@ -94,7 +94,7 @@ describe('Game Utils', () => {
         currentTrick: {
           id: 'trick-1',
           dominoes: [{
-            domino: { id: 'd-lead', high: 5, low: 0 }, // Fives suit lead
+            domino: { id: 'd-lead', high: 5, low: 0, pointValue: 5, isCountDomino: true }, // Fives suit lead
             playerId: 'p2',
             position: 'east' as const
           }],
@@ -210,7 +210,7 @@ describe('Game Utils', () => {
         currentTrick: {
           id: 'trick-1',
           dominoes: [{
-            domino: { id: 'd-lead', high: 5, low: 0 }, // Fives suit
+            domino: { id: 'd-lead', high: 5, low: 0, pointValue: 5, isCountDomino: true }, // Fives suit
             playerId: 'p2',
             position: 'east' as const
           }],
@@ -221,8 +221,8 @@ describe('Game Utils', () => {
             ...mockPlayers[0], 
             hand: [
               mockDomino, // Sixes suit
-              { id: 'd-five', high: 5, low: 1 } // Fives suit
-            ] 
+              { id: 'd-five', high: 5, low: 1, pointValue: 0, isCountDomino: false } // Fives suit
+            ]
           },
           ...mockPlayers.slice(1)
         ]
@@ -268,12 +268,12 @@ describe('Game Utils', () => {
 
   describe('getDominoSuit', () => {
     it('returns doubles for double dominoes', () => {
-      const domino: Domino = { id: 'd1', high: 6, low: 6 }
+      const domino: Domino = { id: 'd1', high: 6, low: 6, pointValue: 0, isCountDomino: false }
       expect(getDominoSuit(domino)).toBe('doubles')
     })
 
     it('returns correct suit for non-double dominoes', () => {
-      const domino: Domino = { id: 'd1', high: 6, low: 3 }
+      const domino: Domino = { id: 'd1', high: 6, low: 3, pointValue: 0, isCountDomino: false }
       expect(getDominoSuit(domino)).toBe('sixes')
     })
   })
