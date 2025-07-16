@@ -10,6 +10,9 @@ interface DominoComponentProps {
   faceDown?: boolean;
   orientation?: 'horizontal' | 'vertical';
   selected?: boolean;
+  showPointValue?: boolean;    // Show point value overlay
+  highlightCount?: boolean;    // Highlight if count domino
+  pointValuePosition?: 'corner' | 'overlay' | 'badge'; // Display style
 }
 
 export const DominoComponent: React.FC<DominoComponentProps> = ({
@@ -19,7 +22,10 @@ export const DominoComponent: React.FC<DominoComponentProps> = ({
   className = '',
   faceDown = false,
   orientation = 'horizontal',
-  selected = false
+  selected = false,
+  showPointValue = false,
+  highlightCount = false,
+  pointValuePosition = 'corner'
 }) => {
   const formatPipValue = (value: number): string => {
     return value === 0 ? 'blank' : value.toString();
@@ -28,7 +34,16 @@ export const DominoComponent: React.FC<DominoComponentProps> = ({
   const getAriaLabel = (): string => {
     const highLabel = formatPipValue(domino.high);
     const lowLabel = formatPipValue(domino.low);
-    return `Domino ${highLabel}-${lowLabel}`;
+    const pointInfo = domino.pointValue > 0 ? `, ${domino.pointValue} points` : '';
+    return `Domino ${highLabel}-${lowLabel}${pointInfo}`;
+  };
+
+  const shouldShowPointValue = (): boolean => {
+    return showPointValue && domino.pointValue > 0 && !faceDown;
+  };
+
+  const shouldHighlightCount = (): boolean => {
+    return highlightCount && domino.isCountDomino && !faceDown;
   };
 
   const classes = [
@@ -42,6 +57,8 @@ export const DominoComponent: React.FC<DominoComponentProps> = ({
     isPlayable ? styles.playable : '',
     selected ? 'selected' : '',
     selected ? styles.selected : '',
+    shouldHighlightCount() ? 'count-domino' : '',
+    shouldHighlightCount() ? styles.countDomino : '',
     className
   ].filter(Boolean).join(' ');
 
@@ -74,6 +91,14 @@ export const DominoComponent: React.FC<DominoComponentProps> = ({
           />
         ))}
       </div>
+      {shouldShowPointValue() && (
+        <div
+          className={`point-value ${styles.pointValue} ${styles[pointValuePosition]} ${domino.pointValue === 5 ? styles.fivePoints : styles.tenPoints}`}
+          aria-hidden="true"
+        >
+          {domino.pointValue}
+        </div>
+      )}
     </div>
   );
 };

@@ -5,9 +5,11 @@
 
 // Domino representation
 export interface Domino {
-  high: number;  // 0-6
-  low: number;   // 0-6
-  id: string;    // unique identifier
+  high: number;        // 0-6
+  low: number;         // 0-6
+  id: string;          // unique identifier
+  pointValue: number;  // 0, 5, or 10 points
+  isCountDomino: boolean; // true for scoring dominoes
 }
 
 // Player positions in Texas 42 (partnerships: North-South, East-West)

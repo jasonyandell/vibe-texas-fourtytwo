@@ -35,6 +35,15 @@
   background: var(--color-domino-white);
 }
 
+/* Count domino visual indicators */
+.domino.countDomino {
+  border: 2px solid var(--count-domino-border, #ff8800);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 0 4px var(--count-domino-glow, rgba(255, 136, 0, 0.4));
+}
+
 .domino.faceDown {
   background: var(--color-domino-black);
   border-color: var(--color-wood-brown);
@@ -322,12 +331,74 @@
   }
 }
 
+/* Point value display */
+.pointValue {
+  position: absolute;
+  background: var(--point-value-bg, rgba(0, 0, 0, 0.8));
+  color: var(--point-value-text, #fff);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  z-index: 10;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Point value positions */
+.pointValue.corner {
+  top: 4px;
+  right: 4px;
+}
+
+.pointValue.overlay {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.9);
+}
+
+.pointValue.badge {
+  top: -8px;
+  right: -8px;
+  border: 2px solid #fff;
+}
+
+/* Point value colors */
+.pointValue.fivePoints {
+  background: var(--five-point-color, #28a745);
+}
+
+.pointValue.tenPoints {
+  background: var(--ten-point-color, #dc3545);
+}
+
+/* Responsive point values */
+@media (max-width: 768px) {
+  .pointValue {
+    width: 16px;
+    height: 16px;
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pointValue {
+    width: 14px;
+    height: 14px;
+    font-size: 8px;
+  }
+}
+
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
   .domino {
     transition: none;
   }
-  
+
   .pip {
     transition: none;
   }

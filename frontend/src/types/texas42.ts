@@ -5,9 +5,11 @@
 
 // Domino representation
 export interface Domino {
-  high: number;  // 0-6
-  low: number;   // 0-6
-  id: string;    // unique identifier
+  high: number;        // 0-6
+  low: number;         // 0-6
+  id: string;          // unique identifier
+  pointValue: number;  // 0, 5, or 10 points
+  isCountDomino: boolean; // true for scoring dominoes
 }
 
 // Player positions in Texas 42 (partnerships: North-South, East-West)
@@ -174,17 +176,24 @@ export interface WebSocketMessage {
 export function isValidDomino(value: any): value is Domino {
   if (!value || typeof value !== 'object') return false;
 
-  const { id, high, low } = value;
+  const { id, high, low, pointValue, isCountDomino } = value;
 
   // Check required fields
   if (typeof id !== 'string' || id.length === 0) return false;
   if (typeof high !== 'number' || typeof low !== 'number') return false;
+  if (typeof pointValue !== 'number' || typeof isCountDomino !== 'boolean') return false;
 
   // Check value ranges (0-6 for double-six dominoes)
   if (high < 0 || high > 6 || low < 0 || low > 6) return false;
 
   // Check domino convention: high >= low
   if (low > high) return false;
+
+  // Check point value is valid (0, 5, or 10)
+  if (![0, 5, 10].includes(pointValue)) return false;
+
+  // Check consistency between pointValue and isCountDomino
+  if ((pointValue > 0) !== isCountDomino) return false;
 
   return true;
 }
