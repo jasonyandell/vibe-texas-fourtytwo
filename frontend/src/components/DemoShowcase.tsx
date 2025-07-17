@@ -4,6 +4,7 @@ import { DemoNavigation } from './DemoNavigation'
 import { DominoesSection } from './DominoesSection'
 import { PlayersSection } from './PlayersSection'
 import { BiddingSection } from './BiddingSection'
+import { GameBoardSection } from './GameBoardSection'
 import styles from './DemoShowcase.module.css'
 
 // Demo section types
@@ -73,14 +74,16 @@ export const DemoShowcase: React.FC = () => {
           </section>
 
           {/* Board Section */}
-          <section 
+          <section
             className={`${styles.section} ${currentSection === 'board' ? styles.active : ''}`}
             data-testid="board-section"
             aria-label="Game Board"
           >
             <h2>Game Board & Trick Play</h2>
             <p>Center play area, trick stacks, and score displays.</p>
-            {/* TODO: Add board showcase content */}
+            {currentSection === 'board' && (
+              <GameBoardSection />
+            )}
           </section>
 
           {/* Flow Section */}
