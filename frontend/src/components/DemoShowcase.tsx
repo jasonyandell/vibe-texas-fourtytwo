@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { DemoNavigation } from './DemoNavigation'
 import { DominoesSection } from './DominoesSection'
 import { PlayersSection } from './PlayersSection'
+import { BiddingSection } from './BiddingSection'
 import styles from './DemoShowcase.module.css'
 
 // Demo section types
@@ -59,14 +60,16 @@ export const DemoShowcase: React.FC = () => {
           </section>
 
           {/* Bidding Section */}
-          <section 
+          <section
             className={`${styles.section} ${currentSection === 'bidding' ? styles.active : ''}`}
             data-testid="bidding-section"
             aria-label="Bidding System"
           >
             <h2>Bidding & Trump System</h2>
             <p>Interactive bidding with trump suit selection and bid validation.</p>
-            {/* TODO: Add bidding showcase content */}
+            {currentSection === 'bidding' && (
+              <BiddingSection />
+            )}
           </section>
 
           {/* Board Section */}
