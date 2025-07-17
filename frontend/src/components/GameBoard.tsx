@@ -30,6 +30,7 @@ export const GameBoard: React.FC<GameBoardProps> = ({
     updateGameState = gameStateContext.updateGameState;
   } catch (error) {
     // Context not available (likely in tests), use a no-op function
+    console.warn('GameState context not available:', error.message);
     updateGameState = () => {
       console.warn('GameState context not available, bid handling disabled');
     };

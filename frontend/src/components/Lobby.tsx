@@ -11,7 +11,7 @@ export const Lobby: React.FC = () => {
     lobbyState,
     isLoading,
     error,
-    getAvailableGames,
+    getAvailableGames: _getAvailableGames,
     getJoinableGames,
     getSortedGames,
     addGame,
@@ -96,7 +96,7 @@ export const Lobby: React.FC = () => {
             <select
               id="status-filter"
               value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value as LobbyGame['status'] | 'all')}
+              onChange={(e) => setFilterStatus((e.target as HTMLSelectElement).value as LobbyGame['status'] | 'all')}
               className={styles.filterSelect}
             >
               <option value="all">All Games</option>
@@ -111,7 +111,7 @@ export const Lobby: React.FC = () => {
             <select
               id="sort-select"
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
+              onChange={(e) => setSortBy((e.target as HTMLSelectElement).value as typeof sortBy)}
               className={styles.sortSelect}
             >
               <option value="newest">Newest First</option>

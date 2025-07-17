@@ -13,6 +13,12 @@ type: "always_apply"
 - **Test-first approach**: All test code must be written before implementation code
 - **Complete only when**: All tests are green AND all documentation is updated
 
+## Refactor phase
+1. Always run lint, fix linter errors
+2. Always check for typescript errors and fix them
+3. Always unsuppress any warnings and fix them
+4. CRITICAL: ALL WARNINGS ARE BLOCKERS. 
+
 ## Testing Requirements
 - **Complete Coverage**: The entire system must be testable by automated tests
 - **Fast Execution**: Tests must be FAST - speed is critical for feedback loops

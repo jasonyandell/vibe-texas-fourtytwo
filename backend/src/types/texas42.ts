@@ -154,7 +154,7 @@ export interface PlayerRecord {
 }
 
 // API responses
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   success: boolean;
   data?: T;
   error?: string;
@@ -166,6 +166,6 @@ export interface WebSocketMessage {
   type: string;
   gameId?: string;
   playerId?: string;
-  data?: any;
+  data?: unknown;
   timestamp: string;
 }

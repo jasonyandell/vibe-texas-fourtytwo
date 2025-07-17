@@ -19,12 +19,10 @@ import {
   type Player,
   type GameState,
   type LobbyState,
-  type BiddingState,
-  type ScoringState,
+  type LobbyGame,
   type Trick,
   type Bid,
   type PlayerPosition,
-  type GamePhase,
   type DominoSuit
 } from '../texas42'
 
@@ -271,7 +269,7 @@ describe('Texas 42 Type Validation', () => {
         ...validLobbyState,
         availableGames: [{
           ...validLobbyState.availableGames[0],
-          status: 'invalid' as any
+          status: 'invalid' as unknown as LobbyGame['status']
         }]
       }
       expect(isValidLobbyState(lobbyState)).toBe(false)

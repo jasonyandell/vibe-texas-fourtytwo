@@ -1,10 +1,9 @@
 import { describe, it, expect } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen } from '@/test/test-utils'
 import { DominoComponent } from '../DominoComponent'
 import { DominoHand } from '../DominoHand'
 import { GameBoard } from '../GameBoard'
-import { Domino, GameState } from '@/types/texas42'
-import { BrowserRouter } from 'react-router-dom'
+import { Domino, GameState, createDomino } from '@/types/texas42'
 
 describe('Visual Validation Tests', () => {
   // Generate all 28 domino combinations for visual testing
@@ -12,11 +11,7 @@ describe('Visual Validation Tests', () => {
     const dominoes: Domino[] = []
     for (let high = 0; high <= 6; high++) {
       for (let low = 0; low <= high; low++) {
-        dominoes.push({
-          id: `domino-${high}-${low}`,
-          high,
-          low
-        })
+        dominoes.push(createDomino(high, low))
       }
     }
     return dominoes
@@ -190,9 +185,7 @@ describe('Visual Validation Tests', () => {
 
     it('renders complete baseball diamond layout', () => {
       render(
-        <BrowserRouter>
-          <GameBoard gameState={mockGameState} />
-        </BrowserRouter>
+        <GameBoard gameState={mockGameState} />
       )
       
       // Check main structure
@@ -217,9 +210,7 @@ describe('Visual Validation Tests', () => {
 
     it('displays game information correctly', () => {
       render(
-        <BrowserRouter>
-          <GameBoard gameState={mockGameState} />
-        </BrowserRouter>
+        <GameBoard gameState={mockGameState} />
       )
       
       // Check game phase display
@@ -237,9 +228,7 @@ describe('Visual Validation Tests', () => {
 
     it('shows player information with proper styling', () => {
       render(
-        <BrowserRouter>
-          <GameBoard gameState={mockGameState} currentPlayerId="north-player" />
-        </BrowserRouter>
+        <GameBoard gameState={mockGameState} currentPlayerId="north-player" />
       )
       
       // Check player names
@@ -282,9 +271,7 @@ describe('Visual Validation Tests', () => {
 
     it('applies responsive classes to all major components', () => {
       const { container } = render(
-        <BrowserRouter>
-          <GameBoard gameState={responsiveGameState} />
-        </BrowserRouter>
+        <GameBoard gameState={responsiveGameState} />
       )
 
       const gameBoard = container.querySelector('.game-board')

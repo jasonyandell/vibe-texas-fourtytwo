@@ -2,7 +2,6 @@ import { describe, it, expect } from 'vitest'
 import {
   serializeGameStateToUrl,
   parseGameStateFromUrl,
-  parseGameStateFromUrlDetailed,
   compressGameState,
   decompressGameState,
   validateUrlGameState,
@@ -10,12 +9,9 @@ import {
   createShareableUrl,
   parseShareableUrl,
   type SerializedGameState,
-  type UrlSerializationOptions,
-  type CompressionMethod,
-  type CompressionResult,
-  type UrlParsingResult
+  type UrlSerializationOptions
 } from '../urlSerialization'
-import { GameState, createEmptyGameState } from '@/types/texas42'
+import { GameState } from '@/types/texas42'
 
 describe('URL Serialization', () => {
   const mockGameState: GameState = {
@@ -200,7 +196,7 @@ describe('URL Serialization', () => {
 
     it('handles corrupted compressed data', () => {
       const corruptedData = 'invalid-base64-data'
-      const result = decompressGameState(corruptedData)
+      const result = decompressGameState(corruptedData, 'base64')
       
       expect(result).toBeNull()
     })

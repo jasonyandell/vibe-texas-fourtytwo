@@ -218,7 +218,12 @@
     transform: none;
   }
   
-  @keyframes dominoHover,
+  @keyframes dominoHover {
+    0%, 100% {
+      transform: none;
+    }
+  }
+
   @keyframes dominoSelect {
     0%, 100% {
       transform: none;

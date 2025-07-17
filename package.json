@@ -18,6 +18,12 @@
     "test:frontend:watch": "npm run --workspace=frontend test:watch",
     "test:backend:watch": "npm run --workspace=backend test:watch",
     "test:e2e": "npm run --workspace=frontend test:e2e",
+    "lint": "npm run lint:frontend && npm run lint:backend",
+    "lint:frontend": "npm run --workspace=frontend lint",
+    "lint:backend": "npm run --workspace=backend lint",
+    "lint:fix": "npm run lint:fix:frontend && npm run lint:fix:backend",
+    "lint:fix:frontend": "npm run --workspace=frontend lint:fix",
+    "lint:fix:backend": "npm run --workspace=backend lint:fix",
     "build": "npm run build:backend && npm run build:frontend",
     "build:frontend": "npm run --workspace=frontend build",
     "build:backend": "npm run --workspace=backend build",
@@ -31,7 +37,18 @@
     "setup:github-projects": "node scripts/setup-github-projects.js"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2",
+    "@eslint/js": "^9.31.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.5.2",
+    "@typescript-eslint/eslint-plugin": "^8.37.0",
+    "@typescript-eslint/parser": "^8.37.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.2.0",
+    "eslint": "^9.31.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.3.0",
     "typescript": "^5.3.3"
   },
   "engines": {
@@ -48,5 +65,16 @@
     "fastify"
   ],
   "author": "Texas 42 Development Team",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@fastify/jwt": "^9.1.0",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.469.0",
+    "nanoid": "^5.0.9",
+    "pg": "^8.13.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "typescript-eslint": "^8.37.0",
+    "zod": "^3.24.1"
+  }
 }

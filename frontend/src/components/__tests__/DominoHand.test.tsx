@@ -1,24 +1,24 @@
 import { describe, it, expect, vi } from 'vitest'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent } from '@/test/test-utils'
 import { DominoHand } from '../DominoHand'
-import { Domino } from '@/types/texas42'
+import { Domino, createDomino } from '@/types/texas42'
 
 describe('DominoHand', () => {
   const mockDominoes: Domino[] = [
-    { id: '1', high: 6, low: 6 },
-    { id: '2', high: 5, low: 4 },
-    { id: '3', high: 3, low: 2 },
-    { id: '4', high: 1, low: 0 },
-    { id: '5', high: 4, low: 4 },
-    { id: '6', high: 2, low: 1 },
-    { id: '7', high: 6, low: 3 }
+    createDomino(6, 6),
+    createDomino(5, 4),
+    createDomino(3, 2),
+    createDomino(1, 0),
+    createDomino(4, 4),
+    createDomino(2, 1),
+    createDomino(6, 3)
   ]
 
   const mockPartialHand: Domino[] = [
-    { id: '1', high: 6, low: 6 },
-    { id: '2', high: 5, low: 4 },
-    { id: '3', high: 3, low: 2 },
-    { id: '4', high: 1, low: 0 }
+    createDomino(6, 6),
+    createDomino(5, 4),
+    createDomino(3, 2),
+    createDomino(1, 0)
   ]
 
   describe('Basic Rendering', () => {
@@ -213,11 +213,9 @@ describe('DominoHand', () => {
 
   describe('2-Row Layout Requirements', () => {
     it('always places exactly 4 dominoes in top row', () => {
-      const fullHand = Array.from({ length: 7 }, (_, i) => ({
-        id: `domino-${i}`,
-        high: Math.floor(i / 2),
-        low: i % 2
-      }))
+      const fullHand = Array.from({ length: 7 }, (_, i) =>
+        createDomino(Math.floor(i / 2), i % 2)
+      )
 
       const { container } = render(<DominoHand dominoes={fullHand} />)
 
@@ -229,11 +227,9 @@ describe('DominoHand', () => {
     })
 
     it('handles partial hands correctly in 2-row layout', () => {
-      const partialHand = Array.from({ length: 5 }, (_, i) => ({
-        id: `domino-${i}`,
-        high: Math.floor(i / 2),
-        low: i % 2
-      }))
+      const partialHand = Array.from({ length: 5 }, (_, i) =>
+        createDomino(Math.floor(i / 2), i % 2)
+      )
 
       const { container } = render(<DominoHand dominoes={partialHand} />)
 

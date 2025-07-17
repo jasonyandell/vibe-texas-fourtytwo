@@ -119,7 +119,7 @@ export const SpectatorManager: React.FC<SpectatorManagerProps> = ({
         {!isSpectating && canJoinAsSpectator && (
           <Button
             variant="ghost"
-            onClick={handleJoinSpectating}
+            onClick={() => void handleJoinSpectating()}
             disabled={isJoining}
             loading={isJoining}
             fullWidth
@@ -131,7 +131,7 @@ export const SpectatorManager: React.FC<SpectatorManagerProps> = ({
         {isSpectating && (
           <Button
             variant="secondary"
-            onClick={handleLeaveSpectating}
+            onClick={() => void handleLeaveSpectating()}
             disabled={isLeaving}
             loading={isLeaving}
             fullWidth

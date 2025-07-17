@@ -1,8 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
-import { render, screen } from '@testing-library/react'
-import { MemoryRouter } from 'react-router-dom'
+import { render, screen } from '@/test/test-utils'
 import { GameBoard } from '../GameBoard'
-import { GameState, Player, Domino } from '@/types/texas42'
+import { GameState, Player, Domino as _Domino, createDomino, DominoSuit, PlayerPosition } from '@/types/texas42'
 
 // Mock the useParams hook
 vi.mock('react-router-dom', async () => {
@@ -64,9 +63,7 @@ describe('GameBoard', () => {
 
   const renderGameBoard = (gameState?: Partial<GameState>) => {
     return render(
-      <MemoryRouter>
-        <GameBoard gameState={gameState ? { ...mockGameState, ...gameState } : mockGameState} />
-      </MemoryRouter>
+      <GameBoard gameState={gameState ? { ...mockGameState, ...gameState } : mockGameState} />
     )
   }
 
@@ -197,10 +194,10 @@ describe('GameBoard', () => {
           {
             id: 'trick-1',
             dominoes: [
-              { domino: { id: 'dom-1', high: 6, low: 6 }, playerId: 'player-1', position: 'north' },
-              { domino: { id: 'dom-2', high: 5, low: 4 }, playerId: 'player-2', position: 'east' },
-              { domino: { id: 'dom-3', high: 4, low: 3 }, playerId: 'player-3', position: 'south' },
-              { domino: { id: 'dom-4', high: 3, low: 2 }, playerId: 'player-4', position: 'west' }
+              { domino: createDomino(6, 6), playerId: 'player-1', position: 'north' as PlayerPosition },
+              { domino: createDomino(5, 4), playerId: 'player-2', position: 'east' as PlayerPosition },
+              { domino: createDomino(4, 3), playerId: 'player-3', position: 'south' as PlayerPosition },
+              { domino: createDomino(3, 2), playerId: 'player-4', position: 'west' as PlayerPosition }
             ],
             winner: 'player-1'
           }
@@ -215,8 +212,8 @@ describe('GameBoard', () => {
   describe('Enhanced Game Information Display', () => {
     it('displays current bid and trump suit prominently', () => {
       const gameStateWithBid = {
-        currentBid: { playerId: 'player-1', amount: 35, trump: 'doubles' },
-        trump: 'doubles' as const
+        currentBid: { playerId: 'player-1', amount: 35, trump: 'doubles' as DominoSuit },
+        trump: 'doubles' as DominoSuit
       }
       renderGameBoard(gameStateWithBid)
 
@@ -275,15 +272,13 @@ describe('GameBoard', () => {
       const gameStateWithHands = {
         players: mockPlayers.map((p, index) => ({
           ...p,
-          hand: [{ id: `${p.id}-domino`, high: 6, low: index }] // Different dominoes for each player
+          hand: [createDomino(6, index)] // Different dominoes for each player
         })),
         currentPlayer: 'player-1'
       }
 
       render(
-        <MemoryRouter>
-          <GameBoard gameState={{ ...mockGameState, ...gameStateWithHands }} currentPlayerId="player-1" />
-        </MemoryRouter>
+        <GameBoard gameState={{ ...mockGameState, ...gameStateWithHands }} currentPlayerId="player-1" />
       )
 
       // Current player's hand should be face-up (visible) - player-1 has domino 6-0
@@ -294,15 +289,13 @@ describe('GameBoard', () => {
       const gameStateWithHands = {
         players: mockPlayers.map((p, index) => ({
           ...p,
-          hand: [{ id: `${p.id}-domino`, high: 6, low: index }]
+          hand: [createDomino(6, index)]
         })),
         currentPlayer: 'player-1'
       }
 
       render(
-        <MemoryRouter>
-          <GameBoard gameState={{ ...mockGameState, ...gameStateWithHands }} currentPlayerId="player-1" />
-        </MemoryRouter>
+        <GameBoard gameState={{ ...mockGameState, ...gameStateWithHands }} currentPlayerId="player-1" />
       )
 
       // Other players should have hands but face-down
@@ -326,11 +319,9 @@ describe('GameBoard', () => {
           {
             ...mockPlayers[0],
             hand: [
-              { id: 'domino-1', high: 6, low: 5 },
-              null, // Gap where domino was played
-              { id: 'domino-3', high: 4, low: 3 },
-              null, // Another gap
-              { id: 'domino-5', high: 2, low: 1 }
+              createDomino(6, 5),
+              createDomino(4, 3),
+              createDomino(2, 1)
             ]
           },
           ...mockPlayers.slice(1)
@@ -339,9 +330,7 @@ describe('GameBoard', () => {
       }
 
       render(
-        <MemoryRouter>
-          <GameBoard gameState={{ ...mockGameState, ...gameStateWithGaps }} currentPlayerId="player-1" />
-        </MemoryRouter>
+        <GameBoard gameState={{ ...mockGameState, ...gameStateWithGaps }} currentPlayerId="player-1" />
       )
 
       // Should show dominoes and gaps
@@ -356,18 +345,16 @@ describe('GameBoard', () => {
       const gameStateWithHands = {
         players: mockPlayers.map((p, index) => ({
           ...p,
-          hand: [{ id: `${p.id}-domino`, high: 5, low: index }] // Different dominoes for each player
+          hand: [createDomino(5, index)] // Different dominoes for each player
         }))
       }
 
       render(
-        <MemoryRouter>
-          <GameBoard
-            gameState={{ ...mockGameState, ...gameStateWithHands }}
-            currentPlayerId="player-2" // Not the north player
-            isSpectatorMode={true}
-          />
-        </MemoryRouter>
+        <GameBoard
+          gameState={{ ...mockGameState, ...gameStateWithHands }}
+          currentPlayerId="player-2" // Not the north player
+          isSpectatorMode={true}
+        />
       )
 
       // In spectator mode, all hands should be visible including non-current players
@@ -439,7 +426,7 @@ describe('GameBoard', () => {
         id: 'trick-1',
         dominoes: [
           {
-            domino: { id: 'dom-1', high: 6, low: 3 },
+            domino: createDomino(6, 3),
             playerId: 'player-1',
             position: 'north' as const
           }
@@ -484,9 +471,7 @@ describe('GameBoard', () => {
   describe('Error Handling', () => {
     it('handles missing game state gracefully', () => {
       render(
-        <MemoryRouter>
-          <GameBoard />
-        </MemoryRouter>
+        <GameBoard />
       )
       
       expect(screen.getByText(/loading game/i)).toBeInTheDocument()

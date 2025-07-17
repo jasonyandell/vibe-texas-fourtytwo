@@ -1,19 +1,16 @@
 import { useCallback, useMemo } from 'react';
 import { useGameState } from '@/hooks/useGameState';
-import { 
-  validateBid, 
-  getMinimumBid, 
-  canPlayerBid, 
-  shouldEndBidding,
-  getNextBidder,
+import {
+  validateBid,
+  getMinimumBid,
+  canPlayerBid,
   updateBiddingStateAfterBid,
   updateBiddingStateAfterPass,
   createBid,
   getValidationErrorMessage,
-  BiddingValidationError,
   ExtendedBiddingState
 } from '@/utils/biddingValidation';
-import { DominoSuit, Bid, BiddingState, Player } from '@/types/texas42';
+import { DominoSuit, Bid, BiddingState, GameState } from '@/types/texas42';
 
 /**
  * Convert the existing BiddingState to ExtendedBiddingState for validation
@@ -66,19 +63,7 @@ function convertToExtendedBiddingState(
   };
 }
 
-/**
- * Convert ExtendedBiddingState back to the standard BiddingState
- */
-function convertFromExtendedBiddingState(extendedState: ExtendedBiddingState): BiddingState {
-  return {
-    currentBidder: extendedState.currentBidder,
-    currentBid: extendedState.currentBid,
-    bidHistory: extendedState.bidHistory,
-    biddingComplete: extendedState.biddingComplete,
-    passCount: extendedState.passCount,
-    minimumBid: extendedState.minimumBid
-  };
-}
+
 
 export interface BiddingActions {
   placeBid: (amount: number, trump: DominoSuit) => Promise<{ success: boolean; error?: string }>;
@@ -115,7 +100,7 @@ export function useBiddingState(): BiddingStateHook {
 
   // Get current player ID (this would come from authentication/session in real app)
   const currentPlayerId = gameState?.currentPlayer;
-  const players = gameState?.players || [];
+  const players = useMemo(() => gameState?.players || [], [gameState?.players]);
 
   const validateBidInput = useCallback((amount: number, trump: DominoSuit) => {
     if (!currentPlayerId) {
@@ -129,7 +114,7 @@ export function useBiddingState(): BiddingStateHook {
     };
   }, [biddingState, currentPlayerId]);
 
-  const placeBid = useCallback(async (amount: number, trump: DominoSuit) => {
+  const placeBid = useCallback((amount: number, trump: DominoSuit) => {
     if (!currentPlayerId || !gameState) {
       return { success: false, error: 'No current player or game state' };
     }
@@ -158,7 +143,7 @@ export function useBiddingState(): BiddingStateHook {
       };
 
       // Update the game state
-      const gameUpdates: any = {
+      const gameUpdates: Partial<GameState> = {
         biddingState: standardBiddingState,
         currentPlayer: updatedBiddingState.currentBidder,
         updatedAt: new Date().toISOString()
@@ -181,7 +166,7 @@ export function useBiddingState(): BiddingStateHook {
     }
   }, [currentPlayerId, gameState, biddingState, players, validateBidInput, updateGameState]);
 
-  const passBid = useCallback(async () => {
+  const passBid = useCallback(() => {
     if (!currentPlayerId || !gameState) {
       return { success: false, error: 'No current player or game state' };
     }
@@ -205,7 +190,7 @@ export function useBiddingState(): BiddingStateHook {
       };
 
       // Update the game state
-      const gameUpdates: any = {
+      const gameUpdates: Partial<GameState> = {
         biddingState: standardBiddingState,
         currentPlayer: updatedBiddingState.currentBidder,
         updatedAt: new Date().toISOString()

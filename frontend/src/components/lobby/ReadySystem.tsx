@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Button, Badge } from '@/components/ui';
 import { Player } from '@/types/texas42';
 import styles from './ReadySystem.module.css';
@@ -26,11 +26,25 @@ export const ReadySystem: React.FC<ReadySystemProps> = ({
   const [isStarting, setIsStarting] = useState(false);
 
   // Calculate ready state
-  const activePlayers = players.filter(p => p !== null) as Player[];
+  const activePlayers = players.filter(p => p !== null);
   const readyPlayers = activePlayers.filter(p => p.isReady);
   const allPlayersReady = activePlayers.length === 4 && readyPlayers.length === 4;
   const currentPlayer = activePlayers.find(p => p.id === currentUserId);
   const isCurrentPlayerReady = currentPlayer?.isReady ?? false;
+
+  const handleAutoStart = useCallback(() => {
+    if (onStartGame && allPlayersReady) {
+      setIsStarting(true);
+      try {
+        onStartGame(gameId);
+        // Game start is handled by parent component
+        setIsStarting(false);
+      } catch (error) {
+        console.error('Failed to start game:', error);
+        setIsStarting(false);
+      }
+    }
+  }, [onStartGame, allPlayersReady, gameId]);
 
   // Auto-start countdown when all players are ready
   useEffect(() => {
@@ -52,19 +66,7 @@ export const ReadySystem: React.FC<ReadySystemProps> = ({
     } else {
       setCountdown(null);
     }
-  }, [allPlayersReady, autoStartTimeout, isStarting]);
-
-  const handleAutoStart = async () => {
-    if (onStartGame && allPlayersReady) {
-      setIsStarting(true);
-      try {
-        await onStartGame(gameId);
-      } catch (error) {
-        console.error('Failed to start game:', error);
-        setIsStarting(false);
-      }
-    }
-  };
+  }, [allPlayersReady, autoStartTimeout, isStarting, handleAutoStart]);
 
   const handleToggleReady = () => {
     if (!currentUserId) return;
@@ -153,7 +155,7 @@ export const ReadySystem: React.FC<ReadySystemProps> = ({
             )}
             
             <Button
-              variant="success"
+              variant="primary"
               onClick={handleManualStart}
               disabled={isStarting}
               loading={isStarting}

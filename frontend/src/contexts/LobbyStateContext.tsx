@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer, useCallback } from 'react';
+import React, { createContext, useReducer, useCallback } from 'react';
 import { LobbyState, LobbyGame, isValidLobbyState } from '@/types/texas42';
 
 // Action types for the reducer
@@ -290,11 +290,5 @@ export const LobbyStateProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   );
 };
 
-// Hook to use the context
-export const useLobbyStateContext = () => {
-  const context = useContext(LobbyStateContext);
-  if (context === undefined) {
-    throw new Error('useLobbyStateContext must be used within a LobbyStateProvider');
-  }
-  return context;
-};
+// Export the context for testing and direct access
+export { LobbyStateContext };

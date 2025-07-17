@@ -42,16 +42,17 @@ export const CreateGameModal: React.FC<CreateGameModalProps> = ({
     }
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    
+
     if (!gameName.trim()) {
       return;
     }
 
     setIsCreating(true);
     try {
-      await onCreateGame(gameName.trim());
+      onCreateGame(gameName.trim());
+      onClose(); // Close modal after successful creation
     } finally {
       setIsCreating(false);
     }
@@ -103,7 +104,7 @@ export const CreateGameModal: React.FC<CreateGameModalProps> = ({
               id="game-name"
               type="text"
               value={gameName}
-              onChange={(e) => setGameName(e.target.value)}
+              onChange={(e) => setGameName((e.target as HTMLInputElement).value)}
               placeholder="Enter a name for your game..."
               className={styles.input}
               disabled={isCreating}

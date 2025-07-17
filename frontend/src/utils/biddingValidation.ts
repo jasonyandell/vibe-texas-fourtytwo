@@ -189,7 +189,7 @@ export function updateBiddingStateAfterBid(
   players: Player[]
 ): ExtendedBiddingState {
   const newBids = [...biddingState.bids, bid];
-  const newState: BiddingState = {
+  const newState: ExtendedBiddingState = {
     ...biddingState,
     bids: newBids,
     highestBid: bid,
@@ -214,7 +214,7 @@ export function updateBiddingStateAfterPass(
   players: Player[]
 ): ExtendedBiddingState {
   const newPasses = [...biddingState.passes, playerId];
-  const newState: BiddingState = {
+  const newState: ExtendedBiddingState = {
     ...biddingState,
     passes: newPasses,
     currentBidder: getNextBidder(playerId, players)

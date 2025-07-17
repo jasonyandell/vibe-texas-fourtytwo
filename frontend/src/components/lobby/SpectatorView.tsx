@@ -31,12 +31,7 @@ export const SpectatorView: React.FC<SpectatorViewProps> = ({
   const [selectedPlayer, setSelectedPlayer] = useState<string | null>(null);
   const [showAllHands, setShowAllHands] = useState(true);
 
-  const currentSpectator = spectators.find(s => s.id === currentSpectatorId);
   const canJoinAsPlayer = gameState.players.length < 4;
-
-  const getPlayerByPosition = (position: string) => {
-    return gameState.players.find(p => p.position === position);
-  };
 
   const renderPlayerHand = (player: Player, position: string) => {
     const isSelected = selectedPlayer === player.id;
@@ -56,9 +51,8 @@ export const SpectatorView: React.FC<SpectatorViewProps> = ({
         
         <DominoHand
           dominoes={player.hand}
-          faceUp={true} // Always show face-up for spectators
-          playable={false}
-          gaps={[]}
+          faceDown={false} // Always show face-up for spectators
+          playableDominoes={[]} // No dominoes are playable for spectators
           className={styles.spectatorHand}
         />
         
@@ -106,7 +100,7 @@ export const SpectatorView: React.FC<SpectatorViewProps> = ({
             <input
               type="checkbox"
               checked={showAllHands}
-              onChange={(e) => setShowAllHands(e.target.checked)}
+              onChange={(e) => setShowAllHands((e.target as HTMLInputElement).checked)}
             />
             Show All Hands
           </label>
@@ -117,7 +111,7 @@ export const SpectatorView: React.FC<SpectatorViewProps> = ({
           <select
             id="player-select"
             value={selectedPlayer || ''}
-            onChange={(e) => setSelectedPlayer(e.target.value || null)}
+            onChange={(e) => setSelectedPlayer((e.target as HTMLSelectElement).value || null)}
           >
             <option value="">All Players</option>
             {gameState.players.map(player => (
@@ -136,7 +130,7 @@ export const SpectatorView: React.FC<SpectatorViewProps> = ({
               gameState={gameState}
               currentPlayerId={selectedPlayer || ''}
               onDominoPlay={() => {}} // Spectators can't play
-              spectatorMode={true}
+              isSpectatorMode={true}
             />
           </div>
         )}

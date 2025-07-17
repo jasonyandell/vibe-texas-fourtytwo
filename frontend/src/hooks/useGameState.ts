@@ -1,4 +1,4 @@
-import { useGameStateContext } from '@/contexts/GameStateContext';
+import { useGameStateContext } from '@/hooks/useGameStateContext';
 
 /**
  * Hook to access game state and actions

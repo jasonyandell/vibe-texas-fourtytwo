@@ -25,7 +25,6 @@ describe('Game Utils', () => {
 
   const mockDomino: Domino = { id: 'd1', high: 6, low: 3, pointValue: 0, isCountDomino: false }
   const mockDomino2: Domino = { id: 'd2', high: 5, low: 2, pointValue: 0, isCountDomino: false }
-  const mockDomino3: Domino = { id: 'd3', high: 4, low: 1, pointValue: 5, isCountDomino: true }
 
   const baseGameState: GameState = {
     id: 'game-1',

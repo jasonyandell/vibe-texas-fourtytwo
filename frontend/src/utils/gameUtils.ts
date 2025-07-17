@@ -229,7 +229,7 @@ export function formatGameState(gameState: GameState): string {
 
 export function parseGameState(serialized: string): GameState | null {
   try {
-    return JSON.parse(serialized);
+    return JSON.parse(serialized) as GameState;
   } catch {
     return null;
   }
