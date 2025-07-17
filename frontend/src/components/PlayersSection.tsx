@@ -172,6 +172,7 @@ export const PlayersSection: React.FC = () => {
               faceDown={faceDown}
               orientation="horizontal"
               className={styles.playerHand}
+              compact={true}
             />
           </div>
         )}
@@ -190,10 +191,8 @@ export const PlayersSection: React.FC = () => {
         <p>4-player positioning with North-South vs East-West partnerships. Click any player to highlight their partnership.</p>
       </div>
 
-      <div className={styles.content}>
-        <div className={styles.controls} aria-label="Player interaction controls">
-          <h4>Interactive Controls</h4>
-          
+      <div className={styles.topControls} aria-label="Player interaction controls">
+        <div className={styles.controlsRow}>
           <div className={styles.controlGroup}>
             <label className={styles.toggleLabel}>
               <input
@@ -231,18 +230,22 @@ export const PlayersSection: React.FC = () => {
 
           <div className={styles.partnershipLegend}>
             <h5>Partnerships</h5>
-            <div className={styles.legendItem}>
-              <div className={`${styles.colorIndicator} ${styles.northSouthColor}`}></div>
-              <span>North-South</span>
-            </div>
-            <div className={styles.legendItem}>
-              <div className={`${styles.colorIndicator} ${styles.eastWestColor}`}></div>
-              <span>East-West</span>
+            <div className={styles.legendItems}>
+              <div className={styles.legendItem}>
+                <div className={`${styles.colorIndicator} ${styles.northSouthColor}`}></div>
+                <span>North-South</span>
+              </div>
+              <div className={styles.legendItem}>
+                <div className={`${styles.colorIndicator} ${styles.eastWestColor}`}></div>
+                <span>East-West</span>
+              </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <div 
+      <div className={styles.content}>
+        <div
           className={`${styles.playersDiamond} ${styles.baseballDiamond} ${styles.mobileFriendly}`}
           data-testid="players-diamond"
           role="region"

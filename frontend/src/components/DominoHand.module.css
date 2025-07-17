@@ -12,6 +12,15 @@
   position: relative;
 }
 
+/* Compact mode for player cards */
+.dominoHand.compact {
+  gap: 4px;
+  padding: 6px;
+  min-height: 80px;
+  transform: scale(0.75);
+  transform-origin: center;
+}
+
 .topRow {
   display: flex;
   justify-content: center;
@@ -27,6 +36,16 @@
   gap: 6px;
   flex-wrap: nowrap;
   margin-top: 4px;
+}
+
+/* Compact mode adjustments */
+.dominoHand.compact .topRow,
+.dominoHand.compact .bottomRow {
+  gap: 3px;
+}
+
+.dominoHand.compact .bottomRow {
+  margin-top: 2px;
 }
 
 .handDomino {

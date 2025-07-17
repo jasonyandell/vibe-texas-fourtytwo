@@ -11,6 +11,7 @@ interface DominoHandProps {
   faceDown?: boolean;
   orientation?: 'horizontal' | 'vertical';
   className?: string;
+  compact?: boolean;
 }
 
 export const DominoHand: React.FC<DominoHandProps> = ({
@@ -20,7 +21,8 @@ export const DominoHand: React.FC<DominoHandProps> = ({
   selectedDomino,
   faceDown = false,
   orientation = 'horizontal',
-  className = ''
+  className = '',
+  compact = false
 }) => {
   const isDominoPlayable = (domino: Domino): boolean => {
     return playableDominoes.some(playable => 
@@ -76,6 +78,7 @@ export const DominoHand: React.FC<DominoHandProps> = ({
     'responsive',
     styles.dominoHand,
     styles.responsive,
+    compact ? styles.compact : '',
     className
   ].filter(Boolean).join(' ');
 
