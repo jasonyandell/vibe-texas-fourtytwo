@@ -11,7 +11,7 @@ import {
   type SerializedGameState,
   type UrlSerializationOptions
 } from '../urlSerialization'
-import { LegacyGameState as GameState, createEmptyLegacyGameState } from '@texas42/shared-types'
+import { createEmptyLegacyGameState } from '@texas42/shared-types'
 
 describe('URL Serialization', () => {
   const mockGameState = createEmptyLegacyGameState('game-123');

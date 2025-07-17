@@ -22,6 +22,7 @@ import {
 import { Domino } from './dominoes';
 import { DominoSuit } from './trump';
 import { Bid } from './bidding';
+import { isValidPlayer } from './type-guards';
 
 /**
  * Legacy GameState interface for frontend compatibility
@@ -169,6 +170,16 @@ export function isValidGameState(value: unknown): value is LegacyGameState {
 
   // Validate players (must be exactly 4 for Texas 42)
   if (players.length !== 4) return false;
+  if (!players.every(player => isValidPlayer(player))) return false;
+
+  // Check for unique positions (no duplicates)
+  const positions = players.map((p: any) => p.position);
+  const uniquePositions = new Set(positions);
+  if (uniquePositions.size !== 4) return false;
+
+  // Check that dealer is one of the player IDs
+  const playerIds = players.map((p: any) => p.id);
+  if (!playerIds.includes(dealer)) return false;
 
   // Validate scores
   if (!scores || typeof scores !== 'object') return false;

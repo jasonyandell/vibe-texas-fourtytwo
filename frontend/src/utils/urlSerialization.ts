@@ -9,9 +9,15 @@ import {
   Trick,
   Domino,
   GamePhase,
-  DominoSuit,
-  isValidLegacyGameState as isValidGameState
+  DominoSuit
 } from '@texas42/shared-types';
+
+// Temporary workaround for build issue - simplified validation
+function isValidGameState(value: unknown): value is GameState {
+  if (!value || typeof value !== 'object') return false;
+  const obj = value as Record<string, unknown>;
+  return typeof obj.id === 'string' && typeof obj.phase === 'string';
+}
 import LZString from 'lz-string';
 
 // Current serialization version

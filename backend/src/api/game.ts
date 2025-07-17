@@ -1,7 +1,7 @@
-import { FastifyPluginAsync } from 'fastify'
+import { FastifyPluginCallback } from 'fastify'
 import { GameEngine } from '@/game/engine'
 
-export const gameRoutes: FastifyPluginAsync = async (fastify) => {
+export const gameRoutes: FastifyPluginCallback = (fastify, _options, done) => {
   const gameEngine = new GameEngine()
 
   // Get all available games
@@ -79,4 +79,6 @@ export const gameRoutes: FastifyPluginAsync = async (fastify) => {
       })
     })
   })
+
+  done()
 }

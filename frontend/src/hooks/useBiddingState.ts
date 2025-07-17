@@ -138,11 +138,16 @@ export function useBiddingState(): BiddingStateHook {
       // Update the bidding state
       const updatedBiddingState = updateBiddingStateAfterBid(biddingState, bid, players);
 
+      // Convert existing bid history to shared types format
+      const convertedBidHistory = biddingState.bidHistory.map(oldBid =>
+        createCompatibleBid(oldBid.playerId, oldBid.amount, oldBid.trump)
+      );
+
       // Convert back to standard format with proper updates using compatibility helper
       const standardBiddingState = createCompatibleBiddingState({
         currentBidder: updatedBiddingState.currentBidder,
         currentBid: bid,
-        bidHistory: [...biddingState.bidHistory, bid] as any, // Type assertion for compatibility
+        bidHistory: [...convertedBidHistory, bid],
         biddingComplete: updatedBiddingState.isComplete,
         passCount: biddingState.passCount,
         minimumBid: updatedBiddingState.isComplete ? biddingState.minimumBid : bid.amount + 1
@@ -188,11 +193,21 @@ export function useBiddingState(): BiddingStateHook {
       // Update the bidding state after pass
       const updatedBiddingState = updateBiddingStateAfterPass(biddingState, currentPlayerId, players);
 
+      // Convert existing bid history to shared types format
+      const convertedBidHistory = biddingState.bidHistory.map(oldBid =>
+        createCompatibleBid(oldBid.playerId, oldBid.amount, oldBid.trump)
+      );
+
+      // Convert current bid if it exists
+      const convertedCurrentBid = biddingState.currentBid
+        ? createCompatibleBid(biddingState.currentBid.playerId, biddingState.currentBid.amount, biddingState.currentBid.trump)
+        : undefined;
+
       // Convert back to standard format with proper updates using compatibility helper
       const standardBiddingState = createCompatibleBiddingState({
         currentBidder: updatedBiddingState.currentBidder,
-        currentBid: biddingState.currentBid as any, // Type assertion for compatibility
-        bidHistory: biddingState.bidHistory as any, // Type assertion for compatibility
+        currentBid: convertedCurrentBid,
+        bidHistory: convertedBidHistory,
         biddingComplete: updatedBiddingState.isComplete,
         passCount: biddingState.passCount + 1,
         minimumBid: biddingState.minimumBid
@@ -212,7 +227,11 @@ export function useBiddingState(): BiddingStateHook {
           if (updatedBiddingState.winner && updatedBiddingState.highestBid) {
             updatedGameState.bidder = updatedBiddingState.winner;
             updatedGameState.trump = updatedBiddingState.highestBid.trump;
-            updatedGameState.currentBid = updatedBiddingState.highestBid as any; // Type assertion for compatibility
+            // Convert the highest bid to shared types format
+            const convertedHighestBid = updatedBiddingState.highestBid
+              ? createCompatibleBid(updatedBiddingState.highestBid.playerId, updatedBiddingState.highestBid.amount, updatedBiddingState.highestBid.trump)
+              : undefined;
+            updatedGameState.currentBid = convertedHighestBid;
             updatedGameState.phase = 'playing';
           } else {
             // All players passed - need to redeal or handle according to game rules
@@ -246,12 +265,19 @@ export function useBiddingState(): BiddingStateHook {
     return biddingState.currentBidder;
   }, [biddingState.currentBidder]);
 
-  const getHighestBid = useCallback(() => {
-    return biddingState.highestBid as any; // Type assertion for compatibility
+  const getHighestBid = useCallback((): Bid | null => {
+    if (!biddingState.highestBid) return null;
+    return createCompatibleBid(
+      biddingState.highestBid.playerId,
+      biddingState.highestBid.amount,
+      biddingState.highestBid.trump
+    );
   }, [biddingState.highestBid]);
 
-  const getBidHistory = useCallback(() => {
-    return biddingState.bidHistory as any; // Type assertion for compatibility
+  const getBidHistory = useCallback((): Bid[] => {
+    return biddingState.bidHistory.map(oldBid =>
+      createCompatibleBid(oldBid.playerId, oldBid.amount, oldBid.trump)
+    );
   }, [biddingState.bidHistory]);
 
   const actions: BiddingActions = useMemo(() => ({

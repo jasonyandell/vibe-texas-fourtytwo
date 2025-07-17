@@ -6,7 +6,6 @@ import {
   Player,
   createDomino,
   DominoSuit,
-  PlayerPosition,
   createCompatibleTrick,
   createCompatiblePlayedDomino,
   createCompatibleBid,
