@@ -4,12 +4,12 @@ import { DominoComponent } from '../DominoComponent'
 import { DominoHand } from '../DominoHand'
 import { GameBoard } from '../GameBoard'
 import { Domino, createDomino } from '@/types/texas42'
-import { createEmptyLegacyGameState } from '@texas42/shared-types'
+import { createEmptyGameState } from '@texas42/shared-types'
 
 describe('Accessibility Tests', () => {
   const mockDomino: Domino = createDomino(3, 2)
 
-  const mockGameState = createEmptyLegacyGameState('test-game')
+  const mockGameState = createEmptyGameState('test-game')
   // Add test-specific data
   mockGameState.phase = 'playing'
   mockGameState.players = [

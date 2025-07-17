@@ -4,7 +4,7 @@ import { DominoComponent } from '../DominoComponent'
 import { DominoHand } from '../DominoHand'
 import { GameBoard } from '../GameBoard'
 import { Domino, createDomino } from '@/types/texas42'
-import { createEmptyLegacyGameState } from '@texas42/shared-types'
+import { createEmptyGameState } from '@texas42/shared-types'
 
 describe('Visual Validation Tests', () => {
   // Generate all 28 domino combinations for visual testing
@@ -274,7 +274,7 @@ describe('Visual Validation Tests', () => {
   })
 
   describe('GameBoard Visual Structure', () => {
-    const mockGameState = createEmptyLegacyGameState('visual-test-game')
+    const mockGameState = createEmptyGameState('visual-test-game')
     // Add test-specific data
     mockGameState.phase = 'playing'
     mockGameState.players = [
@@ -313,7 +313,8 @@ describe('Visual Validation Tests', () => {
     ]
     mockGameState.dealer = 'north-player'
     mockGameState.currentPlayer = 'north-player'
-    mockGameState.scores = { northSouth: 15, eastWest: 12 }
+    mockGameState.partnerships.northSouth.currentHandScore = 15
+    mockGameState.partnerships.eastWest.currentHandScore = 12
     mockGameState.gameScore = { northSouth: 3, eastWest: 2 }
     mockGameState.trump = 'sixes'
 
@@ -380,7 +381,7 @@ describe('Visual Validation Tests', () => {
   })
 
   describe('Responsive Design Validation', () => {
-    const responsiveGameState = createEmptyLegacyGameState('responsive-test-game')
+    const responsiveGameState = createEmptyGameState('responsive-test-game')
     // Add test-specific data
     responsiveGameState.phase = 'playing'
     responsiveGameState.players = [

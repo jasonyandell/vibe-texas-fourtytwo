@@ -2,12 +2,24 @@
   "name": "@texas42/shared-types",
   "version": "1.0.0",
   "description": "Shared TypeScript types for Texas 42 game frontend and backend",
+  "type": "module",
   "main": "dist/index.js",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
   "scripts": {
-    "build": "tsc",
+    "build": "npm run clean && npm run build:esm && npm run build:cjs && npm run copy-cjs",
+    "build:esm": "tsc",
+    "build:cjs": "tsc -p tsconfig.cjs.json",
+    "copy-cjs": "powershell -Command \"Copy-Item dist-cjs/index.js dist/index.cjs; Copy-Item dist-cjs/index.d.ts dist/index.d.cts\"",
     "dev": "tsc --watch",
-    "clean": "rimraf dist",
+    "clean": "rimraf dist dist-cjs",
     "test": "vitest",
     "test:watch": "vitest --watch"
   },

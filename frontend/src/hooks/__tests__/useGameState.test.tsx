@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { renderHook, act } from '@testing-library/react'
 import { useGameState } from '../useGameState'
 import { GameStateProvider } from '@/contexts/GameStateContext'
-import { LegacyGameState as GameState, createEmptyLegacyGameState } from '@texas42/shared-types'
+import { GameState, createEmptyGameState } from '@texas42/shared-types'
 import React from 'react'
 
 // Mock the URL serialization functions
@@ -11,7 +11,7 @@ vi.mock('@/utils/urlSerialization', () => ({
   parseGameStateFromUrl: vi.fn(() => null)
 }))
 
-const mockGameState = createEmptyLegacyGameState('test-game');
+const mockGameState = createEmptyGameState('test-game');
 // Add test-specific data
 mockGameState.phase = 'bidding';
 mockGameState.players = [
@@ -209,8 +209,8 @@ describe('useGameState', () => {
         result.current.applyOptimisticUpdate('test-update', optimisticUpdate)
       })
       
-      expect(result.current.gameState?.scores.northSouth).toBe(10)
-      expect(result.current.gameState?.scores.eastWest).toBe(5)
+      expect(result.current.gameState?.partnerships.northSouth.currentHandScore).toBe(10)
+      expect(result.current.gameState?.partnerships.eastWest.currentHandScore).toBe(5)
     })
 
     it('reverts optimistic update', () => {
@@ -233,8 +233,8 @@ describe('useGameState', () => {
         result.current.revertOptimisticUpdate('test-update')
       })
       
-      expect(result.current.gameState?.scores.northSouth).toBe(0)
-      expect(result.current.gameState?.scores.eastWest).toBe(0)
+      expect(result.current.gameState?.partnerships.northSouth.currentHandScore).toBe(0)
+      expect(result.current.gameState?.partnerships.eastWest.currentHandScore).toBe(0)
     })
 
     it('confirms optimistic update', () => {
@@ -258,8 +258,8 @@ describe('useGameState', () => {
       })
       
       // Should still have the updated scores but no longer be optimistic
-      expect(result.current.gameState?.scores.northSouth).toBe(10)
-      expect(result.current.gameState?.scores.eastWest).toBe(5)
+      expect(result.current.gameState?.partnerships.northSouth.currentHandScore).toBe(10)
+      expect(result.current.gameState?.partnerships.eastWest.currentHandScore).toBe(5)
     })
   })
 

@@ -210,7 +210,7 @@ export type { LegacyGameState } from './frontend-compat';
 export {
   convertToLegacyGameState,
   convertFromLegacyGameState,
-  isValidGameState as isValidLegacyGameState,
+  isValidLegacyGameState,
   createEmptyGameState as createEmptyLegacyGameState,
   createCompatibleBid,
   createCompatiblePlayedDomino,

@@ -150,7 +150,7 @@ export function convertFromLegacyGameState(legacyState: LegacyGameState): Shared
 /**
  * Legacy validation function for GameState
  */
-export function isValidGameState(value: unknown): value is LegacyGameState {
+export function isValidLegacyGameState(value: unknown): value is LegacyGameState {
   if (!value || typeof value !== 'object') return false;
 
   const obj = value as Record<string, unknown>;

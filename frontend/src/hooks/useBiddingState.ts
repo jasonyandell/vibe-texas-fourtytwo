@@ -11,7 +11,7 @@ import {
 } from '@/utils/biddingValidation';
 import { DominoSuit } from '@/types/texas42';
 import {
-  LegacyGameState as GameState,
+  GameState,
   Bid,
   BiddingState,
   createCompatibleBid,
@@ -162,9 +162,8 @@ export function useBiddingState(): BiddingStateHook {
           updatedAt: new Date().toISOString()
         };
 
-        // If bidding is complete, set the bidder and trump
+        // If bidding is complete, set the trump and current bid
         if (updatedBiddingState.isComplete && updatedBiddingState.winner) {
-          updatedGameState.bidder = updatedBiddingState.winner;
           updatedGameState.trump = trump;
           updatedGameState.currentBid = bid;
           updatedGameState.phase = 'playing';
@@ -222,10 +221,9 @@ export function useBiddingState(): BiddingStateHook {
           updatedAt: new Date().toISOString()
         };
 
-        // If bidding is complete, set the bidder and trump (if there's a winner)
+        // If bidding is complete, set the trump (if there's a winner)
         if (updatedBiddingState.isComplete) {
           if (updatedBiddingState.winner && updatedBiddingState.highestBid) {
-            updatedGameState.bidder = updatedBiddingState.winner;
             updatedGameState.trump = updatedBiddingState.highestBid.trump;
             // Convert the highest bid to shared types format
             const convertedHighestBid = updatedBiddingState.highestBid

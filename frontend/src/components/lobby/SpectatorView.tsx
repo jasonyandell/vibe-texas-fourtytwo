@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Player } from '@/types/texas42';
-import { LegacyGameState as GameState } from '@texas42/shared-types';
+import { GameState } from '@texas42/shared-types';
 import { Button, Badge, Card } from '@/components/ui';
 import { DominoHand } from '@/components/DominoHand';
 import { GameBoard } from '@/components/GameBoard';

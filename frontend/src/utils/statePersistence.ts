@@ -3,7 +3,7 @@
  * Handles saving and loading game state to/from various storage mechanisms
  */
 
-import { LegacyGameState as GameState, LobbyState } from '@texas42/shared-types';
+import { GameState, LobbyState } from '@texas42/shared-types';
 import { isValidLobbyState } from '@/types/texas42';
 
 // Temporary workaround for build issue - simplified validation

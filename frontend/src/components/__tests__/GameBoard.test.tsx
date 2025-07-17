@@ -2,14 +2,15 @@ import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@/test/test-utils'
 import { GameBoard } from '../GameBoard'
 import {
-  LegacyGameState as GameState,
+  GameState,
   Player,
   createDomino,
   DominoSuit,
   createCompatibleTrick,
   createCompatiblePlayedDomino,
   createCompatibleBid,
-  createCompatibleBiddingState
+  createCompatibleBiddingState,
+  createEmptyGameState
 } from '@texas42/shared-types'
 
 // Mock the useParams hook
@@ -57,18 +58,15 @@ describe('GameBoard', () => {
     }
   ]
 
-  const mockGameState: GameState = {
-    id: 'test-game-123',
-    phase: 'playing',
-    players: mockPlayers,
-    dealer: 'player-1',
-    tricks: [],
-    scores: { northSouth: 0, eastWest: 0 },
-    gameScore: { northSouth: 0, eastWest: 0 },
-    boneyard: [],
-    createdAt: '2024-01-01T00:00:00Z',
-    updatedAt: '2024-01-01T00:00:00Z'
-  }
+  const mockGameState: GameState = (() => {
+    const state = createEmptyGameState('test-game-123');
+    state.phase = 'playing';
+    state.players = mockPlayers;
+    state.dealer = 'player-1';
+    state.createdAt = '2024-01-01T00:00:00Z';
+    state.updatedAt = '2024-01-01T00:00:00Z';
+    return state;
+  })()
 
   const renderGameBoard = (gameState?: Partial<GameState>) => {
     return render(
@@ -377,10 +375,15 @@ describe('GameBoard', () => {
 
   describe('Game State Integration', () => {
     it('displays current scores', () => {
-      renderGameBoard({
-        scores: { northSouth: 15, eastWest: 23 },
-        gameScore: { northSouth: 2, eastWest: 1 }
-      })
+      const gameStateWithScores = createEmptyGameState('test-game-123');
+      gameStateWithScores.phase = 'playing';
+      gameStateWithScores.players = mockPlayers;
+      gameStateWithScores.dealer = 'player-1';
+      gameStateWithScores.partnerships.northSouth.currentHandScore = 15;
+      gameStateWithScores.partnerships.eastWest.currentHandScore = 23;
+      gameStateWithScores.gameScore = { northSouth: 2, eastWest: 1 };
+
+      render(<GameBoard gameState={gameStateWithScores} />)
 
       expect(screen.getByText('North-South')).toBeInTheDocument()
       expect(screen.getByText('15')).toBeInTheDocument()

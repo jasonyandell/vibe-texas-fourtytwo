@@ -3,9 +3,9 @@ import { renderHook, act } from '@testing-library/react';
 import { useBiddingState } from '../useBiddingState';
 import { Player } from '@/types/texas42';
 import {
-  LegacyGameState as GameState,
+  GameState,
   BiddingState,
-  createEmptyLegacyGameState,
+  createEmptyGameState,
   createCompatibleBiddingState
 } from '@texas42/shared-types';
 
@@ -35,7 +35,7 @@ describe('useBiddingState', () => {
     minimumBid: 30
   });
 
-  const baseGameState = createEmptyLegacyGameState('test-game');
+  const baseGameState = createEmptyGameState('test-game');
   // Add test-specific data
   baseGameState.phase = 'bidding';
   baseGameState.players = players;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import {
-  LegacyGameState as GameState,
+  GameState,
   PlayerPosition,
   DominoSuit,
   createCompatibleBid,
@@ -409,12 +409,12 @@ export const GameBoard: React.FC<GameBoardProps> = ({
         <div className={styles.scoreDisplay}>
           <div className={styles.scoreTeam}>
             <span className={styles.teamName}>North-South</span>
-            <span className={styles.teamScore}>{gameState.scores.northSouth}</span>
+            <span className={styles.teamScore}>{gameState.partnerships.northSouth.currentHandScore}</span>
             <span className={styles.gameScore}>Games: {gameState.gameScore.northSouth}</span>
           </div>
           <div className={styles.scoreTeam}>
             <span className={styles.teamName}>East-West</span>
-            <span className={styles.teamScore}>{gameState.scores.eastWest}</span>
+            <span className={styles.teamScore}>{gameState.partnerships.eastWest.currentHandScore}</span>
             <span className={styles.gameScore}>Games: {gameState.gameScore.eastWest}</span>
           </div>
         </div>

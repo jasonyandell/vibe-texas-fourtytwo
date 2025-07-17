@@ -2,13 +2,13 @@ import { describe, it, expect } from 'vitest'
 import {
   isValidDomino,
   isValidPlayer,
-  isValidLegacyGameState as isValidGameState,
+  isValidGameState,
   isValidLobbyState,
   isValidBiddingState,
   isValidScoringState,
   isValidTrick,
   isValidBid,
-  createEmptyLegacyGameState,
+  createEmptyGameState,
   createEmptyLobbyState,
   createEmptyBiddingState,
   createEmptyScoringState,
@@ -20,7 +20,7 @@ import {
   createCompatibleTrick,
   type Domino,
   type Player,
-  type LegacyGameState as GameState,
+  type GameState,
   type LobbyState,
   type LobbyGame,
   type Trick,
@@ -201,23 +201,19 @@ describe('Texas 42 Type Validation', () => {
   })
 
   describe('GameState Validation', () => {
-    const validGameState: GameState = {
-      id: 'game-1',
-      phase: 'bidding',
-      players: [
+    const validGameState: GameState = (() => {
+      const state = createEmptyGameState('game-1');
+      state.players = [
         { id: 'p1', name: 'Player 1', position: 'north', hand: [], isConnected: true, isReady: true },
         { id: 'p2', name: 'Player 2', position: 'east', hand: [], isConnected: true, isReady: true },
         { id: 'p3', name: 'Player 3', position: 'south', hand: [], isConnected: true, isReady: true },
         { id: 'p4', name: 'Player 4', position: 'west', hand: [], isConnected: true, isReady: true }
-      ],
-      dealer: 'p1',
-      tricks: [],
-      scores: { northSouth: 0, eastWest: 0 },
-      gameScore: { northSouth: 0, eastWest: 0 },
-      boneyard: [],
-      createdAt: '2024-01-01T00:00:00Z',
-      updatedAt: '2024-01-01T00:00:00Z'
-    }
+      ];
+      state.dealer = 'p1';
+      state.createdAt = '2024-01-01T00:00:00Z';
+      state.updatedAt = '2024-01-01T00:00:00Z';
+      return state;
+    })()
 
     it('validates correct game state', () => {
       expect(isValidGameState(validGameState)).toBe(true)
@@ -392,12 +388,12 @@ describe('Texas 42 Type Validation', () => {
 
   describe('Factory Functions', () => {
     it('creates empty game state', () => {
-      const gameState = createEmptyLegacyGameState('game-1')
+      const gameState = createEmptyGameState('game-1')
       expect(gameState.id).toBe('game-1')
       expect(gameState.players).toHaveLength(0)
       expect(gameState.phase).toBe('bidding')
-      expect(gameState.scores.northSouth).toBe(0)
-      expect(gameState.scores.eastWest).toBe(0)
+      expect(gameState.partnerships.northSouth.currentHandScore).toBe(0)
+      expect(gameState.partnerships.eastWest.currentHandScore).toBe(0)
       expect(gameState.tricks).toHaveLength(0)
       expect(gameState.boneyard).toHaveLength(0)
       // Note: Empty game state won't pass full validation until players are added

@@ -1,4 +1,4 @@
-import { Domino, GameState, Bid, DominoSuit, Player, Trick } from '@/types/texas42'
+import { Domino, GameState, Bid, DominoSuit, Player, Trick } from '@texas42/shared-types'
 
 /**
  * Game validation utilities for Texas 42

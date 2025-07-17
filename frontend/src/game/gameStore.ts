@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { GameState, Player, Domino } from '@/types/texas42';
+import { GameState, Player, Domino } from '@texas42/shared-types';
 
 interface GameStore {
   // State
