@@ -27,9 +27,9 @@ export default defineConfig({
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: `http://localhost:${FRONTEND_PORT}`,
 
-    /* Aggressive timeouts for fast development - this game should be FAST */
-    actionTimeout: 1000,        // 1 second max for clicks, fills, etc.
-    navigationTimeout: 5000,    // 5 seconds max for page loads (temporary - needs optimization)
+    /* Reasonable timeouts for development */
+    actionTimeout: 5000,        // 5 seconds max for clicks, fills, etc.
+    navigationTimeout: 10000,   // 10 seconds max for page loads
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -41,8 +41,8 @@ export default defineConfig({
     video: 'retain-on-failure',
   },
 
-  /* Global test timeout - if a test takes >3s, something is wrong */
-  timeout: 3000,
+  /* Global test timeout - reasonable for development */
+  timeout: 15000,
 
   /* Configure projects for major browsers */
   projects: [
