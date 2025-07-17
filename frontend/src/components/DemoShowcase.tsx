@@ -2,6 +2,7 @@ import React from 'react'
 import { useParams } from 'react-router-dom'
 import { DemoNavigation } from './DemoNavigation'
 import { DominoesSection } from './DominoesSection'
+import { PlayersSection } from './PlayersSection'
 import styles from './DemoShowcase.module.css'
 
 // Demo section types
@@ -45,14 +46,16 @@ export const DemoShowcase: React.FC = () => {
           </section>
 
           {/* Players Section */}
-          <section 
+          <section
             className={`${styles.section} ${currentSection === 'players' ? styles.active : ''}`}
             data-testid="players-section"
             aria-label="Players and Partnerships"
           >
             <h2>Players & Partnerships</h2>
             <p>Baseball diamond layout with North-South vs East-West partnerships.</p>
-            {/* TODO: Add players showcase content */}
+            {currentSection === 'players' && (
+              <PlayersSection />
+            )}
           </section>
 
           {/* Bidding Section */}
