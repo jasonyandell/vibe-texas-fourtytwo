@@ -103,6 +103,30 @@ The frontend includes a comprehensive component library with authentic Texas 42 
 
 ## 🔧 Development Workflows
 
+### GitHub Project Board Workflow (Texas 42 Development Board)
+
+The project follows a **one action per step** workflow using **GitHub Project Board 1** exclusively:
+
+#### Workflow Steps (Execute ONE, then STOP)
+1. **Check Open PRs**:
+   - Merge one ready PR if approved → STOP
+   - Fix one PR with blocking comments → checkout, fix, push → STOP
+   - Review one PR for alignment with design.md → STOP
+
+2. **Work Issues**: If no PRs need attention
+   - Work one issue from Project Board 1 → STOP
+   - Use priority labels: `priority-1-critical`, `priority-2-high`, etc.
+
+#### Enhanced TDD Process
+All development follows **Red-Green-Refactor** with zero-warnings enforcement:
+
+1. **Red**: Write failing test
+2. **Green**: Make test pass with minimal code
+3. **Refactor**: Clean up code AND eliminate all warnings
+   - `npm run lint` - must pass with zero warnings
+   - `npm run type-check` - must pass with zero TypeScript warnings
+   - **All warnings are blockers** before next TDD cycle
+
 ### The Two-Path System
 
 #### Path 1: Full Stack (`npm start`)
@@ -437,41 +461,33 @@ docker-compose -f docker-compose.db.yml up
 
 ### GitHub Project Integration
 
-The project uses dynamic GitHub Project board integration for automated issue management:
+The project uses **GitHub Project Board 1 (Texas 42 Development Board)** for all issue management:
 
-```powershell
-# Query current project state (Windows-compatible)
-$projectData = gh project item-list 2 --owner jasonyandell --format json | ConvertFrom-Json
+```bash
+# Query Texas 42 Development Board (Project #1)
+gh project item-list 1 --owner jasonyandell --format json
 
-# Filter and sort issues by priority
-$workableIssues = $projectData.items | Where-Object {
-    $_.labels -contains "e2e-tests" -and
-    $_.status -in @("Backlog", "In Progress")
-} | Select-Object @{Name='Number';Expression={$_.content.number}},
-                  @{Name='Title';Expression={$_.title}},
-                  @{Name='Priority';Expression={
-                      switch -Regex ($_.labels -join ' ') {
-                          'priority-1-critical' { 1 }
-                          'priority-2-high' { 2 }
-                          'priority-3-medium' { 3 }
-                          'priority-4-low' { 4 }
-                          'priority-5-later' { 5 }
-                          default { 6 }
-                      }
-                  }} | Sort-Object Priority, Number
+# Work specific item by number (issues, PRs, etc.)
+# Example: "work item 16" finds and works item #16 in this project only
 ```
+
+**Key Principles:**
+- **Single Project Focus**: Only Project Board 1 (Texas 42 Development Board)
+- **One Action Per Step**: Work one issue OR handle one PR, then stop
+- **Zero Warnings Policy**: All warnings are blockers during refactor phase
+- **Issue-Driven**: GitHub issues are the authoritative source (not stories/ directory)
 
 ### Windows PowerShell Compatibility
 
 All project automation scripts are Windows-compatible. Key patterns:
 
 #### Branch Detection
-```powershell
-# Method 1: git branch --list (preferred)
-$branchExists = git branch --list "*fix-e2e-$issueNumber*"
+```bash
+# Check for existing issue branch
+git branch --list "*issue-$issueNumber*"
 
-# Method 2: Select-String (alternative to grep)
-$branchExists = git branch -a | Select-String "fix-e2e-$issueNumber"
+# Branch naming convention: issue-{number}-{title-slug}
+# Example: issue-16-core-domino-components-visual-foundation
 ```
 
 #### JSON Processing
@@ -491,15 +507,16 @@ Issues are automatically sorted by priority labels:
 
 ### Automated Workflow Scripts
 
-Located in `docs/prompts/` and `docs/testing/`:
-- **E2E Workflow Prompts**: Dynamic, project-aware automation
+Located in `scripts/`:
+- **Project Board Workflow**: Dynamic, project-aware automation for Texas 42 Development Board
+- **Work Item Scripts**: Simple command integration (`work item 16`)
 - **Test Validation Scripts**: Framework verification tools
-- **Windows-Compatible Commands**: All scripts work on Windows PowerShell
+- **Cross-Platform Commands**: JavaScript/Node.js based automation
 
 ## 📚 Additional Resources
 
 - **[Design Document](design.md)**: Architecture decisions
 - **[Technology Scaffold](technology_scaffold.md)**: Implementation details
 - **[Debugging Guide](DEBUGGING.md)**: Troubleshooting help
-- **[E2E Workflow Test Results](testing/e2e-workflow-test-results.md)**: Automation framework validation
+- **[Project Board Workflow](../scripts/README.md)**: GitHub Project Board automation
 - **[Texas 42 Rules](https://en.wikipedia.org/wiki/42_(dominoes))**: Game rules reference

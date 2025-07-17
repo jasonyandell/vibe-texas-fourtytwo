@@ -69,20 +69,158 @@ describe('Visual Validation Tests', () => {
 
     it('renders both orientations correctly', () => {
       const testDomino = allDominoes[15]
-      
+
       // Horizontal orientation
       const { rerender } = render(
         <DominoComponent domino={testDomino} orientation="horizontal" />
       )
       let dominoElement = screen.getByTestId(`domino-${testDomino.high}-${testDomino.low}`)
       expect(dominoElement).toHaveClass('horizontal')
-      
+
       // Vertical orientation
       rerender(
         <DominoComponent domino={testDomino} orientation="vertical" />
       )
       dominoElement = screen.getByTestId(`domino-${testDomino.high}-${testDomino.low}`)
       expect(dominoElement).toHaveClass('vertical')
+    })
+
+    it('displays point values correctly for count dominoes', () => {
+      // Test 5-point dominoes: 5-0, 4-1, 3-2
+      const fivePointDominoes = [
+        createDomino(5, 0),
+        createDomino(4, 1),
+        createDomino(3, 2)
+      ]
+
+      fivePointDominoes.forEach(domino => {
+        const { unmount } = render(
+          <DominoComponent domino={domino} showPointValue={true} />
+        )
+
+        const dominoElement = screen.getByTestId(`domino-${domino.high}-${domino.low}`)
+        const pointValueElement = dominoElement.querySelector('.point-value')
+
+        expect(pointValueElement).toBeInTheDocument()
+        expect(pointValueElement).toHaveTextContent('5')
+        expect(pointValueElement?.className).toContain('fivePoints')
+
+        unmount()
+      })
+
+      // Test 10-point dominoes: 6-4, 5-5
+      const tenPointDominoes = [
+        createDomino(6, 4),
+        createDomino(5, 5)
+      ]
+
+      tenPointDominoes.forEach(domino => {
+        const { unmount } = render(
+          <DominoComponent domino={domino} showPointValue={true} />
+        )
+
+        const dominoElement = screen.getByTestId(`domino-${domino.high}-${domino.low}`)
+        const pointValueElement = dominoElement.querySelector('.point-value')
+
+        expect(pointValueElement).toBeInTheDocument()
+        expect(pointValueElement).toHaveTextContent('10')
+        expect(pointValueElement?.className).toContain('tenPoints')
+
+        unmount()
+      })
+    })
+
+    it('highlights count dominoes when enabled', () => {
+      const countDomino = createDomino(5, 0) // 5-point domino
+      const regularDomino = createDomino(6, 1) // 0-point domino
+
+      // Test count domino highlighting
+      const { rerender } = render(
+        <DominoComponent domino={countDomino} highlightCount={true} />
+      )
+      let dominoElement = screen.getByTestId(`domino-${countDomino.high}-${countDomino.low}`)
+      expect(dominoElement).toHaveClass('count-domino')
+
+      // Test regular domino (should not be highlighted)
+      rerender(
+        <DominoComponent domino={regularDomino} highlightCount={true} />
+      )
+      dominoElement = screen.getByTestId(`domino-${regularDomino.high}-${regularDomino.low}`)
+      expect(dominoElement).not.toHaveClass('count-domino')
+    })
+
+    it('hides point values when face down', () => {
+      const countDomino = createDomino(6, 4) // 10-point domino
+
+      const { container } = render(
+        <DominoComponent
+          domino={countDomino}
+          showPointValue={true}
+          faceDown={true}
+        />
+      )
+
+      const pointValueElement = container.querySelector('.point-value')
+      expect(pointValueElement).not.toBeInTheDocument()
+    })
+  })
+
+  describe('Point Value System Validation', () => {
+    it('validates all 28 domino combinations have correct point values', () => {
+      const expectedPointValues = new Map([
+        // 5-point dominoes
+        ['5-0', 5], ['4-1', 5], ['3-2', 5],
+        // 10-point dominoes
+        ['6-4', 10], ['5-5', 10],
+        // All other dominoes should have 0 points
+      ])
+
+      let totalPoints = 0
+      let countDominoes = 0
+
+      allDominoes.forEach(domino => {
+        const dominoKey = `${domino.high}-${domino.low}`
+        const expectedPoints = expectedPointValues.get(dominoKey) || 0
+
+        expect(domino.pointValue).toBe(expectedPoints)
+        expect(domino.isCountDomino).toBe(expectedPoints > 0)
+
+        totalPoints += domino.pointValue
+        if (domino.isCountDomino) countDominoes++
+      })
+
+      // Validate total point system: 35 count points + 7 tricks = 42 total
+      expect(totalPoints).toBe(35)
+      expect(countDominoes).toBe(5)
+    })
+
+    it('renders all 28 dominoes with proper visual structure and accessibility', () => {
+      allDominoes.forEach(domino => {
+        const { unmount } = render(
+          <DominoComponent
+            domino={domino}
+            showPointValue={true}
+            highlightCount={true}
+          />
+        )
+
+        const dominoElement = screen.getByTestId(`domino-${domino.high}-${domino.low}`)
+
+        // Check accessibility
+        expect(dominoElement).toHaveAttribute('role', 'button')
+        expect(dominoElement).toHaveAttribute('aria-label')
+
+        const ariaLabel = dominoElement.getAttribute('aria-label')
+        expect(ariaLabel).toContain(`${domino.high === 0 ? 'blank' : domino.high}`)
+        expect(ariaLabel).toContain(`${domino.low === 0 ? 'blank' : domino.low}`)
+
+        if (domino.pointValue > 0) {
+          expect(ariaLabel).toContain(`${domino.pointValue} points`)
+          expect(dominoElement).toHaveClass('count-domino')
+        }
+
+        unmount()
+      })
     })
   })
 

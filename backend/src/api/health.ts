@@ -1,6 +1,6 @@
 import { FastifyPluginAsync } from 'fastify'
 
-export const healthRoutes: FastifyPluginAsync = (fastify) => {
+export const healthRoutes: FastifyPluginAsync = async (fastify) => {
   // Health check endpoint
   fastify.get('/health', (_request, _reply) => {
     return {
