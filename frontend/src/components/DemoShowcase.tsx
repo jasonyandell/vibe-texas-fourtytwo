@@ -1,6 +1,7 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import { DemoNavigation } from './DemoNavigation'
+import { DominoesSection } from './DominoesSection'
 import styles from './DemoShowcase.module.css'
 
 // Demo section types
@@ -31,14 +32,16 @@ export const DemoShowcase: React.FC = () => {
       <main className={styles.content} id="main-content">
         <div className={styles.sectionsContainer}>
           {/* Dominoes Section */}
-          <section 
+          <section
             className={`${styles.section} ${currentSection === 'dominoes' ? styles.active : ''}`}
             data-testid="dominoes-section"
             aria-label="Dominoes Collection"
           >
             <h2>Dominoes Collection</h2>
             <p>Complete double-6 domino set with point values and interactive features.</p>
-            {/* TODO: Add domino showcase content */}
+            {currentSection === 'dominoes' && (
+              <DominoesSection />
+            )}
           </section>
 
           {/* Players Section */}
