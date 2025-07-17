@@ -3,7 +3,15 @@
  * Handles conversion between game state and URL parameters with compression and versioning
  */
 
-import { GameState, isValidGameState, Player, Trick, Domino, GamePhase, DominoSuit } from '@/types/texas42';
+import {
+  LegacyGameState as GameState,
+  Player,
+  Trick,
+  Domino,
+  GamePhase,
+  DominoSuit,
+  isValidLegacyGameState as isValidGameState
+} from '@texas42/shared-types';
 import LZString from 'lz-string';
 
 // Current serialization version

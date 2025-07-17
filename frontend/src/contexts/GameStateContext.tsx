@@ -1,5 +1,5 @@
 import React, { createContext, useReducer, useCallback, useRef } from 'react';
-import { GameState, Player, isValidGameState } from '@/types/texas42';
+import { LegacyGameState as GameState, Player, isValidLegacyGameState as isValidGameState } from '@texas42/shared-types';
 import { serializeGameStateToUrl, parseGameStateFromUrl } from '@/utils/urlSerialization';
 import { StatePersistence } from '@/utils/statePersistence';
 

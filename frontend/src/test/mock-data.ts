@@ -1,4 +1,4 @@
-import { GameState, Player, BiddingState } from '@/types/texas42';
+import { LegacyGameState as GameState, Player, BiddingState } from '@texas42/shared-types';
 
 // Mock game state for testing
 export const createMockGameState = (overrides: Partial<GameState> = {}): GameState => ({
@@ -16,7 +16,8 @@ export const createMockGameState = (overrides: Partial<GameState> = {}): GameSta
     currentBid: undefined,
     biddingComplete: false,
     passCount: 0,
-    minimumBid: 30
+    minimumBid: 30,
+    forcedBidActive: false
   },
   tricks: [],
   scores: {
@@ -52,5 +53,6 @@ export const createMockBiddingState = (overrides: Partial<BiddingState> = {}): B
   biddingComplete: false,
   passCount: 0,
   minimumBid: 30,
+  forcedBidActive: false,
   ...overrides
 });

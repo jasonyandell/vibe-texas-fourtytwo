@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import {
   isValidDomino,
   isValidPlayer,
-  isValidGameState,
+  isValidLegacyGameState as isValidGameState,
   isValidLobbyState,
   isValidBiddingState,
   isValidScoringState,
@@ -15,16 +15,18 @@ import {
   validatePlayerPosition,
   validateGamePhase,
   validateDominoSuit,
+  createCompatibleBid,
+  createCompatiblePlayedDomino,
   type Domino,
   type Player,
-  type GameState,
+  type LegacyGameState as GameState,
   type LobbyState,
   type LobbyGame,
   type Trick,
   type Bid,
   type PlayerPosition,
   type DominoSuit
-} from '../texas42'
+} from '@texas42/shared-types'
 
 describe('Texas 42 Type Validation', () => {
   describe('Domino Validation', () => {
@@ -105,17 +107,17 @@ describe('Texas 42 Type Validation', () => {
 
   describe('Bid Validation', () => {
     it('validates pass bid', () => {
-      const bid: Bid = { playerId: 'player-1', amount: 0 }
+      const bid: Bid = createCompatibleBid('player-1', 0)
       expect(isValidBid(bid)).toBe(true)
     })
 
     it('validates minimum bid', () => {
-      const bid: Bid = { playerId: 'player-1', amount: 30, trump: 'sixes' }
+      const bid: Bid = createCompatibleBid('player-1', 30, 'sixes')
       expect(isValidBid(bid)).toBe(true)
     })
 
     it('validates maximum bid', () => {
-      const bid: Bid = { playerId: 'player-1', amount: 42, trump: 'doubles' }
+      const bid: Bid = createCompatibleBid('player-1', 42, 'doubles')
       expect(isValidBid(bid)).toBe(true)
     })
 
@@ -144,11 +146,12 @@ describe('Texas 42 Type Validation', () => {
     const validTrick: Trick = {
       id: 'trick-1',
       dominoes: [
-        {
-          domino: { id: '1', high: 6, low: 3, pointValue: 0, isCountDomino: false },
-          playerId: 'player-1',
-          position: 'north'
-        }
+        createCompatiblePlayedDomino(
+          { id: '1', high: 6, low: 3, pointValue: 0, isCountDomino: false },
+          'player-1',
+          'north',
+          0
+        )
       ]
     }
 

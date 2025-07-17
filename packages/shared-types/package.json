@@ -1,0 +1,36 @@
+{
+  "name": "@texas42/shared-types",
+  "version": "1.0.0",
+  "description": "Shared TypeScript types for Texas 42 game frontend and backend",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rimraf dist",
+    "test": "vitest",
+    "test:watch": "vitest --watch"
+  },
+  "keywords": [
+    "texas-42",
+    "domino",
+    "game",
+    "types",
+    "typescript"
+  ],
+  "author": "Texas 42 Development Team",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "vitest": "^2.1.8",
+    "rimraf": "^6.0.1"
+  },
+  "files": [
+    "dist/**/*",
+    "src/**/*",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "restricted"
+  }
+}

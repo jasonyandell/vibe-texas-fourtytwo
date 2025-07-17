@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@/test/test-utils'
 import { GameBoard } from '../GameBoard'
-import { GameState, Player, Domino as _Domino, createDomino, DominoSuit, PlayerPosition } from '@/types/texas42'
+import { LegacyGameState as GameState, Player, createDomino, DominoSuit, PlayerPosition } from '@texas42/shared-types'
 
 // Mock the useParams hook
 vi.mock('react-router-dom', async () => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { GameState, PlayerPosition, DominoSuit } from '@/types/texas42';
+import { LegacyGameState as GameState, PlayerPosition, DominoSuit } from '@texas42/shared-types';
 import { DominoHand } from './DominoHand';
 import { DominoComponent } from './DominoComponent';
 import { BiddingPanel } from './BiddingPanel';

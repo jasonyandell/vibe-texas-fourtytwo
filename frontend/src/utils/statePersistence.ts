@@ -3,7 +3,7 @@
  * Handles saving and loading game state to/from various storage mechanisms
  */
 
-import { GameState, LobbyState, isValidGameState, isValidLobbyState } from '@/types/texas42';
+import { LegacyGameState as GameState, LobbyState, isValidLegacyGameState as isValidGameState, isValidLobbyState } from '@texas42/shared-types';
 import { serializeGameStateToUrl, parseGameStateFromUrl } from './urlSerialization';
 
 // Storage keys
