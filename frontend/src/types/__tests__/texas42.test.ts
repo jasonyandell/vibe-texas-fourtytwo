@@ -8,7 +8,7 @@ import {
   isValidScoringState,
   isValidTrick,
   isValidBid,
-  createEmptyGameState,
+  createEmptyLegacyGameState,
   createEmptyLobbyState,
   createEmptyBiddingState,
   createEmptyScoringState,
@@ -17,6 +17,7 @@ import {
   validateDominoSuit,
   createCompatibleBid,
   createCompatiblePlayedDomino,
+  createCompatibleTrick,
   type Domino,
   type Player,
   type LegacyGameState as GameState,
@@ -143,34 +144,38 @@ describe('Texas 42 Type Validation', () => {
   })
 
   describe('Trick Validation', () => {
-    const validTrick: Trick = {
-      id: 'trick-1',
-      dominoes: [
+    const validTrick: Trick = createCompatibleTrick(
+      'trick-1',
+      [
         createCompatiblePlayedDomino(
           { id: '1', high: 6, low: 3, pointValue: 0, isCountDomino: false },
           'player-1',
           'north',
           0
         )
-      ]
-    }
+      ],
+      1
+    )
 
     it('validates correct trick', () => {
       expect(isValidTrick(validTrick)).toBe(true)
     })
 
     it('validates complete trick', () => {
-      const trick: Trick = {
-        ...validTrick,
-        dominoes: [
-          { domino: { id: '1', high: 6, low: 3, pointValue: 0, isCountDomino: false }, playerId: 'player-1', position: 'north' },
-          { domino: { id: '2', high: 5, low: 2, pointValue: 0, isCountDomino: false }, playerId: 'player-2', position: 'east' },
-          { domino: { id: '3', high: 4, low: 1, pointValue: 5, isCountDomino: true }, playerId: 'player-3', position: 'south' },
-          { domino: { id: '4', high: 3, low: 0, pointValue: 0, isCountDomino: false }, playerId: 'player-4', position: 'west' }
+      const trick: Trick = createCompatibleTrick(
+        'trick-complete',
+        [
+          createCompatiblePlayedDomino({ id: '1', high: 6, low: 3, pointValue: 0, isCountDomino: false }, 'player-1', 'north', 0),
+          createCompatiblePlayedDomino({ id: '2', high: 5, low: 2, pointValue: 0, isCountDomino: false }, 'player-2', 'east', 1),
+          createCompatiblePlayedDomino({ id: '3', high: 4, low: 1, pointValue: 5, isCountDomino: true }, 'player-3', 'south', 2),
+          createCompatiblePlayedDomino({ id: '4', high: 3, low: 0, pointValue: 0, isCountDomino: false }, 'player-4', 'west', 3)
         ],
-        winner: 'player-1',
-        leadSuit: 'sixes'
-      }
+        1,
+        {
+          winner: 'player-1',
+          leadSuit: 'sixes'
+        }
+      )
       expect(isValidTrick(trick)).toBe(true)
     })
 
@@ -387,7 +392,7 @@ describe('Texas 42 Type Validation', () => {
 
   describe('Factory Functions', () => {
     it('creates empty game state', () => {
-      const gameState = createEmptyGameState('game-1')
+      const gameState = createEmptyLegacyGameState('game-1')
       expect(gameState.id).toBe('game-1')
       expect(gameState.players).toHaveLength(0)
       expect(gameState.phase).toBe('bidding')

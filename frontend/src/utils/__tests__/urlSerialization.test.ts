@@ -11,28 +11,25 @@ import {
   type SerializedGameState,
   type UrlSerializationOptions
 } from '../urlSerialization'
-import { GameState } from '@/types/texas42'
+import { LegacyGameState as GameState, createEmptyLegacyGameState } from '@texas42/shared-types'
 
 describe('URL Serialization', () => {
-  const mockGameState: GameState = {
-    id: 'game-123',
-    phase: 'playing',
-    players: [
-      { id: 'p1', name: 'Player 1', position: 'north', hand: [], isConnected: true, isReady: true },
-      { id: 'p2', name: 'Player 2', position: 'east', hand: [], isConnected: true, isReady: true },
-      { id: 'p3', name: 'Player 3', position: 'south', hand: [], isConnected: true, isReady: true },
-      { id: 'p4', name: 'Player 4', position: 'west', hand: [], isConnected: true, isReady: true }
-    ],
-    dealer: 'p1',
-    currentPlayer: 'p2',
-    trump: 'sixes',
-    tricks: [],
-    scores: { northSouth: 15, eastWest: 23 },
-    gameScore: { northSouth: 1, eastWest: 2 },
-    boneyard: [],
-    createdAt: '2024-01-01T00:00:00Z',
-    updatedAt: '2024-01-01T00:00:00Z'
-  }
+  const mockGameState = createEmptyLegacyGameState('game-123');
+  // Add test-specific data
+  mockGameState.phase = 'playing';
+  mockGameState.players = [
+    { id: 'p1', name: 'Player 1', position: 'north', hand: [], isConnected: true, isReady: true },
+    { id: 'p2', name: 'Player 2', position: 'east', hand: [], isConnected: true, isReady: true },
+    { id: 'p3', name: 'Player 3', position: 'south', hand: [], isConnected: true, isReady: true },
+    { id: 'p4', name: 'Player 4', position: 'west', hand: [], isConnected: true, isReady: true }
+  ];
+  mockGameState.dealer = 'p1';
+  mockGameState.currentPlayer = 'p2';
+  mockGameState.trump = 'sixes';
+  mockGameState.scores = { northSouth: 15, eastWest: 23 };
+  mockGameState.gameScore = { northSouth: 1, eastWest: 2 };
+  mockGameState.createdAt = '2024-01-01T00:00:00Z';
+  mockGameState.updatedAt = '2024-01-01T00:00:00Z';
 
   describe('Basic Serialization', () => {
     it('serializes game state to URL parameters', () => {

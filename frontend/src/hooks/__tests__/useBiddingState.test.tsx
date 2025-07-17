@@ -1,7 +1,13 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 import { useBiddingState } from '../useBiddingState';
-import { GameState, Player, BiddingState } from '@/types/texas42';
+import { Player } from '@/types/texas42';
+import {
+  LegacyGameState as GameState,
+  BiddingState,
+  createEmptyLegacyGameState,
+  createCompatibleBiddingState
+} from '@texas42/shared-types';
 
 // Mock the useGameStateContext hook
 vi.mock('@/hooks/useGameStateContext', () => ({
@@ -20,29 +26,24 @@ describe('useBiddingState', () => {
     { id: 'player4', name: 'Player 4', position: 'west', hand: [], isConnected: true, isReady: true }
   ];
 
-  const baseBiddingState: BiddingState = {
+  const baseBiddingState = createCompatibleBiddingState({
     currentBidder: 'player1',
     currentBid: undefined,
     bidHistory: [],
     biddingComplete: false,
     passCount: 0,
     minimumBid: 30
-  };
+  });
 
-  const baseGameState: GameState = {
-    id: 'test-game',
-    phase: 'bidding',
-    players,
-    currentPlayer: 'player1',
-    dealer: 'player1',
-    tricks: [],
-    scores: { northSouth: 0, eastWest: 0 },
-    gameScore: { northSouth: 0, eastWest: 0 },
-    boneyard: [],
-    biddingState: baseBiddingState,
-    createdAt: '2023-01-01T00:00:00Z',
-    updatedAt: '2023-01-01T00:00:00Z'
-  };
+  const baseGameState = createEmptyLegacyGameState('test-game');
+  // Add test-specific data
+  baseGameState.phase = 'bidding';
+  baseGameState.players = players;
+  baseGameState.currentPlayer = 'player1';
+  baseGameState.dealer = 'player1';
+  baseGameState.biddingState = baseBiddingState;
+  baseGameState.createdAt = '2023-01-01T00:00:00Z';
+  baseGameState.updatedAt = '2023-01-01T00:00:00Z';
 
   const mockUpdateGameState = vi.fn();
 

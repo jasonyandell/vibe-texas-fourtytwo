@@ -3,33 +3,27 @@ import { render, screen } from '@/test/test-utils'
 import { DominoComponent } from '../DominoComponent'
 import { DominoHand } from '../DominoHand'
 import { GameBoard } from '../GameBoard'
-import { Domino, GameState, createDomino } from '@/types/texas42'
+import { Domino, createDomino } from '@/types/texas42'
+import { createEmptyLegacyGameState } from '@texas42/shared-types'
 
 describe('Accessibility Tests', () => {
   const mockDomino: Domino = createDomino(3, 2)
 
-  const mockGameState: GameState = {
-    id: 'test-game',
-    phase: 'playing',
-    players: [
-      {
-        id: 'player1',
-        name: 'Player 1',
-        position: 'north',
-        hand: [mockDomino],
-        isConnected: true,
-        isReady: true
-      }
-    ],
-    dealer: 'player1',
-    currentPlayer: 'player1',
-    scores: { northSouth: 0, eastWest: 0 },
-    gameScore: { northSouth: 0, eastWest: 0 },
-    tricks: [],
-    boneyard: [],
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
-  }
+  const mockGameState = createEmptyLegacyGameState('test-game')
+  // Add test-specific data
+  mockGameState.phase = 'playing'
+  mockGameState.players = [
+    {
+      id: 'player1',
+      name: 'Player 1',
+      position: 'north',
+      hand: [mockDomino],
+      isConnected: true,
+      isReady: true
+    }
+  ]
+  mockGameState.dealer = 'player1'
+  mockGameState.currentPlayer = 'player1'
 
   describe('DominoComponent Accessibility', () => {
     it('has proper keyboard navigation support', () => {

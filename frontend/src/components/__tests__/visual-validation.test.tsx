@@ -3,7 +3,8 @@ import { render, screen } from '@/test/test-utils'
 import { DominoComponent } from '../DominoComponent'
 import { DominoHand } from '../DominoHand'
 import { GameBoard } from '../GameBoard'
-import { Domino, GameState, createDomino } from '@/types/texas42'
+import { Domino, createDomino } from '@/types/texas42'
+import { createEmptyLegacyGameState } from '@texas42/shared-types'
 
 describe('Visual Validation Tests', () => {
   // Generate all 28 domino combinations for visual testing
@@ -273,53 +274,48 @@ describe('Visual Validation Tests', () => {
   })
 
   describe('GameBoard Visual Structure', () => {
-    const mockGameState: GameState = {
-      id: 'visual-test-game',
-      phase: 'playing',
-      players: [
-        {
-          id: 'north-player',
-          name: 'North Player',
-          position: 'north',
-          hand: allDominoes.slice(0, 7),
-          isConnected: true,
-          isReady: true
-        },
-        {
-          id: 'east-player',
-          name: 'East Player',
-          position: 'east',
-          hand: allDominoes.slice(7, 14),
-          isConnected: true,
-          isReady: true
-        },
-        {
-          id: 'south-player',
-          name: 'South Player',
-          position: 'south',
-          hand: allDominoes.slice(14, 21),
-          isConnected: true,
-          isReady: true
-        },
-        {
-          id: 'west-player',
-          name: 'West Player',
-          position: 'west',
-          hand: allDominoes.slice(21, 28),
-          isConnected: true,
-          isReady: true
-        }
-      ],
-      dealer: 'north-player',
-      currentPlayer: 'north-player',
-      scores: { northSouth: 15, eastWest: 12 },
-      gameScore: { northSouth: 3, eastWest: 2 },
-      tricks: [],
-      boneyard: [],
-      trump: 'sixes',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    }
+    const mockGameState = createEmptyLegacyGameState('visual-test-game')
+    // Add test-specific data
+    mockGameState.phase = 'playing'
+    mockGameState.players = [
+      {
+        id: 'north-player',
+        name: 'North Player',
+        position: 'north',
+        hand: allDominoes.slice(0, 7),
+        isConnected: true,
+        isReady: true
+      },
+      {
+        id: 'east-player',
+        name: 'East Player',
+        position: 'east',
+        hand: allDominoes.slice(7, 14),
+        isConnected: true,
+        isReady: true
+      },
+      {
+        id: 'south-player',
+        name: 'South Player',
+        position: 'south',
+        hand: allDominoes.slice(14, 21),
+        isConnected: true,
+        isReady: true
+      },
+      {
+        id: 'west-player',
+        name: 'West Player',
+        position: 'west',
+        hand: allDominoes.slice(21, 28),
+        isConnected: true,
+        isReady: true
+      }
+    ]
+    mockGameState.dealer = 'north-player'
+    mockGameState.currentPlayer = 'north-player'
+    mockGameState.scores = { northSouth: 15, eastWest: 12 }
+    mockGameState.gameScore = { northSouth: 3, eastWest: 2 }
+    mockGameState.trump = 'sixes'
 
     it('renders complete baseball diamond layout', () => {
       render(
@@ -384,28 +380,21 @@ describe('Visual Validation Tests', () => {
   })
 
   describe('Responsive Design Validation', () => {
-    const responsiveGameState: GameState = {
-      id: 'responsive-test-game',
-      phase: 'playing',
-      players: [
-        {
-          id: 'test-player',
-          name: 'Test Player',
-          position: 'north',
-          hand: allDominoes.slice(0, 7),
-          isConnected: true,
-          isReady: true
-        }
-      ],
-      dealer: 'test-player',
-      currentPlayer: 'test-player',
-      scores: { northSouth: 0, eastWest: 0 },
-      gameScore: { northSouth: 0, eastWest: 0 },
-      tricks: [],
-      boneyard: [],
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    }
+    const responsiveGameState = createEmptyLegacyGameState('responsive-test-game')
+    // Add test-specific data
+    responsiveGameState.phase = 'playing'
+    responsiveGameState.players = [
+      {
+        id: 'test-player',
+        name: 'Test Player',
+        position: 'north',
+        hand: allDominoes.slice(0, 7),
+        isConnected: true,
+        isReady: true
+      }
+    ]
+    responsiveGameState.dealer = 'test-player'
+    responsiveGameState.currentPlayer = 'test-player'
 
     it('applies responsive classes to all major components', () => {
       const { container } = render(

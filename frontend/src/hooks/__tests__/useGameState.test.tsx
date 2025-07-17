@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { renderHook, act } from '@testing-library/react'
 import { useGameState } from '../useGameState'
 import { GameStateProvider } from '@/contexts/GameStateContext'
-import { GameState } from '@/types/texas42'
+import { LegacyGameState as GameState, createEmptyLegacyGameState } from '@texas42/shared-types'
 import React from 'react'
 
 // Mock the URL serialization functions
@@ -11,23 +11,18 @@ vi.mock('@/utils/urlSerialization', () => ({
   parseGameStateFromUrl: vi.fn(() => null)
 }))
 
-const mockGameState: GameState = {
-  id: 'test-game',
-  phase: 'bidding',
-  players: [
-    { id: 'p1', name: 'Player 1', position: 'north', hand: [], isConnected: true, isReady: true },
-    { id: 'p2', name: 'Player 2', position: 'east', hand: [], isConnected: true, isReady: true },
-    { id: 'p3', name: 'Player 3', position: 'south', hand: [], isConnected: true, isReady: true },
-    { id: 'p4', name: 'Player 4', position: 'west', hand: [], isConnected: true, isReady: true }
-  ],
-  dealer: 'p1',
-  tricks: [],
-  scores: { northSouth: 0, eastWest: 0 },
-  gameScore: { northSouth: 0, eastWest: 0 },
-  boneyard: [],
-  createdAt: '2024-01-01T00:00:00Z',
-  updatedAt: '2024-01-01T00:00:00Z'
-}
+const mockGameState = createEmptyLegacyGameState('test-game');
+// Add test-specific data
+mockGameState.phase = 'bidding';
+mockGameState.players = [
+  { id: 'p1', name: 'Player 1', position: 'north', hand: [], isConnected: true, isReady: true },
+  { id: 'p2', name: 'Player 2', position: 'east', hand: [], isConnected: true, isReady: true },
+  { id: 'p3', name: 'Player 3', position: 'south', hand: [], isConnected: true, isReady: true },
+  { id: 'p4', name: 'Player 4', position: 'west', hand: [], isConnected: true, isReady: true }
+];
+mockGameState.dealer = 'p1';
+mockGameState.createdAt = '2024-01-01T00:00:00Z';
+mockGameState.updatedAt = '2024-01-01T00:00:00Z';
 
 const wrapper = ({ children }: { children: React.ReactNode }) => (
   <GameStateProvider>{children}</GameStateProvider>

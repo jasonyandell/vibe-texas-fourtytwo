@@ -211,6 +211,7 @@ export {
   convertToLegacyGameState,
   convertFromLegacyGameState,
   isValidGameState as isValidLegacyGameState,
+  createEmptyGameState as createEmptyLegacyGameState,
   createCompatibleBid,
   createCompatiblePlayedDomino,
   createCompatibleBiddingState,

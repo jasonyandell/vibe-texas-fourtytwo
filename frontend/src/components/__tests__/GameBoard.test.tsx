@@ -1,7 +1,17 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@/test/test-utils'
 import { GameBoard } from '../GameBoard'
-import { LegacyGameState as GameState, Player, createDomino, DominoSuit, PlayerPosition } from '@texas42/shared-types'
+import {
+  LegacyGameState as GameState,
+  Player,
+  createDomino,
+  DominoSuit,
+  PlayerPosition,
+  createCompatibleTrick,
+  createCompatiblePlayedDomino,
+  createCompatibleBid,
+  createCompatibleBiddingState
+} from '@texas42/shared-types'
 
 // Mock the useParams hook
 vi.mock('react-router-dom', async () => {
@@ -177,8 +187,8 @@ describe('GameBoard', () => {
     it('shows trick count for each team', () => {
       const gameStateWithTricks = {
         tricks: [
-          { id: 'trick-1', dominoes: [], winner: 'player-1' },
-          { id: 'trick-2', dominoes: [], winner: 'player-2' }
+          createCompatibleTrick('trick-1', [], 1, { winner: 'player-1' }),
+          createCompatibleTrick('trick-2', [], 2, { winner: 'player-2' })
         ]
       }
       renderGameBoard(gameStateWithTricks)
@@ -191,16 +201,17 @@ describe('GameBoard', () => {
     it('displays individual trick stacks', () => {
       const gameStateWithTricks = {
         tricks: [
-          {
-            id: 'trick-1',
-            dominoes: [
-              { domino: createDomino(6, 6), playerId: 'player-1', position: 'north' as PlayerPosition },
-              { domino: createDomino(5, 4), playerId: 'player-2', position: 'east' as PlayerPosition },
-              { domino: createDomino(4, 3), playerId: 'player-3', position: 'south' as PlayerPosition },
-              { domino: createDomino(3, 2), playerId: 'player-4', position: 'west' as PlayerPosition }
+          createCompatibleTrick(
+            'trick-1',
+            [
+              createCompatiblePlayedDomino(createDomino(6, 6), 'player-1', 'north', 0),
+              createCompatiblePlayedDomino(createDomino(5, 4), 'player-2', 'east', 1),
+              createCompatiblePlayedDomino(createDomino(4, 3), 'player-3', 'south', 2),
+              createCompatiblePlayedDomino(createDomino(3, 2), 'player-4', 'west', 3)
             ],
-            winner: 'player-1'
-          }
+            1,
+            { winner: 'player-1' }
+          )
         ]
       }
       renderGameBoard(gameStateWithTricks)
@@ -212,7 +223,7 @@ describe('GameBoard', () => {
   describe('Enhanced Game Information Display', () => {
     it('displays current bid and trump suit prominently', () => {
       const gameStateWithBid = {
-        currentBid: { playerId: 'player-1', amount: 35, trump: 'doubles' as DominoSuit },
+        currentBid: createCompatibleBid('player-1', 35, 'doubles'),
         trump: 'doubles' as DominoSuit
       }
       renderGameBoard(gameStateWithBid)
@@ -405,14 +416,14 @@ describe('GameBoard', () => {
     it('shows bidding history during bidding phase', () => {
       const gameStateWithBidding = {
         phase: 'bidding' as const,
-        biddingState: {
+        biddingState: createCompatibleBiddingState({
           bidHistory: [
-            { playerId: 'player-1', amount: 30, trump: 'sixes' as const }
+            createCompatibleBid('player-1', 30, 'sixes')
           ],
           biddingComplete: false,
           passCount: 0,
           minimumBid: 30
-        }
+        })
       }
 
       renderGameBoard(gameStateWithBidding)
@@ -422,16 +433,13 @@ describe('GameBoard', () => {
     })
 
     it('shows current trick when available', () => {
-      const mockTrick = {
-        id: 'trick-1',
-        dominoes: [
-          {
-            domino: createDomino(6, 3),
-            playerId: 'player-1',
-            position: 'north' as const
-          }
-        ]
-      }
+      const mockTrick = createCompatibleTrick(
+        'trick-1',
+        [
+          createCompatiblePlayedDomino(createDomino(6, 3), 'player-1', 'north', 0)
+        ],
+        1
+      )
 
       renderGameBoard({ currentTrick: mockTrick })
 
