@@ -39,7 +39,7 @@ export const PlayerSlots: React.FC<PlayerSlotsProps> = ({
         className={`${styles.playerSlot} ${isEmpty ? styles.emptySlot : styles.occupiedSlot}`}
         data-position={positions[index].toLowerCase()}
         data-current-user={isCurrentUser}
-        onClick={canJoin ? () => onJoinSlot!(index) : undefined}
+        onClick={canJoin ? () => onJoinSlot(index) : undefined}
         role={canJoin ? 'button' : undefined}
         tabIndex={canJoin ? 0 : undefined}
         aria-label={canJoin ? `Join as ${positions[index]} player` : undefined}

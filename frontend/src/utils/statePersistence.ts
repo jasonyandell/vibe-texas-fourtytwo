@@ -29,20 +29,23 @@ interface StorageAdapter {
 class MemoryStorage implements StorageAdapter {
   private storage = new Map<string, string>();
 
-  async getItem(key: string): Promise<string | null> {
-    return this.storage.get(key) || null;
+  getItem(key: string): Promise<string | null> {
+    return Promise.resolve(this.storage.get(key) || null);
   }
 
-  async setItem(key: string, value: string): Promise<void> {
+  setItem(key: string, value: string): Promise<void> {
     this.storage.set(key, value);
+    return Promise.resolve();
   }
 
-  async removeItem(key: string): Promise<void> {
+  removeItem(key: string): Promise<void> {
     this.storage.delete(key);
+    return Promise.resolve();
   }
 
-  async clear(): Promise<void> {
+  clear(): Promise<void> {
     this.storage.clear();
+    return Promise.resolve();
   }
 }
 
@@ -50,37 +53,42 @@ class MemoryStorage implements StorageAdapter {
 class BrowserStorageAdapter implements StorageAdapter {
   constructor(private storage: Storage) {}
 
-  async getItem(key: string): Promise<string | null> {
+  getItem(key: string): Promise<string | null> {
     try {
-      return this.storage.getItem(key);
+      return Promise.resolve(this.storage.getItem(key));
     } catch (error) {
       console.warn('Failed to get item from storage:', error);
-      return null;
+      return Promise.resolve(null);
     }
   }
 
-  async setItem(key: string, value: string): Promise<void> {
+  setItem(key: string, value: string): Promise<void> {
     try {
       this.storage.setItem(key, value);
+      return Promise.resolve();
     } catch (error) {
       console.warn('Failed to set item in storage:', error);
-      throw error;
+      return Promise.reject(error instanceof Error ? error : new Error(String(error)));
     }
   }
 
-  async removeItem(key: string): Promise<void> {
+  removeItem(key: string): Promise<void> {
     try {
       this.storage.removeItem(key);
+      return Promise.resolve();
     } catch (error) {
       console.warn('Failed to remove item from storage:', error);
+      return Promise.resolve();
     }
   }
 
-  async clear(): Promise<void> {
+  clear(): Promise<void> {
     try {
       this.storage.clear();
+      return Promise.resolve();
     } catch (error) {
       console.warn('Failed to clear storage:', error);
+      return Promise.resolve();
     }
   }
 }
@@ -214,7 +222,7 @@ export class StatePersistence {
       }
 
       // Try to parse as JSON
-      const persistedData: PersistedData<GameState> = JSON.parse(serialized);
+      const persistedData: PersistedData<GameState> = JSON.parse(serialized) as PersistedData<GameState>;
       
       // Check TTL
       if (persistedData.ttl && Date.now() - persistedData.timestamp > persistedData.ttl) {
@@ -289,7 +297,7 @@ export class StatePersistence {
       const serialized = await adapter.getItem(STORAGE_KEYS.LOBBY_STATE);
       if (!serialized) return null;
 
-      const persistedData: PersistedData<LobbyState> = JSON.parse(serialized);
+      const persistedData: PersistedData<LobbyState> = JSON.parse(serialized) as PersistedData<LobbyState>;
       
       // Check TTL
       if (persistedData.ttl && Date.now() - persistedData.timestamp > persistedData.ttl) {

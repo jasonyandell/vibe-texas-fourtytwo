@@ -36,27 +36,28 @@ export const useGameStore = create<GameStore>((set) => ({
   })),
   
   // Game actions (TODO: implement API calls)
-  joinGame: async (gameId: string, playerName: string) => {
+  joinGame: (gameId: string, playerName: string) => {
     // TODO: Implement API call to join game
     console.log(`Joining game ${gameId} as ${playerName}`);
-    return true;
+    return Promise.resolve(true);
   },
-  
-  leaveGame: async () => {
+
+  leaveGame: () => {
     // TODO: Implement API call to leave game
     console.log('Leaving game');
     set({ currentGame: null, currentPlayer: null });
+    return Promise.resolve();
   },
-  
-  playDomino: async (domino: Domino) => {
+
+  playDomino: (domino: Domino) => {
     // TODO: Implement API call to play domino
     console.log(`Playing domino ${domino.high}-${domino.low}`);
-    return true;
+    return Promise.resolve(true);
   },
-  
-  placeBid: async (amount: number, trump?: string) => {
+
+  placeBid: (amount: number, trump?: string) => {
     // TODO: Implement API call to place bid
     console.log(`Placing bid: ${amount} ${trump || ''}`);
-    return true;
+    return Promise.resolve(true);
   },
 }));

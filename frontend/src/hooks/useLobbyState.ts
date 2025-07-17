@@ -1,4 +1,4 @@
-import { useLobbyStateContext } from '@/contexts/LobbyStateContext';
+import { useLobbyStateContext } from '@/hooks/useLobbyStateContext';
 
 /**
  * Hook to access lobby state and actions

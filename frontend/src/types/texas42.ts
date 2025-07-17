@@ -5,9 +5,11 @@
 
 // Domino representation
 export interface Domino {
-  high: number;  // 0-6
-  low: number;   // 0-6
-  id: string;    // unique identifier
+  high: number;        // 0-6
+  low: number;         // 0-6
+  id: string;          // unique identifier
+  pointValue: number;  // 0, 5, or 10 points
+  isCountDomino: boolean; // true for scoring dominoes
 }
 
 // Player positions in Texas 42 (partnerships: North-South, East-West)
@@ -150,7 +152,7 @@ export interface LobbyState {
 }
 
 // API responses
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   success: boolean;
   data?: T;
   error?: string;
@@ -162,7 +164,7 @@ export interface WebSocketMessage {
   type: string;
   gameId?: string;
   playerId?: string;
-  data?: any;
+  data?: unknown;
   timestamp: string;
 }
 
@@ -171,14 +173,16 @@ export interface WebSocketMessage {
 /**
  * Validates if a value is a valid domino
  */
-export function isValidDomino(value: any): value is Domino {
+export function isValidDomino(value: unknown): value is Domino {
   if (!value || typeof value !== 'object') return false;
 
-  const { id, high, low } = value;
+  const obj = value as Record<string, unknown>;
+  const { id, high, low, pointValue, isCountDomino } = obj;
 
   // Check required fields
   if (typeof id !== 'string' || id.length === 0) return false;
   if (typeof high !== 'number' || typeof low !== 'number') return false;
+  if (typeof pointValue !== 'number' || typeof isCountDomino !== 'boolean') return false;
 
   // Check value ranges (0-6 for double-six dominoes)
   if (high < 0 || high > 6 || low < 0 || low > 6) return false;
@@ -186,16 +190,23 @@ export function isValidDomino(value: any): value is Domino {
   // Check domino convention: high >= low
   if (low > high) return false;
 
+  // Check point value is valid (0, 5, or 10)
+  if (![0, 5, 10].includes(pointValue)) return false;
+
+  // Check consistency between pointValue and isCountDomino
+  if ((pointValue > 0) !== isCountDomino) return false;
+
   return true;
 }
 
 /**
  * Validates if a value is a valid player
  */
-export function isValidPlayer(value: any): value is Player {
+export function isValidPlayer(value: unknown): value is Player {
   if (!value || typeof value !== 'object') return false;
 
-  const { id, name, position, hand, isConnected, isReady } = value;
+  const obj = value as Record<string, unknown>;
+  const { id, name, position, hand, isConnected, isReady } = obj;
 
   // Check required fields
   if (typeof id !== 'string' || id.length === 0) return false;
@@ -214,10 +225,11 @@ export function isValidPlayer(value: any): value is Player {
 /**
  * Validates if a value is a valid bid
  */
-export function isValidBid(value: any): value is Bid {
+export function isValidBid(value: unknown): value is Bid {
   if (!value || typeof value !== 'object') return false;
 
-  const { playerId, amount, trump } = value;
+  const obj = value as Record<string, unknown>;
+  const { playerId, amount, trump } = obj;
 
   // Check required fields
   if (typeof playerId !== 'string' || playerId.length === 0) return false;
@@ -241,10 +253,11 @@ export function isValidBid(value: any): value is Bid {
 /**
  * Validates if a value is a valid trick
  */
-export function isValidTrick(value: any): value is Trick {
+export function isValidTrick(value: unknown): value is Trick {
   if (!value || typeof value !== 'object') return false;
 
-  const { id, dominoes, winner, leadSuit } = value;
+  const obj = value as Record<string, unknown>;
+  const { id, dominoes, winner, leadSuit } = obj;
 
   // Check required fields
   if (typeof id !== 'string' || id.length === 0) return false;
@@ -256,9 +269,10 @@ export function isValidTrick(value: any): value is Trick {
   // Validate each domino play
   for (const play of dominoes) {
     if (!play || typeof play !== 'object') return false;
-    if (!isValidDomino(play.domino)) return false;
-    if (typeof play.playerId !== 'string' || play.playerId.length === 0) return false;
-    if (!validatePlayerPosition(play.position)) return false;
+    const playObj = play as Record<string, unknown>;
+    if (!isValidDomino(playObj.domino)) return false;
+    if (typeof playObj.playerId !== 'string' || playObj.playerId.length === 0) return false;
+    if (!validatePlayerPosition(playObj.position)) return false;
   }
 
   // Optional fields validation
@@ -271,10 +285,11 @@ export function isValidTrick(value: any): value is Trick {
 /**
  * Validates if a value is a valid bidding state
  */
-export function isValidBiddingState(value: any): value is BiddingState {
+export function isValidBiddingState(value: unknown): value is BiddingState {
   if (!value || typeof value !== 'object') return false;
 
-  const { bidHistory, biddingComplete, passCount, minimumBid, currentBidder, currentBid } = value;
+  const obj = value as Record<string, unknown>;
+  const { bidHistory, biddingComplete, passCount, minimumBid, currentBidder, currentBid } = obj;
 
   // Check required fields
   if (!Array.isArray(bidHistory)) return false;
@@ -283,7 +298,7 @@ export function isValidBiddingState(value: any): value is BiddingState {
   if (typeof minimumBid !== 'number' || minimumBid < 30) return false;
 
   // Validate bid history
-  if (!bidHistory.every((bid: any) => isValidBid(bid))) return false;
+  if (!bidHistory.every((bid: unknown) => isValidBid(bid))) return false;
 
   // Optional fields
   if (currentBidder !== undefined && typeof currentBidder !== 'string') return false;
@@ -295,10 +310,11 @@ export function isValidBiddingState(value: any): value is BiddingState {
 /**
  * Validates if a value is a valid partnership state
  */
-export function isValidPartnershipState(value: any): value is PartnershipState {
+export function isValidPartnershipState(value: unknown): value is PartnershipState {
   if (!value || typeof value !== 'object') return false;
 
-  const { northSouth, eastWest } = value;
+  const obj = value as Record<string, unknown>;
+  const { northSouth, eastWest } = obj;
 
   // Check both partnerships exist
   if (!northSouth || !eastWest) return false;
@@ -307,7 +323,8 @@ export function isValidPartnershipState(value: any): value is PartnershipState {
   for (const partnership of [northSouth, eastWest]) {
     if (typeof partnership !== 'object') return false;
 
-    const { players, score, gameScore, tricksWon } = partnership;
+    const partnershipObj = partnership as Record<string, unknown>;
+    const { players, score, gameScore, tricksWon } = partnershipObj;
 
     // Check required fields
     if (!Array.isArray(players) || players.length !== 2) return false;
@@ -317,7 +334,7 @@ export function isValidPartnershipState(value: any): value is PartnershipState {
     if (typeof tricksWon !== 'number' || tricksWon < 0) return false;
 
     // Optional bid validation
-    if (partnership.currentBid !== undefined && !isValidBid(partnership.currentBid)) return false;
+    if (partnershipObj.currentBid !== undefined && !isValidBid(partnershipObj.currentBid)) return false;
   }
 
   return true;
@@ -326,10 +343,10 @@ export function isValidPartnershipState(value: any): value is PartnershipState {
 /**
  * Validates if a value is a valid scoring state
  */
-export function isValidScoringState(value: any): value is ScoringState {
+export function isValidScoringState(value: unknown): value is ScoringState {
   if (!value || typeof value !== 'object') return false;
 
-  const { trickPoints, countDominoes, bonusPoints, penaltyPoints, roundComplete, currentTrickWinner } = value;
+  const { trickPoints, countDominoes, bonusPoints, penaltyPoints, roundComplete, currentTrickWinner } = value as Record<string, unknown>;
 
   // Check required fields
   if (typeof trickPoints !== 'number' || trickPoints < 0) return false;
@@ -339,7 +356,7 @@ export function isValidScoringState(value: any): value is ScoringState {
   if (typeof roundComplete !== 'boolean') return false;
 
   // Validate count dominoes
-  if (!countDominoes.every((domino: any) => isValidDomino(domino))) return false;
+  if (!countDominoes.every((domino: unknown) => isValidDomino(domino))) return false;
 
   // Optional fields
   if (currentTrickWinner !== undefined && typeof currentTrickWinner !== 'string') return false;
@@ -350,14 +367,14 @@ export function isValidScoringState(value: any): value is ScoringState {
 /**
  * Validates if a value is a valid game state
  */
-export function isValidGameState(value: any): value is GameState {
+export function isValidGameState(value: unknown): value is GameState {
   if (!value || typeof value !== 'object') return false;
 
   const {
     id, phase, players, currentPlayer, dealer, bidder, currentBid, trump,
     tricks, currentTrick, scores, gameScore, boneyard, biddingState, scoringState,
     partnershipState, createdAt, updatedAt
-  } = value;
+  } = value as Record<string, unknown>;
 
   // Check required fields
   if (typeof id !== 'string' || id.length === 0) return false;
@@ -397,9 +414,11 @@ export function isValidGameState(value: any): value is GameState {
 
   // Validate scores
   if (!scores || typeof scores !== 'object') return false;
-  if (typeof scores.northSouth !== 'number' || typeof scores.eastWest !== 'number') return false;
+  const scoresObj = scores as Record<string, unknown>;
+  if (typeof scoresObj.northSouth !== 'number' || typeof scoresObj.eastWest !== 'number') return false;
   if (!gameScore || typeof gameScore !== 'object') return false;
-  if (typeof gameScore.northSouth !== 'number' || typeof gameScore.eastWest !== 'number') return false;
+  const gameScoreObj = gameScore as Record<string, unknown>;
+  if (typeof gameScoreObj.northSouth !== 'number' || typeof gameScoreObj.eastWest !== 'number') return false;
 
   // Validate boneyard
   if (!boneyard.every(domino => isValidDomino(domino))) return false;
@@ -415,10 +434,10 @@ export function isValidGameState(value: any): value is GameState {
 /**
  * Validates if a value is a valid lobby state
  */
-export function isValidLobbyState(value: any): value is LobbyState {
+export function isValidLobbyState(value: unknown): value is LobbyState {
   if (!value || typeof value !== 'object') return false;
 
-  const { availableGames, connectedPlayers } = value;
+  const { availableGames, connectedPlayers } = value as Record<string, unknown>;
 
   // Check required fields
   if (!Array.isArray(availableGames)) return false;
@@ -428,14 +447,15 @@ export function isValidLobbyState(value: any): value is LobbyState {
   for (const game of availableGames) {
     if (!game || typeof game !== 'object') return false;
 
-    const { id, name, playerCount, maxPlayers, status, createdAt } = game;
+    const gameObj = game as Record<string, unknown>;
+    const { id, name, playerCount, maxPlayers, status, createdAt } = gameObj;
 
     if (typeof id !== 'string' || id.length === 0) return false;
     if (typeof name !== 'string' || name.length === 0) return false;
     if (typeof playerCount !== 'number' || playerCount < 0) return false;
     if (typeof maxPlayers !== 'number' || maxPlayers < 1) return false;
     if (playerCount > maxPlayers) return false;
-    if (!['waiting', 'playing', 'finished'].includes(status)) return false;
+    if (!['waiting', 'playing', 'finished'].includes(status as string)) return false;
     if (typeof createdAt !== 'string') return false;
   }
 
@@ -445,21 +465,21 @@ export function isValidLobbyState(value: any): value is LobbyState {
 /**
  * Validates player position enum
  */
-export function validatePlayerPosition(value: any): value is PlayerPosition {
+export function validatePlayerPosition(value: unknown): value is PlayerPosition {
   return typeof value === 'string' && ['north', 'east', 'south', 'west'].includes(value);
 }
 
 /**
  * Validates game phase enum
  */
-export function validateGamePhase(value: any): value is GamePhase {
+export function validateGamePhase(value: unknown): value is GamePhase {
   return typeof value === 'string' && ['bidding', 'playing', 'scoring', 'finished'].includes(value);
 }
 
 /**
  * Validates domino suit enum
  */
-export function validateDominoSuit(value: any): value is DominoSuit {
+export function validateDominoSuit(value: unknown): value is DominoSuit {
   return typeof value === 'string' &&
     ['blanks', 'ones', 'twos', 'threes', 'fours', 'fives', 'sixes', 'doubles'].includes(value);
 }
@@ -544,5 +564,74 @@ export function createEmptyPartnershipState(players: Player[]): PartnershipState
       gameScore: 0,
       tricksWon: 0
     }
+  };
+}
+
+// ============================================================================
+// Domino Factory Functions
+// ============================================================================
+
+/**
+ * Calculate the point value of a domino according to Texas 42 rules
+ * @param high The high value (0-6)
+ * @param low The low value (0-6)
+ * @returns Point value: 0, 5, or 10
+ */
+export function calculateDominoPointValue(high: number, low: number): number {
+  const total = high + low;
+  if (total === 5) return 5;   // 5-0, 4-1, 3-2
+  if (total === 10) return 10; // 6-4, 5-5
+  return 0;                    // All other dominoes
+}
+
+/**
+ * Check if a domino is a count domino (has point value > 0)
+ * @param domino The domino to check
+ * @returns True if the domino has points
+ */
+export function isCountDomino(domino: Domino): boolean {
+  return calculateDominoPointValue(domino.high, domino.low) > 0;
+}
+
+/**
+ * Create a single domino with point values
+ * @param high The high value (0-6)
+ * @param low The low value (0-6)
+ * @returns A complete domino with point values
+ */
+export function createDomino(high: number, low: number): Domino {
+  const pointValue = calculateDominoPointValue(high, low);
+  const isCountDomino = pointValue > 0;
+
+  return {
+    high,
+    low,
+    id: `${high}-${low}`,
+    pointValue,
+    isCountDomino
+  };
+}
+
+/**
+ * Create a full domino set with validation
+ * @returns Object containing all 28 dominoes and validation info
+ */
+export function createFullDominoSet(): { dominoes: Domino[], totalPoints: number, isValid: boolean } {
+  const dominoes: Domino[] = [];
+
+  // Generate all 28 domino combinations
+  for (let high = 0; high <= 6; high++) {
+    for (let low = 0; low <= high; low++) {
+      dominoes.push(createDomino(high, low));
+    }
+  }
+
+  const totalPoints = dominoes.reduce((sum, d) => sum + d.pointValue, 0);
+  const isValid = totalPoints === 35;
+
+  return {
+    dominoes,
+    totalPoints,
+    isValid
   };
 }

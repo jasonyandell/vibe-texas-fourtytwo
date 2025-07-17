@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer, useCallback, useRef, useEffect } from 'react';
+import React, { createContext, useReducer, useCallback, useRef } from 'react';
 import { GameState, Player, isValidGameState } from '@/types/texas42';
 import { serializeGameStateToUrl, parseGameStateFromUrl } from '@/utils/urlSerialization';
 import { StatePersistence } from '@/utils/statePersistence';
@@ -30,7 +30,8 @@ type GameStateAction =
   | { type: 'CLEANUP_EXPIRED_UPDATES' }
   | { type: 'PERSIST_STATE' }
   | { type: 'RESTORE_STATE'; payload: GameState }
-  | { type: 'CLEAR_ERROR' };
+  | { type: 'CLEAR_ERROR' }
+  | { type: 'SET_AUTO_SAVE'; payload: boolean };
 
 // State interface
 interface GameStateContextState {
@@ -165,29 +166,35 @@ function gameStateReducer(state: GameStateContextState, action: GameStateAction)
         optimisticUpdates: new Map()
       };
 
-    case 'APPLY_OPTIMISTIC_UPDATE':
+    case 'APPLY_OPTIMISTIC_UPDATE': {
       if (!state.gameState) return state;
       const updatedState = action.payload.update(state.gameState);
       const newOptimisticUpdates = new Map(state.optimisticUpdates);
-      newOptimisticUpdates.set(action.payload.id, state.gameState);
+      newOptimisticUpdates.set(action.payload.id, {
+        id: action.payload.id,
+        timestamp: Date.now(),
+        originalState: state.gameState
+      });
       return {
         ...state,
         gameState: updatedState,
         optimisticUpdates: newOptimisticUpdates
       };
+    }
 
-    case 'REVERT_OPTIMISTIC_UPDATE':
-      const originalState = state.optimisticUpdates.get(action.payload);
-      if (!originalState) return state;
+    case 'REVERT_OPTIMISTIC_UPDATE': {
+      const optimisticUpdate = state.optimisticUpdates.get(action.payload);
+      if (!optimisticUpdate) return state;
       const revertedOptimisticUpdates = new Map(state.optimisticUpdates);
       revertedOptimisticUpdates.delete(action.payload);
       return {
         ...state,
-        gameState: originalState,
+        gameState: optimisticUpdate.originalState,
         optimisticUpdates: revertedOptimisticUpdates
       };
+    }
 
-    case 'CONFIRM_OPTIMISTIC_UPDATE':
+    case 'CONFIRM_OPTIMISTIC_UPDATE': {
       const confirmedOptimisticUpdates = new Map(state.optimisticUpdates);
       confirmedOptimisticUpdates.delete(action.payload);
       return {
@@ -195,9 +202,13 @@ function gameStateReducer(state: GameStateContextState, action: GameStateAction)
         baseState: state.gameState,
         optimisticUpdates: confirmedOptimisticUpdates
       };
+    }
 
     case 'CLEAR_ERROR':
       return { ...state, error: null };
+
+    case 'SET_AUTO_SAVE':
+      return { ...state, autoSave: action.payload };
 
     default:
       return state;
@@ -210,7 +221,7 @@ const GameStateContext = createContext<GameStateContextValue | undefined>(undefi
 // Provider component
 export const GameStateProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [state, dispatch] = useReducer(gameStateReducer, initialState);
-  const retryTimeoutRef = useRef<NodeJS.Timeout>();
+  const _retryTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const updateGameState = useCallback((gameState: GameState) => {
     if (!isValidGameState(gameState)) {
@@ -321,6 +332,27 @@ export const GameStateProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     }
   }, [updateGameState, setError, setLoading]);
 
+  const persistState = useCallback(async () => {
+    if (state.gameState) {
+      await StatePersistence.saveGameState(state.gameState);
+    }
+  }, [state.gameState]);
+
+  const restoreState = useCallback(async () => {
+    const savedState = await StatePersistence.loadGameState();
+    if (savedState) {
+      updateGameState(savedState);
+    }
+  }, [updateGameState]);
+
+  const setAutoSave = useCallback((enabled: boolean) => {
+    dispatch({ type: 'SET_AUTO_SAVE', payload: enabled });
+  }, []);
+
+  const getOptimisticUpdates = useCallback(() => {
+    return Array.from(state.optimisticUpdates.values());
+  }, [state.optimisticUpdates]);
+
   const value: GameStateContextValue = {
     ...state,
     updateGameState,
@@ -339,7 +371,11 @@ export const GameStateProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     clearError,
     serializeToUrl,
     loadFromUrl,
-    retryOperation
+    retryOperation,
+    persistState,
+    restoreState,
+    setAutoSave,
+    getOptimisticUpdates
   };
 
   return (
@@ -349,11 +385,5 @@ export const GameStateProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   );
 };
 
-// Hook to use the context
-export const useGameStateContext = () => {
-  const context = useContext(GameStateContext);
-  if (context === undefined) {
-    throw new Error('useGameStateContext must be used within a GameStateProvider');
-  }
-  return context;
-};
+// Export the context for testing and direct access
+export { GameStateContext };

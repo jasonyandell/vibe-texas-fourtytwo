@@ -10,14 +10,14 @@ import {
   BiddingValidationError,
   ExtendedBiddingState
 } from '../biddingValidation';
-import { DominoSuit, Bid, Player } from '@/types/texas42';
+import { DominoSuit, Player } from '@/types/texas42';
 
 describe('Bidding Validation', () => {
   const players: Player[] = [
-    { id: 'player1', name: 'Player 1', position: 'north' },
-    { id: 'player2', name: 'Player 2', position: 'east' },
-    { id: 'player3', name: 'Player 3', position: 'south' },
-    { id: 'player4', name: 'Player 4', position: 'west' }
+    { id: 'player1', name: 'Player 1', position: 'north', hand: [], isConnected: true, isReady: true },
+    { id: 'player2', name: 'Player 2', position: 'east', hand: [], isConnected: true, isReady: true },
+    { id: 'player3', name: 'Player 3', position: 'south', hand: [], isConnected: true, isReady: true },
+    { id: 'player4', name: 'Player 4', position: 'west', hand: [], isConnected: true, isReady: true }
   ];
 
   const baseBiddingState: ExtendedBiddingState = {

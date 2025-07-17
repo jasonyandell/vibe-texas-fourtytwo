@@ -3,7 +3,7 @@
  * Handles conversion between game state and URL parameters with compression and versioning
  */
 
-import { GameState, isValidGameState, Player, Trick } from '@/types/texas42';
+import { GameState, isValidGameState, Player, Trick, Domino, GamePhase, DominoSuit } from '@/types/texas42';
 import LZString from 'lz-string';
 
 // Current serialization version
@@ -24,7 +24,7 @@ export interface SerializedGameState {
   tricks?: Trick[];
   scores: { northSouth: number; eastWest: number };
   gameScore: { northSouth: number; eastWest: number };
-  boneyard?: any[];
+  boneyard?: Domino[];
   createdAt?: string;
   updatedAt?: string;
 }
@@ -73,7 +73,7 @@ export function serializeGameStateToUrl(
   // Apply field filtering
   let filteredState = serialized;
   if (includeFields) {
-    const filtered: any = { version: CURRENT_VERSION };
+    const filtered: Record<string, unknown> = { version: CURRENT_VERSION };
     includeFields.forEach(field => {
       if (field === 'id') {
         filtered.gameId = serialized.gameId;
@@ -83,7 +83,7 @@ export function serializeGameStateToUrl(
         filtered[field] = serialized[field as keyof SerializedGameState];
       }
     });
-    filteredState = filtered as SerializedGameState;
+    filteredState = filtered as unknown as SerializedGameState;
   } else if (excludeFields) {
     filteredState = Object.fromEntries(
       Object.entries(serialized).filter(([key]) => !excludeFields.includes(key))
@@ -164,7 +164,7 @@ export function parseGameStateFromUrlDetailed(urlParams: string): UrlParsingResu
           return {
             gameState: null,
             error: 'decompression_failed',
-            errorMessage: `Failed to decompress using method: ${method}`
+            errorMessage: `Failed to decompress using method: ${String(method)}`
           };
         }
 
@@ -209,7 +209,7 @@ export function parseGameStateFromUrlDetailed(urlParams: string): UrlParsingResu
         return {
           gameState: null,
           error: 'decompression_failed',
-          errorMessage: `All decompression methods failed. Original error: ${decompressionError}`
+          errorMessage: `All decompression methods failed. Original error: ${String(decompressionError)}`
         };
       }
     }
@@ -249,14 +249,14 @@ export function parseGameStateFromUrlDetailed(urlParams: string): UrlParsingResu
       return {
         gameState: null,
         error: 'invalid_url_format',
-        errorMessage: `Failed to parse uncompressed URL: ${parseError}`
+        errorMessage: `Failed to parse uncompressed URL: ${String(parseError)}`
       };
     }
   } catch (error) {
     return {
       gameState: null,
       error: 'unknown_error',
-      errorMessage: `Unexpected error: ${error}`
+      errorMessage: `Unexpected error: ${String(error)}`
     };
   }
 }
@@ -291,7 +291,7 @@ export interface CompressionResult {
 /**
  * Compresses game state using the best available method
  */
-export function compressGameState(gameState: any, preferredMethod?: CompressionMethod): CompressionResult {
+export function compressGameState(gameState: SerializedGameState, preferredMethod?: CompressionMethod): CompressionResult {
   const json = JSON.stringify(gameState);
   const originalSize = json.length;
 
@@ -358,7 +358,7 @@ export function compressGameState(gameState: any, preferredMethod?: CompressionM
 /**
  * Decompresses game state from compressed string
  */
-export function decompressGameState(compressed: string, method: CompressionMethod): any | null {
+export function decompressGameState(compressed: string, method: CompressionMethod): SerializedGameState | null {
   try {
     let json: string;
 
@@ -380,7 +380,7 @@ export function decompressGameState(compressed: string, method: CompressionMetho
         break;
     }
 
-    return JSON.parse(json);
+    return JSON.parse(json) as SerializedGameState;
   } catch (error) {
     console.error(`Failed to decompress game state using method ${method}:`, error);
     return null;
@@ -390,10 +390,11 @@ export function decompressGameState(compressed: string, method: CompressionMetho
 /**
  * Validates serialized game state
  */
-export function validateUrlGameState(serialized: any): serialized is SerializedGameState {
+export function validateUrlGameState(serialized: unknown): serialized is SerializedGameState {
   if (!serialized || typeof serialized !== 'object') return false;
   
-  const { version, gameId, phase, players, dealer, scores, gameScore } = serialized;
+  const obj = serialized as Record<string, unknown>;
+  const { version, gameId, phase, players, dealer, scores, gameScore } = obj;
   
   // Check required fields
   if (typeof version !== 'number') return false;
@@ -405,8 +406,10 @@ export function validateUrlGameState(serialized: any): serialized is SerializedG
   if (!gameScore || typeof gameScore !== 'object') return false;
   
   // Validate scores
-  if (typeof scores.northSouth !== 'number' || typeof scores.eastWest !== 'number') return false;
-  if (typeof gameScore.northSouth !== 'number' || typeof gameScore.eastWest !== 'number') return false;
+  const scoresObj = scores as Record<string, unknown>;
+  const gameScoreObj = gameScore as Record<string, unknown>;
+  if (typeof scoresObj.northSouth !== 'number' || typeof scoresObj.eastWest !== 'number') return false;
+  if (typeof gameScoreObj.northSouth !== 'number' || typeof gameScoreObj.eastWest !== 'number') return false;
   
   return true;
 }
@@ -414,10 +417,11 @@ export function validateUrlGameState(serialized: any): serialized is SerializedG
 /**
  * Migrates game state from older versions
  */
-export function migrateGameStateVersion(serialized: any): SerializedGameState | null {
+export function migrateGameStateVersion(serialized: unknown): SerializedGameState | null {
   if (!serialized || typeof serialized !== 'object') return null;
-  
-  const version = serialized.version || 1;
+
+  const obj = serialized as Record<string, unknown>;
+  const version = obj.version || 1;
   
   if (version === CURRENT_VERSION) {
     return serialized as SerializedGameState;
@@ -427,28 +431,36 @@ export function migrateGameStateVersion(serialized: any): SerializedGameState | 
     // Migrate from v1 to v2
     const migrated: SerializedGameState = {
       version: CURRENT_VERSION,
-      gameId: serialized.id || serialized.gameId || '',
-      phase: serialized.phase || 'bidding',
-      players: serialized.players || [],
-      dealer: serialized.dealer || '',
-      scores: serialized.scores || { northSouth: 0, eastWest: 0 },
-      gameScore: serialized.gameScore || { northSouth: 0, eastWest: 0 }
+      gameId: (obj.id as string) || (obj.gameId as string) || '',
+      phase: (obj.phase as string) || 'bidding',
+      players: (obj.players as Player[]) || [],
+      dealer: (obj.dealer as string) || '',
+      scores: (obj.scores as { northSouth: number; eastWest: number }) || { northSouth: 0, eastWest: 0 },
+      gameScore: (obj.gameScore as { northSouth: number; eastWest: number }) || { northSouth: 0, eastWest: 0 }
     };
 
     // Copy over other fields if they exist
-    if (serialized.currentPlayer) migrated.currentPlayer = serialized.currentPlayer;
-    if (serialized.bidder) migrated.bidder = serialized.bidder;
-    if (serialized.trump) migrated.trump = serialized.trump;
-    if (serialized.tricks) migrated.tricks = serialized.tricks;
-    if (serialized.boneyard) migrated.boneyard = serialized.boneyard;
-    if (serialized.createdAt) migrated.createdAt = serialized.createdAt;
-    if (serialized.updatedAt) migrated.updatedAt = serialized.updatedAt;
+    if (obj.currentPlayer) migrated.currentPlayer = obj.currentPlayer as string;
+    if (obj.bidder) migrated.bidder = obj.bidder as string;
+    if (obj.trump) migrated.trump = obj.trump as string;
+    if (obj.tricks) migrated.tricks = obj.tricks as Trick[];
+    if (obj.boneyard) migrated.boneyard = obj.boneyard as Domino[];
+    if (obj.createdAt) migrated.createdAt = obj.createdAt as string;
+    if (obj.updatedAt) migrated.updatedAt = obj.updatedAt as string;
 
     return migrated;
   }
   
   // Unknown version
-  console.warn(`Unknown game state version: ${version}`);
+  let versionStr: string;
+  if (typeof version === 'object' && version !== null) {
+    versionStr = JSON.stringify(version);
+  } else if (typeof version === 'string' || typeof version === 'number') {
+    versionStr = String(version);
+  } else {
+    versionStr = 'unknown';
+  }
+  console.warn(`Unknown game state version: ${versionStr}`);
   return null;
 }
 
@@ -516,9 +528,9 @@ function parseUrlParams(params: URLSearchParams): SerializedGameState | null {
       return null;
     }
     
-    const players = JSON.parse(playersStr);
-    const scores = JSON.parse(scoresStr);
-    const gameScore = JSON.parse(gameScoreStr);
+    const players = JSON.parse(playersStr) as Player[];
+    const scores = JSON.parse(scoresStr) as { northSouth: number; eastWest: number };
+    const gameScore = JSON.parse(gameScoreStr) as { northSouth: number; eastWest: number };
     
     const serialized: SerializedGameState = {
       version,
@@ -541,10 +553,10 @@ function parseUrlParams(params: URLSearchParams): SerializedGameState | null {
     if (trump) serialized.trump = trump;
     
     const tricksStr = params.get('tricks');
-    if (tricksStr) serialized.tricks = JSON.parse(tricksStr);
-    
+    if (tricksStr) serialized.tricks = JSON.parse(tricksStr) as Trick[];
+
     const boneyardStr = params.get('boneyard');
-    if (boneyardStr) serialized.boneyard = JSON.parse(boneyardStr);
+    if (boneyardStr) serialized.boneyard = JSON.parse(boneyardStr) as Domino[];
     
     const createdAt = params.get('createdAt');
     if (createdAt) serialized.createdAt = createdAt;
@@ -563,7 +575,7 @@ function convertToGameState(serialized: SerializedGameState): GameState | null {
   try {
     const gameState: GameState = {
       id: serialized.gameId,
-      phase: serialized.phase as any,
+      phase: serialized.phase as GamePhase,
       players: serialized.players,
       dealer: serialized.dealer,
       tricks: serialized.tricks || [],
@@ -576,7 +588,7 @@ function convertToGameState(serialized: SerializedGameState): GameState | null {
     
     if (serialized.currentPlayer) gameState.currentPlayer = serialized.currentPlayer;
     if (serialized.bidder) gameState.bidder = serialized.bidder;
-    if (serialized.trump) gameState.trump = serialized.trump as any;
+    if (serialized.trump) gameState.trump = serialized.trump as DominoSuit;
     
     // Validate the converted state
     if (!isValidGameState(gameState)) {

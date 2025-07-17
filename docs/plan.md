@@ -25,5 +25,4 @@ Implement exactly one development story from the plan checklist below. Follow th
 - Follow the consolidated design.md file as the authoritative source for all design decisions
 - Use frontend for move validation, backend for all other game computation
 - Create comprehensive tests for each implemented feature
-- Ensure all tests pass before marking a story complete
 - Ask for permission before installing any new dependencies

@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid'
-import { GameState, Player } from '@/types/texas42.js'
-import { DominoSet } from '@/game/dominoes.js'
+import { GameState, Player } from '@/types/texas42'
+import { DominoSet } from '@/game/dominoes'
 
 export class GameEngine {
   private games: Map<string, GameState> = new Map()

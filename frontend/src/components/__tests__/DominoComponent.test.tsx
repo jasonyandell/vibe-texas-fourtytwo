@@ -1,37 +1,21 @@
 import { describe, it, expect, vi } from 'vitest'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent } from '@/test/test-utils'
 import { DominoComponent } from '../DominoComponent'
-import { Domino } from '@/types/texas42'
+import { Domino, createDomino } from '@/types/texas42'
 
 describe('DominoComponent', () => {
-  const mockDomino: Domino = {
-    id: 'test-domino',
-    high: 6,
-    low: 3
-  }
+  const mockDomino: Domino = createDomino(6, 3)
 
-  const mockBlankDomino: Domino = {
-    id: 'blank-domino',
-    high: 0,
-    low: 0
-  }
+  const mockBlankDomino: Domino = createDomino(0, 0)
 
-  const mockDoubleDomino: Domino = {
-    id: 'double-domino',
-    high: 5,
-    low: 5
-  }
+  const mockDoubleDomino: Domino = createDomino(5, 5)
 
   // Generate all 28 domino combinations for comprehensive testing
   const generateAllDominoes = (): Domino[] => {
     const dominoes: Domino[] = []
     for (let high = 0; high <= 6; high++) {
       for (let low = 0; low <= high; low++) {
-        dominoes.push({
-          id: `domino-${high}-${low}`,
-          high,
-          low
-        })
+        dominoes.push(createDomino(high, low))
       }
     }
     return dominoes

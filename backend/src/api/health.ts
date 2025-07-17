@@ -1,8 +1,8 @@
 import { FastifyPluginAsync } from 'fastify'
 
-export const healthRoutes: FastifyPluginAsync = async (fastify) => {
+export const healthRoutes: FastifyPluginAsync = (fastify) => {
   // Health check endpoint
-  fastify.get('/health', async (_request, _reply) => {
+  fastify.get('/health', (_request, _reply) => {
     return {
       status: 'ok',
       timestamp: new Date().toISOString(),
@@ -13,10 +13,10 @@ export const healthRoutes: FastifyPluginAsync = async (fastify) => {
   })
 
   // Readiness check endpoint
-  fastify.get('/ready', async (_request, _reply) => {
+  fastify.get('/ready', (_request, _reply) => {
     // TODO: Add database connectivity check
     // TODO: Add Redis connectivity check
-    
+
     return {
       status: 'ready',
       timestamp: new Date().toISOString(),

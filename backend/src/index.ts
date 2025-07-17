@@ -2,9 +2,9 @@ import Fastify from 'fastify'
 import cors from '@fastify/cors'
 import websocket from '@fastify/websocket'
 import env from '@fastify/env'
-import { gameRoutes } from '@/api/game.js'
-import { healthRoutes } from '@/api/health.js'
-import { envSchema } from '@/utils/env.js'
+import { gameRoutes } from '@/api/game'
+import { healthRoutes } from '@/api/health'
+import { envSchema } from '@/utils/env'
 
 const fastify = Fastify({
   logger: {
@@ -55,16 +55,18 @@ async function start() {
 }
 
 // Handle graceful shutdown
-process.on('SIGINT', async () => {
+process.on('SIGINT', () => {
   fastify.log.info('Received SIGINT, shutting down gracefully...')
-  await fastify.close()
-  process.exit(0)
+  void fastify.close().then(() => {
+    process.exit(0)
+  })
 })
 
-process.on('SIGTERM', async () => {
+process.on('SIGTERM', () => {
   fastify.log.info('Received SIGTERM, shutting down gracefully...')
-  await fastify.close()
-  process.exit(0)
+  void fastify.close().then(() => {
+    process.exit(0)
+  })
 })
 
-start()
+void start()

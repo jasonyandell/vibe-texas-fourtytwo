@@ -1,19 +1,16 @@
 import { useCallback, useMemo } from 'react';
 import { useGameState } from '@/hooks/useGameState';
-import { 
-  validateBid, 
-  getMinimumBid, 
-  canPlayerBid, 
-  shouldEndBidding,
-  getNextBidder,
+import {
+  validateBid,
+  getMinimumBid,
+  canPlayerBid,
   updateBiddingStateAfterBid,
   updateBiddingStateAfterPass,
   createBid,
   getValidationErrorMessage,
-  BiddingValidationError,
   ExtendedBiddingState
 } from '@/utils/biddingValidation';
-import { DominoSuit, Bid, BiddingState, Player } from '@/types/texas42';
+import { DominoSuit, Bid, BiddingState, GameState } from '@/types/texas42';
 
 /**
  * Convert the existing BiddingState to ExtendedBiddingState for validation
@@ -66,23 +63,11 @@ function convertToExtendedBiddingState(
   };
 }
 
-/**
- * Convert ExtendedBiddingState back to the standard BiddingState
- */
-function convertFromExtendedBiddingState(extendedState: ExtendedBiddingState): BiddingState {
-  return {
-    currentBidder: extendedState.currentBidder,
-    currentBid: extendedState.currentBid,
-    bidHistory: extendedState.bidHistory,
-    biddingComplete: extendedState.biddingComplete,
-    passCount: extendedState.passCount,
-    minimumBid: extendedState.minimumBid
-  };
-}
+
 
 export interface BiddingActions {
-  placeBid: (amount: number, trump: DominoSuit) => Promise<{ success: boolean; error?: string }>;
-  passBid: () => Promise<{ success: boolean; error?: string }>;
+  placeBid: (amount: number, trump: DominoSuit) => { success: boolean; error?: string };
+  passBid: () => { success: boolean; error?: string };
   validateBidInput: (amount: number, trump: DominoSuit) => { isValid: boolean; error?: string };
   getMinimumBidAmount: () => number;
   canCurrentPlayerBid: () => boolean;
@@ -115,7 +100,7 @@ export function useBiddingState(): BiddingStateHook {
 
   // Get current player ID (this would come from authentication/session in real app)
   const currentPlayerId = gameState?.currentPlayer;
-  const players = gameState?.players || [];
+  const players = useMemo(() => gameState?.players || [], [gameState?.players]);
 
   const validateBidInput = useCallback((amount: number, trump: DominoSuit) => {
     if (!currentPlayerId) {
@@ -129,7 +114,7 @@ export function useBiddingState(): BiddingStateHook {
     };
   }, [biddingState, currentPlayerId]);
 
-  const placeBid = useCallback(async (amount: number, trump: DominoSuit) => {
+  const placeBid = useCallback((amount: number, trump: DominoSuit) => {
     if (!currentPlayerId || !gameState) {
       return { success: false, error: 'No current player or game state' };
     }
@@ -158,21 +143,24 @@ export function useBiddingState(): BiddingStateHook {
       };
 
       // Update the game state
-      const gameUpdates: any = {
-        biddingState: standardBiddingState,
-        currentPlayer: updatedBiddingState.currentBidder,
-        updatedAt: new Date().toISOString()
-      };
+      if (gameState) {
+        const updatedGameState: GameState = {
+          ...gameState,
+          biddingState: standardBiddingState,
+          currentPlayer: updatedBiddingState.currentBidder,
+          updatedAt: new Date().toISOString()
+        };
 
-      // If bidding is complete, set the bidder and trump
-      if (updatedBiddingState.isComplete && updatedBiddingState.winner) {
-        gameUpdates.bidder = updatedBiddingState.winner;
-        gameUpdates.trump = trump;
-        gameUpdates.currentBid = bid;
-        gameUpdates.phase = 'playing';
+        // If bidding is complete, set the bidder and trump
+        if (updatedBiddingState.isComplete && updatedBiddingState.winner) {
+          updatedGameState.bidder = updatedBiddingState.winner;
+          updatedGameState.trump = trump;
+          updatedGameState.currentBid = bid;
+          updatedGameState.phase = 'playing';
+        }
+
+        updateGameState(updatedGameState);
       }
-
-      updateGameState(gameUpdates);
 
       return { success: true };
     } catch (error) {
@@ -181,7 +169,7 @@ export function useBiddingState(): BiddingStateHook {
     }
   }, [currentPlayerId, gameState, biddingState, players, validateBidInput, updateGameState]);
 
-  const passBid = useCallback(async () => {
+  const passBid = useCallback(() => {
     if (!currentPlayerId || !gameState) {
       return { success: false, error: 'No current player or game state' };
     }
@@ -205,26 +193,29 @@ export function useBiddingState(): BiddingStateHook {
       };
 
       // Update the game state
-      const gameUpdates: any = {
-        biddingState: standardBiddingState,
-        currentPlayer: updatedBiddingState.currentBidder,
-        updatedAt: new Date().toISOString()
-      };
+      if (gameState) {
+        const updatedGameState: GameState = {
+          ...gameState,
+          biddingState: standardBiddingState,
+          currentPlayer: updatedBiddingState.currentBidder,
+          updatedAt: new Date().toISOString()
+        };
 
-      // If bidding is complete, set the bidder and trump (if there's a winner)
-      if (updatedBiddingState.isComplete) {
-        if (updatedBiddingState.winner && updatedBiddingState.highestBid) {
-          gameUpdates.bidder = updatedBiddingState.winner;
-          gameUpdates.trump = updatedBiddingState.highestBid.trump;
-          gameUpdates.currentBid = updatedBiddingState.highestBid;
-          gameUpdates.phase = 'playing';
-        } else {
-          // All players passed - need to redeal or handle according to game rules
-          gameUpdates.phase = 'bidding'; // Reset or handle as needed
+        // If bidding is complete, set the bidder and trump (if there's a winner)
+        if (updatedBiddingState.isComplete) {
+          if (updatedBiddingState.winner && updatedBiddingState.highestBid) {
+            updatedGameState.bidder = updatedBiddingState.winner;
+            updatedGameState.trump = updatedBiddingState.highestBid.trump;
+            updatedGameState.currentBid = updatedBiddingState.highestBid;
+            updatedGameState.phase = 'playing';
+          } else {
+            // All players passed - need to redeal or handle according to game rules
+            updatedGameState.phase = 'bidding'; // Reset or handle as needed
+          }
         }
-      }
 
-      updateGameState(gameUpdates);
+        updateGameState(updatedGameState);
+      }
 
       return { success: true };
     } catch (error) {
@@ -257,7 +248,7 @@ export function useBiddingState(): BiddingStateHook {
     return biddingState.bidHistory;
   }, [biddingState.bidHistory]);
 
-  const actions: BiddingActions = {
+  const actions: BiddingActions = useMemo(() => ({
     placeBid,
     passBid,
     validateBidInput,
@@ -267,7 +258,17 @@ export function useBiddingState(): BiddingStateHook {
     getCurrentBidder,
     getHighestBid,
     getBidHistory
-  };
+  }), [
+    placeBid,
+    passBid,
+    validateBidInput,
+    getMinimumBidAmount,
+    canCurrentPlayerBid,
+    isBiddingComplete,
+    getCurrentBidder,
+    getHighestBid,
+    getBidHistory
+  ]);
 
   return {
     biddingState,

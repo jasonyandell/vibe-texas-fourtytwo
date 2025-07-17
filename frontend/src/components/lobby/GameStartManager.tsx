@@ -22,7 +22,7 @@ export const GameStartManager: React.FC<GameStartManagerProps> = ({
   const [startError, setStartError] = useState<string | null>(null);
 
   // Calculate game start readiness
-  const activePlayers = players.filter(p => p !== null) as Player[];
+  const activePlayers = players.filter(p => p !== null);
   const readyPlayers = activePlayers.filter(p => p.isReady);
   const canStartGame = activePlayers.length === 4 && readyPlayers.length === 4;
 
@@ -127,7 +127,7 @@ export const GameStartManager: React.FC<GameStartManagerProps> = ({
         <Button
           variant="primary"
           size="large"
-          onClick={handleStartGame}
+          onClick={() => void handleStartGame()}
           disabled={!canStartGame || isStarting}
           loading={isStarting}
           fullWidth

@@ -1,17 +1,12 @@
 import { describe, it, expect } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen } from '@/test/test-utils'
 import { DominoComponent } from '../DominoComponent'
 import { DominoHand } from '../DominoHand'
 import { GameBoard } from '../GameBoard'
-import { Domino, GameState } from '@/types/texas42'
-import { BrowserRouter } from 'react-router-dom'
+import { Domino, GameState, createDomino } from '@/types/texas42'
 
 describe('Accessibility Tests', () => {
-  const mockDomino: Domino = {
-    id: 'test-domino',
-    high: 3,
-    low: 2
-  }
+  const mockDomino: Domino = createDomino(3, 2)
 
   const mockGameState: GameState = {
     id: 'test-game',
@@ -55,7 +50,7 @@ describe('Accessibility Tests', () => {
       render(<DominoComponent domino={mockDomino} />)
       
       const domino = screen.getByRole('button')
-      expect(domino).toHaveAttribute('aria-label', 'Domino 3-2')
+      expect(domino).toHaveAttribute('aria-label', 'Domino 3-2, 5 points')
     })
 
     it('indicates disabled state properly', () => {
@@ -66,7 +61,7 @@ describe('Accessibility Tests', () => {
     })
 
     it('handles blank dominoes in ARIA labels', () => {
-      const blankDomino: Domino = { id: 'blank', high: 0, low: 0 }
+      const blankDomino: Domino = createDomino(0, 0)
       render(<DominoComponent domino={blankDomino} />)
       
       const domino = screen.getByRole('button')
@@ -75,11 +70,9 @@ describe('Accessibility Tests', () => {
   })
 
   describe('DominoHand Accessibility', () => {
-    const mockHand = Array.from({ length: 7 }, (_, i) => ({
-      id: `domino-${i}`,
-      high: Math.floor(i / 2),
-      low: i % 2
-    }))
+    const mockHand = Array.from({ length: 7 }, (_, i) =>
+      createDomino(Math.floor(i / 2), i % 2)
+    )
 
     it('groups dominoes with proper role and label', () => {
       const { container } = render(<DominoHand dominoes={mockHand} />)
@@ -109,11 +102,7 @@ describe('Accessibility Tests', () => {
 
   describe('GameBoard Accessibility', () => {
     it('has proper landmark roles', () => {
-      render(
-        <BrowserRouter>
-          <GameBoard gameState={mockGameState} />
-        </BrowserRouter>
-      )
+      render(<GameBoard gameState={mockGameState} />)
       
       const gameBoard = screen.getByRole('main')
       expect(gameBoard).toHaveAttribute('aria-label', 'Texas 42 game board')
@@ -126,11 +115,7 @@ describe('Accessibility Tests', () => {
     })
 
     it('provides descriptive labels for player areas', () => {
-      render(
-        <BrowserRouter>
-          <GameBoard gameState={mockGameState} />
-        </BrowserRouter>
-      )
+      render(<GameBoard gameState={mockGameState} />)
       
       const playerArea = screen.getByTestId('player-area-north')
       expect(playerArea).toBeInTheDocument()
@@ -168,11 +153,9 @@ describe('Accessibility Tests', () => {
     })
 
     it('maintains logical tab order', () => {
-      const playableDominoes = Array.from({ length: 3 }, (_, i) => ({
-        id: `domino-${i}`,
-        high: i + 1,
-        low: 0
-      }))
+      const playableDominoes = Array.from({ length: 3 }, (_, i) =>
+        createDomino(i + 1, 0)
+      )
 
       render(
         <DominoHand 

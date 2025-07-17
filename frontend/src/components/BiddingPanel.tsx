@@ -23,7 +23,7 @@ export interface IntegratedBiddingPanelProps {
 
 export const BiddingPanel: React.FC<BiddingPanelProps> = ({
   currentBid,
-  currentBidder,
+  currentBidder: _currentBidder,
   isCurrentPlayer,
   minimumBid,
   onBid,
@@ -67,7 +67,7 @@ export const BiddingPanel: React.FC<BiddingPanelProps> = ({
 
   // Handle bid amount change
   const handleBidAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
+    const value = (event.target as HTMLInputElement).value;
     const amount = value === '' ? 0 : parseInt(value, 10);
 
     if (!isNaN(amount)) {
@@ -81,7 +81,7 @@ export const BiddingPanel: React.FC<BiddingPanelProps> = ({
 
   // Handle trump selection change
   const handleTrumpChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const trump = event.target.value as DominoSuit | '';
+    const trump = (event.target as HTMLSelectElement).value as DominoSuit | '';
     setSelectedTrump(trump);
 
     // Clear validation error when trump is selected
@@ -105,7 +105,7 @@ export const BiddingPanel: React.FC<BiddingPanelProps> = ({
       return;
     }
 
-    if (selectedTrump && selectedTrump !== '') {
+    if (selectedTrump !== '') {
       onBid(bidAmount, selectedTrump);
       // Reset form after successful bid
       setBidAmount(getMinimumValidBid());
@@ -123,7 +123,7 @@ export const BiddingPanel: React.FC<BiddingPanelProps> = ({
   };
 
   const isDisabled = disabled || !isCurrentPlayer;
-  const isBidValid = !validateBidAmount(bidAmount) && !validateTrumpSelection();
+  const _isBidValid = !validateBidAmount(bidAmount) && !validateTrumpSelection();
   const isBidButtonDisabled = isDisabled || !!validateBidAmount(bidAmount);
 
   const trumpSuits: { value: DominoSuit; label: string }[] = [
@@ -238,7 +238,7 @@ export const IntegratedBiddingPanel: React.FC<IntegratedBiddingPanelProps> = ({
   disabled = false,
   className = ''
 }) => {
-  const { biddingState, actions, isLoading, error } = useBiddingState();
+  const { biddingState: _biddingState, actions, isLoading, error } = useBiddingState();
 
   const [bidAmount, setBidAmount] = useState<number>(actions.getMinimumBidAmount());
   const [selectedTrump, setSelectedTrump] = useState<DominoSuit | ''>('');
@@ -251,20 +251,20 @@ export const IntegratedBiddingPanel: React.FC<IntegratedBiddingPanelProps> = ({
   }, [actions]);
 
   // Handle bid submission
-  const handleBidSubmit = useCallback(async () => {
+  const handleBidSubmit = useCallback(() => {
     if (!selectedTrump) {
       setValidationError('Must select trump suit');
       return;
     }
 
-    const validation = actions.validateBidInput(bidAmount, selectedTrump as DominoSuit);
+    const validation = actions.validateBidInput(bidAmount, selectedTrump);
     if (!validation.isValid) {
       setValidationError(validation.error || 'Invalid bid');
       return;
     }
 
     setValidationError('');
-    const result = await actions.placeBid(bidAmount, selectedTrump as DominoSuit);
+    const result = actions.placeBid(bidAmount, selectedTrump);
 
     if (!result.success) {
       setValidationError(result.error || 'Failed to place bid');
@@ -276,9 +276,9 @@ export const IntegratedBiddingPanel: React.FC<IntegratedBiddingPanelProps> = ({
   }, [bidAmount, selectedTrump, actions]);
 
   // Handle pass
-  const handlePass = useCallback(async () => {
+  const handlePass = useCallback(() => {
     setValidationError('');
-    const result = await actions.passBid();
+    const result = actions.passBid();
 
     if (!result.success) {
       setValidationError(result.error || 'Failed to pass');
@@ -307,11 +307,11 @@ export const IntegratedBiddingPanel: React.FC<IntegratedBiddingPanelProps> = ({
 
   const isCurrentPlayer = actions.canCurrentPlayerBid();
   const isDisabled = disabled || !isCurrentPlayer;
-  const isBidValid = !validateBidAmount(bidAmount) && !validateTrumpSelection();
+  const _isBidValid = !validateBidAmount(bidAmount) && !validateTrumpSelection();
   const isBidButtonDisabled = isDisabled || !!validateBidAmount(bidAmount);
 
   const currentBid = actions.getHighestBid();
-  const currentBidder = actions.getCurrentBidder();
+  const _currentBidder = actions.getCurrentBidder();
 
   if (isLoading) {
     return <div className={`${styles.biddingPanel} ${className}`}>Loading...</div>;
@@ -348,7 +348,7 @@ export const IntegratedBiddingPanel: React.FC<IntegratedBiddingPanelProps> = ({
             min="30"
             max="42"
             value={bidAmount}
-            onChange={(e) => setBidAmount(parseInt(e.target.value) || 30)}
+            onChange={(e) => setBidAmount(parseInt((e.target as HTMLInputElement).value) || 30)}
             disabled={isDisabled}
             className={styles.bidInput}
             aria-describedby="bid-amount-error"
@@ -366,7 +366,7 @@ export const IntegratedBiddingPanel: React.FC<IntegratedBiddingPanelProps> = ({
                     name="trump-suit"
                     value={suit}
                     checked={selectedTrump === suit}
-                    onChange={(e) => setSelectedTrump(e.target.value as DominoSuit)}
+                    onChange={(e) => setSelectedTrump((e.target as HTMLInputElement).value as DominoSuit)}
                     aria-describedby="trump-suit-error"
                   />
                   <span className={styles.trumpLabel}>
@@ -392,7 +392,7 @@ export const IntegratedBiddingPanel: React.FC<IntegratedBiddingPanelProps> = ({
         <div className={styles.actions}>
           <Button
             variant="primary"
-            onClick={handleBidSubmit}
+            onClick={() => void handleBidSubmit()}
             disabled={isBidButtonDisabled}
             className={styles.bidButton}
           >
@@ -400,7 +400,7 @@ export const IntegratedBiddingPanel: React.FC<IntegratedBiddingPanelProps> = ({
           </Button>
           <Button
             variant="secondary"
-            onClick={handlePass}
+            onClick={() => void handlePass()}
             disabled={isDisabled}
             className={styles.passButton}
           >

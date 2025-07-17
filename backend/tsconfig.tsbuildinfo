@@ -1,0 +1,1 @@
+{"root":["./src/index.ts","./src/api/game.ts","./src/api/health.ts","./src/game/dominoes.ts","./src/game/engine.ts","./src/game/__tests__/dominoes.test.ts","./src/game/__tests__/engine.test.ts","./src/test/setup.ts","./src/types/texas42.ts","./src/utils/env.ts","./src/utils/gamevalidation.ts"],"version":"5.8.3"}

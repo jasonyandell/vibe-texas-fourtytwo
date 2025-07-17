@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { renderHook, act } from '@testing-library/react'
 import { useLobbyState } from '../useLobbyState'
 import { LobbyStateProvider } from '@/contexts/LobbyStateContext'
-import { LobbyState } from '@/types/texas42'
+import { LobbyState, LobbyGame } from '@/types/texas42'
 import React from 'react'
 
 const mockLobbyState: LobbyState = {
@@ -325,7 +325,7 @@ describe('useLobbyState', () => {
       const { result } = renderHook(() => useLobbyState(), { wrapper })
       
       const invalidState = {
-        availableGames: 'invalid' as any,
+        availableGames: 'invalid' as unknown as LobbyGame[],
         connectedPlayers: -1
       }
       

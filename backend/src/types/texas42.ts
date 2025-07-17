@@ -5,9 +5,11 @@
 
 // Domino representation
 export interface Domino {
-  high: number;  // 0-6
-  low: number;   // 0-6
-  id: string;    // unique identifier
+  high: number;        // 0-6
+  low: number;         // 0-6
+  id: string;          // unique identifier
+  pointValue: number;  // 0, 5, or 10 points
+  isCountDomino: boolean; // true for scoring dominoes
 }
 
 // Player positions in Texas 42 (partnerships: North-South, East-West)
@@ -152,7 +154,7 @@ export interface PlayerRecord {
 }
 
 // API responses
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   success: boolean;
   data?: T;
   error?: string;
@@ -164,6 +166,6 @@ export interface WebSocketMessage {
   type: string;
   gameId?: string;
   playerId?: string;
-  data?: any;
+  data?: unknown;
   timestamp: string;
 }
