@@ -66,8 +66,8 @@ function convertToExtendedBiddingState(
 
 
 export interface BiddingActions {
-  placeBid: (amount: number, trump: DominoSuit) => Promise<{ success: boolean; error?: string }>;
-  passBid: () => Promise<{ success: boolean; error?: string }>;
+  placeBid: (amount: number, trump: DominoSuit) => { success: boolean; error?: string };
+  passBid: () => { success: boolean; error?: string };
   validateBidInput: (amount: number, trump: DominoSuit) => { isValid: boolean; error?: string };
   getMinimumBidAmount: () => number;
   canCurrentPlayerBid: () => boolean;
@@ -143,21 +143,24 @@ export function useBiddingState(): BiddingStateHook {
       };
 
       // Update the game state
-      const gameUpdates: Partial<GameState> = {
-        biddingState: standardBiddingState,
-        currentPlayer: updatedBiddingState.currentBidder,
-        updatedAt: new Date().toISOString()
-      };
+      if (gameState) {
+        const updatedGameState: GameState = {
+          ...gameState,
+          biddingState: standardBiddingState,
+          currentPlayer: updatedBiddingState.currentBidder,
+          updatedAt: new Date().toISOString()
+        };
 
-      // If bidding is complete, set the bidder and trump
-      if (updatedBiddingState.isComplete && updatedBiddingState.winner) {
-        gameUpdates.bidder = updatedBiddingState.winner;
-        gameUpdates.trump = trump;
-        gameUpdates.currentBid = bid;
-        gameUpdates.phase = 'playing';
+        // If bidding is complete, set the bidder and trump
+        if (updatedBiddingState.isComplete && updatedBiddingState.winner) {
+          updatedGameState.bidder = updatedBiddingState.winner;
+          updatedGameState.trump = trump;
+          updatedGameState.currentBid = bid;
+          updatedGameState.phase = 'playing';
+        }
+
+        updateGameState(updatedGameState);
       }
-
-      updateGameState(gameUpdates);
 
       return { success: true };
     } catch (error) {
@@ -190,26 +193,29 @@ export function useBiddingState(): BiddingStateHook {
       };
 
       // Update the game state
-      const gameUpdates: Partial<GameState> = {
-        biddingState: standardBiddingState,
-        currentPlayer: updatedBiddingState.currentBidder,
-        updatedAt: new Date().toISOString()
-      };
+      if (gameState) {
+        const updatedGameState: GameState = {
+          ...gameState,
+          biddingState: standardBiddingState,
+          currentPlayer: updatedBiddingState.currentBidder,
+          updatedAt: new Date().toISOString()
+        };
 
-      // If bidding is complete, set the bidder and trump (if there's a winner)
-      if (updatedBiddingState.isComplete) {
-        if (updatedBiddingState.winner && updatedBiddingState.highestBid) {
-          gameUpdates.bidder = updatedBiddingState.winner;
-          gameUpdates.trump = updatedBiddingState.highestBid.trump;
-          gameUpdates.currentBid = updatedBiddingState.highestBid;
-          gameUpdates.phase = 'playing';
-        } else {
-          // All players passed - need to redeal or handle according to game rules
-          gameUpdates.phase = 'bidding'; // Reset or handle as needed
+        // If bidding is complete, set the bidder and trump (if there's a winner)
+        if (updatedBiddingState.isComplete) {
+          if (updatedBiddingState.winner && updatedBiddingState.highestBid) {
+            updatedGameState.bidder = updatedBiddingState.winner;
+            updatedGameState.trump = updatedBiddingState.highestBid.trump;
+            updatedGameState.currentBid = updatedBiddingState.highestBid;
+            updatedGameState.phase = 'playing';
+          } else {
+            // All players passed - need to redeal or handle according to game rules
+            updatedGameState.phase = 'bidding'; // Reset or handle as needed
+          }
         }
-      }
 
-      updateGameState(gameUpdates);
+        updateGameState(updatedGameState);
+      }
 
       return { success: true };
     } catch (error) {
@@ -242,7 +248,7 @@ export function useBiddingState(): BiddingStateHook {
     return biddingState.bidHistory;
   }, [biddingState.bidHistory]);
 
-  const actions: BiddingActions = {
+  const actions: BiddingActions = useMemo(() => ({
     placeBid,
     passBid,
     validateBidInput,
@@ -252,7 +258,17 @@ export function useBiddingState(): BiddingStateHook {
     getCurrentBidder,
     getHighestBid,
     getBidHistory
-  };
+  }), [
+    placeBid,
+    passBid,
+    validateBidInput,
+    getMinimumBidAmount,
+    canCurrentPlayerBid,
+    isBiddingComplete,
+    getCurrentBidder,
+    getHighestBid,
+    getBidHistory
+  ]);
 
   return {
     biddingState,

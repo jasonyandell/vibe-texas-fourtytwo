@@ -251,7 +251,7 @@ export const IntegratedBiddingPanel: React.FC<IntegratedBiddingPanelProps> = ({
   }, [actions]);
 
   // Handle bid submission
-  const handleBidSubmit = useCallback(async () => {
+  const handleBidSubmit = useCallback(() => {
     if (!selectedTrump) {
       setValidationError('Must select trump suit');
       return;
@@ -264,7 +264,7 @@ export const IntegratedBiddingPanel: React.FC<IntegratedBiddingPanelProps> = ({
     }
 
     setValidationError('');
-    const result = await actions.placeBid(bidAmount, selectedTrump);
+    const result = actions.placeBid(bidAmount, selectedTrump);
 
     if (!result.success) {
       setValidationError(result.error || 'Failed to place bid');
@@ -276,9 +276,9 @@ export const IntegratedBiddingPanel: React.FC<IntegratedBiddingPanelProps> = ({
   }, [bidAmount, selectedTrump, actions]);
 
   // Handle pass
-  const handlePass = useCallback(async () => {
+  const handlePass = useCallback(() => {
     setValidationError('');
-    const result = await actions.passBid();
+    const result = actions.passBid();
 
     if (!result.success) {
       setValidationError(result.error || 'Failed to pass');

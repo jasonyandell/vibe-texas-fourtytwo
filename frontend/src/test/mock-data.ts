@@ -19,7 +19,15 @@ export const createMockGameState = (overrides: Partial<GameState> = {}): GameSta
     minimumBid: 30
   },
   tricks: [],
-  handNumber: 1,
+  scores: {
+    northSouth: 0,
+    eastWest: 0
+  },
+  gameScore: {
+    northSouth: 0,
+    eastWest: 0
+  },
+  boneyard: [],
   dealer: 'player1',
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),

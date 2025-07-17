@@ -140,11 +140,11 @@ describe('useBiddingState', () => {
   });
 
   describe('placing bids', () => {
-    it('successfully places a valid bid', async () => {
+    it('successfully places a valid bid', () => {
       const { result } = renderHook(() => useBiddingState());
 
-      await act(async () => {
-        const response = await result.current.actions.placeBid(30, 'sixes');
+      act(() => {
+        const response = result.current.actions.placeBid(30, 'sixes');
         expect(response.success).toBe(true);
         expect(response.error).toBeUndefined();
       });
@@ -156,11 +156,11 @@ describe('useBiddingState', () => {
       );
     });
 
-    it('rejects invalid bid', async () => {
+    it('rejects invalid bid', () => {
       const { result } = renderHook(() => useBiddingState());
 
-      await act(async () => {
-        const response = await result.current.actions.placeBid(25, 'sixes');
+      act(() => {
+        const response = result.current.actions.placeBid(25, 'sixes');
         expect(response.success).toBe(false);
         expect(response.error).toBe('Bid must be at least 30');
       });
@@ -168,13 +168,13 @@ describe('useBiddingState', () => {
       expect(mockUpdateGameState).not.toHaveBeenCalled();
     });
 
-    it('handles missing current player', async () => {
+    it('handles missing current player', () => {
       mockUseGameStateContext.mockReturnValue(createMockContext({ ...baseGameState, currentPlayer: undefined }));
 
       const { result } = renderHook(() => useBiddingState());
 
-      await act(async () => {
-        const response = await result.current.actions.placeBid(30, 'sixes');
+      act(() => {
+        const response = result.current.actions.placeBid(30, 'sixes');
         expect(response.success).toBe(false);
         expect(response.error).toBe('No current player or game state');
       });
@@ -184,11 +184,11 @@ describe('useBiddingState', () => {
   });
 
   describe('passing bids', () => {
-    it('successfully passes a bid', async () => {
+    it('successfully passes a bid', () => {
       const { result } = renderHook(() => useBiddingState());
 
-      await act(async () => {
-        const response = await result.current.actions.passBid();
+      act(() => {
+        const response = result.current.actions.passBid();
         expect(response.success).toBe(true);
         expect(response.error).toBeUndefined();
       });
@@ -200,13 +200,13 @@ describe('useBiddingState', () => {
       );
     });
 
-    it('handles missing current player', async () => {
+    it('handles missing current player', () => {
       mockUseGameStateContext.mockReturnValue(createMockContext({ ...baseGameState, currentPlayer: undefined }));
 
       const { result } = renderHook(() => useBiddingState());
 
-      await act(async () => {
-        const response = await result.current.actions.passBid();
+      act(() => {
+        const response = result.current.actions.passBid();
         expect(response.success).toBe(false);
         expect(response.error).toBe('No current player or game state');
       });

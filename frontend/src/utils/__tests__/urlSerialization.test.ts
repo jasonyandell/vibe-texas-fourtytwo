@@ -72,8 +72,19 @@ describe('URL Serialization', () => {
 
   describe('Compression', () => {
     it('compresses game state for shorter URLs', () => {
-      const compressionResult = compressGameState(mockGameState)
-      const original = JSON.stringify(mockGameState)
+      // Convert GameState to SerializedGameState for compression
+      const serializedState = {
+        version: 2,
+        gameId: mockGameState.id,
+        phase: mockGameState.phase,
+        players: mockGameState.players,
+        dealer: mockGameState.dealer,
+        scores: mockGameState.scores,
+        gameScore: mockGameState.gameScore
+      };
+
+      const compressionResult = compressGameState(serializedState)
+      const original = JSON.stringify(serializedState)
 
       // Compression should return a valid result
       expect(compressionResult.data.length).toBeGreaterThan(0)
@@ -85,25 +96,64 @@ describe('URL Serialization', () => {
     })
 
     it('decompresses game state correctly', () => {
-      const compressionResult = compressGameState(mockGameState)
+      // Convert GameState to SerializedGameState for compression
+      const serializedState = {
+        version: 2,
+        gameId: mockGameState.id,
+        phase: mockGameState.phase,
+        players: mockGameState.players,
+        dealer: mockGameState.dealer,
+        scores: mockGameState.scores,
+        gameScore: mockGameState.gameScore
+      };
+
+      const compressionResult = compressGameState(serializedState)
       const decompressed = decompressGameState(compressionResult.data, compressionResult.method)
 
-      expect(decompressed).toEqual(mockGameState)
+      expect(decompressed).toEqual(serializedState)
     })
 
     it('handles compression round-trip', () => {
-      const compressionResult = compressGameState(mockGameState)
-      const decompressed = decompressGameState(compressionResult.data, compressionResult.method)
-      const recompressionResult = compressGameState(decompressed, compressionResult.method)
+      // Convert GameState to SerializedGameState for compression
+      const serializedState = {
+        version: 2,
+        gameId: mockGameState.id,
+        phase: mockGameState.phase,
+        players: mockGameState.players,
+        dealer: mockGameState.dealer,
+        scores: mockGameState.scores,
+        gameScore: mockGameState.gameScore
+      };
 
-      // Should decompress to the same data
-      expect(decompressed).toEqual(mockGameState)
-      // Recompression with same method should produce similar results
-      expect(recompressionResult.method).toBe(compressionResult.method)
+      const compressionResult = compressGameState(serializedState)
+      const decompressed = decompressGameState(compressionResult.data, compressionResult.method)
+
+      // Ensure decompressed is not null before recompressing
+      expect(decompressed).not.toBeNull()
+
+      if (decompressed) {
+        const recompressionResult = compressGameState(decompressed, compressionResult.method)
+
+        // Should decompress to the same data
+        expect(decompressed).toEqual(serializedState)
+        // Recompression with same method should produce similar results
+        expect(recompressionResult.method).toBe(compressionResult.method)
+      }
     })
 
     it('chooses best compression method automatically', () => {
-      const result = compressGameState(mockGameState)
+      // Convert GameState to SerializedGameState for compression
+      const serializedState = {
+        version: 2,
+        gameId: mockGameState.id,
+        phase: mockGameState.phase,
+        players: mockGameState.players,
+        dealer: mockGameState.dealer,
+        scores: mockGameState.scores,
+        gameScore: mockGameState.gameScore
+      };
+
+      const result = compressGameState(serializedState)
 
       // Should choose an efficient compression method for this data
       expect(['lz-string-uri', 'lz-string', 'base64', 'none']).toContain(result.method)
@@ -111,10 +161,21 @@ describe('URL Serialization', () => {
     })
 
     it('respects preferred compression method', () => {
-      const result = compressGameState(mockGameState, 'base64')
+      // Convert GameState to SerializedGameState for compression
+      const serializedState = {
+        version: 2,
+        gameId: mockGameState.id,
+        phase: mockGameState.phase,
+        players: mockGameState.players,
+        dealer: mockGameState.dealer,
+        scores: mockGameState.scores,
+        gameScore: mockGameState.gameScore
+      };
+
+      const result = compressGameState(serializedState, 'base64')
 
       expect(result.method).toBe('base64')
-      expect(result.data).toBe(btoa(JSON.stringify(mockGameState)))
+      expect(result.data).toBe(btoa(JSON.stringify(serializedState)))
     })
   })
 

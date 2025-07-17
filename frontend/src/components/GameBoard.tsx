@@ -30,7 +30,7 @@ export const GameBoard: React.FC<GameBoardProps> = ({
     updateGameState = gameStateContext.updateGameState;
   } catch (error) {
     // Context not available (likely in tests), use a no-op function
-    console.warn('GameState context not available:', error.message);
+    console.warn('GameState context not available:', error instanceof Error ? error.message : String(error));
     updateGameState = () => {
       console.warn('GameState context not available, bid handling disabled');
     };
@@ -361,8 +361,8 @@ export const GameBoard: React.FC<GameBoardProps> = ({
           <div className={styles.currentTrick} data-testid="current-trick">
             <h3>Current Trick</h3>
             <div className={styles.trickDominoes}>
-              {gameState.currentTrick.dominoes.map((play, index) => (
-                <div key={index} className={styles.playedDomino}>
+              {gameState.currentTrick.dominoes.map((play) => (
+                <div key={`${play.playerId}-${play.domino.id}`} className={styles.playedDomino}>
                   <DominoComponent domino={play.domino} />
                   <span className={styles.playerLabel}>
                     {getPlayerByPosition(play.position)?.name}
