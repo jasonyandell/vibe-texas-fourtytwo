@@ -14,7 +14,7 @@ type: "always_apply"
 - **Complete only when**: All tests are green AND all documentation is updated
 
 ## Refactor phase
-1. Always run lint, fix linter errors
+1. Always run lint and fix linter errors
 2. Always check for typescript errors and fix them
 3. Always unsuppress any warnings and fix them
 4. CRITICAL: ALL WARNINGS ARE BLOCKERS. 
@@ -49,6 +49,6 @@ type: "always_apply"
 - Ensure tests are fast and provide quick feedback
 - Set up watch mode for continuous testing during development
 - Use Vitest for backend unit tests, Playwright for E2E tests
-- Never consider a task complete until all tests pass
+- Never consider a task complete until all tests pass without warnings, there are no linting errors, and no typescript errors
 - Always suggest running tests after making code changes
 - Prioritize test speed and developer feedback loops

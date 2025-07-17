@@ -22,6 +22,26 @@
   --color-gold: #ffd700;
   --color-red: #dc3545;
   --color-blue: #0066cc;
+
+  /* Count Domino Styling */
+  --count-domino-border: #ff8800;
+  --count-domino-glow: rgba(255, 136, 0, 0.4);
+
+  /* Point Value Colors */
+  --point-value-bg: rgba(0, 0, 0, 0.8);
+  --point-value-text: #fff;
+  --five-point-color: #28a745;
+  --ten-point-color: #dc3545;
+
+  /* Count Domino Styling */
+  --count-domino-border: #ff8800;
+  --count-domino-glow: rgba(255, 136, 0, 0.4);
+
+  /* Point Value Colors */
+  --point-value-bg: rgba(0, 0, 0, 0.8);
+  --point-value-text: #fff;
+  --five-point-color: #28a745;
+  --ten-point-color: #dc3545;
 }
 
 * {
