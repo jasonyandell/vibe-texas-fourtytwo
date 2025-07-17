@@ -202,7 +202,17 @@ describe('useGameState', () => {
       
       const optimisticUpdate = (state: GameState) => ({
         ...state,
-        scores: { northSouth: 10, eastWest: 5 }
+        partnerships: {
+          ...state.partnerships,
+          northSouth: {
+            ...state.partnerships.northSouth,
+            currentHandScore: 10
+          },
+          eastWest: {
+            ...state.partnerships.eastWest,
+            currentHandScore: 5
+          }
+        }
       })
       
       act(() => {
@@ -222,7 +232,17 @@ describe('useGameState', () => {
       
       const optimisticUpdate = (state: GameState) => ({
         ...state,
-        scores: { northSouth: 10, eastWest: 5 }
+        partnerships: {
+          ...state.partnerships,
+          northSouth: {
+            ...state.partnerships.northSouth,
+            currentHandScore: 10
+          },
+          eastWest: {
+            ...state.partnerships.eastWest,
+            currentHandScore: 5
+          }
+        }
       })
       
       act(() => {
@@ -246,7 +266,17 @@ describe('useGameState', () => {
       
       const optimisticUpdate = (state: GameState) => ({
         ...state,
-        scores: { northSouth: 10, eastWest: 5 }
+        partnerships: {
+          ...state.partnerships,
+          northSouth: {
+            ...state.partnerships.northSouth,
+            currentHandScore: 10
+          },
+          eastWest: {
+            ...state.partnerships.eastWest,
+            currentHandScore: 5
+          }
+        }
       })
       
       act(() => {

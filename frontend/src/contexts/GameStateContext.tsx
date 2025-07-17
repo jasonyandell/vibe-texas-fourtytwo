@@ -1,28 +1,7 @@
 import React, { createContext, useReducer, useCallback, useRef } from 'react';
-import { GameState, Player } from '@texas42/shared-types';
+import { GameState, Player, isValidGameState } from '@texas42/shared-types';
 import { serializeGameStateToUrl, parseGameStateFromUrl } from '@/utils/urlSerialization';
 import { StatePersistence } from '@/utils/statePersistence';
-
-// Temporary workaround for build issue - more complete validation
-function isValidGameState(value: unknown): value is GameState {
-  if (!value || typeof value !== 'object') return false;
-
-  const obj = value as Record<string, unknown>;
-  const { id, phase, players, dealer, partnerships } = obj;
-
-  // Check basic required fields
-  if (typeof id !== 'string' || id.length === 0) return false;
-  if (!['bidding', 'playing', 'scoring', 'finished'].includes(phase as string)) return false;
-  if (!Array.isArray(players)) return false;
-  if (typeof dealer !== 'string' || dealer.length === 0) return false;
-
-  // Check partnerships structure
-  if (!partnerships || typeof partnerships !== 'object') return false;
-  const partnershipObj = partnerships as Record<string, unknown>;
-  if (!partnershipObj.northSouth || !partnershipObj.eastWest) return false;
-
-  return true;
-}
 
 // Optimistic update metadata
 interface OptimisticUpdate {
