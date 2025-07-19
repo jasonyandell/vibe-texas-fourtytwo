@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { GameState, Player } from '@/types/texas42';
+import { Player } from '@/types/texas42';
+import { GameState } from '@texas42/shared-types';
 import { Button, Badge, Card } from '@/components/ui';
 import { DominoHand } from '@/components/DominoHand';
 import { GameBoard } from '@/components/GameBoard';

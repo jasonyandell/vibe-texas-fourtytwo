@@ -1,7 +1,17 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@/test/test-utils'
 import { GameBoard } from '../GameBoard'
-import { GameState, Player, Domino as _Domino, createDomino, DominoSuit, PlayerPosition } from '@/types/texas42'
+import {
+  GameState,
+  Player,
+  createDomino,
+  DominoSuit,
+  createCompatibleTrick,
+  createCompatiblePlayedDomino,
+  createCompatibleBid,
+  createCompatibleBiddingState,
+  createEmptyGameState
+} from '@texas42/shared-types'
 
 // Mock the useParams hook
 vi.mock('react-router-dom', async () => {
@@ -48,18 +58,15 @@ describe('GameBoard', () => {
     }
   ]
 
-  const mockGameState: GameState = {
-    id: 'test-game-123',
-    phase: 'playing',
-    players: mockPlayers,
-    dealer: 'player-1',
-    tricks: [],
-    scores: { northSouth: 0, eastWest: 0 },
-    gameScore: { northSouth: 0, eastWest: 0 },
-    boneyard: [],
-    createdAt: '2024-01-01T00:00:00Z',
-    updatedAt: '2024-01-01T00:00:00Z'
-  }
+  const mockGameState: GameState = (() => {
+    const state = createEmptyGameState('test-game-123');
+    state.phase = 'playing';
+    state.players = mockPlayers;
+    state.dealer = 'player-1';
+    state.createdAt = '2024-01-01T00:00:00Z';
+    state.updatedAt = '2024-01-01T00:00:00Z';
+    return state;
+  })()
 
   const renderGameBoard = (gameState?: Partial<GameState>) => {
     return render(
@@ -177,8 +184,8 @@ describe('GameBoard', () => {
     it('shows trick count for each team', () => {
       const gameStateWithTricks = {
         tricks: [
-          { id: 'trick-1', dominoes: [], winner: 'player-1' },
-          { id: 'trick-2', dominoes: [], winner: 'player-2' }
+          createCompatibleTrick('trick-1', [], 1, { winner: 'player-1' }),
+          createCompatibleTrick('trick-2', [], 2, { winner: 'player-2' })
         ]
       }
       renderGameBoard(gameStateWithTricks)
@@ -191,16 +198,17 @@ describe('GameBoard', () => {
     it('displays individual trick stacks', () => {
       const gameStateWithTricks = {
         tricks: [
-          {
-            id: 'trick-1',
-            dominoes: [
-              { domino: createDomino(6, 6), playerId: 'player-1', position: 'north' as PlayerPosition },
-              { domino: createDomino(5, 4), playerId: 'player-2', position: 'east' as PlayerPosition },
-              { domino: createDomino(4, 3), playerId: 'player-3', position: 'south' as PlayerPosition },
-              { domino: createDomino(3, 2), playerId: 'player-4', position: 'west' as PlayerPosition }
+          createCompatibleTrick(
+            'trick-1',
+            [
+              createCompatiblePlayedDomino(createDomino(6, 6), 'player-1', 'north', 0),
+              createCompatiblePlayedDomino(createDomino(5, 4), 'player-2', 'east', 1),
+              createCompatiblePlayedDomino(createDomino(4, 3), 'player-3', 'south', 2),
+              createCompatiblePlayedDomino(createDomino(3, 2), 'player-4', 'west', 3)
             ],
-            winner: 'player-1'
-          }
+            1,
+            { winner: 'player-1' }
+          )
         ]
       }
       renderGameBoard(gameStateWithTricks)
@@ -212,7 +220,7 @@ describe('GameBoard', () => {
   describe('Enhanced Game Information Display', () => {
     it('displays current bid and trump suit prominently', () => {
       const gameStateWithBid = {
-        currentBid: { playerId: 'player-1', amount: 35, trump: 'doubles' as DominoSuit },
+        currentBid: createCompatibleBid('player-1', 35, 'doubles'),
         trump: 'doubles' as DominoSuit
       }
       renderGameBoard(gameStateWithBid)
@@ -367,10 +375,15 @@ describe('GameBoard', () => {
 
   describe('Game State Integration', () => {
     it('displays current scores', () => {
-      renderGameBoard({
-        scores: { northSouth: 15, eastWest: 23 },
-        gameScore: { northSouth: 2, eastWest: 1 }
-      })
+      const gameStateWithScores = createEmptyGameState('test-game-123');
+      gameStateWithScores.phase = 'playing';
+      gameStateWithScores.players = mockPlayers;
+      gameStateWithScores.dealer = 'player-1';
+      gameStateWithScores.partnerships.northSouth.currentHandScore = 15;
+      gameStateWithScores.partnerships.eastWest.currentHandScore = 23;
+      gameStateWithScores.gameScore = { northSouth: 2, eastWest: 1 };
+
+      render(<GameBoard gameState={gameStateWithScores} />)
 
       expect(screen.getByText('North-South')).toBeInTheDocument()
       expect(screen.getByText('15')).toBeInTheDocument()
@@ -405,14 +418,14 @@ describe('GameBoard', () => {
     it('shows bidding history during bidding phase', () => {
       const gameStateWithBidding = {
         phase: 'bidding' as const,
-        biddingState: {
+        biddingState: createCompatibleBiddingState({
           bidHistory: [
-            { playerId: 'player-1', amount: 30, trump: 'sixes' as const }
+            createCompatibleBid('player-1', 30, 'sixes')
           ],
           biddingComplete: false,
           passCount: 0,
           minimumBid: 30
-        }
+        })
       }
 
       renderGameBoard(gameStateWithBidding)
@@ -422,16 +435,13 @@ describe('GameBoard', () => {
     })
 
     it('shows current trick when available', () => {
-      const mockTrick = {
-        id: 'trick-1',
-        dominoes: [
-          {
-            domino: createDomino(6, 3),
-            playerId: 'player-1',
-            position: 'north' as const
-          }
-        ]
-      }
+      const mockTrick = createCompatibleTrick(
+        'trick-1',
+        [
+          createCompatiblePlayedDomino(createDomino(6, 3), 'player-1', 'north', 0)
+        ],
+        1
+      )
 
       renderGameBoard({ currentTrick: mockTrick })
 

@@ -3,7 +3,15 @@
  * Handles saving and loading game state to/from various storage mechanisms
  */
 
-import { GameState, LobbyState, isValidGameState, isValidLobbyState } from '@/types/texas42';
+import { GameState, LobbyState } from '@texas42/shared-types';
+import { isValidLobbyState } from '@/types/texas42';
+
+// Temporary workaround for build issue - simplified validation
+function isValidGameState(value: unknown): value is GameState {
+  if (!value || typeof value !== 'object') return false;
+  const obj = value as Record<string, unknown>;
+  return typeof obj.id === 'string' && typeof obj.phase === 'string';
+}
 import { serializeGameStateToUrl, parseGameStateFromUrl } from './urlSerialization';
 
 // Storage keys

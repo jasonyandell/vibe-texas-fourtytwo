@@ -1,5 +1,5 @@
 import { nanoid } from 'nanoid'
-import { Domino } from '@/types/texas42'
+import { Domino } from '@texas42/shared-types'
 
 /**
  * Calculate the point value of a domino according to Texas 42 rules

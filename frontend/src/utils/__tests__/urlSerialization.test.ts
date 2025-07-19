@@ -11,28 +11,26 @@ import {
   type SerializedGameState,
   type UrlSerializationOptions
 } from '../urlSerialization'
-import { GameState } from '@/types/texas42'
+import { createEmptyGameState } from '@texas42/shared-types'
 
 describe('URL Serialization', () => {
-  const mockGameState: GameState = {
-    id: 'game-123',
-    phase: 'playing',
-    players: [
-      { id: 'p1', name: 'Player 1', position: 'north', hand: [], isConnected: true, isReady: true },
-      { id: 'p2', name: 'Player 2', position: 'east', hand: [], isConnected: true, isReady: true },
-      { id: 'p3', name: 'Player 3', position: 'south', hand: [], isConnected: true, isReady: true },
-      { id: 'p4', name: 'Player 4', position: 'west', hand: [], isConnected: true, isReady: true }
-    ],
-    dealer: 'p1',
-    currentPlayer: 'p2',
-    trump: 'sixes',
-    tricks: [],
-    scores: { northSouth: 15, eastWest: 23 },
-    gameScore: { northSouth: 1, eastWest: 2 },
-    boneyard: [],
-    createdAt: '2024-01-01T00:00:00Z',
-    updatedAt: '2024-01-01T00:00:00Z'
-  }
+  const mockGameState = createEmptyGameState('game-123');
+  // Add test-specific data
+  mockGameState.phase = 'playing';
+  mockGameState.players = [
+    { id: 'p1', name: 'Player 1', position: 'north', hand: [], isConnected: true, isReady: true },
+    { id: 'p2', name: 'Player 2', position: 'east', hand: [], isConnected: true, isReady: true },
+    { id: 'p3', name: 'Player 3', position: 'south', hand: [], isConnected: true, isReady: true },
+    { id: 'p4', name: 'Player 4', position: 'west', hand: [], isConnected: true, isReady: true }
+  ];
+  mockGameState.dealer = 'p1';
+  mockGameState.currentPlayer = 'p2';
+  mockGameState.trump = 'sixes';
+  mockGameState.partnerships.northSouth.currentHandScore = 15;
+  mockGameState.partnerships.eastWest.currentHandScore = 23;
+  mockGameState.gameScore = { northSouth: 1, eastWest: 2 };
+  mockGameState.createdAt = '2024-01-01T00:00:00Z';
+  mockGameState.updatedAt = '2024-01-01T00:00:00Z';
 
   describe('Basic Serialization', () => {
     it('serializes game state to URL parameters', () => {
@@ -65,8 +63,8 @@ describe('URL Serialization', () => {
       expect(parsedState!.id).toBe(mockGameState.id)
       expect(parsedState!.phase).toBe(mockGameState.phase)
       expect(parsedState!.players).toHaveLength(4)
-      expect(parsedState!.scores.northSouth).toBe(15)
-      expect(parsedState!.scores.eastWest).toBe(23)
+      expect(parsedState!.partnerships.northSouth.currentHandScore).toBe(15)
+      expect(parsedState!.partnerships.eastWest.currentHandScore).toBe(23)
     })
   })
 
@@ -79,7 +77,10 @@ describe('URL Serialization', () => {
         phase: mockGameState.phase,
         players: mockGameState.players,
         dealer: mockGameState.dealer,
-        scores: mockGameState.scores,
+        scores: {
+          northSouth: mockGameState.partnerships.northSouth.currentHandScore,
+          eastWest: mockGameState.partnerships.eastWest.currentHandScore
+        },
         gameScore: mockGameState.gameScore
       };
 
@@ -103,7 +104,10 @@ describe('URL Serialization', () => {
         phase: mockGameState.phase,
         players: mockGameState.players,
         dealer: mockGameState.dealer,
-        scores: mockGameState.scores,
+        scores: {
+          northSouth: mockGameState.partnerships.northSouth.currentHandScore,
+          eastWest: mockGameState.partnerships.eastWest.currentHandScore
+        },
         gameScore: mockGameState.gameScore
       };
 
@@ -121,7 +125,10 @@ describe('URL Serialization', () => {
         phase: mockGameState.phase,
         players: mockGameState.players,
         dealer: mockGameState.dealer,
-        scores: mockGameState.scores,
+        scores: {
+          northSouth: mockGameState.partnerships.northSouth.currentHandScore,
+          eastWest: mockGameState.partnerships.eastWest.currentHandScore
+        },
         gameScore: mockGameState.gameScore
       };
 
@@ -149,7 +156,10 @@ describe('URL Serialization', () => {
         phase: mockGameState.phase,
         players: mockGameState.players,
         dealer: mockGameState.dealer,
-        scores: mockGameState.scores,
+        scores: {
+          northSouth: mockGameState.partnerships.northSouth.currentHandScore,
+          eastWest: mockGameState.partnerships.eastWest.currentHandScore
+        },
         gameScore: mockGameState.gameScore
       };
 
@@ -168,7 +178,10 @@ describe('URL Serialization', () => {
         phase: mockGameState.phase,
         players: mockGameState.players,
         dealer: mockGameState.dealer,
-        scores: mockGameState.scores,
+        scores: {
+          northSouth: mockGameState.partnerships.northSouth.currentHandScore,
+          eastWest: mockGameState.partnerships.eastWest.currentHandScore
+        },
         gameScore: mockGameState.gameScore
       };
 

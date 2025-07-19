@@ -1,6 +1,12 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { GameState, PlayerPosition, DominoSuit } from '@/types/texas42';
+import {
+  GameState,
+  PlayerPosition,
+  DominoSuit,
+  createCompatibleBid,
+  createCompatibleBiddingState
+} from '@texas42/shared-types';
 import { DominoHand } from './DominoHand';
 import { DominoComponent } from './DominoComponent';
 import { BiddingPanel } from './BiddingPanel';
@@ -79,22 +85,18 @@ export const GameBoard: React.FC<GameBoardProps> = ({
     }
 
     try {
-      // Create the bid object
-      const bid = {
-        playerId: currentPlayerId,
-        amount,
-        trump
-      };
+      // Create the bid object using compatibility helper
+      const bid = createCompatibleBid(currentPlayerId, amount, trump);
 
-      // Update the game state with the new bid
-      const updatedBiddingState = {
+      // Update the game state with the new bid using compatibility helper
+      const updatedBiddingState = createCompatibleBiddingState({
         currentBid: bid,
         bidHistory: [...(gameState.biddingState?.bidHistory || []), bid],
         currentBidder: getNextBidder(currentPlayerId),
         minimumBid: amount + 1,
         biddingComplete: false,
         passCount: gameState.biddingState?.passCount || 0
-      };
+      });
 
       // Check if bidding should end (this is a simplified check)
       const passCount = gameState.biddingState?.passCount || 0;
@@ -125,23 +127,20 @@ export const GameBoard: React.FC<GameBoardProps> = ({
     }
 
     try {
-      // Create a pass bid (amount = 0)
-      const passBid = {
-        playerId: currentPlayerId,
-        amount: 0
-      };
+      // Create a pass bid (amount = 0) using compatibility helper
+      const passBid = createCompatibleBid(currentPlayerId, 0, 'blanks');
 
       const newPassCount = (gameState.biddingState?.passCount || 0) + 1;
       const biddingComplete = newPassCount >= 3 && !gameState.currentBid;
 
-      const updatedBiddingState = {
+      const updatedBiddingState = createCompatibleBiddingState({
         currentBid: gameState.biddingState?.currentBid,
         bidHistory: [...(gameState.biddingState?.bidHistory || []), passBid],
         currentBidder: getNextBidder(currentPlayerId),
         passCount: newPassCount,
         biddingComplete,
         minimumBid: gameState.biddingState?.minimumBid || 30
-      };
+      });
 
       const updatedGameState = {
         ...gameState,
@@ -410,12 +409,12 @@ export const GameBoard: React.FC<GameBoardProps> = ({
         <div className={styles.scoreDisplay}>
           <div className={styles.scoreTeam}>
             <span className={styles.teamName}>North-South</span>
-            <span className={styles.teamScore}>{gameState.scores.northSouth}</span>
+            <span className={styles.teamScore}>{gameState.partnerships.northSouth.currentHandScore}</span>
             <span className={styles.gameScore}>Games: {gameState.gameScore.northSouth}</span>
           </div>
           <div className={styles.scoreTeam}>
             <span className={styles.teamName}>East-West</span>
-            <span className={styles.teamScore}>{gameState.scores.eastWest}</span>
+            <span className={styles.teamScore}>{gameState.partnerships.eastWest.currentHandScore}</span>
             <span className={styles.gameScore}>Games: {gameState.gameScore.eastWest}</span>
           </div>
         </div>

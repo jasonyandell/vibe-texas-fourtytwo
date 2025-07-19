@@ -1,6 +1,6 @@
-import { FastifyPluginAsync } from 'fastify'
+import { FastifyPluginCallback } from 'fastify'
 
-export const healthRoutes: FastifyPluginAsync = async (fastify) => {
+export const healthRoutes: FastifyPluginCallback = (fastify, _options, done) => {
   // Health check endpoint
   fastify.get('/health', (_request, _reply) => {
     return {
@@ -26,4 +26,6 @@ export const healthRoutes: FastifyPluginAsync = async (fastify) => {
       }
     }
   })
+
+  done()
 }

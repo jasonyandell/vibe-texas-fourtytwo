@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { renderHook, act } from '@testing-library/react'
 import { useGameState } from '../useGameState'
 import { GameStateProvider } from '@/contexts/GameStateContext'
-import { GameState } from '@/types/texas42'
+import { GameState, createEmptyGameState } from '@texas42/shared-types'
 import React from 'react'
 
 // Mock the URL serialization functions
@@ -11,23 +11,18 @@ vi.mock('@/utils/urlSerialization', () => ({
   parseGameStateFromUrl: vi.fn(() => null)
 }))
 
-const mockGameState: GameState = {
-  id: 'test-game',
-  phase: 'bidding',
-  players: [
-    { id: 'p1', name: 'Player 1', position: 'north', hand: [], isConnected: true, isReady: true },
-    { id: 'p2', name: 'Player 2', position: 'east', hand: [], isConnected: true, isReady: true },
-    { id: 'p3', name: 'Player 3', position: 'south', hand: [], isConnected: true, isReady: true },
-    { id: 'p4', name: 'Player 4', position: 'west', hand: [], isConnected: true, isReady: true }
-  ],
-  dealer: 'p1',
-  tricks: [],
-  scores: { northSouth: 0, eastWest: 0 },
-  gameScore: { northSouth: 0, eastWest: 0 },
-  boneyard: [],
-  createdAt: '2024-01-01T00:00:00Z',
-  updatedAt: '2024-01-01T00:00:00Z'
-}
+const mockGameState = createEmptyGameState('test-game');
+// Add test-specific data
+mockGameState.phase = 'bidding';
+mockGameState.players = [
+  { id: 'p1', name: 'Player 1', position: 'north', hand: [], isConnected: true, isReady: true },
+  { id: 'p2', name: 'Player 2', position: 'east', hand: [], isConnected: true, isReady: true },
+  { id: 'p3', name: 'Player 3', position: 'south', hand: [], isConnected: true, isReady: true },
+  { id: 'p4', name: 'Player 4', position: 'west', hand: [], isConnected: true, isReady: true }
+];
+mockGameState.dealer = 'p1';
+mockGameState.createdAt = '2024-01-01T00:00:00Z';
+mockGameState.updatedAt = '2024-01-01T00:00:00Z';
 
 const wrapper = ({ children }: { children: React.ReactNode }) => (
   <GameStateProvider>{children}</GameStateProvider>
@@ -207,15 +202,25 @@ describe('useGameState', () => {
       
       const optimisticUpdate = (state: GameState) => ({
         ...state,
-        scores: { northSouth: 10, eastWest: 5 }
+        partnerships: {
+          ...state.partnerships,
+          northSouth: {
+            ...state.partnerships.northSouth,
+            currentHandScore: 10
+          },
+          eastWest: {
+            ...state.partnerships.eastWest,
+            currentHandScore: 5
+          }
+        }
       })
       
       act(() => {
         result.current.applyOptimisticUpdate('test-update', optimisticUpdate)
       })
       
-      expect(result.current.gameState?.scores.northSouth).toBe(10)
-      expect(result.current.gameState?.scores.eastWest).toBe(5)
+      expect(result.current.gameState?.partnerships.northSouth.currentHandScore).toBe(10)
+      expect(result.current.gameState?.partnerships.eastWest.currentHandScore).toBe(5)
     })
 
     it('reverts optimistic update', () => {
@@ -227,7 +232,17 @@ describe('useGameState', () => {
       
       const optimisticUpdate = (state: GameState) => ({
         ...state,
-        scores: { northSouth: 10, eastWest: 5 }
+        partnerships: {
+          ...state.partnerships,
+          northSouth: {
+            ...state.partnerships.northSouth,
+            currentHandScore: 10
+          },
+          eastWest: {
+            ...state.partnerships.eastWest,
+            currentHandScore: 5
+          }
+        }
       })
       
       act(() => {
@@ -238,8 +253,8 @@ describe('useGameState', () => {
         result.current.revertOptimisticUpdate('test-update')
       })
       
-      expect(result.current.gameState?.scores.northSouth).toBe(0)
-      expect(result.current.gameState?.scores.eastWest).toBe(0)
+      expect(result.current.gameState?.partnerships.northSouth.currentHandScore).toBe(0)
+      expect(result.current.gameState?.partnerships.eastWest.currentHandScore).toBe(0)
     })
 
     it('confirms optimistic update', () => {
@@ -251,7 +266,17 @@ describe('useGameState', () => {
       
       const optimisticUpdate = (state: GameState) => ({
         ...state,
-        scores: { northSouth: 10, eastWest: 5 }
+        partnerships: {
+          ...state.partnerships,
+          northSouth: {
+            ...state.partnerships.northSouth,
+            currentHandScore: 10
+          },
+          eastWest: {
+            ...state.partnerships.eastWest,
+            currentHandScore: 5
+          }
+        }
       })
       
       act(() => {
@@ -263,8 +288,8 @@ describe('useGameState', () => {
       })
       
       // Should still have the updated scores but no longer be optimistic
-      expect(result.current.gameState?.scores.northSouth).toBe(10)
-      expect(result.current.gameState?.scores.eastWest).toBe(5)
+      expect(result.current.gameState?.partnerships.northSouth.currentHandScore).toBe(10)
+      expect(result.current.gameState?.partnerships.eastWest.currentHandScore).toBe(5)
     })
   })
 

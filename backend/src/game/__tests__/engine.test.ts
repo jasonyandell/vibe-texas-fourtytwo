@@ -16,8 +16,8 @@ describe('GameEngine', () => {
       expect(game.phase).toBe('bidding')
       expect(game.players).toHaveLength(0)
       expect(game.boneyard).toHaveLength(28) // Full domino set
-      expect(game.scores.northSouth).toBe(0)
-      expect(game.scores.eastWest).toBe(0)
+      expect(game.partnerships.northSouth.currentHandScore).toBe(0)
+      expect(game.partnerships.eastWest.currentHandScore).toBe(0)
       expect(game.createdAt).toBeDefined()
       expect(game.updatedAt).toBeDefined()
     })

@@ -5,7 +5,8 @@
   "private": true,
   "workspaces": [
     "frontend",
-    "backend"
+    "backend",
+    "packages/*"
   ],
   "scripts": {
     "start": "npm run check-prereqs && npm run setup-env && docker-compose up --build",
@@ -13,8 +14,10 @@
     "tdd": "npm run check-prereqs && npm run setup-env && concurrently \"npm run test:backend:watch\" \"npm run test:frontend:watch\"",
     "dev:frontend": "npm run --workspace=frontend dev",
     "dev:backend": "npm run --workspace=backend dev",
+    "test:shared-types": "npm run --workspace=@texas42/shared-types test",
     "test:frontend": "npm run --workspace=frontend test",
     "test:backend": "npm run --workspace=backend test",
+    "test:shared-types:watch": "npm run --workspace=@texas42/shared-types test:watch",
     "test:frontend:watch": "npm run --workspace=frontend test:watch",
     "test:backend:watch": "npm run --workspace=backend test:watch",
     "test:e2e": "npm run --workspace=frontend test:e2e",
@@ -24,13 +27,15 @@
     "lint:fix": "npm run lint:fix:frontend && npm run lint:fix:backend",
     "lint:fix:frontend": "npm run --workspace=frontend lint:fix",
     "lint:fix:backend": "npm run --workspace=backend lint:fix",
-    "build": "npm run build:backend && npm run build:frontend",
+    "build": "npm run build:shared-types && npm run build:backend && npm run build:frontend",
+    "build:shared-types": "npm run --workspace=@texas42/shared-types build",
     "build:frontend": "npm run --workspace=frontend build",
     "build:backend": "npm run --workspace=backend build",
     "check-prereqs": "node scripts/check-prereqs.js",
     "setup-env": "node scripts/setup-env.js",
     "verify-setup": "node scripts/verify-setup.js",
-    "clean": "npm run clean:frontend && npm run clean:backend",
+    "clean": "npm run clean:shared-types && npm run clean:frontend && npm run clean:backend",
+    "clean:shared-types": "npm run --workspace=@texas42/shared-types clean",
     "clean:frontend": "npm run --workspace=frontend clean",
     "clean:backend": "npm run --workspace=backend clean",
     "cleanup": "node scripts/cleanup.js",

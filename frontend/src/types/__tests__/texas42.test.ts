@@ -15,6 +15,9 @@ import {
   validatePlayerPosition,
   validateGamePhase,
   validateDominoSuit,
+  createCompatibleBid,
+  createCompatiblePlayedDomino,
+  createCompatibleTrick,
   type Domino,
   type Player,
   type GameState,
@@ -24,7 +27,7 @@ import {
   type Bid,
   type PlayerPosition,
   type DominoSuit
-} from '../texas42'
+} from '@texas42/shared-types'
 
 describe('Texas 42 Type Validation', () => {
   describe('Domino Validation', () => {
@@ -105,17 +108,17 @@ describe('Texas 42 Type Validation', () => {
 
   describe('Bid Validation', () => {
     it('validates pass bid', () => {
-      const bid: Bid = { playerId: 'player-1', amount: 0 }
+      const bid: Bid = createCompatibleBid('player-1', 0)
       expect(isValidBid(bid)).toBe(true)
     })
 
     it('validates minimum bid', () => {
-      const bid: Bid = { playerId: 'player-1', amount: 30, trump: 'sixes' }
+      const bid: Bid = createCompatibleBid('player-1', 30, 'sixes')
       expect(isValidBid(bid)).toBe(true)
     })
 
     it('validates maximum bid', () => {
-      const bid: Bid = { playerId: 'player-1', amount: 42, trump: 'doubles' }
+      const bid: Bid = createCompatibleBid('player-1', 42, 'doubles')
       expect(isValidBid(bid)).toBe(true)
     })
 
@@ -141,33 +144,38 @@ describe('Texas 42 Type Validation', () => {
   })
 
   describe('Trick Validation', () => {
-    const validTrick: Trick = {
-      id: 'trick-1',
-      dominoes: [
-        {
-          domino: { id: '1', high: 6, low: 3, pointValue: 0, isCountDomino: false },
-          playerId: 'player-1',
-          position: 'north'
-        }
-      ]
-    }
+    const validTrick: Trick = createCompatibleTrick(
+      'trick-1',
+      [
+        createCompatiblePlayedDomino(
+          { id: '1', high: 6, low: 3, pointValue: 0, isCountDomino: false },
+          'player-1',
+          'north',
+          0
+        )
+      ],
+      1
+    )
 
     it('validates correct trick', () => {
       expect(isValidTrick(validTrick)).toBe(true)
     })
 
     it('validates complete trick', () => {
-      const trick: Trick = {
-        ...validTrick,
-        dominoes: [
-          { domino: { id: '1', high: 6, low: 3, pointValue: 0, isCountDomino: false }, playerId: 'player-1', position: 'north' },
-          { domino: { id: '2', high: 5, low: 2, pointValue: 0, isCountDomino: false }, playerId: 'player-2', position: 'east' },
-          { domino: { id: '3', high: 4, low: 1, pointValue: 5, isCountDomino: true }, playerId: 'player-3', position: 'south' },
-          { domino: { id: '4', high: 3, low: 0, pointValue: 0, isCountDomino: false }, playerId: 'player-4', position: 'west' }
+      const trick: Trick = createCompatibleTrick(
+        'trick-complete',
+        [
+          createCompatiblePlayedDomino({ id: '1', high: 6, low: 3, pointValue: 0, isCountDomino: false }, 'player-1', 'north', 0),
+          createCompatiblePlayedDomino({ id: '2', high: 5, low: 2, pointValue: 0, isCountDomino: false }, 'player-2', 'east', 1),
+          createCompatiblePlayedDomino({ id: '3', high: 4, low: 1, pointValue: 5, isCountDomino: true }, 'player-3', 'south', 2),
+          createCompatiblePlayedDomino({ id: '4', high: 3, low: 0, pointValue: 0, isCountDomino: false }, 'player-4', 'west', 3)
         ],
-        winner: 'player-1',
-        leadSuit: 'sixes'
-      }
+        1,
+        {
+          winner: 'player-1',
+          leadSuit: 'sixes'
+        }
+      )
       expect(isValidTrick(trick)).toBe(true)
     })
 
@@ -193,23 +201,19 @@ describe('Texas 42 Type Validation', () => {
   })
 
   describe('GameState Validation', () => {
-    const validGameState: GameState = {
-      id: 'game-1',
-      phase: 'bidding',
-      players: [
+    const validGameState: GameState = (() => {
+      const state = createEmptyGameState('game-1');
+      state.players = [
         { id: 'p1', name: 'Player 1', position: 'north', hand: [], isConnected: true, isReady: true },
         { id: 'p2', name: 'Player 2', position: 'east', hand: [], isConnected: true, isReady: true },
         { id: 'p3', name: 'Player 3', position: 'south', hand: [], isConnected: true, isReady: true },
         { id: 'p4', name: 'Player 4', position: 'west', hand: [], isConnected: true, isReady: true }
-      ],
-      dealer: 'p1',
-      tricks: [],
-      scores: { northSouth: 0, eastWest: 0 },
-      gameScore: { northSouth: 0, eastWest: 0 },
-      boneyard: [],
-      createdAt: '2024-01-01T00:00:00Z',
-      updatedAt: '2024-01-01T00:00:00Z'
-    }
+      ];
+      state.dealer = 'p1';
+      state.createdAt = '2024-01-01T00:00:00Z';
+      state.updatedAt = '2024-01-01T00:00:00Z';
+      return state;
+    })()
 
     it('validates correct game state', () => {
       expect(isValidGameState(validGameState)).toBe(true)
@@ -388,8 +392,8 @@ describe('Texas 42 Type Validation', () => {
       expect(gameState.id).toBe('game-1')
       expect(gameState.players).toHaveLength(0)
       expect(gameState.phase).toBe('bidding')
-      expect(gameState.scores.northSouth).toBe(0)
-      expect(gameState.scores.eastWest).toBe(0)
+      expect(gameState.partnerships.northSouth.currentHandScore).toBe(0)
+      expect(gameState.partnerships.eastWest.currentHandScore).toBe(0)
       expect(gameState.tricks).toHaveLength(0)
       expect(gameState.boneyard).toHaveLength(0)
       // Note: Empty game state won't pass full validation until players are added

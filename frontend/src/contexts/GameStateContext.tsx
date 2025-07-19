@@ -1,5 +1,5 @@
 import React, { createContext, useReducer, useCallback, useRef } from 'react';
-import { GameState, Player, isValidGameState } from '@/types/texas42';
+import { GameState, Player, isValidGameState } from '@texas42/shared-types';
 import { serializeGameStateToUrl, parseGameStateFromUrl } from '@/utils/urlSerialization';
 import { StatePersistence } from '@/utils/statePersistence';
 
@@ -14,7 +14,7 @@ interface OptimisticUpdate {
 
 // Action types for the reducer
 type GameStateAction =
-  | { type: 'SET_GAME_STATE'; payload: GameState }
+  | { type: 'SET_GAME_STATE'; payload: GameState | null }
   | { type: 'SET_LOADING'; payload: boolean }
   | { type: 'SET_ERROR'; payload: Error | null }
   | { type: 'ADD_PLAYER'; payload: Player }
@@ -88,7 +88,7 @@ function gameStateReducer(state: GameStateContextState, action: GameStateAction)
         ...state,
         gameState: action.payload,
         baseState: action.payload,
-        error: null,
+        error: action.payload === null ? state.error : null,
         optimisticUpdates: new Map()
       };
 
@@ -226,6 +226,7 @@ export const GameStateProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const updateGameState = useCallback((gameState: GameState) => {
     if (!isValidGameState(gameState)) {
       dispatch({ type: 'SET_ERROR', payload: new Error('Invalid game state') });
+      dispatch({ type: 'SET_GAME_STATE', payload: null });
       return;
     }
     dispatch({ type: 'SET_GAME_STATE', payload: gameState });

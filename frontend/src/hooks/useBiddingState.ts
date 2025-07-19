@@ -6,11 +6,17 @@ import {
   canPlayerBid,
   updateBiddingStateAfterBid,
   updateBiddingStateAfterPass,
-  createBid,
   getValidationErrorMessage,
   ExtendedBiddingState
 } from '@/utils/biddingValidation';
-import { DominoSuit, Bid, BiddingState, GameState } from '@/types/texas42';
+import { DominoSuit } from '@/types/texas42';
+import {
+  GameState,
+  Bid,
+  BiddingState,
+  createCompatibleBid,
+  createCompatibleBiddingState
+} from '@texas42/shared-types';
 
 /**
  * Convert the existing BiddingState to ExtendedBiddingState for validation
@@ -126,21 +132,26 @@ export function useBiddingState(): BiddingStateHook {
     }
 
     try {
-      // Create the bid
-      const bid = createBid(currentPlayerId, amount, trump);
-      
+      // Create the bid using compatibility helper
+      const bid = createCompatibleBid(currentPlayerId, amount, trump);
+
       // Update the bidding state
       const updatedBiddingState = updateBiddingStateAfterBid(biddingState, bid, players);
 
-      // Convert back to standard format with proper updates
-      const standardBiddingState: BiddingState = {
+      // Convert existing bid history to shared types format
+      const convertedBidHistory = biddingState.bidHistory.map(oldBid =>
+        createCompatibleBid(oldBid.playerId, oldBid.amount, oldBid.trump)
+      );
+
+      // Convert back to standard format with proper updates using compatibility helper
+      const standardBiddingState = createCompatibleBiddingState({
         currentBidder: updatedBiddingState.currentBidder,
         currentBid: bid,
-        bidHistory: [...biddingState.bidHistory, bid],
+        bidHistory: [...convertedBidHistory, bid],
         biddingComplete: updatedBiddingState.isComplete,
         passCount: biddingState.passCount,
         minimumBid: updatedBiddingState.isComplete ? biddingState.minimumBid : bid.amount + 1
-      };
+      });
 
       // Update the game state
       if (gameState) {
@@ -151,9 +162,8 @@ export function useBiddingState(): BiddingStateHook {
           updatedAt: new Date().toISOString()
         };
 
-        // If bidding is complete, set the bidder and trump
+        // If bidding is complete, set the trump and current bid
         if (updatedBiddingState.isComplete && updatedBiddingState.winner) {
-          updatedGameState.bidder = updatedBiddingState.winner;
           updatedGameState.trump = trump;
           updatedGameState.currentBid = bid;
           updatedGameState.phase = 'playing';
@@ -182,15 +192,25 @@ export function useBiddingState(): BiddingStateHook {
       // Update the bidding state after pass
       const updatedBiddingState = updateBiddingStateAfterPass(biddingState, currentPlayerId, players);
 
-      // Convert back to standard format with proper updates
-      const standardBiddingState: BiddingState = {
+      // Convert existing bid history to shared types format
+      const convertedBidHistory = biddingState.bidHistory.map(oldBid =>
+        createCompatibleBid(oldBid.playerId, oldBid.amount, oldBid.trump)
+      );
+
+      // Convert current bid if it exists
+      const convertedCurrentBid = biddingState.currentBid
+        ? createCompatibleBid(biddingState.currentBid.playerId, biddingState.currentBid.amount, biddingState.currentBid.trump)
+        : undefined;
+
+      // Convert back to standard format with proper updates using compatibility helper
+      const standardBiddingState = createCompatibleBiddingState({
         currentBidder: updatedBiddingState.currentBidder,
-        currentBid: biddingState.currentBid,
-        bidHistory: biddingState.bidHistory,
+        currentBid: convertedCurrentBid,
+        bidHistory: convertedBidHistory,
         biddingComplete: updatedBiddingState.isComplete,
         passCount: biddingState.passCount + 1,
         minimumBid: biddingState.minimumBid
-      };
+      });
 
       // Update the game state
       if (gameState) {
@@ -201,12 +221,15 @@ export function useBiddingState(): BiddingStateHook {
           updatedAt: new Date().toISOString()
         };
 
-        // If bidding is complete, set the bidder and trump (if there's a winner)
+        // If bidding is complete, set the trump (if there's a winner)
         if (updatedBiddingState.isComplete) {
           if (updatedBiddingState.winner && updatedBiddingState.highestBid) {
-            updatedGameState.bidder = updatedBiddingState.winner;
             updatedGameState.trump = updatedBiddingState.highestBid.trump;
-            updatedGameState.currentBid = updatedBiddingState.highestBid;
+            // Convert the highest bid to shared types format
+            const convertedHighestBid = updatedBiddingState.highestBid
+              ? createCompatibleBid(updatedBiddingState.highestBid.playerId, updatedBiddingState.highestBid.amount, updatedBiddingState.highestBid.trump)
+              : undefined;
+            updatedGameState.currentBid = convertedHighestBid;
             updatedGameState.phase = 'playing';
           } else {
             // All players passed - need to redeal or handle according to game rules
@@ -240,12 +263,19 @@ export function useBiddingState(): BiddingStateHook {
     return biddingState.currentBidder;
   }, [biddingState.currentBidder]);
 
-  const getHighestBid = useCallback(() => {
-    return biddingState.highestBid;
+  const getHighestBid = useCallback((): Bid | null => {
+    if (!biddingState.highestBid) return null;
+    return createCompatibleBid(
+      biddingState.highestBid.playerId,
+      biddingState.highestBid.amount,
+      biddingState.highestBid.trump
+    );
   }, [biddingState.highestBid]);
 
-  const getBidHistory = useCallback(() => {
-    return biddingState.bidHistory;
+  const getBidHistory = useCallback((): Bid[] => {
+    return biddingState.bidHistory.map(oldBid =>
+      createCompatibleBid(oldBid.playerId, oldBid.amount, oldBid.trump)
+    );
   }, [biddingState.bidHistory]);
 
   const actions: BiddingActions = useMemo(() => ({

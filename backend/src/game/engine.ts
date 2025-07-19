@@ -1,5 +1,5 @@
 import { nanoid } from 'nanoid'
-import { GameState, Player } from '@/types/texas42'
+import { GameState, Player } from '@texas42/shared-types'
 import { DominoSet } from '@/game/dominoes'
 
 export class GameEngine {
@@ -12,13 +12,51 @@ export class GameEngine {
       id: gameId,
       phase: 'bidding',
       players: [],
+      partnerships: {
+        northSouth: {
+          players: ['', ''],
+          currentHandScore: 0,
+          marks: 0,
+          totalGameScore: 0,
+          tricksWon: 0,
+          isBiddingTeam: false
+        },
+        eastWest: {
+          players: ['', ''],
+          currentHandScore: 0,
+          marks: 0,
+          totalGameScore: 0,
+          tricksWon: 0,
+          isBiddingTeam: false
+        }
+      },
+      handNumber: 1,
       dealer: '',
-      scores: { northSouth: 0, eastWest: 0 },
-      gameScore: { northSouth: 0, eastWest: 0 },
+      biddingState: {
+        bidHistory: [],
+        biddingComplete: false,
+        passCount: 0,
+        minimumBid: 30,
+        forcedBidActive: false
+      },
       tricks: [],
       boneyard: this.dominoSet.getFullSet(),
+      scoringState: {
+        trickPoints: 0,
+        countDominoes: [],
+        bonusPoints: 0,
+        penaltyPoints: 0,
+        roundComplete: false
+      },
+      handScores: [],
+      marks: { northSouth: 0, eastWest: 0 },
+      gameScore: { northSouth: 0, eastWest: 0 },
+      marksToWin: 7,
+      gameComplete: false,
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
+      isValid: true,
+      validationErrors: []
     }
 
     this.games.set(gameId, game)
