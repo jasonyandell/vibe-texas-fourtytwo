@@ -404,4 +404,14 @@ describe('Lobby', () => {
       expect(joinRandomButton).toBeInTheDocument();
     });
   });
+
+  describe('CSS Classes', () => {
+    it('applies gamesSection CSS class to games container', () => {
+      const { container } = renderLobby();
+      
+      const gamesSection = container.querySelector('.gamesSection');
+      expect(gamesSection).toBeInTheDocument();
+      expect(gamesSection).toHaveTextContent('Available Games');
+    });
+  });
 });
