@@ -9,8 +9,7 @@ describe('EmptyState', () => {
       render(<EmptyState />);
       
       expect(screen.getByText('No games available')).toBeInTheDocument();
-      expect(screen.getByText(/There are currently no active games in the lobby/)).toBeInTheDocument();
-      expect(screen.getByText('Create a new game to get started!')).toBeInTheDocument();
+      expect(screen.getByText('There are currently no active games in the lobby. Create a new game to get started!')).toBeInTheDocument();
     });
 
     it('renders empty state icon', () => {
@@ -95,7 +94,7 @@ describe('EmptyState', () => {
       expect(icon).toHaveAttribute('viewBox', '0 0 24 24');
       expect(icon).toHaveAttribute('fill', 'none');
       expect(icon).toHaveAttribute('stroke', 'currentColor');
-      expect(icon).toHaveAttribute('strokeWidth', '2');
+      expect(icon).toHaveAttribute('stroke-width', '2');
     });
 
     it('has proper accessibility attributes for icon', () => {
@@ -119,15 +118,15 @@ describe('EmptyState', () => {
     it('applies correct CSS classes to main container', () => {
       render(<EmptyState />);
       
-      const container = screen.getByText('No games available').closest('.emptyState');
-      expect(container).toBeInTheDocument();
+      const container = screen.getByText('No games available').closest('div');
+      expect(container?.className).toMatch(/emptyState/);
     });
 
     it('applies correct CSS classes to icon container', () => {
       render(<EmptyState />);
       
-      const iconContainer = screen.getByRole('img', { hidden: true }).closest('.emptyIcon');
-      expect(iconContainer).toBeInTheDocument();
+      const iconContainer = screen.getByRole('img', { hidden: true }).closest('div');
+      expect(iconContainer?.className).toMatch(/emptyIcon/);
     });
 
     it('applies correct CSS classes to create button', () => {
@@ -135,7 +134,7 @@ describe('EmptyState', () => {
       render(<EmptyState onCreateGame={mockOnCreateGame} />);
       
       const createButton = screen.getByRole('button', { name: 'Create New Game' });
-      expect(createButton).toHaveClass('createButton');
+      expect(createButton.className).toMatch(/createButton/);
     });
 
     it('has proper semantic structure', () => {
@@ -155,7 +154,7 @@ describe('EmptyState', () => {
       render(<EmptyState onCreateGame={mockOnCreateGame} />);
       
       const createButton = screen.getByRole('button', { name: 'Create New Game' });
-      expect(createButton).toHaveClass('primary');
+      expect(createButton).toHaveClass('button', 'primary');
     });
 
     it('handles button focus states', async () => {
@@ -220,8 +219,7 @@ describe('EmptyState', () => {
       render(<EmptyState />);
       
       expect(screen.getByText('No games available')).toBeInTheDocument();
-      expect(screen.getByText(/There are currently no active games in the lobby/)).toBeInTheDocument();
-      expect(screen.getByText('Create a new game to get started!')).toBeInTheDocument();
+      expect(screen.getByText('There are currently no active games in the lobby. Create a new game to get started!')).toBeInTheDocument();
     });
 
     it('has accessible button when provided', () => {
@@ -269,7 +267,8 @@ describe('EmptyState', () => {
       
       // Icon should be at the top
       const icon = screen.getByRole('img', { hidden: true });
-      expect(icon.closest('.emptyIcon')).toBeInTheDocument();
+      const iconDiv = icon.closest('div');
+      expect(iconDiv?.className).toMatch(/emptyIcon/);
       
       // Heading should follow
       const heading = screen.getByRole('heading', { name: 'No games available' });
@@ -288,7 +287,7 @@ describe('EmptyState', () => {
       expect(createButton).toBeInTheDocument();
       
       // Button should come after the description text
-      const description = screen.getByText('Create a new game to get started!');
+      const description = screen.getByText(/There are currently no active games in the lobby/);
       expect(description).toBeInTheDocument();
     });
   });
@@ -304,12 +303,13 @@ describe('EmptyState', () => {
     it('maintains consistent styling across renders', () => {
       const { rerender } = render(<EmptyState />);
       
-      const firstRenderContainer = screen.getByText('No games available').closest('.emptyState');
+      const firstRenderContainer = screen.getByText('No games available').closest('div');
+      expect(firstRenderContainer?.className).toMatch(/emptyState/);
       
       rerender(<EmptyState onCreateGame={vi.fn()} />);
       
-      const secondRenderContainer = screen.getByText('No games available').closest('.emptyState');
-      expect(secondRenderContainer).toHaveClass('emptyState');
+      const secondRenderContainer = screen.getByText('No games available').closest('div');
+      expect(secondRenderContainer?.className).toMatch(/emptyState/);
     });
   });
 });

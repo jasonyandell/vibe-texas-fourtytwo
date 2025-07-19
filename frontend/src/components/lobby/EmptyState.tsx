@@ -13,6 +13,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
     <div className={styles.emptyState}>
       <div className={styles.emptyIcon}>
         <svg 
+          role="img"
           width="64" 
           height="64" 
           viewBox="0 0 24 24" 
@@ -29,13 +30,15 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
         </svg>
       </div>
       
-      <p>No games available. Create one to get started!</p>
+      <h3>No games available</h3>
+      <p>There are currently no active games in the lobby. Create a new game to get started!</p>
       
       {onCreateGame && (
         <Button 
           variant="primary" 
           onClick={onCreateGame}
           className={styles.createButton}
+          type="button"
         >
           Create New Game
         </Button>
