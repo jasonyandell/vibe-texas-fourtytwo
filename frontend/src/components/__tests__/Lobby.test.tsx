@@ -1,6 +1,6 @@
 import React from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Lobby } from '../Lobby';
 import { LobbyStateProvider } from '@/contexts/LobbyStateContext';
@@ -183,7 +183,7 @@ describe('Lobby', () => {
     it('renders action buttons', () => {
       renderLobby();
       
-      expect(screen.getByText('Create New Game')).toBeInTheDocument();
+      expect(screen.getByText('Create Game')).toBeInTheDocument();
       expect(screen.getByText('Join Random Game')).toBeInTheDocument();
     });
 
@@ -206,7 +206,7 @@ describe('Lobby', () => {
     it('shows create game modal when button is clicked', async () => {
       renderLobby();
       
-      const createButton = screen.getByText('Create New Game');
+      const createButton = screen.getByText('Create Game');
       await userEvent.click(createButton);
       
       expect(screen.getByTestId('create-game-modal')).toBeInTheDocument();
@@ -216,7 +216,7 @@ describe('Lobby', () => {
       renderLobby();
       
       // Open modal
-      const createButton = screen.getByText('Create New Game');
+      const createButton = screen.getByText('Create Game');
       await userEvent.click(createButton);
       
       // Close modal
@@ -230,7 +230,7 @@ describe('Lobby', () => {
       renderLobby();
       
       // Open modal
-      const createButton = screen.getByText('Create New Game');
+      const createButton = screen.getByText('Create Game');
       await userEvent.click(createButton);
       
       // Submit form
@@ -370,7 +370,7 @@ describe('Lobby', () => {
       
       renderLobby();
       
-      const createButton = screen.getByText('Create New Game');
+      const createButton = screen.getByText('Create Game');
       expect(createButton).toBeDisabled();
     });
 
@@ -404,7 +404,7 @@ describe('Lobby', () => {
     it('has proper button labels', () => {
       renderLobby();
       
-      const createButton = screen.getByText('Create New Game');
+      const createButton = screen.getByText('Create Game');
       const joinRandomButton = screen.getByText('Join Random Game');
       
       expect(createButton).toBeInTheDocument();
