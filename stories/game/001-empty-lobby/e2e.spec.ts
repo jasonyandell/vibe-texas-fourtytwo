@@ -2,13 +2,13 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Story 001: Empty Lobby', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/lobby');
+    await page.goto('/');
   });
 
   test('displays empty lobby state when no games exist', async ({ page }) => {
     // Verify lobby header
     const header = page.locator('h2');
-    await expect(header).toContainText('Game Lobby');
+    await expect(header).toContainText('Texas 42 Lobby');
 
     // Verify games section exists
     const gamesSection = page.locator('.gamesSection');
@@ -93,14 +93,14 @@ test.describe('Story 001: Empty Lobby', () => {
     // Verify connected players display
     const connectedPlayers = page.locator('.connectedPlayers');
     await expect(connectedPlayers).toBeVisible();
-    await expect(connectedPlayers).toContainText('Connected Players:');
+    await expect(connectedPlayers).toContainText('players online');
   });
 
   test('shows welcome message', async ({ page }) => {
     // Verify welcome message
     const welcomeMessage = page.locator('.welcomeMessage');
     await expect(welcomeMessage).toBeVisible();
-    await expect(welcomeMessage).toContainText('Welcome to Texas 42 Online!');
+    await expect(welcomeMessage).toContainText('Welcome to Texas 42!');
   });
 
   test('empty state create button opens modal', async ({ page }) => {

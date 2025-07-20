@@ -12,3 +12,4 @@ export { GameStartManager, type GameStartManagerProps } from './GameStartManager
 export { SpectatorManager, type SpectatorManagerProps } from './SpectatorManager';
 export { SpectatorView, type SpectatorViewProps, type SpectatorInfo } from './SpectatorView';
 export { LobbySection, type LobbySectionProps } from './LobbySection';
+export { CreateGameButton } from './CreateGameButton';

@@ -4,6 +4,7 @@ import { LobbyGame } from '@/types/texas42';
 import { Button } from '@/components/ui';
 import { LobbyList } from './lobby/LobbyList';
 import { CreateGameModal } from './lobby/CreateGameModal';
+import { CreateGameButton } from './lobby/CreateGameButton';
 import styles from './Lobby.module.css';
 
 export const Lobby: React.FC = () => {
@@ -62,13 +63,10 @@ export const Lobby: React.FC = () => {
       </div>
 
       <div className={styles.lobbyActions}>
-        <Button
-          variant="primary"
+        <CreateGameButton
           onClick={() => setShowCreateModal(true)}
           disabled={isLoading}
-        >
-          Create New Game
-        </Button>
+        />
         <Button
           variant="secondary"
           onClick={handleJoinRandomGame}
