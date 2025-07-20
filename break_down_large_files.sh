@@ -1,19 +1,70 @@
+#!/bin/bash
+
+# Create a file to track processed files
+PROCESSED_FILE=".processed_files"
+touch "$PROCESSED_FILE"
+
 while true; do
-    echo "=== Finding largest file ==="
+    echo "=== Finding largest unprocessed file ==="
     
-    # Run the find-largest-files script and get the largest file
-    LARGEST_FILE=$(./find-largest-files.sh | head -1 | awk '{print $NF}')
+    # Get all files from find-largest-files script, excluding already processed ones
+    AVAILABLE_FILES=$(./find-largest-files.sh | while read line; do
+        FILE=$(echo "$line" | awk '{print $NF}')
+        if ! grep -Fxq "$FILE" "$PROCESSED_FILE"; then
+            echo "$line"
+        fi
+    done)
     
-    if [ -z "$LARGEST_FILE" ]; then
-        echo "No files found or script failed"
+    if [ -z "$AVAILABLE_FILES" ]; then
+        echo "No unprocessed files found. Clearing processed list and starting over..."
+        rm "$PROCESSED_FILE"
+        touch "$PROCESSED_FILE"
         sleep 5
         continue
     fi
     
+    # Get the largest unprocessed file
+    LARGEST_FILE=$(echo "$AVAILABLE_FILES" | head -1 | awk '{print $NF}')
     echo "Working on $LARGEST_FILE"
     
-    # Call Claude with the file breakdown request
-    claude "run ./find-largest-files.sh and break down the largest file there if it is over 100 lines and can be cleanly broken up. print the name of the file you broke down and the new files and their sizes and a headline summary of what they do" --dangerously-skip-permission
+    # Call Claude with the file breakdown request and capture output
+    echo "=== Calling Claude to break down file ==="
+    CLAUDE_OUTPUT=$(claude "Analyze and BREAK DOWN $LARGEST_FILE if it's over 100 lines AND can be logically broken into coherent modules (separate classes/functions, config from implementation, data models from logic, distinct features, or utilities from main logic). DON'T break down data/config files, tightly coupled code, well-organized single-purpose modules, or anything that would create non-functional fragments. If you break it down, print the original filename/line count, new files with sizes and summaries. If you decide NOT to break it down, output exactly: 'SKIP: $LARGEST_FILE - reason why it's better as-is'" --dangerously-skip-permission 2>&1)
+    
+    # Display the output to screen
+    echo "$CLAUDE_OUTPUT"
+    
+    # Add the file to processed list regardless of whether it was skipped or broken down
+    echo "$LARGEST_FILE" >> "$PROCESSED_FILE"
+    
+    # Check if Claude skipped the file (more robust detection)
+    if echo "$CLAUDE_OUTPUT" | grep -qi "skip\|not breaking\|better as-is\|won't break"; then
+        echo ""
+        echo "=== File was skipped, no commit needed ==="
+    else
+        # Add all changes to git
+        echo ""
+        echo "=== Adding changes to git ==="
+        git add .
+        
+        # Create a safe but complete commit message
+        # Use a temp file to handle multiline and special characters safely
+        TEMP_MSG=$(mktemp)
+        echo "Automated breakdown of $LARGEST_FILE" > "$TEMP_MSG"
+        echo "" >> "$TEMP_MSG"
+        echo "$CLAUDE_OUTPUT" | sed 's/[`$\\]/\\&/g' >> "$TEMP_MSG"
+        
+        # Commit using the temp file
+        echo "=== Committing changes ==="
+        if git commit -F "$TEMP_MSG"; then
+            echo "Successfully committed changes"
+        else
+            echo "No changes to commit or commit failed"
+        fi
+        
+        # Clean up temp file
+        rm "$TEMP_MSG"
+    fi
     
     echo ""
     echo "=== Waiting 10 seconds before next iteration ==="
