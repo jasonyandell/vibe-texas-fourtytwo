@@ -18,3 +18,4 @@ frontend/src/components/BiddingSection.tsx
 frontend/src/components/__tests__/GameBoard.gamestate.test.tsx
 frontend/src/utils/biddingValidation.ts
 backend/src/game/__tests__/dominoes.test.ts
+frontend/src/utils/gameUtils.ts
