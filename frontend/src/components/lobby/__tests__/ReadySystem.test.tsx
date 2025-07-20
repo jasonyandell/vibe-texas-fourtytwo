@@ -146,28 +146,28 @@ describe('ReadySystem', () => {
       expect(screen.getByRole('button', { name: 'Start Game Now' })).toBeInTheDocument();
     });
 
-    it('counts down correctly', async () => {
+    it('counts down correctly', () => {
       render(<ReadySystem players={allReadyPlayers} gameId="test-game" {...mockHandlers} />);
       
       expect(screen.getByText('Starting in 10s')).toBeInTheDocument();
       
-      await act(() => {
+      act(() => {
         vi.advanceTimersByTime(1000);
       });
       
       expect(screen.getByText('Starting in 9s')).toBeInTheDocument();
       
-      await act(() => {
+      act(() => {
         vi.advanceTimersByTime(1000);
       });
       
       expect(screen.getByText('Starting in 8s')).toBeInTheDocument();
     });
 
-    it('calls onStartGame when countdown reaches zero', async () => {
+    it('calls onStartGame when countdown reaches zero', () => {
       render(<ReadySystem players={allReadyPlayers} gameId="test-game" {...mockHandlers} />);
       
-      await act(() => {
+      act(() => {
         vi.advanceTimersByTime(10000);
       });
       

@@ -79,35 +79,35 @@ describe('LobbyStateContext', () => {
     expect(screen.getByTestId('error-message').textContent).toBe('No Error');
   });
 
-  it('adds a new game to the state', async () => {
+  it('adds a new game to the state', () => {
     render(
       <LobbyStateProvider>
         <TestComponent />
       </LobbyStateProvider>
     );
     
-    await act(() => {
+    act(() => {
       screen.getByTestId('add-game-btn').click();
     });
     
     expect(screen.getByTestId('games-count').textContent).toBe('1');
   });
 
-  it('updates connected players count', async () => {
+  it('updates connected players count', () => {
     render(
       <LobbyStateProvider>
         <TestComponent />
       </LobbyStateProvider>
     );
     
-    await act(() => {
+    act(() => {
       screen.getByTestId('update-connected-players-btn').click();
     });
     
     expect(screen.getByTestId('connected-players').textContent).toBe('20');
   });
 
-  it('sets and clears errors', async () => {
+  it('sets and clears errors', () => {
     render(
       <LobbyStateProvider>
         <TestComponent />
@@ -115,13 +115,13 @@ describe('LobbyStateContext', () => {
     );
     
     // Set an error
-    await act(() => {
+    act(() => {
       screen.getByTestId('set-error-btn').click();
     });
     expect(screen.getByTestId('error-message').textContent).toBe('Test error');
     
     // Clear the error
-    await act(() => {
+    act(() => {
       screen.getByTestId('clear-error-btn').click();
     });
     expect(screen.getByTestId('error-message').textContent).toBe('No Error');
