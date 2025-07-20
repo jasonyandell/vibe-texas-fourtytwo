@@ -13,3 +13,4 @@ frontend/src/components/PlayersSection.tsx
 packages/shared-types/dist-cjs/type-guards.js
 packages/shared-types/dist-cjs/frontend-compat.js
 frontend/src/hooks/__tests__/useBiddingState.test.tsx
+frontend/src/components/__tests__/BiddingPanel.test.tsx
