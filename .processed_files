@@ -6,3 +6,5 @@ packages/shared-types/src/index.ts
 packages/shared-types/src/trump.ts
 frontend/src/contexts/LobbyStateContext.tsx
 frontend/src/components/__tests__/DominoHand.test.tsx
+frontend/tests/e2e/demo-board-showcase.spec.ts
+frontend/src/components/lobby/__tests__/PlayerSlots.test.tsx
