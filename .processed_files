@@ -5,3 +5,4 @@ frontend/src/types/game.ts
 packages/shared-types/src/index.ts
 packages/shared-types/src/trump.ts
 frontend/src/contexts/LobbyStateContext.tsx
+frontend/src/components/__tests__/DominoHand.test.tsx
