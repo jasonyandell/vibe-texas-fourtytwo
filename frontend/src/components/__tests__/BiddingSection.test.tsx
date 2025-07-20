@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect } from 'vitest'
 import { render, screen, fireEvent, waitFor } from '@/test/test-utils'
 import { createUserEvent } from '@/test/test-utils'
 import { BiddingSection } from '../BiddingSection'
@@ -129,7 +129,7 @@ describe('BiddingSection', () => {
       expect(bidInput).toHaveValue(30)
     })
 
-    it('allows changing bid amount', async () => {
+    it('allows changing bid amount', () => {
       render(<BiddingSection />)
 
       const bidInput = screen.getByTestId('bid-amount-input')

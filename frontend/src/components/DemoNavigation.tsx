@@ -21,7 +21,7 @@ export const DemoNavigation: React.FC<DemoNavigationProps> = ({ currentSection }
   const handleKeyDown = (event: React.KeyboardEvent, path: string) => {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault()
-      navigate(path)
+      void navigate(path)
     }
   }
 

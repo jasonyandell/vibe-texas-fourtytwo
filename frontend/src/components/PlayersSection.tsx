@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { PlayerPosition, Player, Domino } from '@/types/texas42'
+import { PlayerPosition, Player } from '@/types/texas42'
 import { DominoHand } from './DominoHand'
 import { createFullDominoSet } from '@/types/texas42'
 import styles from './PlayersSection.module.css'

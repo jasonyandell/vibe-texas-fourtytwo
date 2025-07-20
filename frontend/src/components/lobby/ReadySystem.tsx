@@ -55,7 +55,7 @@ export const ReadySystem: React.FC<ReadySystemProps> = ({
         setCountdown(prev => {
           if (prev === null || prev <= 1) {
             clearInterval(interval);
-            handleAutoStart();
+            void handleAutoStart();
             return null;
           }
           return prev - 1;
@@ -81,7 +81,7 @@ export const ReadySystem: React.FC<ReadySystemProps> = ({
   const handleManualStart = () => {
     if (onStartGame && allPlayersReady) {
       setCountdown(null);
-      handleAutoStart();
+      void handleAutoStart();
     }
   };
 

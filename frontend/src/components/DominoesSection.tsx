@@ -4,14 +4,12 @@ import { createFullDominoSet, Domino } from '@/types/texas42'
 import styles from './DominoesSection.module.css'
 
 export const DominoesSection: React.FC = () => {
-  const { dominoes, totalPoints, isValid } = createFullDominoSet()
+  const { dominoes } = createFullDominoSet()
   const [showPointValues, setShowPointValues] = useState(false)
   const [highlightCount, setHighlightCount] = useState(false)
   const [orientation, setOrientation] = useState<'horizontal' | 'vertical'>('horizontal')
   const [selectedDominoes, setSelectedDominoes] = useState<Set<string>>(new Set())
   const [selectionAnnouncement, setSelectionAnnouncement] = useState('')
-
-  const countDominoes = dominoes.filter(d => d.isCountDomino)
 
   const handleDominoClick = (domino: Domino) => {
     const newSelected = new Set(selectedDominoes)

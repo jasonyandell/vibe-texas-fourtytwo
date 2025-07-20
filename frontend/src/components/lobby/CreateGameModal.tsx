@@ -54,7 +54,7 @@ export const CreateGameModal: React.FC<CreateGameModalProps> = ({
     try {
       await onCreateGame(trimmedName);
       onClose(); // Close modal after successful creation
-    } catch (error) {
+    } catch (_error) {
       // Error is handled, just reset the loading state
     } finally {
       setIsCreating(false);
@@ -97,7 +97,7 @@ export const CreateGameModal: React.FC<CreateGameModalProps> = ({
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className={styles.modalForm}>
+        <form onSubmit={(e) => void handleSubmit(e)} className={styles.modalForm}>
           <div className={styles.formGroup}>
             <label htmlFor="game-name" className={styles.label}>
               Game Name

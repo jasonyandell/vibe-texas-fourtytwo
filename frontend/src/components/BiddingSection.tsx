@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import { DominoComponent } from './DominoComponent'
-import { createFullDominoSet, Domino, DominoSuit, Bid } from '@/types/texas42'
+import { createFullDominoSet, Domino, DominoSuit } from '@/types/texas42'
 import styles from './BiddingSection.module.css'
 
 // Trump suit information for display
@@ -248,7 +248,7 @@ export const BiddingSection: React.FC = () => {
               <div role="columnheader">Bid</div>
               <div role="columnheader">Trump</div>
             </div>
-            {sampleBiddingHistory.map((bid, index) => (
+            {sampleBiddingHistory.map((bid, _index) => (
               <div
                 key={bid.playerId}
                 className={`${styles.historyRow} ${bid.isWinning ? styles.winningBid : ''}`}

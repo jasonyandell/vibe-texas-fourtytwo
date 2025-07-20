@@ -1,6 +1,6 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState } from 'react'
 import { DominoComponent } from './DominoComponent'
-import { createFullDominoSet, Domino, DominoSuit, GamePhase, PlayerPosition, Trick, GameState } from '@/types/texas42'
+import { createFullDominoSet, Domino, DominoSuit, GamePhase, PlayerPosition } from '@/types/texas42'
 import styles from './GameBoardSection.module.css'
 
 // Sample trick data for demonstration
@@ -27,9 +27,7 @@ export interface SampleGameState {
 }
 
 export const GameBoardSection: React.FC = () => {
-  const { dominoes } = createFullDominoSet()
   const [currentTrickIndex, setCurrentTrickIndex] = useState(0)
-  const [showScoreDetails, setShowScoreDetails] = useState(false)
 
   // Sample tricks for demonstration
   const sampleTricks: SampleTrick[] = [
@@ -175,7 +173,7 @@ export const GameBoardSection: React.FC = () => {
               role="group"
               aria-label="Dominoes in current trick"
             >
-              {currentTrick.dominoes.map((play, index) => (
+              {currentTrick.dominoes.map((play, _index) => (
                 <div 
                   key={`${play.position}-${play.domino.id}`}
                   className={`${styles.playedDomino} ${styles[`position${play.position.charAt(0).toUpperCase() + play.position.slice(1)}`]}`}
