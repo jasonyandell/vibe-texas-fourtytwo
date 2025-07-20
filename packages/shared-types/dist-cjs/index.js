@@ -4,7 +4,7 @@
  * Main export file for all shared types and utilities
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateArrayLength = exports.validateFieldType = exports.validateRequiredFields = exports.combineValidationResults = exports.createValidationWarning = exports.createValidationError = exports.createInvalidResult = exports.createValidResult = exports.ValidationErrorType = exports.ValidationSeverity = exports.GAME_CONSTANTS = exports.createEmptyLobbyState = exports.createEmptyBiddingState = exports.createEmptyScoringState = exports.createEmptyPartnershipState = exports.createEmptyGameState = exports.BIDDING_CONSTANTS = exports.getMinimumBidAmount = exports.isMarkBid = exports.isPassBid = exports.validateSpecialContract = exports.validateBid = exports.convertMarksToBid = exports.convertBidToMarks = exports.getSpecialContractAmount = exports.createSpecialContractBid = exports.createMarkBid = exports.createRegularBid = exports.createPassBid = exports.BiddingValidationError = exports.TRUMP_CONSTANTS = exports.createNoTrumpConfig = exports.isValidTrumpSuit = exports.createTrumpHierarchy = exports.getTrumpDominoes = exports.compareNonTrumpDominoes = exports.compareTrumpDominoes = exports.getTrumpRank = exports.isTrumpDomino = exports.getDominoSuits = exports.getSuitName = exports.getSuitValue = exports.DOMINO_CONSTANTS = exports.isValidDominoSet = exports.calculateTotalPoints = exports.getCountDominoes = exports.createFullDominoSet = exports.isCountDominoByValues = exports.isCountDomino = exports.calculateDominoPointValue = void 0;
+exports.validateArrayLength = exports.validateFieldType = exports.validateRequiredFields = exports.combineValidationResults = exports.createValidationWarning = exports.createValidationError = exports.createInvalidResult = exports.createValidResult = exports.ValidationErrorType = exports.ValidationSeverity = exports.GAME_CONSTANTS = exports.createEmptyGameState = exports.createEmptyLobbyState = exports.createEmptyBiddingState = exports.createEmptyScoringState = exports.createEmptyPartnershipState = exports.BIDDING_CONSTANTS = exports.getMinimumBidAmount = exports.isMarkBid = exports.isPassBid = exports.validateSpecialContract = exports.validateBid = exports.convertMarksToBid = exports.convertBidToMarks = exports.getSpecialContractAmount = exports.createSpecialContractBid = exports.createMarkBid = exports.createRegularBid = exports.createPassBid = exports.BiddingValidationError = exports.TRUMP_CONSTANTS = exports.createNoTrumpConfig = exports.isValidTrumpSuit = exports.createTrumpHierarchy = exports.getTrumpDominoes = exports.compareNonTrumpDominoes = exports.compareTrumpDominoes = exports.getTrumpRank = exports.isTrumpDomino = exports.getDominoSuits = exports.getSuitName = exports.getSuitValue = exports.DOMINO_CONSTANTS = exports.isValidDominoSet = exports.calculateTotalPoints = exports.getCountDominoes = exports.createFullDominoSet = exports.isCountDominoByValues = exports.isCountDomino = exports.calculateDominoPointValue = void 0;
 exports.PACKAGE_INFO = exports.createCompatibleTrick = exports.createCompatibleBiddingState = exports.createCompatiblePlayedDomino = exports.createCompatibleBid = exports.createEmptyLegacyGameState = exports.isValidLegacyGameState = exports.convertFromLegacyGameState = exports.convertToLegacyGameState = exports.createDomino = exports.validateDominoSuit = exports.validateGamePhase = exports.validatePlayerPosition = exports.isValidBid = exports.isValidTrick = exports.isValidScoringState = exports.isValidBiddingState = exports.isValidLobbyState = exports.isValidGameState = exports.isValidPlayer = exports.isValidDomino = exports.VALIDATION_CONSTANTS = exports.validateNumericRange = void 0;
 var dominoes_1 = require("./dominoes");
 Object.defineProperty(exports, "calculateDominoPointValue", { enumerable: true, get: function () { return dominoes_1.calculateDominoPointValue; } });
@@ -43,13 +43,21 @@ Object.defineProperty(exports, "isPassBid", { enumerable: true, get: function ()
 Object.defineProperty(exports, "isMarkBid", { enumerable: true, get: function () { return bidding_1.isMarkBid; } });
 Object.defineProperty(exports, "getMinimumBidAmount", { enumerable: true, get: function () { return bidding_1.getMinimumBidAmount; } });
 Object.defineProperty(exports, "BIDDING_CONSTANTS", { enumerable: true, get: function () { return bidding_1.BIDDING_CONSTANTS; } });
+var partnership_1 = require("./partnership");
+Object.defineProperty(exports, "createEmptyPartnershipState", { enumerable: true, get: function () { return partnership_1.createEmptyPartnershipState; } });
+var scoring_1 = require("./scoring");
+Object.defineProperty(exports, "createEmptyScoringState", { enumerable: true, get: function () { return scoring_1.createEmptyScoringState; } });
+var bidding_state_1 = require("./bidding-state");
+Object.defineProperty(exports, "createEmptyBiddingState", { enumerable: true, get: function () { return bidding_state_1.createEmptyBiddingState; } });
+var lobby_1 = require("./lobby");
+Object.defineProperty(exports, "createEmptyLobbyState", { enumerable: true, get: function () { return lobby_1.createEmptyLobbyState; } });
 var game_state_1 = require("./game-state");
 Object.defineProperty(exports, "createEmptyGameState", { enumerable: true, get: function () { return game_state_1.createEmptyGameState; } });
-Object.defineProperty(exports, "createEmptyPartnershipState", { enumerable: true, get: function () { return game_state_1.createEmptyPartnershipState; } });
-Object.defineProperty(exports, "createEmptyScoringState", { enumerable: true, get: function () { return game_state_1.createEmptyScoringState; } });
-Object.defineProperty(exports, "createEmptyBiddingState", { enumerable: true, get: function () { return game_state_1.createEmptyBiddingState; } });
-Object.defineProperty(exports, "createEmptyLobbyState", { enumerable: true, get: function () { return game_state_1.createEmptyLobbyState; } });
-Object.defineProperty(exports, "GAME_CONSTANTS", { enumerable: true, get: function () { return game_state_1.GAME_CONSTANTS; } });
+// ============================================================================
+// Constants
+// ============================================================================
+var constants_1 = require("./constants");
+Object.defineProperty(exports, "GAME_CONSTANTS", { enumerable: true, get: function () { return constants_1.GAME_CONSTANTS; } });
 var validation_1 = require("./validation");
 Object.defineProperty(exports, "ValidationSeverity", { enumerable: true, get: function () { return validation_1.ValidationSeverity; } });
 Object.defineProperty(exports, "ValidationErrorType", { enumerable: true, get: function () { return validation_1.ValidationErrorType; } });

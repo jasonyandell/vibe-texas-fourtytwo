@@ -186,10 +186,12 @@ Object.defineProperty(exports, "validatePlayerPosition", { enumerable: true, get
 Object.defineProperty(exports, "validateGamePhase", { enumerable: true, get: function () { return type_guards_2.validateGamePhase; } });
 Object.defineProperty(exports, "validateDominoSuit", { enumerable: true, get: function () { return type_guards_2.validateDominoSuit; } });
 // Re-export factory functions
-var game_state_1 = require("./game-state");
-Object.defineProperty(exports, "createEmptyLobbyState", { enumerable: true, get: function () { return game_state_1.createEmptyLobbyState; } });
-Object.defineProperty(exports, "createEmptyBiddingState", { enumerable: true, get: function () { return game_state_1.createEmptyBiddingState; } });
-Object.defineProperty(exports, "createEmptyScoringState", { enumerable: true, get: function () { return game_state_1.createEmptyScoringState; } });
+var lobby_1 = require("./lobby");
+Object.defineProperty(exports, "createEmptyLobbyState", { enumerable: true, get: function () { return lobby_1.createEmptyLobbyState; } });
+var bidding_state_1 = require("./bidding-state");
+Object.defineProperty(exports, "createEmptyBiddingState", { enumerable: true, get: function () { return bidding_state_1.createEmptyBiddingState; } });
+var scoring_1 = require("./scoring");
+Object.defineProperty(exports, "createEmptyScoringState", { enumerable: true, get: function () { return scoring_1.createEmptyScoringState; } });
 // Re-export domino functions
 var dominoes_1 = require("./dominoes");
 Object.defineProperty(exports, "calculateDominoPointValue", { enumerable: true, get: function () { return dominoes_1.calculateDominoPointValue; } });

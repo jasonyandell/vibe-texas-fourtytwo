@@ -1,24 +1,11 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState } from 'react'
 import { DominoComponent } from './DominoComponent'
-import { createFullDominoSet, Domino, DominoSuit } from '@/types/texas42'
+import { createFullDominoSet, DominoSuit } from '@/types/texas42'
+import { TrumpSuitCard } from './TrumpSuitCard'
+import { trumpSuits, isTrumpDomino } from '@/utils/trumpUtils'
+import { validateBidAmount } from '@/utils/biddingSectionUtils'
+import { sampleBiddingHistory } from './biddingTypes'
 import styles from './BiddingSection.module.css'
-
-// Trump suit information for display
-export interface TrumpSuitInfo {
-  suit: DominoSuit
-  label: string
-  description: string
-  dominoCount: number
-}
-
-// Sample bidding data for demonstration
-export interface SampleBid {
-  playerId: string
-  playerName: string
-  amount: number | null // null for pass
-  trump?: DominoSuit
-  isWinning: boolean
-}
 
 export const BiddingSection: React.FC = () => {
   const { dominoes } = createFullDominoSet()
@@ -26,50 +13,6 @@ export const BiddingSection: React.FC = () => {
   const [bidAmount, setBidAmount] = useState<number>(30)
   const [selectedBidTrump, setSelectedBidTrump] = useState<DominoSuit | ''>('')
   const [validationError, setValidationError] = useState<string>('')
-
-  // Trump suit definitions
-  const trumpSuits: TrumpSuitInfo[] = [
-    { suit: 'blanks', label: 'Blanks (0s)', description: 'All dominoes containing a blank', dominoCount: 7 },
-    { suit: 'ones', label: 'Ones (1s)', description: 'All dominoes containing a 1', dominoCount: 7 },
-    { suit: 'twos', label: 'Twos (2s)', description: 'All dominoes containing a 2', dominoCount: 7 },
-    { suit: 'threes', label: 'Threes (3s)', description: 'All dominoes containing a 3', dominoCount: 7 },
-    { suit: 'fours', label: 'Fours (4s)', description: 'All dominoes containing a 4', dominoCount: 7 },
-    { suit: 'fives', label: 'Fives (5s)', description: 'All dominoes containing a 5', dominoCount: 7 },
-    { suit: 'sixes', label: 'Sixes (6s)', description: 'All dominoes containing a 6', dominoCount: 7 }
-  ]
-
-  // Sample bidding history for demonstration
-  const sampleBiddingHistory: SampleBid[] = [
-    { playerId: 'north', playerName: 'North', amount: null, isWinning: false }, // pass
-    { playerId: 'east', playerName: 'East', amount: 30, trump: 'fours', isWinning: false },
-    { playerId: 'south', playerName: 'South', amount: null, isWinning: false }, // pass
-    { playerId: 'west', playerName: 'West', amount: 35, trump: 'sixes', isWinning: true }
-  ]
-
-  // Determine if a domino is trump for the given suit
-  const isTrumpDomino = useCallback((domino: Domino, trump: DominoSuit): boolean => {
-    if (trump === 'doubles') {
-      return domino.high === domino.low
-    }
-    
-    // Get the numeric value for the trump suit
-    const trumpValue = getTrumpValue(trump)
-    return domino.high === trumpValue || domino.low === trumpValue
-  }, [])
-
-  // Convert trump suit to numeric value
-  const getTrumpValue = (trump: DominoSuit): number => {
-    switch (trump) {
-      case 'blanks': return 0
-      case 'ones': return 1
-      case 'twos': return 2
-      case 'threes': return 3
-      case 'fours': return 4
-      case 'fives': return 5
-      case 'sixes': return 6
-      default: return -1
-    }
-  }
 
   // Handle trump suit card click for highlighting
   const handleTrumpSuitClick = (suit: DominoSuit) => {
@@ -82,7 +25,7 @@ export const BiddingSection: React.FC = () => {
     if (!isNaN(value)) {
       setBidAmount(value)
       // Validate on change to show immediate feedback
-      validateBidAmount(value)
+      validateBid(value)
     }
   }
 
@@ -96,29 +39,16 @@ export const BiddingSection: React.FC = () => {
     }
   }
 
-  // Validate bid amount
-  const validateBidAmount = (amount: number): string => {
-    if (amount < 30 || amount > 42) {
-      const error = 'Bid must be between 30 and 42'
-      setValidationError(error)
-      return error
-    }
-    
-    // Check against current highest bid (35 in our sample)
-    const highestBid = 35
-    if (amount <= highestBid) {
-      const error = `Bid must be higher than current bid (${highestBid})`
-      setValidationError(error)
-      return error
-    }
-    
-    setValidationError('')
-    return ''
+  // Validate bid amount wrapper
+  const validateBid = (amount: number): string => {
+    const error = validateBidAmount(amount, 35)
+    setValidationError(error)
+    return error
   }
 
   // Handle sample bid submission
   const handleSampleBid = () => {
-    const amountError = validateBidAmount(bidAmount)
+    const amountError = validateBid(bidAmount)
     if (amountError) return
     
     if (!selectedBidTrump) {
@@ -322,36 +252,5 @@ export const BiddingSection: React.FC = () => {
         }
       </div>
     </div>
-  )
-}
-
-// TrumpSuitCard Component
-interface TrumpSuitCardProps {
-  trumpInfo: TrumpSuitInfo
-  isSelected: boolean
-  onClick: () => void
-}
-
-const TrumpSuitCard: React.FC<TrumpSuitCardProps> = ({ trumpInfo, isSelected, onClick }) => {
-  return (
-    <button
-      type="button"
-      className={`${styles.trumpSuitCard} ${isSelected ? styles.selected : ''}`}
-      onClick={onClick}
-      data-testid={`trump-suit-${trumpInfo.suit}`}
-      aria-pressed={isSelected}
-      aria-describedby={`trump-desc-${trumpInfo.suit}`}
-    >
-      <div className={styles.trumpSuitLabel}>{trumpInfo.label}</div>
-      <div
-        id={`trump-desc-${trumpInfo.suit}`}
-        className={styles.trumpSuitDescription}
-      >
-        {trumpInfo.description}
-      </div>
-      <div className={styles.trumpSuitCount}>
-        {trumpInfo.dominoCount} dominoes
-      </div>
-    </button>
   )
 }

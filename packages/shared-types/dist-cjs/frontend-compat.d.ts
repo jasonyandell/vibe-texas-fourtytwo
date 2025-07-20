@@ -2,7 +2,15 @@
  * Frontend Compatibility Layer
  * Provides compatibility types and functions for migrating from frontend types
  */
-import { GameState as SharedGameState, Player, Trick, BiddingState, ScoringState, PartnershipState, PlayerPosition, GamePhase, LobbyGame, LobbyState, GameAction, ApiResponse, WebSocketMessage, PlayedDomino } from './game-state';
+import { GameState as SharedGameState, GamePhase } from './game-state';
+import { Player, PlayerPosition } from './player';
+import { Trick, PlayedDomino } from './trick';
+import { BiddingState } from './bidding-state';
+import { ScoringState } from './scoring';
+import { PartnershipState } from './partnership';
+import { LobbyGame, LobbyState } from './lobby';
+import { GameAction } from './actions';
+import { ApiResponse, WebSocketMessage } from './api';
 import { Domino } from './dominoes';
 import { DominoSuit } from './trump';
 import { Bid } from './bidding';
@@ -57,7 +65,9 @@ export type { Domino } from './dominoes';
 export type { DominoSuit } from './trump';
 export type { Bid } from './bidding';
 export { isValidPlayer, isValidBid, isValidTrick, isValidBiddingState, isValidScoringState, isValidLobbyState, validatePlayerPosition, validateGamePhase, validateDominoSuit } from './type-guards';
-export { createEmptyLobbyState, createEmptyBiddingState, createEmptyScoringState } from './game-state';
+export { createEmptyLobbyState } from './lobby';
+export { createEmptyBiddingState } from './bidding-state';
+export { createEmptyScoringState } from './scoring';
 export { calculateDominoPointValue, isCountDomino, createDomino, createFullDominoSet } from './dominoes';
 /**
  * Create a compatible Bid object for frontend use

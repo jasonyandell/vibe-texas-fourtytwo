@@ -18,9 +18,12 @@ exports.validateDominoSuit = validateDominoSuit;
 const dominoes_1 = require("./dominoes");
 const game_state_1 = require("./game-state");
 Object.defineProperty(exports, "createEmptyGameState", { enumerable: true, get: function () { return game_state_1.createEmptyGameState; } });
-Object.defineProperty(exports, "createEmptyLobbyState", { enumerable: true, get: function () { return game_state_1.createEmptyLobbyState; } });
-Object.defineProperty(exports, "createEmptyBiddingState", { enumerable: true, get: function () { return game_state_1.createEmptyBiddingState; } });
-Object.defineProperty(exports, "createEmptyScoringState", { enumerable: true, get: function () { return game_state_1.createEmptyScoringState; } });
+const bidding_state_1 = require("./bidding-state");
+Object.defineProperty(exports, "createEmptyBiddingState", { enumerable: true, get: function () { return bidding_state_1.createEmptyBiddingState; } });
+const scoring_1 = require("./scoring");
+Object.defineProperty(exports, "createEmptyScoringState", { enumerable: true, get: function () { return scoring_1.createEmptyScoringState; } });
+const lobby_1 = require("./lobby");
+Object.defineProperty(exports, "createEmptyLobbyState", { enumerable: true, get: function () { return lobby_1.createEmptyLobbyState; } });
 // Re-export domino validation and creation
 var dominoes_2 = require("./dominoes");
 Object.defineProperty(exports, "isValidDomino", { enumerable: true, get: function () { return dominoes_2.isValidDomino; } });

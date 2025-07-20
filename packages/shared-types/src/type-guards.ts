@@ -6,20 +6,12 @@
 import { isValidDomino as isValidDominoBase } from './dominoes';
 import { DominoSuit } from './trump';
 import { Bid } from './bidding';
-import { 
-  Player, 
-  GameState, 
-  LobbyState, 
-  BiddingState, 
-  ScoringState, 
-  Trick,
-  PlayerPosition,
-  GamePhase,
-  createEmptyGameState,
-  createEmptyLobbyState,
-  createEmptyBiddingState,
-  createEmptyScoringState
-} from './game-state';
+import { GameState, GamePhase, createEmptyGameState } from './game-state';
+import { Player, PlayerPosition } from './player';
+import { Trick } from './trick';
+import { BiddingState, createEmptyBiddingState } from './bidding-state';
+import { ScoringState, createEmptyScoringState } from './scoring';
+import { LobbyState, createEmptyLobbyState } from './lobby';
 
 // Re-export domino validation and creation
 export { isValidDomino, createDomino } from './dominoes';

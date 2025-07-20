@@ -76,38 +76,104 @@ export {
 } from './bidding';
 
 // ============================================================================
-// Game State Types and Utilities
+// Player Types
 // ============================================================================
 export type {
   PlayerPosition,
-  GamePhase,
+  Player
+} from './player';
+
+// ============================================================================
+// Partnership Types and Utilities
+// ============================================================================
+export type {
   PartnershipTeam,
-  Player,
-  PlayedDomino,
-  Trick,
-  HandScore,
   Partnership,
   PartnershipState,
   PartnershipMarks,
-  PartnershipScore,
-  BiddingState,
-  ScoringState,
-  GameState,
-  GameAction,
+  PartnershipScore
+} from './partnership';
+
+export {
+  createEmptyPartnershipState
+} from './partnership';
+
+// ============================================================================
+// Trick Types
+// ============================================================================
+export type {
+  PlayedDomino,
+  Trick
+} from './trick';
+
+// ============================================================================
+// Scoring Types and Utilities
+// ============================================================================
+export type {
+  HandScore,
+  ScoringState
+} from './scoring';
+
+export {
+  createEmptyScoringState
+} from './scoring';
+
+// ============================================================================
+// Bidding State Types and Utilities
+// ============================================================================
+export type {
+  BiddingState
+} from './bidding-state';
+
+export {
+  createEmptyBiddingState
+} from './bidding-state';
+
+// ============================================================================
+// Lobby Types and Utilities
+// ============================================================================
+export type {
   LobbyGame,
-  LobbyState,
+  LobbyState
+} from './lobby';
+
+export {
+  createEmptyLobbyState
+} from './lobby';
+
+// ============================================================================
+// API Types
+// ============================================================================
+export type {
   ApiResponse,
   WebSocketMessage
+} from './api';
+
+// ============================================================================
+// Action Types
+// ============================================================================
+export type {
+  GameAction
+} from './actions';
+
+// ============================================================================
+// Game State Types and Utilities
+// ============================================================================
+export type {
+  GamePhase,
+  GameState
 } from './game-state';
 
 export {
-  createEmptyGameState,
-  createEmptyPartnershipState,
-  createEmptyScoringState,
-  createEmptyBiddingState,
-  createEmptyLobbyState,
-  GAME_CONSTANTS
+  createEmptyGameState
 } from './game-state';
+
+// ============================================================================
+// Constants
+// ============================================================================
+export {
+  GAME_CONSTANTS
+} from './constants';
 
 // ============================================================================
 // Validation Types and Utilities
@@ -162,10 +228,12 @@ export {
 // Import types for re-export
 import type { Domino } from './dominoes';
 import type { DominoSuit } from './trump';
-import type { Player, GameState, Trick } from './game-state';
+import type { Player } from './player';
+import type { GameState } from './game-state';
+import type { Trick } from './trick';
 import type { Bid } from './bidding';
 import type { ValidationResult, ValidationError, ValidationContext } from './validation';
-import type { Partnership, PartnershipState, PartnershipMarks, PartnershipTeam } from './game-state';
+import type { Partnership, PartnershipState, PartnershipMarks, PartnershipTeam } from './partnership';
 
 /**
  * Core game types that are frequently used together

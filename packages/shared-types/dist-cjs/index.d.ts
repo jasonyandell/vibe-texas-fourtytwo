@@ -8,17 +8,32 @@ export type { DominoSuit, TrumpSystem, DominoSuitMapping, TrumpHierarchy, NoTrum
 export { getSuitValue, getSuitName, getDominoSuits, isTrumpDomino, getTrumpRank, compareTrumpDominoes, compareNonTrumpDominoes, getTrumpDominoes, createTrumpHierarchy, isValidTrumpSuit, createNoTrumpConfig, TRUMP_CONSTANTS } from './trump';
 export type { SpecialContractType, Bid, SpecialContract, BidValidationResult } from './bidding';
 export { BiddingValidationError, createPassBid, createRegularBid, createMarkBid, createSpecialContractBid, getSpecialContractAmount, convertBidToMarks, convertMarksToBid, validateBid, validateSpecialContract, isPassBid, isMarkBid, getMinimumBidAmount, BIDDING_CONSTANTS } from './bidding';
-export type { PlayerPosition, GamePhase, PartnershipTeam, Player, PlayedDomino, Trick, HandScore, Partnership, PartnershipState, PartnershipMarks, PartnershipScore, BiddingState, ScoringState, GameState, GameAction, LobbyGame, LobbyState, ApiResponse, WebSocketMessage } from './game-state';
-export { createEmptyGameState, createEmptyPartnershipState, createEmptyScoringState, createEmptyBiddingState, createEmptyLobbyState, GAME_CONSTANTS } from './game-state';
+export type { PlayerPosition, Player } from './player';
+export type { PartnershipTeam, Partnership, PartnershipState, PartnershipMarks, PartnershipScore } from './partnership';
+export { createEmptyPartnershipState } from './partnership';
+export type { PlayedDomino, Trick } from './trick';
+export type { HandScore, ScoringState } from './scoring';
+export { createEmptyScoringState } from './scoring';
+export type { BiddingState } from './bidding-state';
+export { createEmptyBiddingState } from './bidding-state';
+export type { LobbyGame, LobbyState } from './lobby';
+export { createEmptyLobbyState } from './lobby';
+export type { ApiResponse, WebSocketMessage } from './api';
+export type { GameAction } from './actions';
+export type { GamePhase, GameState } from './game-state';
+export { createEmptyGameState } from './game-state';
+export { GAME_CONSTANTS } from './constants';
 export type { ValidationResult, ValidationContext, ValidationError, RuleValidationFunction, DominoPlayValidationFunction, BidValidationFunction, GameStateValidationFunction } from './validation';
 export { ValidationSeverity, ValidationErrorType, createValidResult, createInvalidResult, createValidationError, createValidationWarning, combineValidationResults, validateRequiredFields, validateFieldType, validateArrayLength, validateNumericRange, VALIDATION_CONSTANTS } from './validation';
 export { isValidDomino, isValidPlayer, isValidGameState, isValidLobbyState, isValidBiddingState, isValidScoringState, isValidTrick, isValidBid, validatePlayerPosition, validateGamePhase, validateDominoSuit, createDomino } from './type-guards';
 import type { Domino } from './dominoes';
 import type { DominoSuit } from './trump';
-import type { Player, GameState, Trick } from './game-state';
+import type { Player } from './player';
+import type { GameState } from './game-state';
+import type { Trick } from './trick';
 import type { Bid } from './bidding';
 import type { ValidationResult, ValidationError, ValidationContext } from './validation';
-import type { Partnership, PartnershipState, PartnershipMarks, PartnershipTeam } from './game-state';
+import type { Partnership, PartnershipState, PartnershipMarks, PartnershipTeam } from './partnership';
 /**
  * Core game types that are frequently used together
  */
