@@ -11,3 +11,5 @@ frontend/src/components/lobby/__tests__/PlayerSlots.test.tsx
 frontend/src/components/__tests__/DominoComponent.test.tsx
 frontend/src/components/PlayersSection.tsx
 packages/shared-types/dist-cjs/type-guards.js
+packages/shared-types/dist-cjs/frontend-compat.js
+frontend/src/hooks/__tests__/useBiddingState.test.tsx
