@@ -10,3 +10,4 @@ frontend/tests/e2e/demo-board-showcase.spec.ts
 frontend/src/components/lobby/__tests__/PlayerSlots.test.tsx
 frontend/src/components/__tests__/DominoComponent.test.tsx
 frontend/src/components/PlayersSection.tsx
+packages/shared-types/dist-cjs/type-guards.js
