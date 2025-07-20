@@ -4,10 +4,12 @@ import { DominoSet } from '@/game/dominoes'
 
 export class GameEngine {
   private games: Map<string, GameState> = new Map()
+  private gameNames: Map<string, string> = new Map() // Maps gameId to name
   private dominoSet = new DominoSet()
 
-  createGame(): GameState {
+  createGame(gameName: string): GameState {
     const gameId = nanoid()
+    this.gameNames.set(gameId, gameName)
     const game: GameState = {
       id: gameId,
       phase: 'bidding',
@@ -74,16 +76,38 @@ export class GameEngine {
     maxPlayers: number
     status: string
     createdAt: string
+    gameCode?: string
   }> {
     return Array.from(this.games.values()).map(game => ({
       id: game.id,
-      name: `Texas 42 Game ${game.id.slice(0, 8)}`,
+      name: this.gameNames.get(game.id) || `Texas 42 Game ${game.id.slice(0, 8)}`,
       playerCount: game.players.length,
       maxPlayers: 4,
       status: game.phase === 'finished' ? 'finished' : 
               game.players.length === 4 ? 'playing' : 'waiting',
-      createdAt: game.createdAt
+      createdAt: game.createdAt,
+      gameCode: this.getGameCode(game.id)
     }))
+  }
+  
+  private generateGameCode(): string {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+    let code = ''
+    for (let i = 0; i < 6; i++) {
+      code += chars.charAt(Math.floor(Math.random() * chars.length))
+    }
+    return code
+  }
+  
+  private getGameCode(gameId: string): string | undefined {
+    // For now, generate a deterministic code based on game ID
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+    let code = ''
+    for (let i = 0; i < 6; i++) {
+      const index = gameId.charCodeAt(i % gameId.length) % chars.length
+      code += chars.charAt(index)
+    }
+    return code
   }
 
   joinGame(gameId: string, playerId: string, playerName: string): boolean {

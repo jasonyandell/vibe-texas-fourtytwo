@@ -141,7 +141,7 @@ test.describe('Story 002: Create Game', () => {
   test('handles server errors gracefully', async ({ page }) => {
     // Mock a server error response
     await page.route('**/api/games', route => {
-      route.fulfill({
+      void route.fulfill({
         status: 500,
         contentType: 'application/json',
         body: JSON.stringify({ error: 'Internal server error' })

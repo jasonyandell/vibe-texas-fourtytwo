@@ -79,6 +79,11 @@ export const GameCard: React.FC<GameCardProps> = ({
             <span className={styles.createdAt}>
               Created {new Date(game.createdAt).toLocaleTimeString()}
             </span>
+            {game.gameCode && (
+              <span className={styles.gameCode} data-testid="game-code">
+                {game.gameCode}
+              </span>
+            )}
           </div>
         </div>
         <div data-testid="game-status">

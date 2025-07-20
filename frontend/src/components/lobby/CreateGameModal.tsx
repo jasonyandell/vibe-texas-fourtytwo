@@ -13,6 +13,8 @@ export const CreateGameModal: React.FC<CreateGameModalProps> = ({
 }) => {
   const [gameName, setGameName] = useState('');
   const [isCreating, setIsCreating] = useState(false);
+  const [validationError, setValidationError] = useState<string | null>(null);
+  const [serverError, setServerError] = useState<string | null>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -46,7 +48,26 @@ export const CreateGameModal: React.FC<CreateGameModalProps> = ({
     event.preventDefault();
 
     const trimmedName = gameName.trim();
-    if (trimmedName.length < 3 || isCreating) {
+    
+    // Reset errors
+    setValidationError(null);
+    setServerError(null);
+    
+    // Validation
+    if (!trimmedName) {
+      setValidationError('Game name is required');
+      return;
+    }
+    if (trimmedName.length < 3) {
+      setValidationError('Game name must be at least 3 characters');
+      return;
+    }
+    if (trimmedName.length > 50) {
+      setValidationError('Game name must be less than 50 characters');
+      return;
+    }
+
+    if (isCreating) {
       return;
     }
 
@@ -54,8 +75,17 @@ export const CreateGameModal: React.FC<CreateGameModalProps> = ({
     try {
       await onCreateGame(trimmedName);
       onClose(); // Close modal after successful creation
-    } catch (_error) {
-      // Error is handled, just reset the loading state
+    } catch (error) {
+      // Handle server errors
+      if (error instanceof Error) {
+        if (error.message.includes('duplicate') || error.message.includes('exists')) {
+          setServerError('A game with this name already exists');
+        } else {
+          setServerError('Failed to create game. Please try again.');
+        }
+      } else {
+        setServerError('Failed to create game. Please try again.');
+      }
     } finally {
       setIsCreating(false);
     }
@@ -107,15 +137,19 @@ export const CreateGameModal: React.FC<CreateGameModalProps> = ({
               id="game-name"
               type="text"
               value={gameName}
-              onChange={(e) => setGameName((e.target as HTMLInputElement).value)}
+              onChange={(e) => {
+                setGameName((e.target as HTMLInputElement).value);
+                setValidationError(null);
+                setServerError(null);
+              }}
               placeholder="Enter a name for your game..."
               className={styles.input}
               disabled={isCreating}
-              maxLength={50}
+              maxLength={51} // Allow one extra to trigger validation
               required
             />
             <div className={styles.inputHelp}>
-              {gameName.length > 0 && (
+              {gameName.length > 0 && !validationError && !serverError && (
                 <span className={isValidName ? styles.validText : styles.errorText}>
                   {gameName.length}/50 characters
                   {!isValidName && ' (minimum 3 characters)'}
@@ -123,6 +157,12 @@ export const CreateGameModal: React.FC<CreateGameModalProps> = ({
               )}
             </div>
           </div>
+          
+          {(validationError || serverError) && (
+            <div role="alert" className={styles.errorMessage}>
+              {validationError || serverError}
+            </div>
+          )}
 
           <div className={styles.modalActions}>
             <Button

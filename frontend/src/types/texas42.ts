@@ -143,6 +143,7 @@ export interface LobbyGame {
   maxPlayers: number;
   status: 'waiting' | 'playing' | 'finished';
   createdAt: string;
+  gameCode?: string;
 }
 
 // Lobby state

@@ -14,12 +14,59 @@ export const gameRoutes: FastifyPluginCallback = (fastify, _options, done) => {
   })
 
   // Create a new game
-  fastify.post('/games', (_request, reply) => {
+  fastify.post('/games', (request, reply) => {
     try {
-      const game = gameEngine.createGame()
+      const body = request.body as { name?: string; creatorId?: string; creatorName?: string }
+      
+      // Validate game name
+      if (!body.name || typeof body.name !== 'string') {
+        reply.code(400)
+        return {
+          success: false,
+          error: 'Game name is required'
+        }
+      }
+      
+      const trimmedName = body.name.trim()
+      if (trimmedName.length < 3) {
+        reply.code(400)
+        return {
+          success: false,
+          error: 'Game name must be at least 3 characters'
+        }
+      }
+      
+      if (trimmedName.length > 50) {
+        reply.code(400)
+        return {
+          success: false,
+          error: 'Game name must be less than 50 characters'
+        }
+      }
+      
+      // Check for duplicate names
+      const existingGames = gameEngine.getAvailableGames()
+      if (existingGames.some(g => g.name === trimmedName)) {
+        reply.code(400)
+        return {
+          success: false,
+          error: 'A game with this name already exists'
+        }
+      }
+      
+      const game = gameEngine.createGame(trimmedName)
+      
+      // Auto-join creator if provided
+      if (body.creatorId && body.creatorName) {
+        gameEngine.joinGame(game.id, body.creatorId, body.creatorName)
+      }
+      
+      // Return the updated game info
+      const gameInfo = gameEngine.getAvailableGames().find(g => g.id === game.id)
+      
       return {
         success: true,
-        data: game
+        data: gameInfo || game
       }
     } catch (_error) {
       reply.code(500)

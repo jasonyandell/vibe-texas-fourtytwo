@@ -9,6 +9,7 @@ export interface LobbyListProps {
   games: LobbyGame[];
   loading?: boolean;
   error?: Error | null;
+  currentUserId?: string;
   onCreateGame?: () => void;
 }
 
@@ -16,6 +17,7 @@ export const LobbyList: React.FC<LobbyListProps> = ({
   games,
   loading = false,
   error = null,
+  currentUserId,
   onCreateGame
 }) => {
   // Error takes precedence over loading
@@ -54,6 +56,7 @@ export const LobbyList: React.FC<LobbyListProps> = ({
           <GameCard 
             key={game.id} 
             game={game}
+            currentUserId={currentUserId}
           />
         ))}
       </div>
