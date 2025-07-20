@@ -8,7 +8,7 @@ Started: 2025-01-19T12:35:00Z
 - [x] Task 2: Add missing gamesSection CSS class to Lobby.module.css
 - [x] Task 3: Create E2E tests for empty lobby state
 - [x] Task 4: Create LobbySection wrapper component
-- [ ] Task 5: Create CreateGameButton component
+- [x] Task 5: Create CreateGameButton component
 
 ## Reviews
 - [ ] Dijkstra review

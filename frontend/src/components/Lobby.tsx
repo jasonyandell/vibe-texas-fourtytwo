@@ -124,6 +124,7 @@ export const Lobby: React.FC = () => {
           games={sortedGames}
           loading={isLoading}
           error={error}
+          onCreateGame={() => setShowCreateModal(true)}
         />
       </div>
 

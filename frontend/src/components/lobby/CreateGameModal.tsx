@@ -3,7 +3,7 @@ import { Button } from '@/components/ui';
 import styles from './CreateGameModal.module.css';
 
 export interface CreateGameModalProps {
-  onCreateGame: (gameName: string) => Promise<void>;
+  onCreateGame: (gameName: string) => void | Promise<void>;
   onClose: () => void;
 }
 

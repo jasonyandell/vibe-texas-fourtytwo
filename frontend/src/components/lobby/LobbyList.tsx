@@ -9,12 +9,14 @@ export interface LobbyListProps {
   games: LobbyGame[];
   loading?: boolean;
   error?: Error | null;
+  onCreateGame?: () => void;
 }
 
 export const LobbyList: React.FC<LobbyListProps> = ({
   games,
   loading = false,
-  error = null
+  error = null,
+  onCreateGame
 }) => {
   // Error takes precedence over loading
   if (error) {
@@ -40,7 +42,7 @@ export const LobbyList: React.FC<LobbyListProps> = ({
   if (games.length === 0) {
     return (
       <div className={styles.lobbyList} data-testid="lobby-list">
-        <EmptyState />
+        <EmptyState onCreateGame={onCreateGame} />
       </div>
     );
   }
