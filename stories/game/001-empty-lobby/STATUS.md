@@ -12,9 +12,9 @@ Completed: 2025-01-20T01:41:00Z
 - [x] Task 5: Create CreateGameButton component
 
 ## Reviews
-- [ ] Dijkstra review
-- [ ] Karen review
-- [ ] Kid review
+- [x] Dijkstra review
+- [x] Karen review
+- [x] Kid review
 - [ ] Issues addressed
 
 ## Demo
