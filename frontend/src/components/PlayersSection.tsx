@@ -1,95 +1,33 @@
 import React, { useState } from 'react'
-import { PlayerPosition, Player } from '@/types/texas42'
-import { DominoHand } from './DominoHand'
-import { createFullDominoSet } from '@/types/texas42'
+import { PlayerPosition } from '@/types/texas42'
+import { PlayerCard } from './PlayerCard'
+import { PlayerControls } from './PlayerControls'
+import { createSamplePlayers } from '@/utils/samplePlayerData'
+import { Partnership, getPartnership, getPartnershipName } from '@/utils/partnershipUtils'
 import styles from './PlayersSection.module.css'
 
-// Sample player data for the demo
-const createSamplePlayers = (): Player[] => {
-  const { dominoes } = createFullDominoSet()
-  
-  // Create sample hands (7 dominoes each)
-  const hands = [
-    dominoes.slice(0, 7),   // Alice (North)
-    dominoes.slice(7, 14),  // Bob (East)
-    dominoes.slice(14, 21), // Charlie (South)
-    dominoes.slice(21, 28)  // Diana (West)
-  ]
-
-  return [
-    {
-      id: 'player-1',
-      name: 'Alice',
-      position: 'north',
-      hand: hands[0],
-      isConnected: true,
-      isReady: true
-    },
-    {
-      id: 'player-2',
-      name: 'Bob',
-      position: 'east',
-      hand: hands[1],
-      isConnected: true,
-      isReady: true
-    },
-    {
-      id: 'player-3',
-      name: 'Charlie',
-      position: 'south',
-      hand: hands[2],
-      isConnected: true,
-      isReady: false
-    },
-    {
-      id: 'player-4',
-      name: 'Diana',
-      position: 'west',
-      hand: hands[3],
-      isConnected: true,
-      isReady: true
-    }
-  ]
-}
-
-type Partnership = 'north-south' | 'east-west'
-
 export const PlayersSection: React.FC = () => {
-  const [players] = useState<Player[]>(createSamplePlayers())
-  const [dealer, setDealer] = useState<string>('player-1') // Alice starts as dealer
-  const [currentPlayer] = useState<string>('player-2') // Bob's turn
+  const [players] = useState(createSamplePlayers())
+  const [dealer, setDealer] = useState<string>('player-1')
+  const [currentPlayer] = useState<string>('player-2')
   const [highlightedPartnership, setHighlightedPartnership] = useState<Partnership | null>(null)
   const [showHands, setShowHands] = useState(false)
   const [faceDown, setFaceDown] = useState(false)
   const [partnershipAnnouncement, setPartnershipAnnouncement] = useState('')
 
-  const getPartnership = (position: PlayerPosition): Partnership => {
-    return position === 'north' || position === 'south' ? 'north-south' : 'east-west'
-  }
-
-  const getPlayerByPosition = (position: PlayerPosition): Player | undefined => {
+  const getPlayerByPosition = (position: PlayerPosition) => {
     return players.find(player => player.position === position)
-  }
-
-  const isDealer = (playerId: string): boolean => {
-    return dealer === playerId
-  }
-
-  const isCurrentPlayer = (playerId: string): boolean => {
-    return currentPlayer === playerId
   }
 
   const handlePlayerClick = (position: PlayerPosition) => {
     const partnership = getPartnership(position)
     
     if (highlightedPartnership === partnership) {
-      // Toggle off if same partnership clicked
       setHighlightedPartnership(null)
       setPartnershipAnnouncement('Partnership highlighting cleared')
     } else {
-      // Highlight new partnership
       setHighlightedPartnership(partnership)
-      const partnershipName = partnership === 'north-south' ? 'North-South' : 'East-West'
+      const partnershipName = getPartnershipName(partnership)
       setPartnershipAnnouncement(`${partnershipName} partnership highlighted`)
     }
   }
@@ -116,67 +54,27 @@ export const PlayersSection: React.FC = () => {
     }
   }
 
-  const getPlayerCardClasses = (position: PlayerPosition) => {
+  const renderPlayerCard = (position: PlayerPosition) => {
     const player = getPlayerByPosition(position)
+    if (!player) return null
+
     const partnership = getPartnership(position)
     const isHighlighted = highlightedPartnership === partnership
 
-    return [
-      styles.playerCard,
-      styles[`player${position.charAt(0).toUpperCase() + position.slice(1)}`],
-      styles[partnership === 'north-south' ? 'partnershipNorthSouth' : 'partnershipEastWest'],
-      isHighlighted ? styles.partnershipHighlighted : '',
-      player && isDealer(player.id) ? styles.dealer : '',
-      player && isCurrentPlayer(player.id) ? styles.currentPlayer : ''
-    ].filter(Boolean).join(' ')
-  }
-
-  const renderPlayerCard = (position: PlayerPosition) => {
-    const player = getPlayerByPosition(position)
-    const partnership = getPartnership(position)
-
-    if (!player) return null
-
     return (
-      <div
+      <PlayerCard
         key={position}
-        className={getPlayerCardClasses(position)}
-        data-testid={`player-card-${position}`}
-        data-partnership={partnership}
+        player={player}
+        position={position}
+        partnership={partnership}
+        isDealer={dealer === player.id}
+        isCurrentPlayer={currentPlayer === player.id}
+        isHighlighted={isHighlighted}
+        showHands={showHands}
+        faceDown={faceDown}
         onClick={() => handlePlayerClick(position)}
         onKeyDown={(e) => handleKeyDown(e, position)}
-        role="button"
-        tabIndex={0}
-        aria-label={`${player.name}, ${position} position, ${partnership} partnership`}
-      >
-        <div className={styles.playerInfo}>
-          <div className={styles.playerHeader}>
-            <span className={styles.playerName}>{player.name}</span>
-            <span className={styles.positionLabel}>{position.charAt(0).toUpperCase() + position.slice(1)}</span>
-          </div>
-          
-          <div className={styles.playerStatus}>
-            {isDealer(player.id) && <span className={styles.dealerBadge}>Dealer</span>}
-            {player.isReady && <span className={styles.readyBadge}>Ready</span>}
-            {isCurrentPlayer(player.id) && <span className={styles.currentTurnBadge}>Current Turn</span>}
-          </div>
-        </div>
-
-        {showHands && (
-          <div
-            className={`${styles.playerHandContainer} ${faceDown ? styles.faceDown : ''}`}
-            data-testid={`domino-hand-${position}`}
-          >
-            <DominoHand
-              dominoes={player.hand}
-              faceDown={faceDown}
-              orientation="horizontal"
-              className={styles.playerHand}
-              compact={true}
-            />
-          </div>
-        )}
-      </div>
+      />
     )
   }
 
@@ -191,58 +89,13 @@ export const PlayersSection: React.FC = () => {
         <p>4-player positioning with North-South vs East-West partnerships. Click any player to highlight their partnership.</p>
       </div>
 
-      <div className={styles.topControls} aria-label="Player interaction controls">
-        <div className={styles.controlsRow}>
-          <div className={styles.controlGroup}>
-            <label className={styles.toggleLabel}>
-              <input
-                type="checkbox"
-                checked={showHands}
-                onChange={(e) => setShowHands(e.target.checked)}
-                data-testid="toggle-hand-visibility"
-              />
-              <span>Show Player Hands</span>
-            </label>
-          </div>
-
-          <div className={styles.controlGroup}>
-            <label className={styles.toggleLabel}>
-              <input
-                type="checkbox"
-                checked={faceDown}
-                onChange={(e) => setFaceDown(e.target.checked)}
-                disabled={!showHands}
-                data-testid="toggle-face-down"
-              />
-              <span>Face Down</span>
-            </label>
-          </div>
-
-          <div className={styles.controlGroup}>
-            <button
-              onClick={rotateDealer}
-              className={styles.actionButton}
-              data-testid="toggle-dealer-rotation"
-            >
-              Rotate Dealer
-            </button>
-          </div>
-
-          <div className={styles.partnershipLegend}>
-            <h5>Partnerships</h5>
-            <div className={styles.legendItems}>
-              <div className={styles.legendItem}>
-                <div className={`${styles.colorIndicator} ${styles.northSouthColor}`}></div>
-                <span>North-South</span>
-              </div>
-              <div className={styles.legendItem}>
-                <div className={`${styles.colorIndicator} ${styles.eastWestColor}`}></div>
-                <span>East-West</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <PlayerControls
+        showHands={showHands}
+        faceDown={faceDown}
+        onShowHandsChange={setShowHands}
+        onFaceDownChange={setFaceDown}
+        onRotateDealer={rotateDealer}
+      />
 
       <div className={styles.content}>
         <div
