@@ -2,3 +2,5 @@
 frontend/src/components/lobby/__tests__/EmptyState.test.tsx
 frontend/src/components/lobby/__tests__/LobbyList.test.tsx
 frontend/src/types/game.ts
+packages/shared-types/src/index.ts
+packages/shared-types/src/trump.ts
