@@ -27,7 +27,7 @@ export const Lobby: React.FC = () => {
     filterStatus === 'all' || game.status === filterStatus
   );
 
-  const handleCreateGame = (gameName: string) => {
+  const handleCreateGame = async (gameName: string) => {
     const newGame: LobbyGame = {
       id: `game-${Date.now()}`,
       name: gameName,

@@ -10,7 +10,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   onCreateGame
 }) => {
   return (
-    <div className={styles.emptyState}>
+    <div className={styles.emptyState} data-testid="lobby-empty-state">
       <div className={styles.emptyIcon}>
         <svg 
           role="img"
