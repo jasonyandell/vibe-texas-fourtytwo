@@ -15,3 +15,4 @@ packages/shared-types/dist-cjs/frontend-compat.js
 frontend/src/hooks/__tests__/useBiddingState.test.tsx
 frontend/src/components/__tests__/BiddingPanel.test.tsx
 frontend/src/components/BiddingSection.tsx
+frontend/src/components/__tests__/GameBoard.gamestate.test.tsx
