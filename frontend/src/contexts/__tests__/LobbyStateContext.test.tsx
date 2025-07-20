@@ -2,31 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, act } from '@testing-library/react';
 import { LobbyStateProvider } from '../LobbyStateContext';
 import { useLobbyStateContext } from '@/hooks/useLobbyStateContext';
-import { LobbyState } from '@/types/texas42';
 import React from 'react';
-
-// Mock data
-const mockLobbyState: LobbyState = {
-  availableGames: [
-    {
-      id: 'game-1',
-      name: 'Test Game 1',
-      playerCount: 2,
-      maxPlayers: 4,
-      status: 'waiting',
-      createdAt: '2024-01-01T12:00:00Z'
-    },
-    {
-      id: 'game-2',
-      name: 'Test Game 2',
-      playerCount: 4,
-      maxPlayers: 4,
-      status: 'playing',
-      createdAt: '2024-01-02T12:00:00Z'
-    }
-  ],
-  connectedPlayers: 10
-};
 
 // Test component that uses the context
 const TestComponent = () => {
@@ -110,7 +86,7 @@ describe('LobbyStateContext', () => {
       </LobbyStateProvider>
     );
     
-    await act(async () => {
+    await act(() => {
       screen.getByTestId('add-game-btn').click();
     });
     
@@ -124,7 +100,7 @@ describe('LobbyStateContext', () => {
       </LobbyStateProvider>
     );
     
-    await act(async () => {
+    await act(() => {
       screen.getByTestId('update-connected-players-btn').click();
     });
     
@@ -139,13 +115,13 @@ describe('LobbyStateContext', () => {
     );
     
     // Set an error
-    await act(async () => {
+    await act(() => {
       screen.getByTestId('set-error-btn').click();
     });
     expect(screen.getByTestId('error-message').textContent).toBe('Test error');
     
     // Clear the error
-    await act(async () => {
+    await act(() => {
       screen.getByTestId('clear-error-btn').click();
     });
     expect(screen.getByTestId('error-message').textContent).toBe('No Error');

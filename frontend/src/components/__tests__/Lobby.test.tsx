@@ -1,5 +1,6 @@
+import React from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Lobby } from '../Lobby';
 import { LobbyStateProvider } from '@/contexts/LobbyStateContext';
@@ -89,7 +90,7 @@ vi.mock('@/hooks/useLobbyState', () => ({
 
 // Mock the LobbyList component
 vi.mock('../lobby/LobbyList', () => ({
-  LobbyList: vi.fn(({ games, loading, error }) => (
+  LobbyList: vi.fn(({ games, loading, error }: { games: LobbyGame[]; loading: boolean; error: Error | null }) => (
     <div data-testid="lobby-list">
       <div data-testid="games-count">{games.length}</div>
       {loading && <div data-testid="loading-indicator">Loading...</div>}
@@ -100,7 +101,7 @@ vi.mock('../lobby/LobbyList', () => ({
 
 // Mock the CreateGameModal component
 vi.mock('../lobby/CreateGameModal', () => ({
-  CreateGameModal: vi.fn(({ onCreateGame, onClose }) => (
+  CreateGameModal: vi.fn(({ onCreateGame, onClose }: { onCreateGame: (name: string) => void; onClose: () => void }) => (
     <div data-testid="create-game-modal">
       <button 
         data-testid="create-game-button" 
@@ -120,7 +121,13 @@ vi.mock('../lobby/CreateGameModal', () => ({
 
 // Mock the Button component
 vi.mock('@/components/ui', () => ({
-  Button: vi.fn(({ children, onClick, disabled, variant, size }) => (
+  Button: vi.fn(({ children, onClick, disabled, variant, size }: { 
+    children: React.ReactNode; 
+    onClick?: () => void; 
+    disabled?: boolean; 
+    variant?: string; 
+    size?: string 
+  }) => (
     <button 
       onClick={onClick} 
       disabled={disabled}
@@ -252,7 +259,7 @@ describe('Lobby', () => {
       expect(joinRandomButton).not.toBeDisabled();
     });
 
-    it('disables join random game button when no joinable games exist', async () => {
+    it('disables join random game button when no joinable games exist', () => {
       // Override the mock for this test
       mockGetJoinableGames.mockReturnValueOnce([]);
       

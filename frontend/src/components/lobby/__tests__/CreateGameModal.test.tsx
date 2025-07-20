@@ -309,8 +309,7 @@ describe('CreateGameModal', () => {
       expect(input).toHaveAttribute('maxLength', '50');
     });
 
-    it('maintains focus trap within modal', async () => {
-      const user = userEvent.setup();
+    it('maintains focus trap within modal', () => {
       render(<CreateGameModal {...mockHandlers} />);
       
       const input = screen.getByLabelText('Game Name');

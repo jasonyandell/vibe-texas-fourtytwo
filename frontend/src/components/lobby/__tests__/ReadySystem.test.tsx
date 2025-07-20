@@ -151,13 +151,13 @@ describe('ReadySystem', () => {
       
       expect(screen.getByText('Starting in 10s')).toBeInTheDocument();
       
-      await act(async () => {
+      await act(() => {
         vi.advanceTimersByTime(1000);
       });
       
       expect(screen.getByText('Starting in 9s')).toBeInTheDocument();
       
-      await act(async () => {
+      await act(() => {
         vi.advanceTimersByTime(1000);
       });
       
@@ -167,7 +167,7 @@ describe('ReadySystem', () => {
     it('calls onStartGame when countdown reaches zero', async () => {
       render(<ReadySystem players={allReadyPlayers} gameId="test-game" {...mockHandlers} />);
       
-      await act(async () => {
+      await act(() => {
         vi.advanceTimersByTime(10000);
       });
       

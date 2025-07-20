@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { EmptyState } from '../EmptyState';
 
@@ -178,19 +178,18 @@ describe('EmptyState', () => {
       }).not.toThrow();
     });
 
-    it('handles onCreateGame errors gracefully', async () => {
+    it('handles onCreateGame errors gracefully', () => {
       const mockOnCreateGame = vi.fn().mockImplementation(() => {
         throw new Error('Create game failed');
       });
-      const user = userEvent.setup();
       
       render(<EmptyState onCreateGame={mockOnCreateGame} />);
       
       const createButton = screen.getByRole('button', { name: 'Create New Game' });
       
       // Should not throw error when clicked
-      expect(async () => {
-        await user.click(createButton);
+      expect(() => {
+        createButton.click();
       }).not.toThrow();
     });
 
@@ -245,9 +244,8 @@ describe('EmptyState', () => {
       expect(createButton).toHaveFocus();
     });
 
-    it('provides proper focus management', async () => {
+    it('provides proper focus management', () => {
       const mockOnCreateGame = vi.fn();
-      const user = userEvent.setup();
       
       render(<EmptyState onCreateGame={mockOnCreateGame} />);
       

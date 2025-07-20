@@ -1,12 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { SpectatorView, SpectatorInfo } from '../SpectatorView';
-import { GameState, Player } from '@/types/texas42';
+import { GameState } from '@/types/texas42';
 
 // Mock the child components
 vi.mock('@/components/DominoHand', () => ({
-  DominoHand: ({ dominoes, faceDown, playable }: any) => (
+  DominoHand: ({ dominoes, faceDown, playable }: { dominoes: { length: number }; faceDown?: boolean; playable?: boolean }) => (
     <div data-testid="domino-hand" data-face-up={!faceDown} data-playable={playable}>
       {dominoes.length} dominoes
     </div>
@@ -14,7 +14,7 @@ vi.mock('@/components/DominoHand', () => ({
 }));
 
 vi.mock('@/components/GameBoard', () => ({
-  GameBoard: ({ gameState, isSpectatorMode }: any) => (
+  GameBoard: ({ gameState, isSpectatorMode }: { gameState: { id: string }; isSpectatorMode?: boolean }) => (
     <div data-testid="game-board" data-spectator-mode={isSpectatorMode}>
       Game Board for {gameState.id}
     </div>

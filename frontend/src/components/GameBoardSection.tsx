@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { DominoComponent } from './DominoComponent'
-import { createFullDominoSet, Domino, DominoSuit, GamePhase, PlayerPosition } from '@/types/texas42'
+import { Domino, DominoSuit, GamePhase, PlayerPosition } from '@/types/texas42'
 import styles from './GameBoardSection.module.css'
 
 // Sample trick data for demonstration
