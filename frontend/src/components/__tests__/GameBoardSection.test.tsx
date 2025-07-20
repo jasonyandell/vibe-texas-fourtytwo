@@ -1,4 +1,5 @@
 import React from 'react'
+import { describe, it, expect } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { GameBoardSection } from '../GameBoardSection'
 
@@ -341,7 +342,8 @@ describe('GameBoardSection', () => {
       render(<GameBoardSection />)
 
       const container = screen.getByTestId('game-board-section-container')
-      expect(container.className).toContain('gameBoardSection')
+      // Check that the container has a class containing 'gameBoardSection'
+      expect(container.className).toMatch(/gameBoardSection/)
     })
   })
 })

@@ -3,7 +3,7 @@ import { Button } from '@/components/ui';
 import styles from './CreateGameModal.module.css';
 
 export interface CreateGameModalProps {
-  onCreateGame: (gameName: string) => void;
+  onCreateGame: (gameName: string) => Promise<void>;
   onClose: () => void;
 }
 
@@ -26,33 +26,36 @@ export const CreateGameModal: React.FC<CreateGameModalProps> = ({
   // Handle escape key
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
+      if (event.key === 'Escape' && !isCreating) {
         onClose();
       }
     };
 
     document.addEventListener('keydown', handleEscape);
     return () => document.removeEventListener('keydown', handleEscape);
-  }, [onClose]);
+  }, [onClose, isCreating]);
 
   // Handle backdrop click
   const handleBackdropClick = (event: React.MouseEvent) => {
-    if (event.target === modalRef.current) {
+    if (event.target === modalRef.current && !isCreating) {
       onClose();
     }
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!gameName.trim()) {
+    const trimmedName = gameName.trim();
+    if (trimmedName.length < 3 || isCreating) {
       return;
     }
 
     setIsCreating(true);
     try {
-      onCreateGame(gameName.trim());
+      await onCreateGame(trimmedName);
       onClose(); // Close modal after successful creation
+    } catch (error) {
+      // Error is handled, just reset the loading state
     } finally {
       setIsCreating(false);
     }

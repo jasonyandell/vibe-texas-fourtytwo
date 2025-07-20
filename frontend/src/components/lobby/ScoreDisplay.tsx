@@ -47,6 +47,11 @@ export const ScoreDisplay: React.FC<ScoreDisplayProps> = ({
               <div 
                 className={styles.progressBar}
                 style={{ width: `${(northSouth / maxScore) * 100}%` }}
+                role="progressbar"
+                aria-label="North-South progress"
+                aria-valuenow={northSouth}
+                aria-valuemin={0}
+                aria-valuemax={maxScore}
               />
             </div>
           )}
@@ -67,6 +72,11 @@ export const ScoreDisplay: React.FC<ScoreDisplayProps> = ({
               <div 
                 className={styles.progressBar}
                 style={{ width: `${(eastWest / maxScore) * 100}%` }}
+                role="progressbar"
+                aria-label="East-West progress"
+                aria-valuenow={eastWest}
+                aria-valuemin={0}
+                aria-valuemax={maxScore}
               />
             </div>
           )}

@@ -217,7 +217,8 @@ describe('GameCard', () => {
       render(<GameCard game={mockGame} {...mockHandlers} />);
       
       const joinButton = screen.getByRole('button', { name: /join game/i });
-      expect(joinButton).toHaveAttribute('aria-label');
+      // Button has accessible name from text content, aria-label not required
+      expect(joinButton).toHaveAccessibleName();
     });
 
     it('maintains proper tab order', () => {
@@ -225,7 +226,9 @@ describe('GameCard', () => {
       
       const buttons = screen.getAllByRole('button');
       buttons.forEach(button => {
-        expect(button).toHaveAttribute('tabIndex');
+        // Buttons are focusable by default (implicit tabIndex=0)
+        // Check they're not explicitly removed from tab order
+        expect(button).not.toHaveAttribute('tabIndex', '-1');
       });
     });
 

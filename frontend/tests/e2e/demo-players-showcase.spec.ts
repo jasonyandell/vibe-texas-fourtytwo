@@ -41,8 +41,8 @@ test.describe('Demo Players Showcase', () => {
     // Check that dealer badge is present (use more specific selector)
     await expect(page.locator('.dealerBadge, [class*="dealerBadge"]')).toBeVisible()
 
-    // Check status indicators
-    await expect(page.getByText('Ready')).toBeVisible()
+    // Check status indicators - be more specific since there are multiple "Ready" badges
+    await expect(page.getByTestId('player-card-north').getByText('Ready')).toBeVisible()
     await expect(page.getByText('Current Turn')).toBeVisible()
   })
 

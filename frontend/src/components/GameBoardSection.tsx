@@ -116,7 +116,6 @@ export const GameBoardSection: React.FC = () => {
 
   const formatPhase = (phase: GamePhase): string => {
     switch (phase) {
-      case 'waiting': return 'Waiting for Players'
       case 'bidding': return 'Bidding Phase'
       case 'playing': return 'Playing Phase'
       case 'scoring': return 'Scoring Phase'
@@ -133,7 +132,8 @@ export const GameBoardSection: React.FC = () => {
       'threes': 'Threes (3s)',
       'fours': 'Fours (4s)',
       'fives': 'Fives (5s)',
-      'sixes': 'Sixes (6s)'
+      'sixes': 'Sixes (6s)',
+      'doubles': 'Doubles'
     }
     return trumpLabels[trump] || trump
   }

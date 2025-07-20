@@ -9,7 +9,8 @@ describe('EmptyState', () => {
       render(<EmptyState />);
       
       expect(screen.getByText('No games available')).toBeInTheDocument();
-      expect(screen.getByText('There are currently no active games in the lobby. Create a new game to get started!')).toBeInTheDocument();
+      expect(screen.getByText('There are currently no active games in the lobby.')).toBeInTheDocument();
+      expect(screen.getByText('Create a new game to get started!')).toBeInTheDocument();
     });
 
     it('renders empty state icon', () => {
@@ -219,7 +220,8 @@ describe('EmptyState', () => {
       render(<EmptyState />);
       
       expect(screen.getByText('No games available')).toBeInTheDocument();
-      expect(screen.getByText('There are currently no active games in the lobby. Create a new game to get started!')).toBeInTheDocument();
+      expect(screen.getByText('There are currently no active games in the lobby.')).toBeInTheDocument();
+      expect(screen.getByText('Create a new game to get started!')).toBeInTheDocument();
     });
 
     it('has accessible button when provided', () => {
@@ -297,7 +299,8 @@ describe('EmptyState', () => {
       render(<EmptyState />);
       
       expect(screen.getByText('No games available')).toBeInTheDocument();
-      expect(screen.getByText('There are currently no active games in the lobby. Create a new game to get started!')).toBeInTheDocument();
+      expect(screen.getByText('There are currently no active games in the lobby.')).toBeInTheDocument();
+      expect(screen.getByText('Create a new game to get started!')).toBeInTheDocument();
     });
 
     it('maintains consistent styling across renders', () => {

@@ -13,22 +13,23 @@ describe('LoadingSpinner', () => {
     it('renders spinner element', () => {
       render(<LoadingSpinner />);
       
-      const spinner = document.querySelector('.spinner');
+      const spinner = document.querySelector('[class*="spinner"][class*="medium"]');
       expect(spinner).toBeInTheDocument();
     });
 
     it('renders spinner inner element', () => {
       render(<LoadingSpinner />);
       
-      const spinnerInner = document.querySelector('.spinnerInner');
+      const spinnerInner = document.querySelector('[class*="spinnerInner"]');
       expect(spinnerInner).toBeInTheDocument();
     });
 
     it('has proper container structure', () => {
       render(<LoadingSpinner />);
       
-      const container = screen.getByText('Loading games...').closest('.loadingContainer');
+      const container = screen.getByText('Loading games...').closest('div');
       expect(container).toBeInTheDocument();
+      expect(container?.className).toMatch(/loadingContainer/);
     });
   });
 
@@ -43,7 +44,8 @@ describe('LoadingSpinner', () => {
     it('handles empty message', () => {
       render(<LoadingSpinner message="" />);
       
-      const messageElement = document.querySelector('.loadingMessage');
+      const messageElement = document.querySelector('[class*="loadingMessage"]');
+      expect(messageElement).toBeInTheDocument();
       expect(messageElement).toHaveTextContent('');
     });
 
@@ -66,37 +68,40 @@ describe('LoadingSpinner', () => {
     it('applies small size class', () => {
       render(<LoadingSpinner size="small" />);
       
-      const spinner = document.querySelector('.spinner');
-      expect(spinner).toHaveClass('small');
+      const spinner = document.querySelector('[class*="spinner"][class*="small"]');
+      expect(spinner).toBeInTheDocument();
     });
 
     it('applies medium size class by default', () => {
       render(<LoadingSpinner />);
       
-      const spinner = document.querySelector('.spinner');
-      expect(spinner).toHaveClass('medium');
+      const spinner = document.querySelector('[class*="spinner"][class*="medium"]');
+      expect(spinner).toBeInTheDocument();
     });
 
     it('applies medium size class when explicitly set', () => {
       render(<LoadingSpinner size="medium" />);
       
-      const spinner = document.querySelector('.spinner');
-      expect(spinner).toHaveClass('medium');
+      const spinner = document.querySelector('[class*="spinner"][class*="medium"]');
+      expect(spinner).toBeInTheDocument();
     });
 
     it('applies large size class', () => {
       render(<LoadingSpinner size="large" />);
       
-      const spinner = document.querySelector('.spinner');
-      expect(spinner).toHaveClass('large');
+      const spinner = document.querySelector('[class*="spinner"][class*="large"]');
+      expect(spinner).toBeInTheDocument();
     });
 
     it('handles invalid size gracefully', () => {
       // @ts-expect-error Testing invalid size
       render(<LoadingSpinner size="invalid" />);
       
-      const spinner = document.querySelector('.spinner');
-      expect(spinner).toHaveClass('invalid');
+      // The spinner should still render, just without the invalid size class
+      const spinner = document.querySelector('[class*="spinner"]');
+      expect(spinner).toBeInTheDocument();
+      // The invalid class won't be applied since it doesn't exist in CSS modules
+      expect(spinner?.className).toMatch(/spinner/);
     });
   });
 
@@ -104,39 +109,40 @@ describe('LoadingSpinner', () => {
     it('applies correct CSS classes to container', () => {
       render(<LoadingSpinner />);
       
-      const container = document.querySelector('.loadingContainer');
+      const container = document.querySelector('[class*="loadingContainer"]');
       expect(container).toBeInTheDocument();
     });
 
     it('applies correct CSS classes to spinner', () => {
       render(<LoadingSpinner />);
       
-      const spinner = document.querySelector('.spinner');
+      const spinner = document.querySelector('[class*="spinner"]');
       expect(spinner).toBeInTheDocument();
-      expect(spinner).toHaveClass('spinner');
+      expect(spinner?.className).toMatch(/spinner/);
     });
 
     it('applies correct CSS classes to spinner inner', () => {
       render(<LoadingSpinner />);
       
-      const spinnerInner = document.querySelector('.spinnerInner');
+      const spinnerInner = document.querySelector('[class*="spinnerInner"]');
       expect(spinnerInner).toBeInTheDocument();
-      expect(spinnerInner).toHaveClass('spinnerInner');
+      expect(spinnerInner?.className).toMatch(/spinnerInner/);
     });
 
     it('applies correct CSS classes to loading message', () => {
       render(<LoadingSpinner />);
       
       const message = screen.getByText('Loading games...');
-      expect(message).toHaveClass('loadingMessage');
+      expect(message.className).toMatch(/loadingMessage/);
     });
 
     it('combines size class with base spinner class', () => {
       render(<LoadingSpinner size="large" />);
       
-      const spinner = document.querySelector('.spinner');
-      expect(spinner).toHaveClass('spinner');
-      expect(spinner).toHaveClass('large');
+      const spinner = document.querySelector('[class*="spinner"][class*="large"]');
+      expect(spinner).toBeInTheDocument();
+      expect(spinner?.className).toMatch(/spinner/);
+      expect(spinner?.className).toMatch(/large/);
     });
   });
 
@@ -144,7 +150,7 @@ describe('LoadingSpinner', () => {
     it('has proper ARIA attributes on spinner', () => {
       render(<LoadingSpinner />);
       
-      const spinner = document.querySelector('.spinner');
+      const spinner = document.querySelector('[class*="spinner"]');
       expect(spinner).toHaveAttribute('aria-hidden', 'true');
     });
 
@@ -165,7 +171,7 @@ describe('LoadingSpinner', () => {
     it('maintains accessibility with different sizes', () => {
       render(<LoadingSpinner size="small" message="Loading..." />);
       
-      const spinner = document.querySelector('.spinner');
+      const spinner = document.querySelector('[class*="spinner"]');
       const message = screen.getByText('Loading...');
       
       expect(spinner).toHaveAttribute('aria-hidden', 'true');
@@ -177,8 +183,8 @@ describe('LoadingSpinner', () => {
     it('uses medium size by default', () => {
       render(<LoadingSpinner />);
       
-      const spinner = document.querySelector('.spinner');
-      expect(spinner).toHaveClass('medium');
+      const spinner = document.querySelector('[class*="spinner"][class*="medium"]');
+      expect(spinner).toBeInTheDocument();
     });
 
     it('uses default message when not provided', () => {
@@ -197,9 +203,10 @@ describe('LoadingSpinner', () => {
     it('can override default size', () => {
       render(<LoadingSpinner size="large" />);
       
-      const spinner = document.querySelector('.spinner');
-      expect(spinner).toHaveClass('large');
-      expect(spinner).not.toHaveClass('medium');
+      const spinner = document.querySelector('[class*="spinner"][class*="large"]');
+      expect(spinner).toBeInTheDocument();
+      const mediumSpinner = document.querySelector('[class*="spinner"][class*="medium"]');
+      expect(mediumSpinner).not.toBeInTheDocument();
     });
   });
 
@@ -207,16 +214,16 @@ describe('LoadingSpinner', () => {
     it('renders spinner and message together', () => {
       render(<LoadingSpinner message="Loading data..." />);
       
-      expect(document.querySelector('.spinner')).toBeInTheDocument();
+      expect(document.querySelector('[class*="spinner"]')).toBeInTheDocument();
       expect(screen.getByText('Loading data...')).toBeInTheDocument();
     });
 
     it('maintains proper element hierarchy', () => {
       render(<LoadingSpinner />);
       
-      const container = document.querySelector('.loadingContainer');
-      const spinner = container?.querySelector('.spinner');
-      const message = container?.querySelector('.loadingMessage');
+      const container = document.querySelector('[class*="loadingContainer"]');
+      const spinner = container?.querySelector('[class*="spinner"]');
+      const message = container?.querySelector('[class*="loadingMessage"]');
       
       expect(container).toBeInTheDocument();
       expect(spinner).toBeInTheDocument();
@@ -226,8 +233,8 @@ describe('LoadingSpinner', () => {
     it('renders spinner inner within spinner', () => {
       render(<LoadingSpinner />);
       
-      const spinner = document.querySelector('.spinner');
-      const spinnerInner = spinner?.querySelector('.spinnerInner');
+      const spinner = document.querySelector('[class*="spinner"]');
+      const spinnerInner = spinner?.querySelector('[class*="spinnerInner"]');
       
       expect(spinnerInner).toBeInTheDocument();
     });
@@ -237,8 +244,8 @@ describe('LoadingSpinner', () => {
     it('handles both size and message props', () => {
       render(<LoadingSpinner size="large" message="Loading large dataset..." />);
       
-      const spinner = document.querySelector('.spinner');
-      expect(spinner).toHaveClass('large');
+      const spinner = document.querySelector('[class*="spinner"][class*="large"]');
+      expect(spinner).toBeInTheDocument();
       expect(screen.getByText('Loading large dataset...')).toBeInTheDocument();
     });
 
@@ -248,8 +255,8 @@ describe('LoadingSpinner', () => {
       sizes.forEach(size => {
         const { unmount } = render(<LoadingSpinner size={size} message={`Loading ${size}...`} />);
         
-        const spinner = document.querySelector('.spinner');
-        expect(spinner).toHaveClass(size);
+        const spinner = document.querySelector(`[class*="spinner"][class*="${size}"]`);
+        expect(spinner).toBeInTheDocument();
         expect(screen.getByText(`Loading ${size}...`)).toBeInTheDocument();
         
         unmount();
@@ -261,8 +268,8 @@ describe('LoadingSpinner', () => {
     it('provides visual loading indication', () => {
       render(<LoadingSpinner />);
       
-      const spinner = document.querySelector('.spinner');
-      const spinnerInner = document.querySelector('.spinnerInner');
+      const spinner = document.querySelector('[class*="spinner"]');
+      const spinnerInner = document.querySelector('[class*="spinnerInner"]');
       
       expect(spinner).toBeInTheDocument();
       expect(spinnerInner).toBeInTheDocument();
@@ -274,9 +281,9 @@ describe('LoadingSpinner', () => {
       sizes.forEach(size => {
         const { unmount } = render(<LoadingSpinner size={size} />);
         
-        expect(document.querySelector('.spinner')).toBeInTheDocument();
-        expect(document.querySelector('.spinnerInner')).toBeInTheDocument();
-        expect(document.querySelector('.loadingMessage')).toBeInTheDocument();
+        expect(document.querySelector('[class*="spinner"]')).toBeInTheDocument();
+        expect(document.querySelector('[class*="spinnerInner"]')).toBeInTheDocument();
+        expect(document.querySelector('[class*="loadingMessage"]')).toBeInTheDocument();
         
         unmount();
       });

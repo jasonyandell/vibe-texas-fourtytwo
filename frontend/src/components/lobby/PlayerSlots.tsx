@@ -33,6 +33,13 @@ export const PlayerSlots: React.FC<PlayerSlotsProps> = ({
     const isEmpty = player === null;
     const canJoin = isEmpty && gameStatus === 'waiting' && onJoinSlot;
 
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+      if (canJoin && (e.key === 'Enter' || e.key === ' ')) {
+        e.preventDefault();
+        onJoinSlot(index);
+      }
+    };
+
     return (
       <div 
         key={index}
@@ -40,6 +47,7 @@ export const PlayerSlots: React.FC<PlayerSlotsProps> = ({
         data-position={positions[index].toLowerCase()}
         data-current-user={isCurrentUser}
         onClick={canJoin ? () => onJoinSlot(index) : undefined}
+        onKeyDown={canJoin ? handleKeyDown : undefined}
         role={canJoin ? 'button' : undefined}
         tabIndex={canJoin ? 0 : undefined}
         aria-label={canJoin ? `Join as ${positions[index]} player` : undefined}
@@ -77,7 +85,10 @@ export const PlayerSlots: React.FC<PlayerSlotsProps> = ({
               {player.name.charAt(0).toUpperCase()}
             </div>
             <div className={styles.playerDetails}>
-              <span className={styles.playerName}>
+              <span 
+                className={styles.playerName}
+                data-testid={`player-name-${positions[index].toLowerCase()}`}
+              >
                 {player.name}
                 {isCurrentUser && (
                   <Badge variant="primary" size="small" className={styles.youBadge}>

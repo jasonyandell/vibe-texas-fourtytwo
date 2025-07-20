@@ -37,7 +37,7 @@ export const GameCard: React.FC<GameCardProps> = ({
     eastWest: 1
   };
 
-  const isUserInGame = mockPlayers.some(player => player?.id === currentUserId);
+  const isUserInGame = currentUserId ? mockPlayers.some(player => player?.id === currentUserId) : false;
   const canJoin = game.status === 'waiting' && game.playerCount < game.maxPlayers && !isUserInGame;
   const canSpectate = game.status === 'playing';
   const allPlayersReady = mockPlayers.filter(p => p !== null).every(p => p?.isReady);
@@ -81,19 +81,25 @@ export const GameCard: React.FC<GameCardProps> = ({
             </span>
           </div>
         </div>
-        <GameStatus status={game.status} />
+        <div data-testid="game-status">
+          <GameStatus status={game.status} />
+        </div>
       </div>
 
       {game.status === 'playing' && (
-        <ScoreDisplay scores={mockScores} />
+        <div data-testid="score-display">
+          <ScoreDisplay scores={mockScores} />
+        </div>
       )}
 
-      <PlayerSlots 
-        players={mockPlayers}
-        currentUserId={currentUserId}
-        gameStatus={game.status}
-        onJoinSlot={handleJoin}
-      />
+      <div data-testid="player-slots">
+        <PlayerSlots 
+          players={mockPlayers}
+          currentUserId={currentUserId}
+          gameStatus={game.status}
+          onJoinSlot={handleJoin}
+        />
+      </div>
 
       <div className={styles.cardActions}>
         {canJoin && (

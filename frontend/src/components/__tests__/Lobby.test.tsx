@@ -407,11 +407,15 @@ describe('Lobby', () => {
 
   describe('CSS Classes', () => {
     it('applies gamesSection CSS class to games container', () => {
-      const { container } = renderLobby();
+      renderLobby();
       
-      const gamesSection = container.querySelector('.gamesSection');
+      // Find the element containing "Available Games" heading
+      const heading = screen.getByText('Available Games');
+      const gamesSection = heading.parentElement;
+      
+      // Check that the parent element exists and has the appropriate class
       expect(gamesSection).toBeInTheDocument();
-      expect(gamesSection).toHaveTextContent('Available Games');
+      expect(gamesSection?.className).toMatch(/gamesSection/);
     });
   });
 });

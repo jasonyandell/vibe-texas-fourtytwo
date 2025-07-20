@@ -9,7 +9,7 @@ export interface ReadySystemProps {
   gameId: string;
   onMarkReady?: (gameId: string, playerId: string) => void;
   onUnmarkReady?: (gameId: string, playerId: string) => void;
-  onStartGame?: (gameId: string) => void;
+  onStartGame?: (gameId: string) => Promise<void>;
   autoStartTimeout?: number; // seconds
 }
 
@@ -32,11 +32,11 @@ export const ReadySystem: React.FC<ReadySystemProps> = ({
   const currentPlayer = activePlayers.find(p => p.id === currentUserId);
   const isCurrentPlayerReady = currentPlayer?.isReady ?? false;
 
-  const handleAutoStart = useCallback(() => {
+  const handleAutoStart = useCallback(async () => {
     if (onStartGame && allPlayersReady) {
       setIsStarting(true);
       try {
-        onStartGame(gameId);
+        await onStartGame(gameId);
         // Game start is handled by parent component
         setIsStarting(false);
       } catch (error) {
@@ -139,6 +139,7 @@ export const ReadySystem: React.FC<ReadySystemProps> = ({
             onClick={handleToggleReady}
             disabled={isStarting}
             fullWidth
+            aria-label={isCurrentPlayerReady ? 'Mark yourself as not ready' : 'Mark yourself as ready to start the game'}
           >
             {isCurrentPlayerReady ? 'Not Ready' : 'Ready Up!'}
           </Button>

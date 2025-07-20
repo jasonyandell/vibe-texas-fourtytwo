@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, act } from '@testing-library/react';
-import { LobbyStateProvider, useLobbyStateContext } from '../LobbyStateContext';
+import { LobbyStateProvider } from '../LobbyStateContext';
+import { useLobbyStateContext } from '@/hooks/useLobbyStateContext';
 import { LobbyState } from '@/types/texas42';
 import React from 'react';
 

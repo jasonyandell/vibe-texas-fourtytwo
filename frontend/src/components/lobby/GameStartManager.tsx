@@ -84,8 +84,8 @@ export const GameStartManager: React.FC<GameStartManagerProps> = ({
   };
 
   return (
-    <div className={styles.gameStartManager}>
-      <div className={styles.statusSection}>
+    <div className={styles.gameStartManager} data-testid="game-start-manager">
+      <div className={styles.statusSection} data-testid="status-section">
         <div className={styles.statusHeader}>
           <h4>Game Status</h4>
           {getStatusBadge()}
@@ -93,11 +93,12 @@ export const GameStartManager: React.FC<GameStartManagerProps> = ({
 
         {activePlayers.length === 4 && (
           <div className={styles.readyBreakdown}>
-            <div className={styles.readyGrid}>
+            <div className={styles.readyGrid} data-testid="ready-grid">
               {activePlayers.map(player => (
                 <div 
                   key={player.id}
                   className={`${styles.playerStatus} ${player.isReady ? styles.ready : styles.notReady}`}
+                  data-testid={`player-status-${player.id}`}
                 >
                   <span className={styles.playerName}>{player.name}</span>
                   <span className={styles.readyIndicator}>
@@ -123,7 +124,7 @@ export const GameStartManager: React.FC<GameStartManagerProps> = ({
         </div>
       )}
 
-      <div className={styles.actionSection}>
+      <div className={styles.actionSection} data-testid="action-section">
         <Button
           variant="primary"
           size="large"
