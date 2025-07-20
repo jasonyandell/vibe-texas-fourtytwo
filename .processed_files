@@ -20,3 +20,4 @@ frontend/src/utils/biddingValidation.ts
 backend/src/game/__tests__/dominoes.test.ts
 frontend/src/utils/gameUtils.ts
 frontend/src/components/__tests__/PlayersSection.test.tsx
+packages/shared-types/src/dominoes.ts
