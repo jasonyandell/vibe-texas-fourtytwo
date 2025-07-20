@@ -43,7 +43,7 @@ export const Lobby: React.FC = () => {
   );
 
   const handleCreateGame = async (gameName: string) => {
-    const apiUrl = String(import.meta.env.VITE_API_URL);
+    const apiUrl = String(import.meta.env.VITE_API_URL ?? 'http://localhost:4201');
     const response = await fetch(`${apiUrl}/api/games`, {
       method: 'POST',
       headers: {

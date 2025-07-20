@@ -10,7 +10,7 @@ describe('GameEngine', () => {
 
   describe('createGame', () => {
     it('should create a new game with correct initial state', () => {
-      const game = gameEngine.createGame()
+      const game = gameEngine.createGame('Test Game')
       
       expect(game.id).toBeDefined()
       expect(game.phase).toBe('bidding')
@@ -23,8 +23,8 @@ describe('GameEngine', () => {
     })
 
     it('should generate unique game IDs', () => {
-      const game1 = gameEngine.createGame()
-      const game2 = gameEngine.createGame()
+      const game1 = gameEngine.createGame('Game 1')
+      const game2 = gameEngine.createGame('Game 2')
       
       expect(game1.id).not.toBe(game2.id)
     })
@@ -32,7 +32,7 @@ describe('GameEngine', () => {
 
   describe('getGame', () => {
     it('should return the correct game', () => {
-      const game = gameEngine.createGame()
+      const game = gameEngine.createGame('Test Game')
       const retrieved = gameEngine.getGame(game.id)
       
       expect(retrieved).toBe(game)
@@ -47,7 +47,7 @@ describe('GameEngine', () => {
 
   describe('joinGame', () => {
     it('should allow players to join a game', () => {
-      const game = gameEngine.createGame()
+      const game = gameEngine.createGame('Test Game')
       const success = gameEngine.joinGame(game.id, 'player1', 'Player One')
       
       expect(success).toBe(true)
@@ -59,7 +59,7 @@ describe('GameEngine', () => {
     })
 
     it('should assign different positions to players', () => {
-      const game = gameEngine.createGame()
+      const game = gameEngine.createGame('Test Game')
       
       gameEngine.joinGame(game.id, 'player1', 'Player One')
       gameEngine.joinGame(game.id, 'player2', 'Player Two')
@@ -73,7 +73,7 @@ describe('GameEngine', () => {
     })
 
     it('should not allow more than 4 players', () => {
-      const game = gameEngine.createGame()
+      const game = gameEngine.createGame('Test Game')
       
       // Add 4 players
       gameEngine.joinGame(game.id, 'player1', 'Player One')
