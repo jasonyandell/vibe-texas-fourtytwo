@@ -1,23 +1,22 @@
 import React from 'react';
 import styles from './LobbySection.module.css';
 
-interface LobbySectionProps {
+export interface LobbySectionProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
-  title?: string;
-  className?: string;
 }
 
-export const LobbySection: React.FC<LobbySectionProps> = ({ 
-  children, 
-  title, 
-  className 
+export const LobbySection: React.FC<LobbySectionProps> = ({
+  children,
+  className,
+  ...props
 }) => {
-  const classNames = [styles.lobbySection, className].filter(Boolean).join(' ');
+  const combinedClassName = className
+    ? `${styles.lobbySection} ${className}`
+    : styles.lobbySection;
 
   return (
-    <section className={classNames}>
-      {title && <h2>{title}</h2>}
+    <div className={combinedClassName} {...props}>
       {children}
-    </section>
+    </div>
   );
 };
