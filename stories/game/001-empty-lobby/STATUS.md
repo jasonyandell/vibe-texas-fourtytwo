@@ -1,7 +1,8 @@
 # Story 001: Empty Lobby
 Branch: story-001-empty-lobby
-Status: Ready
+Status: Complete
 Started: 2025-01-19T12:35:00Z
+Completed: 2025-01-20T01:41:00Z
 
 ## Tasks
 - [x] Task 1: Fix EmptyState component and tests (match test expectations)
