@@ -6,55 +6,23 @@
 import type { Domino, DominoSuit } from './domino';
 import type { Player, PlayerPosition } from './player';
 import type { Bid, BiddingState } from './bidding';
+import type { Trick, TrickState } from './trick';
+import type { PartnershipState } from './partnership';
+import type { ScoringState } from './scoring';
 import { isValidDomino, validateDominoSuit } from './domino';
-import { isValidPlayer, validatePlayerPosition } from './player';
+import { isValidPlayer } from './player';
 import { isValidBid, isValidBiddingState } from './bidding';
+import { isValidTrick } from './trick';
+import { isValidPartnershipState } from './partnership';
+import { isValidScoringState } from './scoring';
 
 // Game phases
 export type GamePhase = 'bidding' | 'playing' | 'scoring' | 'finished';
 
-// Game trick
-export interface Trick {
-  id: string;
-  dominoes: Array<{
-    domino: Domino;
-    playerId: string;
-    position: PlayerPosition;
-  }>;
-  winner?: string;
-  leadSuit?: DominoSuit;
-}
-
-// Trick state (alias for Trick interface for story compliance)
-export type TrickState = Trick;
-
-// Partnership state for Texas 42 (North-South vs East-West)
-export interface PartnershipState {
-  northSouth: {
-    players: [string, string]; // [north player id, south player id]
-    score: number;
-    gameScore: number;
-    tricksWon: number;
-    currentBid?: Bid;
-  };
-  eastWest: {
-    players: [string, string]; // [east player id, west player id]
-    score: number;
-    gameScore: number;
-    tricksWon: number;
-    currentBid?: Bid;
-  };
-}
-
-// Scoring state
-export interface ScoringState {
-  currentTrickWinner?: string;
-  trickPoints: number;
-  countDominoes: Domino[];
-  bonusPoints: number;
-  penaltyPoints: number;
-  roundComplete: boolean;
-}
+// Re-export types for backward compatibility
+export type { Trick, TrickState } from './trick';
+export type { PartnershipState } from './partnership';
+export type { ScoringState } from './scoring';
 
 // Game state
 export interface GameState {
@@ -84,94 +52,11 @@ export interface GameState {
   updatedAt: string;
 }
 
-/**
- * Validates if a value is a valid trick
- */
-export function isValidTrick(value: unknown): value is Trick {
-  if (!value || typeof value !== 'object') return false;
-
-  const obj = value as Record<string, unknown>;
-  const { id, dominoes, winner, leadSuit } = obj;
-
-  // Check required fields
-  if (typeof id !== 'string' || id.length === 0) return false;
-  if (!Array.isArray(dominoes)) return false;
-
-  // Check dominoes count (1-4 for Texas 42)
-  if (dominoes.length === 0 || dominoes.length > 4) return false;
-
-  // Validate each domino play
-  for (const play of dominoes) {
-    if (!play || typeof play !== 'object') return false;
-    const playObj = play as Record<string, unknown>;
-    if (!isValidDomino(playObj.domino)) return false;
-    if (typeof playObj.playerId !== 'string' || playObj.playerId.length === 0) return false;
-    if (!validatePlayerPosition(playObj.position)) return false;
-  }
-
-  // Optional fields validation
-  if (winner !== undefined && (typeof winner !== 'string' || winner.length === 0)) return false;
-  if (leadSuit !== undefined && !validateDominoSuit(leadSuit)) return false;
-
-  return true;
-}
-
-/**
- * Validates if a value is a valid partnership state
- */
-export function isValidPartnershipState(value: unknown): value is PartnershipState {
-  if (!value || typeof value !== 'object') return false;
-
-  const obj = value as Record<string, unknown>;
-  const { northSouth, eastWest } = obj;
-
-  // Check both partnerships exist
-  if (!northSouth || !eastWest) return false;
-
-  // Validate each partnership
-  for (const partnership of [northSouth, eastWest]) {
-    if (typeof partnership !== 'object') return false;
-
-    const partnershipObj = partnership as Record<string, unknown>;
-    const { players, score, gameScore, tricksWon } = partnershipObj;
-
-    // Check required fields
-    if (!Array.isArray(players) || players.length !== 2) return false;
-    if (!players.every(p => typeof p === 'string' && p.length > 0)) return false;
-    if (typeof score !== 'number' || score < 0) return false;
-    if (typeof gameScore !== 'number' || gameScore < 0) return false;
-    if (typeof tricksWon !== 'number' || tricksWon < 0) return false;
-
-    // Optional bid validation
-    if (partnershipObj.currentBid !== undefined && !isValidBid(partnershipObj.currentBid)) return false;
-  }
-
-  return true;
-}
-
-/**
- * Validates if a value is a valid scoring state
- */
-export function isValidScoringState(value: unknown): value is ScoringState {
-  if (!value || typeof value !== 'object') return false;
-
-  const { trickPoints, countDominoes, bonusPoints, penaltyPoints, roundComplete, currentTrickWinner } = value as Record<string, unknown>;
-
-  // Check required fields
-  if (typeof trickPoints !== 'number' || trickPoints < 0) return false;
-  if (!Array.isArray(countDominoes)) return false;
-  if (typeof bonusPoints !== 'number') return false;
-  if (typeof penaltyPoints !== 'number') return false;
-  if (typeof roundComplete !== 'boolean') return false;
-
-  // Validate count dominoes
-  if (!countDominoes.every((domino: unknown) => isValidDomino(domino))) return false;
-
-  // Optional fields
-  if (currentTrickWinner !== undefined && typeof currentTrickWinner !== 'string') return false;
-
-  return true;
-}
+// Re-export validation functions for backward compatibility
+export { isValidTrick } from './trick';
+export { isValidPartnershipState } from './partnership';
+export { isValidScoringState, createEmptyScoringState } from './scoring';
+export { createEmptyPartnershipState } from './partnership';
 
 /**
  * Validates if a value is a valid game state
@@ -267,41 +152,3 @@ export function createEmptyGameState(gameId: string): GameState {
   };
 }
 
-/**
- * Creates an empty scoring state with default values
- */
-export function createEmptyScoringState(): ScoringState {
-  return {
-    trickPoints: 0,
-    countDominoes: [],
-    bonusPoints: 0,
-    penaltyPoints: 0,
-    roundComplete: false
-  };
-}
-
-/**
- * Creates an empty partnership state with default values
- */
-export function createEmptyPartnershipState(players: Player[]): PartnershipState {
-  // Find players by position
-  const northPlayer = players.find(p => p.position === 'north')?.id || '';
-  const southPlayer = players.find(p => p.position === 'south')?.id || '';
-  const eastPlayer = players.find(p => p.position === 'east')?.id || '';
-  const westPlayer = players.find(p => p.position === 'west')?.id || '';
-
-  return {
-    northSouth: {
-      players: [northPlayer, southPlayer],
-      score: 0,
-      gameScore: 0,
-      tricksWon: 0
-    },
-    eastWest: {
-      players: [eastPlayer, westPlayer],
-      score: 0,
-      gameScore: 0,
-      tricksWon: 0
-    }
-  };
-}
