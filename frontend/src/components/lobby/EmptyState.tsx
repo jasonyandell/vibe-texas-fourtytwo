@@ -9,6 +9,17 @@ export interface EmptyStateProps {
 export const EmptyState: React.FC<EmptyStateProps> = ({
   onCreateGame
 }) => {
+  const handleCreateGame = () => {
+    if (onCreateGame) {
+      try {
+        onCreateGame();
+      } catch (error) {
+        // Log error but don't crash the component
+        console.error('Failed to create game:', error);
+      }
+    }
+  };
+
   return (
     <div className={styles.emptyState} data-testid="lobby-empty-state">
       <div className={styles.emptyIcon}>
@@ -37,7 +48,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
       {onCreateGame && (
         <Button 
           variant="primary" 
-          onClick={onCreateGame}
+          onClick={handleCreateGame}
           className={styles.createButton}
           type="button"
         >

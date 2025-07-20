@@ -105,7 +105,7 @@ describe('CreateGameModal', () => {
       
       await user.type(input, longName);
       
-      expect(input.value).toHaveLength(50);
+      expect(input).toHaveValue('a'.repeat(50));
     });
   });
 

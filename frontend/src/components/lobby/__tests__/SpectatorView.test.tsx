@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { SpectatorView, SpectatorInfo } from '../SpectatorView';
-import { GameState } from '@/types/texas42';
+import { GameState } from '@texas42/shared-types';
 
 // Mock the child components
 vi.mock('@/components/DominoHand', () => ({
@@ -29,21 +29,51 @@ const createMockGameState = (overrides: Partial<GameState> = {}): GameState => (
   players: [],
   trump: 'doubles',
   currentTrick: undefined,
-  score: { northSouth: 3, eastWest: 2 },
-  bids: [],
+  gameScore: { northSouth: 3, eastWest: 2 },
   dealer: 'player-1',
-  partnerships: {
-    northSouth: { players: ['player-1', 'player-3'], score: 3 },
-    eastWest: { players: ['player-2', 'player-4'], score: 2 }
-  },
-  handNumber: 1,
-  handScores: [],
-  marks: { northSouth: 0, eastWest: 0 },
   tricks: [],
   boneyard: [],
-  serializedState: '',
+  partnerships: {
+    northSouth: {
+      players: ['player-1', 'player-3'],
+      currentHandScore: 3,
+      marks: 0,
+      totalGameScore: 3,
+      tricksWon: 0,
+      isBiddingTeam: false
+    },
+    eastWest: {
+      players: ['player-2', 'player-4'],
+      currentHandScore: 2,
+      marks: 0,
+      totalGameScore: 2,
+      tricksWon: 0,
+      isBiddingTeam: false
+    }
+  },
+  handNumber: 1,
+  biddingState: {
+    bidHistory: [],
+    biddingComplete: true,
+    passCount: 0,
+    minimumBid: 30,
+    forcedBidActive: false
+  },
+  scoringState: {
+    trickPoints: 0,
+    countDominoes: [],
+    bonusPoints: 0,
+    penaltyPoints: 0,
+    roundComplete: false
+  },
+  handScores: [],
+  marks: { northSouth: 0, eastWest: 0 },
+  marksToWin: 7,
+  gameComplete: false,
   createdAt: '2024-01-01T12:00:00Z',
   updatedAt: '2024-01-01T12:00:00Z',
+  isValid: true,
+  validationErrors: [],
   ...overrides
 });
 
@@ -461,7 +491,7 @@ describe('SpectatorView', () => {
       render(<SpectatorView gameState={mockGameState} spectators={mockSpectators} />);
       
       const select = screen.getByLabelText('Focus on Player:');
-      expect(select.value).toBe('');
+      expect(select).toHaveValue('');
     });
   });
 

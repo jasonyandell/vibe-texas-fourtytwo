@@ -75,7 +75,7 @@ let mockHookState = {
     connectedPlayers: 42
   },
   isLoading: false,
-  error: null,
+  error: null as Error | null,
   getAvailableGames: mockGetAvailableGames,
   getJoinableGames: mockGetJoinableGames,
   getSortedGames: mockGetSortedGames,

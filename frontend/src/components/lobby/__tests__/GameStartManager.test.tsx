@@ -76,19 +76,10 @@ describe('GameStartManager', () => {
     trump: 'doubles',
     currentTrick: undefined,
     scores: { northSouth: 0, eastWest: 0 },
-    bids: [],
+    gameScore: { northSouth: 0, eastWest: 0 },
     dealer: 'player-1',
-    // Add missing required properties
-    partnerships: {
-      northSouth: { players: ['player-1', 'player-3'], score: 0 },
-      eastWest: { players: ['player-2', 'player-4'], score: 0 }
-    },
-    handNumber: 1,
-    handScores: [],
-    marks: { northSouth: 0, eastWest: 0 },
     tricks: [],
     boneyard: [],
-    serializedState: '',
     createdAt: '2024-01-01T12:00:00Z',
     updatedAt: '2024-01-01T12:00:00Z'
   };
