@@ -36,3 +36,4 @@ scripts/enhance-github-issues.js
 frontend/tests/e2e/story-002-create-game.spec.ts
 frontend/src/components/lobby/SpectatorView.tsx
 frontend/src/components/__tests__/BiddingHistory.test.tsx
+frontend/src/components/lobby/__tests__/GameStartManager.functionality.test.tsx
