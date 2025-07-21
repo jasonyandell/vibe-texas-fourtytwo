@@ -70,3 +70,5 @@ frontend/src/utils/__tests__/urlSerialization.compression.test.ts
 frontend/src/components/__tests__/GameBoard.visual.test.tsx
 scripts/check-prereqs.js
 backend/src/game/__tests__/dominoPoints.test.ts
+packages/shared-types/src/validation-utils.ts
+frontend/src/utils/urlSerialization/deserializers.ts
