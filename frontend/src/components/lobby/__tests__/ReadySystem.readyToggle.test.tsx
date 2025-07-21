@@ -14,7 +14,7 @@ describe('ReadySystem - Ready Toggle Functionality', () => {
   const mockHandlers = {
     onMarkReady: vi.fn(),
     onUnmarkReady: vi.fn(),
-    onStartGame: vi.fn()
+    onStartGame: vi.fn().mockImplementation(() => Promise.resolve())
   };
 
   beforeEach(() => {
@@ -63,12 +63,13 @@ describe('ReadySystem - Ready Toggle Functionality', () => {
     expect(screen.queryByRole('button', { name: /ready/i })).not.toBeInTheDocument();
   });
 
-  it('disables ready toggle when starting', () => {
+  it('disables ready toggle when starting', async () => {
     const allReadyPlayers = mockPlayers.map(p => p ? { ...p, isReady: true } : null);
     render(<ReadySystem players={allReadyPlayers} currentUserId="p1" gameId="test-game" {...mockHandlers} />);
     
     const startButton = screen.getByRole('button', { name: 'Start Game Now' });
-    act(() => {
+    
+    await act(async () => {
       fireEvent.click(startButton);
     });
     

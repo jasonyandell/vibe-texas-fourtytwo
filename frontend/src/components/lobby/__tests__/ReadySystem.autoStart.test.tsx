@@ -114,14 +114,18 @@ describe('ReadySystem - Auto-Start Countdown', () => {
     
     const startButton = screen.getByRole('button', { name: 'Start Game Now' });
     
+    // Click and wait for all state updates
     await act(async () => {
       fireEvent.click(startButton);
-      // Wait for promise to resolve
-      vi.advanceTimersByTime(100);
     });
     
-    // Check loading state immediately after click
+    // Check loading state
     expect(screen.getByRole('button', { name: 'Starting Game...' })).toBeDisabled();
+    
+    // Complete the async operation
+    await act(async () => {
+      vi.advanceTimersByTime(100);
+    });
   });
 
   it('shows loading state on start button', async () => {
@@ -129,13 +133,17 @@ describe('ReadySystem - Auto-Start Countdown', () => {
     
     const startButton = screen.getByRole('button', { name: 'Start Game Now' });
     
+    // Click and wait for all state updates
     await act(async () => {
       fireEvent.click(startButton);
-      // Wait for promise to resolve
-      vi.advanceTimersByTime(100);
     });
     
-    // Check loading state immediately after click
+    // Check loading state
     expect(screen.getByRole('button', { name: 'Starting Game...' })).toBeInTheDocument();
+    
+    // Complete the async operation
+    await act(async () => {
+      vi.advanceTimersByTime(100);
+    });
   });
 });
