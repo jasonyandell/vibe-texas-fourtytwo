@@ -25,3 +25,9 @@ frontend/src/components/lobby/ReadySystem.tsx
 frontend/src/components/lobby/CreateGameModal.tsx
 frontend/src/contexts/LobbyStateContext.tsx
 eslint.config.js
+scripts/validate-point-system.js
+frontend/tests/e2e/demo-board-showcase-navigation.spec.ts
+backend/src/api/game.ts
+frontend/src/components/__tests__/DominoHand.rendering.test.tsx
+frontend/src/utils/dominoUtils.ts
+backend/src/utils/gameValidation.ts
