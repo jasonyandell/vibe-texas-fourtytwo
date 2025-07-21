@@ -47,3 +47,4 @@ frontend/src/components/lobby/CreateGameModal.tsx
 scripts/validate-point-system.js
 scripts/verify-setup.js
 frontend/src/components/lobby/ReadySystem.tsx
+frontend/src/components/lobby/__tests__/GameStartManager.startButton.test.tsx
