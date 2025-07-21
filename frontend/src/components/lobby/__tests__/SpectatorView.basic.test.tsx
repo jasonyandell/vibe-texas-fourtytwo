@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import { TestProviders } from '@/test/test-providers';
 import { SpectatorView } from '../SpectatorView';
 import { mockGameState, mockSpectators } from './SpectatorView.test-fixtures';
 import { mockHandlers } from './SpectatorView.test-utils';
@@ -12,7 +13,11 @@ describe('SpectatorView - Basic Rendering', () => {
   });
 
   it('renders spectator view with game information', () => {
-    render(<SpectatorView gameState={mockGameState} spectators={mockSpectators} />);
+    render(
+      <TestProviders>
+        <SpectatorView gameState={mockGameState} spectators={mockSpectators} />
+      </TestProviders>
+    );
     
     expect(screen.getByText('Spectating: test-game-1')).toBeInTheDocument();
     expect(screen.getByText('Phase: playing')).toBeInTheDocument();
@@ -20,16 +25,24 @@ describe('SpectatorView - Basic Rendering', () => {
   });
 
   it('renders all player hands', () => {
-    render(<SpectatorView gameState={mockGameState} spectators={mockSpectators} />);
+    render(
+      <TestProviders>
+        <SpectatorView gameState={mockGameState} spectators={mockSpectators} />
+      </TestProviders>
+    );
     
-    expect(screen.getByText('Alice')).toBeInTheDocument();
-    expect(screen.getByText('Bob')).toBeInTheDocument();
-    expect(screen.getByText('Carol')).toBeInTheDocument();
-    expect(screen.getByText('Dave')).toBeInTheDocument();
+    expect(screen.getAllByText('Alice')).toHaveLength(2); // Name appears in header and player list
+    expect(screen.getAllByText('Bob')).toHaveLength(2); // Name appears in select and player list
+    expect(screen.getAllByText('Carol')).toHaveLength(2); // Name appears in select and player list  
+    expect(screen.getAllByText('Dave')).toHaveLength(2); // Name appears in select and player list
   });
 
   it('shows player connection status', () => {
-    render(<SpectatorView gameState={mockGameState} spectators={mockSpectators} />);
+    render(
+      <TestProviders>
+        <SpectatorView gameState={mockGameState} spectators={mockSpectators} />
+      </TestProviders>
+    );
     
     // Three players are connected (Alice, Bob, Dave) and one disconnected (Carol)
     const connectedBadges = screen.getAllByText('Connected');
@@ -38,7 +51,11 @@ describe('SpectatorView - Basic Rendering', () => {
   });
 
   it('displays hand counts for each player', () => {
-    render(<SpectatorView gameState={mockGameState} spectators={mockSpectators} />);
+    render(
+      <TestProviders>
+        <SpectatorView gameState={mockGameState} spectators={mockSpectators} />
+      </TestProviders>
+    );
     
     // Each player shows their domino count - getAllByText will find all instances
     const twoDominoes = screen.getAllByText('2 dominoes');
