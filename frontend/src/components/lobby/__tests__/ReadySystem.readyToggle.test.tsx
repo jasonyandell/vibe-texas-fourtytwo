@@ -64,16 +64,31 @@ describe('ReadySystem - Ready Toggle Functionality', () => {
   });
 
   it('disables ready toggle when starting', async () => {
+    // Create a promise that we can control
+    let resolveStartGame: () => void;
+    const startGamePromise = new Promise<void>((resolve) => {
+      resolveStartGame = resolve;
+    });
+    
+    // Override the mock to use our controlled promise
+    mockHandlers.onStartGame.mockImplementation(() => startGamePromise);
+    
     const allReadyPlayers = mockPlayers.map(p => p ? { ...p, isReady: true } : null);
     render(<ReadySystem players={allReadyPlayers} currentUserId="p1" gameId="test-game" {...mockHandlers} />);
     
     const startButton = screen.getByRole('button', { name: 'Start Game Now' });
     
-    await act(async () => {
-      fireEvent.click(startButton);
-    });
+    // Click the start button
+    fireEvent.click(startButton);
     
+    // Now the ready button should be disabled while starting
     const readyButton = screen.getByRole('button', { name: 'Mark yourself as not ready' });
     expect(readyButton).toBeDisabled();
+    
+    // Resolve the promise to complete the start
+    await act(async () => {
+      resolveStartGame!();
+      await startGamePromise;
+    });
   });
 });

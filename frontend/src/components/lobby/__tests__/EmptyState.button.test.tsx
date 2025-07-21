@@ -94,6 +94,9 @@ describe('EmptyState - Create Game Button', () => {
         throw new Error('Create game failed');
       });
       
+      // Mock console.error to verify it's called
+      const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      
       render(<EmptyState onCreateGame={mockOnCreateGame} />);
       
       const createButton = screen.getByRole('button', { name: 'Create New Game' });
@@ -102,6 +105,12 @@ describe('EmptyState - Create Game Button', () => {
       expect(() => {
         createButton.click();
       }).not.toThrow();
+      
+      // Verify error was logged
+      expect(consoleErrorSpy).toHaveBeenCalledWith('Failed to create game:', expect.any(Error));
+      
+      // Clean up
+      consoleErrorSpy.mockRestore();
     });
 
     it('handles async onCreateGame errors gracefully', async () => {

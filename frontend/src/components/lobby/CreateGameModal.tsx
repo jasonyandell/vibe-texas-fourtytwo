@@ -96,7 +96,7 @@ export const CreateGameModal: React.FC<CreateGameModalProps> = ({
               placeholder="Enter a name for your game..."
               className={styles.input}
               disabled={isCreating}
-              maxLength={GAME_NAME_MAX_LENGTH + 1}
+              maxLength={GAME_NAME_MAX_LENGTH}
               required
             />
             <div className={styles.inputHelp}>

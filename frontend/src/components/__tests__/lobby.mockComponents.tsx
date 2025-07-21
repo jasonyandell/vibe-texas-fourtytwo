@@ -21,11 +21,14 @@ vi.mock('../lobby/LobbyList', () => ({
 
 // Mock the CreateGameModal component
 vi.mock('../lobby/CreateGameModal', () => ({
-  CreateGameModal: vi.fn(({ onCreateGame, onClose }: { onCreateGame: (name: string) => void; onClose: () => void }) => (
+  CreateGameModal: vi.fn(({ onCreateGame, onClose }: { onCreateGame: (name: string) => void | Promise<void>; onClose: () => void }) => (
     <div data-testid="create-game-modal">
       <button 
         data-testid="create-game-button" 
-        onClick={() => onCreateGame('New Test Game')}
+        onClick={async () => {
+          await onCreateGame('New Test Game');
+          onClose();
+        }}
       >
         Create
       </button>
