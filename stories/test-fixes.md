@@ -24,7 +24,7 @@
   - Error: "useGameStateContext must be used within a GameStateProvider"
 
 ### React Testing Issues
-- [ ] **ReadySystem act() Wrapping**: State updates need `act()` wrapping
+- [x] **ReadySystem act() Wrapping**: State updates need `act()` wrapping ✅
   - Files: `ReadySystem.autoStart.test.tsx`, `ReadySystem.readyToggle.test.tsx`
   - Error: "An update to ReadySystem inside a test was not wrapped in act(...)"
 
