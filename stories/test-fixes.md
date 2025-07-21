@@ -11,7 +11,7 @@ Fix the tests.
 [✅] Typescript errors
 [✅] Comprehensive test run errors and warnings 1
 [✅] act warnings in tests
-[ ] E2E test errors
+[✅] E2E test errors
 [ ] Linting errors
 [ ] Comprehensive test run errors and warnings 2
 [ ] Comprehensive test run errors and warnings 3
