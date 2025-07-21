@@ -3,6 +3,17 @@
  * Provides compatibility types and functions for migrating from frontend types
  */
 
+// Import types for re-export
+import type { Player, PlayerPosition } from './player';
+import type { Trick } from './trick';
+import type { BiddingState } from './bidding-state';
+import type { ScoringState } from './scoring';
+import type { PartnershipState } from './partnership';
+import type { GamePhase } from './game-state';
+import type { LobbyGame, LobbyState } from './lobby';
+import type { GameAction } from './actions';
+import type { ApiResponse, WebSocketMessage } from './api';
+
 // Re-export legacy types
 export type { LegacyGameState } from './legacy-types';
 

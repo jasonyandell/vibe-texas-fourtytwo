@@ -16,10 +16,14 @@ export {
   calculateTotalPoints
 } from './domino-utils';
 
-// Factory and validation exports
+// Factory exports
 export {
   createDomino,
-  createFullDominoSet,
+  createFullDominoSet
+} from './domino-factory';
+
+// Validation exports
+export {
   isValidDomino,
   isValidDominoSet
-} from './domino-factory';
+} from './domino-validators';

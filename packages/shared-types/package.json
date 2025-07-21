@@ -17,7 +17,7 @@
     "build": "npm run clean && npm run build:esm && npm run build:cjs && npm run copy-cjs",
     "build:esm": "tsc",
     "build:cjs": "tsc -p tsconfig.cjs.json",
-    "copy-cjs": "powershell -Command \"Copy-Item dist-cjs/index.js dist/index.cjs; Copy-Item dist-cjs/index.d.ts dist/index.d.cts\"",
+    "copy-cjs": "cp dist-cjs/index.js dist/index.cjs && cp dist-cjs/index.d.ts dist/index.d.cts",
     "dev": "tsc --watch",
     "clean": "rimraf dist dist-cjs",
     "test": "vitest",

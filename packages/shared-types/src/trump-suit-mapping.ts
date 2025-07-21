@@ -5,7 +5,7 @@
 
 import { Domino } from './dominoes';
 import { DominoSuit } from './trump-types';
-import { getSuitValue, getSuitName } from './suit-utils';
+import { getSuitName } from './suit-utils';
 
 /**
  * Determine which suits a domino belongs to given the current trump
