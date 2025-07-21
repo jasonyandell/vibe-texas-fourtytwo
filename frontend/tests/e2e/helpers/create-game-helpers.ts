@@ -1,10 +1,13 @@
 import { Page, expect, Locator } from '@playwright/test';
+import { TestSetup } from '../fixtures/test-setup';
 
 export class CreateGameHelpers {
   private page: Page;
+  private testSetup: TestSetup;
   
   constructor(page: Page) {
     this.page = page;
+    this.testSetup = new TestSetup(page);
   }
 
   async openCreateGameModal(): Promise<void> {
@@ -35,6 +38,9 @@ export class CreateGameHelpers {
     await this.fillGameName(name);
     await this.submitCreateGame();
     await this.verifyModalClosed();
+    
+    // Wait for the new game to appear in the lobby
+    await this.page.waitForSelector(`[data-testid="game-card"]:has-text("${name}")`, { timeout: 10000 });
   }
 
   async verifyModalOpen(): Promise<void> {
@@ -53,6 +59,15 @@ export class CreateGameHelpers {
 
   getGameCard(gameName: string): Locator {
     return this.page.locator('[data-testid="game-card"]').filter({ hasText: gameName });
+  }
+
+  async waitForGameToAppear(gameName: string, timeout: number = 10000): Promise<void> {
+    await this.page.waitForSelector(`[data-testid="game-card"]:has-text("${gameName}")`, { timeout });
+  }
+
+  async setupMocksForTesting(): Promise<void> {
+    // Setup default mocks for lobby functionality
+    await this.testSetup.navigateToLobby([]);
   }
 
   private getModal(): Locator {
