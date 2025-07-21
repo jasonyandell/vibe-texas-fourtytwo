@@ -1,5 +1,5 @@
 import { vi } from 'vitest';
-import { Player } from '../PlayerSlots';
+import type { Player } from '../types';
 
 export const mockPlayers: (Player | null)[] = [
   { id: 'player1', name: 'Alice', position: 'north', isReady: true },

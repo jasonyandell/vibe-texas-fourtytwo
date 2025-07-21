@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { PlayerSlots, Player } from '../PlayerSlots';
+import { PlayerSlots } from '../PlayerSlots';
+import type { Player } from '../types';
 import { mockHandlers } from './PlayerSlots.test.setup';
 
 describe('PlayerSlots - Edge Cases', () => {

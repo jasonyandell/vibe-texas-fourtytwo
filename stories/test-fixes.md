@@ -45,7 +45,7 @@
 - [x] **Test Helper Cleanup**: Remove unused imports across test files ✅
   - Files: `GameBoardSection.scoring.test.tsx`, `PlayersSection.test.tsx`, various others
 
-- [ ] **Component Cleanup**: Remove unused imports in components
+- [x] **Component Cleanup**: Remove unused imports in components ✅
   - Files: `PlayerSlots.tsx` (unused `Player`), `types/game.ts` (unused `TrickState`)
 
 ### Type Safety Issues
