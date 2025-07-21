@@ -3,7 +3,7 @@
 Fix the tests.
 
 ✅ Typescript errors
-[ ] Frontend tests failing
+✅ Frontend tests failing
 ✅ Typescript errors
 [ ] E2E test errors
 [ ] Frontend tests failing

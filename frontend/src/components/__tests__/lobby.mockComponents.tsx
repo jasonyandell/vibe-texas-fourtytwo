@@ -58,3 +58,36 @@ vi.mock('@/components/ui', () => ({
     </button>
   ))
 }));
+
+// Mock the gameApi service
+vi.mock('@/services/gameApi', () => ({
+  createGameAndFetchList: vi.fn().mockResolvedValue({
+    id: 'new-game-id',
+    name: 'New Test Game',
+    status: 'waiting',
+    playerCount: 0,
+    maxPlayers: 4,
+    createdAt: new Date().toISOString(),
+    players: []
+  })
+}));
+
+// Mock the user utilities
+vi.mock('@/utils/userUtils', () => ({
+  useCurrentUserId: vi.fn().mockReturnValue('test-user-id'),
+  getCurrentUserName: vi.fn().mockReturnValue('Test Player')
+}));
+
+// Mock the CreateGameButton component
+vi.mock('../lobby/CreateGameButton', () => ({
+  CreateGameButton: vi.fn(({ onClick, disabled }: { onClick: () => void; disabled?: boolean }) => (
+    <button onClick={onClick} disabled={disabled}>
+      Create Game
+    </button>
+  ))
+}));
+
+// Mock the LobbyControls component
+vi.mock('../lobby/LobbyControls', () => ({
+  LobbyControls: vi.fn(() => <div data-testid="lobby-controls">Controls</div>)
+}));

@@ -17,15 +17,15 @@ describe('PlayersSection - Hand Visibility Controls', () => {
     const toggle = screen.getByTestId('toggle-hand-visibility')
     fireEvent.click(toggle)
     
-    // Should show domino hands for all players
-    expect(screen.getAllByTestId(/^domino-hand-/)).toHaveLength(4)
+    // Should show domino hand containers for all players (one per position)
+    expect(screen.getAllByTestId(/^domino-hand-(north|east|south|west)$/)).toHaveLength(4)
   })
 
   it('hides domino hands when visibility is disabled', () => {
     render(<PlayersSection />)
     
-    // Hands should be hidden by default
-    expect(screen.queryByTestId(/^domino-hand-/)).not.toBeInTheDocument()
+    // Hands should be hidden by default - check for specific position test IDs
+    expect(screen.queryByTestId(/^domino-hand-(north|east|south|west)$/)).not.toBeInTheDocument()
   })
 
   it('toggles between face-up and face-down hands', () => {
@@ -40,8 +40,8 @@ describe('PlayersSection - Hand Visibility Controls', () => {
     // Toggle face-down mode
     fireEvent.click(faceDownToggle)
 
-    // Check that hands are shown face-down (check the container class)
-    const dominoHands = screen.getAllByTestId(/^domino-hand-/)
+    // Check that hand containers have the faceDown class
+    const dominoHands = screen.getAllByTestId(/^domino-hand-(north|east|south|west)$/)
     dominoHands.forEach(hand => {
       expect(hand.className).toContain('faceDown')
     })
