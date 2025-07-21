@@ -48,3 +48,4 @@ scripts/validate-point-system.js
 scripts/verify-setup.js
 frontend/src/components/lobby/ReadySystem.tsx
 frontend/src/components/lobby/__tests__/GameStartManager.startButton.test.tsx
+frontend/src/contexts/GameStateContext/GameStateContext.tsx
