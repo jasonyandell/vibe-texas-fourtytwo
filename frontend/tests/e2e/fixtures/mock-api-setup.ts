@@ -54,13 +54,15 @@ export class MockApiSetup {
    * Set up mock responses for lobby functionality
    */
   async setupLobbyMocks(games: Record<string, unknown>[] = []): Promise<void> {
+    // Create a mutable array to track games during the test session
+    const gamesList = [...games];
     // Mock games list endpoint
     await this.page.route('**/api/games', async route => {
       if (route.request().method() === 'GET') {
         await route.fulfill({
           status: 200,
           contentType: 'application/json',
-          body: JSON.stringify({ games })
+          body: JSON.stringify({ success: true, data: gamesList })
         });
       } else if (route.request().method() === 'POST') {
         // Mock game creation
@@ -75,10 +77,13 @@ export class MockApiSetup {
           createdAt: new Date().toISOString()
         };
         
+        // Add the new game to our stateful list
+        gamesList.push(newGame);
+        
         await route.fulfill({
           status: 201,
           contentType: 'application/json',
-          body: JSON.stringify(newGame)
+          body: JSON.stringify({ success: true, data: newGame })
         });
       }
     });

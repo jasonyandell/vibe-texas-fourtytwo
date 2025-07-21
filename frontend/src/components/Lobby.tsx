@@ -39,8 +39,6 @@ export const Lobby: React.FC = () => {
     if (newGame) {
       addGame(newGame);
     }
-    
-    setShowCreateModal(false);
   };
 
   const handleJoinRandomGame = () => {

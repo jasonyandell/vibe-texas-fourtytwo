@@ -1,8 +1,11 @@
 import { test, expect } from '@playwright/test';
+import { TestSetup } from './fixtures/test-setup';
+import { CreateGameHelpers } from './helpers/create-game-helpers';
 
 test.describe('Story 001: Empty Lobby', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
+    const testSetup = new TestSetup(page);
+    await testSetup.navigateToLobby([]);
   });
 
   test('displays empty lobby state when no games exist', async ({ page }) => {
@@ -63,21 +66,10 @@ test.describe('Story 001: Empty Lobby', () => {
   });
 
   test('can create a new game', async ({ page }) => {
-    // Click create game button (not in empty state)
-    const createButton = page.locator('button', { hasText: 'Create Game' }).first();
-    await createButton.click();
-
-    // Fill in game name
-    const gameNameInput = page.locator('input#game-name');
-    await gameNameInput.fill('Test Game');
-
-    // Submit form
-    const submitButton = page.locator('button[type="submit"]');
-    await submitButton.click();
-
-    // Verify modal closes
-    const modal = page.locator('[role="dialog"]');
-    await expect(modal).not.toBeVisible();
+    const helpers = new CreateGameHelpers(page);
+    
+    // Create a new game
+    await helpers.createGame('Test Game');
 
     // Verify game appears in lobby (empty state should be gone)
     const emptyState = page.locator('[data-testid="lobby-empty-state"]');

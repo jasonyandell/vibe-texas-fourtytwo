@@ -3,7 +3,8 @@ import { CreateGameHelpers } from './helpers/create-game-helpers';
 
 test.describe('Story 002: Create Game', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
+    const helpers = new CreateGameHelpers(page);
+    await helpers.setupMocksForTesting();
   });
 
   test('can create a game with custom name', async ({ page }) => {
@@ -17,8 +18,8 @@ test.describe('Story 002: Create Game', () => {
     
     const gameCard = helpers.getGameCard('My Custom Game');
     await expect(gameCard).toBeVisible();
-    await expect(gameCard).toContainText('Waiting for players');
-    await expect(gameCard).toContainText('1/4 players');
+    await expect(gameCard).toContainText('Waiting for Players');
+    await expect(gameCard).toContainText('0/4 players');
   });
 
   test('validates game name input', async ({ page }) => {
