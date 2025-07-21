@@ -67,9 +67,21 @@ export class MockApiSetup {
       } else if (route.request().method() === 'POST') {
         // Mock game creation
         const requestBody = await route.request().postDataJSON() as Record<string, unknown>;
+        const gameName = requestBody.name as string;
+        
+        // Check for duplicate names (same validation as backend)
+        if (gamesList.some(g => g.name === gameName)) {
+          await route.fulfill({
+            status: 400,
+            contentType: 'application/json',
+            body: JSON.stringify({ success: false, error: 'A game with this name already exists' })
+          });
+          return;
+        }
+        
         const newGame = {
           id: 'new-game-' + Date.now(),
-          name: requestBody.name as string,
+          name: gameName,
           creator: 'test-user',
           players: [{ id: 'test-user', name: 'Test User', position: 'north' }],
           playerCount: 1,
