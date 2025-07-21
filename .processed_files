@@ -55,3 +55,4 @@ packages/shared-types/src/trump-logic.ts
 frontend/src/components/ui/__tests__/Button.test.tsx
 packages/shared-types/src/validation-errors.ts
 frontend/src/components/lobby/GameStartManager.tsx
+packages/shared-types/src/__tests__/type-guards.test.ts
