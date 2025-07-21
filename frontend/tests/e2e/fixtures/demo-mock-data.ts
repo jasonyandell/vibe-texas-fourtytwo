@@ -1,4 +1,4 @@
-import { GameState, Domino, Trick, PlayedDomino, Bid, BiddingState } from '@texas42/shared-types';
+import { GameState, Domino, Trick, PlayedDomino, Bid, BiddingState, DominoSuit } from '@texas42/shared-types';
 
 // Mock dominoes for demo purposes
 export const mockDominoes = {
@@ -34,46 +34,48 @@ export const mockDominoes = {
 
 // Mock played dominoes for tricks
 export const createMockPlayedDomino = (
-  player: 'north' | 'east' | 'south' | 'west',
+  playerId: string,
+  position: 'north' | 'east' | 'south' | 'west',
   domino: Domino,
-  order: number = 1
+  playOrder: number = 1
 ): PlayedDomino => ({
-  player,
+  playerId,
+  position,
   domino,
-  order,
+  playOrder,
   timestamp: new Date().toISOString()
 });
 
 // Mock trick for demo board showcase
 export const createMockTrick = (): Trick => ({
   id: 'demo-trick-1',
-  playedDominoes: [
-    createMockPlayedDomino('north', mockDominoes.sixFive, 1),
-    createMockPlayedDomino('east', mockDominoes.fiveThree, 2),
-    createMockPlayedDomino('south', mockDominoes.sixTwo, 3),
-    createMockPlayedDomino('west', mockDominoes.fourOne, 4)
+  dominoes: [
+    createMockPlayedDomino('player-north', 'north', mockDominoes.sixFive, 0),
+    createMockPlayedDomino('player-east', 'east', mockDominoes.fiveThree, 1),
+    createMockPlayedDomino('player-south', 'south', mockDominoes.sixTwo, 2),
+    createMockPlayedDomino('player-west', 'west', mockDominoes.fourOne, 3)
   ],
-  winner: 'north',
-  points: 5,
+  winner: 'player-north',
+  pointValue: 5,
+  countDominoes: [],
   trickNumber: 1,
-  trump: 6,
-  leadPlayer: 'north',
-  completed: true
+  isComplete: true
 });
 
 // Mock bidding state for demo
 export const createMockBiddingState = (): BiddingState => {
   const winningBid: Bid = {
-    player: 'north',
+    playerId: 'north',
     amount: 32,
-    trump: 6,
+    trump: 6 as DominoSuit,
+    isSpecialContract: false,
     timestamp: new Date().toISOString()
   };
 
   return {
     bidHistory: [
-      { player: 'north', amount: 30, trump: 6, timestamp: new Date().toISOString() },
-      { player: 'east', amount: 31, trump: 5, timestamp: new Date().toISOString() },
+      { playerId: 'north', amount: 30, trump: 6 as DominoSuit, isSpecialContract: false, timestamp: new Date().toISOString() },
+      { playerId: 'east', amount: 31, trump: 5 as DominoSuit, isSpecialContract: false, timestamp: new Date().toISOString() },
       winningBid
     ],
     currentBid: winningBid,
@@ -88,78 +90,73 @@ export const createMockBiddingState = (): BiddingState => {
 export const createMockTricks = (): Trick[] => [
   {
     id: 'trick-1',
-    playedDominoes: [
-      createMockPlayedDomino('north', mockDominoes.sixSix, 1),
-      createMockPlayedDomino('east', mockDominoes.fiveFive, 2),
-      createMockPlayedDomino('south', mockDominoes.sixFour, 3),
-      createMockPlayedDomino('west', mockDominoes.threeTwo, 4)
+    dominoes: [
+      createMockPlayedDomino('player-north', 'north', mockDominoes.sixSix, 0),
+      createMockPlayedDomino('player-east', 'east', mockDominoes.fiveFive, 1),
+      createMockPlayedDomino('player-south', 'south', mockDominoes.sixFour, 2),
+      createMockPlayedDomino('player-west', 'west', mockDominoes.threeTwo, 3)
     ],
-    winner: 'north',
-    points: 10,
+    winner: 'player-north',
+    pointValue: 10,
+    countDominoes: [],
     trickNumber: 1,
-    trump: 6,
-    leadPlayer: 'north',
-    completed: true
+    isComplete: true
   },
   {
     id: 'trick-2',
-    playedDominoes: [
-      createMockPlayedDomino('east', mockDominoes.fiveBlank, 1),
-      createMockPlayedDomino('south', mockDominoes.fourThree, 2),
-      createMockPlayedDomino('west', mockDominoes.twoOne, 3),
-      createMockPlayedDomino('north', mockDominoes.sixThree, 4)
+    dominoes: [
+      createMockPlayedDomino('player-east', 'east', mockDominoes.fiveBlank, 0),
+      createMockPlayedDomino('player-south', 'south', mockDominoes.fourThree, 1),
+      createMockPlayedDomino('player-west', 'west', mockDominoes.twoOne, 2),
+      createMockPlayedDomino('player-north', 'north', mockDominoes.sixThree, 3)
     ],
-    winner: 'south',
-    points: 5,
+    winner: 'player-south',
+    pointValue: 5,
+    countDominoes: [],
     trickNumber: 2,
-    trump: 6,
-    leadPlayer: 'east',
-    completed: true
+    isComplete: true
   },
   {
     id: 'trick-3',
-    playedDominoes: [
-      createMockPlayedDomino('south', mockDominoes.fourFour, 1),
-      createMockPlayedDomino('west', mockDominoes.threeOne, 2),
-      createMockPlayedDomino('north', mockDominoes.sixOne, 3),
-      createMockPlayedDomino('east', mockDominoes.twoBlank, 4)
+    dominoes: [
+      createMockPlayedDomino('player-south', 'south', mockDominoes.fourFour, 0),
+      createMockPlayedDomino('player-west', 'west', mockDominoes.threeOne, 1),
+      createMockPlayedDomino('player-north', 'north', mockDominoes.sixOne, 2),
+      createMockPlayedDomino('player-east', 'east', mockDominoes.twoBlank, 3)
     ],
-    winner: 'north',
-    points: 0,
+    winner: 'player-north',
+    pointValue: 0,
+    countDominoes: [],
     trickNumber: 3,
-    trump: 6,
-    leadPlayer: 'south',
-    completed: true
+    isComplete: true
   },
   {
     id: 'trick-4',
-    playedDominoes: [
-      createMockPlayedDomino('west', mockDominoes.oneOne, 1),
-      createMockPlayedDomino('north', mockDominoes.fiveFour, 2),
-      createMockPlayedDomino('east', mockDominoes.threeBlank, 3),
-      createMockPlayedDomino('south', mockDominoes.twoTwo, 4)
+    dominoes: [
+      createMockPlayedDomino('player-west', 'west', mockDominoes.oneOne, 0),
+      createMockPlayedDomino('player-north', 'north', mockDominoes.fiveFour, 1),
+      createMockPlayedDomino('player-east', 'east', mockDominoes.threeBlank, 2),
+      createMockPlayedDomino('player-south', 'south', mockDominoes.twoTwo, 3)
     ],
-    winner: 'east',
-    points: 0,
+    winner: 'player-east',
+    pointValue: 0,
+    countDominoes: [],
     trickNumber: 4,
-    trump: 6,
-    leadPlayer: 'west',
-    completed: true
+    isComplete: true
   },
   {
     id: 'trick-5',
-    playedDominoes: [
-      createMockPlayedDomino('north', mockDominoes.oneBlank, 1),
-      createMockPlayedDomino('east', mockDominoes.blankBlank, 2),
-      createMockPlayedDomino('south', mockDominoes.fiveTwo, 3),
-      createMockPlayedDomino('west', mockDominoes.fourTwo, 4)
+    dominoes: [
+      createMockPlayedDomino('player-north', 'north', mockDominoes.oneBlank, 0),
+      createMockPlayedDomino('player-east', 'east', mockDominoes.blankBlank, 1),
+      createMockPlayedDomino('player-south', 'south', mockDominoes.fiveTwo, 2),
+      createMockPlayedDomino('player-west', 'west', mockDominoes.fourTwo, 3)
     ],
-    winner: 'east',
-    points: 5,
+    winner: 'player-east',
+    pointValue: 5,
+    countDominoes: [],
     trickNumber: 5,
-    trump: 6,
-    leadPlayer: 'north',
-    completed: true
+    isComplete: true
   }
 ];
 
@@ -207,10 +204,7 @@ export const createDemoBoardGameState = (): GameState => {
       penaltyPoints: 0,
       roundComplete: false
     },
-    handScores: [
-      { northSouth: 42, eastWest: 0 },
-      { northSouth: 31, eastWest: 11 }
-    ],
+    handScores: [],
     marks: { northSouth: 2, eastWest: 1 },
     gameScore: { northSouth: 2, eastWest: 1 },
     marksToWin: 7,
@@ -230,7 +224,7 @@ export const createDemoDominoesGameState = (): GameState => {
   return {
     ...baseState,
     id: 'demo-dominoes-game',
-    phase: 'dealing',
+    phase: 'bidding',
     players: baseState.players.map(player => ({
       ...player,
       hand: [
@@ -256,9 +250,9 @@ export const createDemoPlayersGameState = (): GameState => {
     phase: 'bidding',
     biddingState: {
       bidHistory: [
-        { player: 'demo-north', amount: 30, trump: 6, timestamp: new Date().toISOString() }
+        { playerId: 'demo-north', amount: 30, trump: 6 as DominoSuit, isSpecialContract: false, timestamp: new Date().toISOString() }
       ],
-      currentBid: { player: 'demo-north', amount: 30, trump: 6, timestamp: new Date().toISOString() },
+      currentBid: { playerId: 'demo-north', amount: 30, trump: 6 as DominoSuit, isSpecialContract: false, timestamp: new Date().toISOString() },
       biddingComplete: false,
       passCount: 0,
       minimumBid: 31,

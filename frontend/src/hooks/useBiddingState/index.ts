@@ -3,7 +3,7 @@ import { useGameState } from '@/hooks/useGameState';
 import { convertToExtendedBiddingState } from './converters';
 import { createBiddingActions } from './actions';
 import { BiddingStateHook, BiddingActions } from './types';
-import { DominoSuit } from '@/types/texas42';
+import { DominoSuit, Player } from '@/types/texas42';
 
 /**
  * Custom hook for managing bidding state

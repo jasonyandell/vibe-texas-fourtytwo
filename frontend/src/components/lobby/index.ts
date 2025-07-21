@@ -1,7 +1,8 @@
 // Lobby Component Library Exports
 export { LobbyList, type LobbyListProps } from './LobbyList';
 export { GameCard, type GameCardProps } from './GameCard';
-export { PlayerSlots, type PlayerSlotsProps, type Player } from './PlayerSlots';
+export { PlayerSlots } from './PlayerSlots';
+export { type PlayerSlotsProps, type Player } from './types';
 export { GameStatus, type GameStatusProps } from './GameStatus';
 export { ScoreDisplay, type ScoreDisplayProps } from './ScoreDisplay';
 export { LoadingSpinner, type LoadingSpinnerProps } from './LoadingSpinner';

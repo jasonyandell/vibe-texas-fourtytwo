@@ -34,7 +34,7 @@ export class TestSetup {
   /**
    * Navigate to demo pages with appropriate mock data
    */
-  async navigateToDemo(section: 'board' | 'dominoes' | 'players' | 'bidding' | 'flow' = 'board'): Promise<void> {
+  async navigateToDemo(section: 'board' | 'dominoes' | 'players' | 'bidding' = 'board'): Promise<void> {
     const mockOptions: MockApiOptions = {
       gameState: section === 'bidding' ? 'players' : section,
       enableLobby: false

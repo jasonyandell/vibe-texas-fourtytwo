@@ -1,4 +1,4 @@
-import { DominoSuit } from '@/types/texas42';
+import { DominoSuit, Player } from '@/types/texas42';
 import { GameState, Bid, createCompatibleBid } from '@texas42/shared-types';
 import {
   validateBid,
@@ -16,7 +16,7 @@ interface CreateActionsParams {
   biddingState: ExtendedBiddingState;
   currentPlayerId: string | undefined;
   gameState: GameState | null;
-  players: string[];
+  players: Player[];
   updateGameState: (state: GameState) => void;
 }
 
