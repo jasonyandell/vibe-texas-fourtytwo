@@ -33,7 +33,7 @@ while true; do
     
     # Call Claude with the file breakdown request and capture output
     echo "=== Calling Claude to break down file ==="
-    CLAUDE_OUTPUT=$(claude "Analyze and BREAK DOWN $LARGEST_FILE if it's over 100 lines AND can be logically broken into coherent modules (separate classes/functions, config from implementation, data models from logic, distinct features, or utilities from main logic). DON'T break down data/config files, tightly coupled code, well-organized single-purpose modules, or anything that would create non-functional fragments. If you break it down, print the original filename/line count, new files with sizes and summaries. If you decide NOT to break it down, output exactly: 'SKIP: $BASENAME - reason why it's better as-is'" --dangerously-skip-permissions 2>&1)
+    CLAUDE_OUTPUT=$(claude "Analyze and BREAK DOWN $LARGEST_FILE if it's over 100 lines AND can be logically broken into coherent modules (separate classes/functions, config from implementation, data models from logic, distinct features, or utilities from main logic, test describe sections into their own files). DON'T break down data/config files, tightly coupled code, well-organized single-purpose modules, or anything that would create non-functional fragments. If you break it down, print the original filename/line count, new files with sizes and summaries. If you decide NOT to break it down, output exactly: 'SKIP: $BASENAME - reason why it's better as-is'. ultrathink" --dangerously-skip-permissions 2>&1)
     
     # Display the output to screen
     echo "$CLAUDE_OUTPUT"
