@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { SpectatorView, SpectatorInfo } from '../SpectatorView';
 import { GameState } from '@texas42/shared-types';
-import { createMockGameState } from './SpectatorView.basic.test';
+import { createMockGameState } from './SpectatorView.test-utils';
 
 // Mock the child components
 vi.mock('@/components/DominoHand', () => ({

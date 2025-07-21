@@ -1,6 +1,6 @@
 import { GameState } from '@texas42/shared-types';
 import { SpectatorInfo } from '../SpectatorView';
-import { createMockGameState } from './SpectatorView.basic.test';
+import { createMockGameState } from './SpectatorView.test-utils';
 
 export const mockGameStateWithPlayerHands: GameState = createMockGameState({
   id: 'test-game-1',

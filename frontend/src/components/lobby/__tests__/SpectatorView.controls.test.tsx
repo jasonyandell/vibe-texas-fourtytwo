@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { SpectatorView, SpectatorInfo } from '../SpectatorView';
 import { GameState } from '@texas42/shared-types';
-import { createMockGameState } from './SpectatorView.basic.test';
+import { createMockGameState } from './SpectatorView.test-utils';
 
 // Mock the child components
 vi.mock('@/components/DominoHand', () => ({
