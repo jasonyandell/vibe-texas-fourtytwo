@@ -18,16 +18,32 @@ export class StatePersistence {
   /**
    * Game state methods
    */
-  static saveGameState = (...args: Parameters<typeof GameStatePersistence.save>) => GameStatePersistence.save(...args);
-  static loadGameState = (...args: Parameters<typeof GameStatePersistence.load>) => GameStatePersistence.load(...args);
-  static clearGameState = (...args: Parameters<typeof GameStatePersistence.clear>) => GameStatePersistence.clear(...args);
+  static saveGameState(...args: Parameters<typeof GameStatePersistence.save>) {
+    return GameStatePersistence.save(...args);
+  }
+  
+  static loadGameState(...args: Parameters<typeof GameStatePersistence.load>) {
+    return GameStatePersistence.load(...args);
+  }
+  
+  static clearGameState(...args: Parameters<typeof GameStatePersistence.clear>) {
+    return GameStatePersistence.clear(...args);
+  }
 
   /**
    * Lobby state methods
    */
-  static saveLobbyState = (...args: Parameters<typeof LobbyStatePersistence.save>) => LobbyStatePersistence.save(...args);
-  static loadLobbyState = (...args: Parameters<typeof LobbyStatePersistence.load>) => LobbyStatePersistence.load(...args);
-  static clearLobbyState = (...args: Parameters<typeof LobbyStatePersistence.clear>) => LobbyStatePersistence.clear(...args);
+  static saveLobbyState(...args: Parameters<typeof LobbyStatePersistence.save>) {
+    return LobbyStatePersistence.save(...args);
+  }
+  
+  static loadLobbyState(...args: Parameters<typeof LobbyStatePersistence.load>) {
+    return LobbyStatePersistence.load(...args);
+  }
+  
+  static clearLobbyState(...args: Parameters<typeof LobbyStatePersistence.clear>) {
+    return LobbyStatePersistence.clear(...args);
+  }
 
   /**
    * Clears all persisted data

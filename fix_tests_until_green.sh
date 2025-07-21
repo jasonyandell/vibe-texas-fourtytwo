@@ -18,22 +18,27 @@ while true; do
 
 STEPS:
 1. Open @stories/test-fixes.md
-2. Find the FIRST item that is NOT marked with ✅
-3. Complete ONLY that one item
-4. Mark it as complete with ✅ in the checklist
-5. Save the file and STOP
+2. Scan through ALL items from the beginning
+3. For any items that are already completed but NOT marked with ✅:
+   - Verify they are actually done
+   - Mark them with ✅
+   - This counts as your ONE task - STOP after marking it
+4. If all previously completed items are marked, find the FIRST item that is NOT marked with ✅
+5. Complete ONLY that one item
+6. Mark it as complete with ✅ in the checklist
+7. Save the file and STOP
 
 DO NOT:
-- Work on multiple items
+- Work on multiple items (marking OR implementing)
 - Move to other sections
-- Continue after completing one item
+- Continue after completing one task (whether marking or implementing)
 
 EXCEPTION: If ALL checklist items already have ✅, then:
 - Fix any remaining breaking tests
 - Once ALL conditions are met (all ✅, all tests pass, lint passes), create stories/test-fixes-status.md
 - The status file should ONLY exist when everything is complete and passing
 
-Remember: Complete exactly ONE uncompleted checklist item, update its checkbox to ✅, then stop immediately." --dangerously-skip-permissions
+Remember: Do exactly ONE thing - either mark an already-completed item OR complete one new item, then stop immediately." --dangerously-skip-permissions
     
     echo ""
     echo "======================================"
