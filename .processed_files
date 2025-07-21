@@ -26,3 +26,4 @@ packages/shared-types/src/type-guards.ts
 packages/shared-types/dist-cjs/trump.js
 scripts/fix-github-projects.js
 frontend/src/components/__tests__/GameBoard.players.test.tsx
+frontend/src/utils/__tests__/biddingValidation.test.ts
