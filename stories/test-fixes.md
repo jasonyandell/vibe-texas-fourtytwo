@@ -35,14 +35,14 @@
 ## Linting Issues (113 errors, 5 warnings)
 
 ### Missing React Imports
-- [ ] **React Hook Imports**: Multiple files missing React import for hooks
+- [x] **React Hook Imports**: Multiple files missing React import for hooks ✅
   - Files: `useModalKeyboardHandling.ts`, `useGameStateActions.ts`, `useOptimisticUpdateActions.ts`, `usePlayerActions.ts`, `useBiddingSectionState.ts`
 
 ### Unused Variables/Imports
-- [ ] **GameBoard Layout Test**: Unused imports in `GameBoard.layout.test.tsx`
+- [x] **GameBoard Layout Test**: Unused imports in `GameBoard.layout.test.tsx` ✅
   - Unused: `createDomino`, `DominoSuit`, `createCompatibleTrick`, `createCompatiblePlayedDomino`, `createCompatibleBid`, `createCompatibleBiddingState`
 
-- [ ] **Test Helper Cleanup**: Remove unused imports across test files
+- [x] **Test Helper Cleanup**: Remove unused imports across test files ✅
   - Files: `GameBoardSection.scoring.test.tsx`, `PlayersSection.test.tsx`, various others
 
 - [ ] **Component Cleanup**: Remove unused imports in components

@@ -2,7 +2,6 @@ import { vi } from 'vitest';
 import { Player } from '@/types/texas42';
 import {
   GameState,
-  BiddingState,
   createEmptyGameState,
   createCompatibleBiddingState
 } from '@texas42/shared-types';
