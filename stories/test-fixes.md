@@ -59,7 +59,7 @@
   - Files: `SpectatorManager.tsx` (Promise-returning functions), `create-game-helpers.ts` (missing await)
 
 ### Test Setup Issues
-- [ ] **Require Import**: Fix unsafe require() in test setup
+- [x] **Require Import**: Fix unsafe require() in test setup ✅
   - File: `Lobby.testSetup.tsx:22` - replace with ES6 import
 
 ## React Hooks Issues
