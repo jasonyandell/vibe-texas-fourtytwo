@@ -65,3 +65,4 @@ frontend/src/utils/__tests__/gameUtils.points.test.ts
 frontend/src/components/lobby/GameCard.tsx
 backend/src/game/dominoes.ts
 frontend/src/components/lobby/__tests__/SpectatorView.actions.test.tsx
+frontend/src/components/__tests__/GameBoard.layout.test.tsx
