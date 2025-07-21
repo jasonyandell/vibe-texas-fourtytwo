@@ -1,0 +1,4 @@
+frontend/tests/e2e/fixtures/demo-mock-data.ts
+frontend/src/components/__tests__/BiddingPanel.test.tsx
+frontend/src/components/lobby/__tests__/GameCard.test.tsx
+frontend/src/components/__tests__/GameBoard.players.test.tsx
