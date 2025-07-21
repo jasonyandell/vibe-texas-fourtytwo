@@ -42,3 +42,4 @@ frontend/src/components/lobby/__tests__/SpectatorView.basic.test.tsx
 frontend/src/test/test-utils.tsx
 frontend/src/components/lobby/SpectatorManager.tsx
 frontend/src/components/__tests__/DominoComponent.visual.test.tsx
+frontend/src/components/__tests__/DominoesSection.test.tsx
