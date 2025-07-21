@@ -32,3 +32,4 @@ frontend/src/hooks/useBiddingState/actions.ts
 packages/shared-types/dist-cjs/dominoes.js
 frontend/src/components/ErrorBoundary.tsx
 frontend/src/components/BiddingPanel.tsx
+scripts/enhance-github-issues.js
