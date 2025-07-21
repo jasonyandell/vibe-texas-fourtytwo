@@ -57,3 +57,4 @@ packages/shared-types/src/validation-errors.ts
 frontend/src/components/lobby/GameStartManager.tsx
 packages/shared-types/src/__tests__/type-guards.test.ts
 frontend/src/components/ui/__tests__/Card.test.tsx
+frontend/src/components/__tests__/accessibility.test.tsx
