@@ -1,4 +1,4 @@
-import { DominoSuit, Bid, Player } from '@/types/texas42';
+import { Bid } from '@/types/texas42';
 
 // Extended bidding state for validation (matches the existing interface but with additional fields)
 export interface ExtendedBiddingState {

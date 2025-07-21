@@ -1,4 +1,4 @@
-import { useMemo, useCallback } from 'react';
+import { useMemo } from 'react';
 import { useGameState } from '@/hooks/useGameState';
 import { convertToExtendedBiddingState } from './converters';
 import { createBiddingActions } from './actions';

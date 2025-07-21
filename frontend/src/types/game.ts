@@ -6,7 +6,7 @@
 import type { Domino, DominoSuit } from './domino';
 import type { Player, PlayerPosition } from './player';
 import type { Bid, BiddingState } from './bidding';
-import type { Trick, TrickState } from './trick';
+import type { Trick } from './trick';
 import type { PartnershipState } from './partnership';
 import type { ScoringState } from './scoring';
 import { isValidDomino, validateDominoSuit } from './domino';
@@ -20,7 +20,7 @@ import { isValidScoringState } from './scoring';
 export type GamePhase = 'bidding' | 'playing' | 'scoring' | 'finished';
 
 // Re-export types for backward compatibility
-export type { Trick, TrickState } from './trick';
+export type { Trick } from './trick';
 export type { PartnershipState } from './partnership';
 export type { ScoringState } from './scoring';
 
