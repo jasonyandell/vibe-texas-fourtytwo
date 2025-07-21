@@ -28,25 +28,25 @@ export function useGameActions(
     if (handlers.onJoinGame && permissions.canJoin) {
       handlers.onJoinGame(gameId);
     }
-  }, [handlers.onJoinGame, permissions.canJoin, gameId]);
+  }, [handlers, permissions.canJoin, gameId]);
 
   const handleLeave = useCallback(() => {
     if (handlers.onLeaveGame && permissions.isUserInGame) {
       handlers.onLeaveGame(gameId);
     }
-  }, [handlers.onLeaveGame, permissions.isUserInGame, gameId]);
+  }, [handlers, permissions.isUserInGame, gameId]);
 
   const handleSpectate = useCallback(() => {
     if (handlers.onSpectateGame && permissions.canSpectate) {
       handlers.onSpectateGame(gameId);
     }
-  }, [handlers.onSpectateGame, permissions.canSpectate, gameId]);
+  }, [handlers, permissions.canSpectate, gameId]);
 
   const handleMarkReady = useCallback(() => {
     if (handlers.onMarkReady && permissions.canMarkReady) {
       handlers.onMarkReady(gameId);
     }
-  }, [handlers.onMarkReady, permissions.canMarkReady, gameId]);
+  }, [handlers, permissions.canMarkReady, gameId]);
 
   return {
     handleJoin,

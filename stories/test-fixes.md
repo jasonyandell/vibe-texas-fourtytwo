@@ -63,7 +63,7 @@
   - File: `Lobby.testSetup.tsx:22` - replace with ES6 import
 
 ## React Hooks Issues
-- [ ] **Missing Dependencies**: Fix useCallback dependency arrays
+- [x] **Missing Dependencies**: Fix useCallback dependency arrays ✅
   - Files: `LobbyActions.ts`, `useBiddingState.ts`
 
 ## Playwright E2E Tests (74 tests total - MASSIVE FAILURES)
