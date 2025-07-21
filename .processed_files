@@ -62,3 +62,4 @@ frontend/src/utils/__tests__/gameUtils.play.test.ts
 packages/shared-types/dist-cjs/trump.d.ts
 frontend/src/components/__tests__/Lobby.testSetup.tsx
 frontend/src/utils/__tests__/gameUtils.points.test.ts
+frontend/src/components/lobby/GameCard.tsx
