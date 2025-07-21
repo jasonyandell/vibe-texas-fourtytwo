@@ -21,6 +21,7 @@
     "test:frontend:watch": "npm run --workspace=frontend test:watch",
     "test:backend:watch": "npm run --workspace=backend test:watch",
     "test:e2e": "npm run --workspace=frontend test:e2e",
+    "test": "npm run test:shared-types && npm run test:backend && npm run test:frontend && npm run test:e2e && npm run lint && npm run type-check",
     "lint": "npm run lint:frontend && npm run lint:backend",
     "lint:frontend": "npm run --workspace=frontend lint",
     "lint:backend": "npm run --workspace=backend lint",
