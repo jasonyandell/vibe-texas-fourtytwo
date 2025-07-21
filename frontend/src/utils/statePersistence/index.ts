@@ -8,8 +8,8 @@ import { LobbyStatePersistence } from './lobbyStatePersistence';
 import { storageManager, StorageType } from './storageManager';
 import { PersistenceOptions } from './types';
 
-export { StorageType } from './storageManager';
-export { PersistenceOptions } from './types';
+export type { StorageType } from './storageManager';
+export type { PersistenceOptions } from './types';
 
 /**
  * Main State Persistence API
