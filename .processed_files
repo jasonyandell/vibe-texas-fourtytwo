@@ -24,3 +24,4 @@ packages/shared-types/src/dominoes.ts
 frontend/src/components/lobby/__tests__/GameCard.test.tsx
 packages/shared-types/src/type-guards.ts
 packages/shared-types/dist-cjs/trump.js
+scripts/fix-github-projects.js
