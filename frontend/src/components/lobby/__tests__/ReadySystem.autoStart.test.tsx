@@ -61,7 +61,7 @@ describe('ReadySystem - Auto-Start Countdown', () => {
   it('calls onStartGame when countdown reaches zero', async () => {
     render(<ReadySystem players={allReadyPlayers} gameId="test-game" {...mockHandlers} />);
     
-    await act(async () => {
+    act(() => {
       vi.advanceTimersByTime(10000);
     });
     
@@ -72,7 +72,7 @@ describe('ReadySystem - Auto-Start Countdown', () => {
     render(<ReadySystem players={allReadyPlayers} gameId="test-game" {...mockHandlers} />);
     
     const startButton = screen.getByRole('button', { name: 'Start Game Now' });
-    await act(async () => {
+    act(() => {
       fireEvent.click(startButton);
     });
     
@@ -122,7 +122,7 @@ describe('ReadySystem - Auto-Start Countdown', () => {
     expect(screen.getByRole('button', { name: 'Starting Game...' })).toBeDisabled();
     
     // Wait for promise to resolve
-    await act(async () => {
+    act(() => {
       vi.advanceTimersByTime(100);
     });
   });
@@ -140,7 +140,7 @@ describe('ReadySystem - Auto-Start Countdown', () => {
     expect(screen.getByRole('button', { name: 'Starting Game...' })).toBeInTheDocument();
     
     // Wait for promise to resolve
-    await act(async () => {
+    act(() => {
       vi.advanceTimersByTime(100);
     });
   });
