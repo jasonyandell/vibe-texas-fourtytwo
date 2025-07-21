@@ -1,22 +1,18 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@/test/test-utils'
 import { DominoComponent } from '../DominoComponent'
-import { Domino, createDomino } from '@/types/texas42'
+import {
+  allDominoes,
+  testDominoMidRange,
+  testDominoOrientation,
+  fivePointDominoes,
+  tenPointDominoes,
+  countDomino,
+  regularDomino,
+  tenPointDomino
+} from './DominoComponent.visual.test.fixtures'
 
 describe('DominoComponent Visual Tests', () => {
-  // Generate all 28 domino combinations for visual testing
-  const generateAllDominoes = (): Domino[] => {
-    const dominoes: Domino[] = []
-    for (let high = 0; high <= 6; high++) {
-      for (let low = 0; low <= high; low++) {
-        dominoes.push(createDomino(high, low))
-      }
-    }
-    return dominoes
-  }
-
-  const allDominoes = generateAllDominoes()
-
   it('renders all domino combinations with correct visual structure', () => {
     allDominoes.forEach(domino => {
       const { unmount } = render(<DominoComponent domino={domino} />)
@@ -40,56 +36,46 @@ describe('DominoComponent Visual Tests', () => {
   })
 
   it('applies correct visual states for interactive dominoes', () => {
-    const testDomino = allDominoes[10] // Pick a mid-range domino
-    
     // Test playable state
     const { rerender } = render(
-      <DominoComponent domino={testDomino} isPlayable={true} />
+      <DominoComponent domino={testDominoMidRange} isPlayable={true} />
     )
-    let dominoElement = screen.getByTestId(`domino-${testDomino.high}-${testDomino.low}`)
+    let dominoElement = screen.getByTestId(`domino-${testDominoMidRange.high}-${testDominoMidRange.low}`)
     expect(dominoElement).toHaveClass('playable')
     
     // Test selected state
     rerender(
-      <DominoComponent domino={testDomino} isPlayable={true} selected={true} />
+      <DominoComponent domino={testDominoMidRange} isPlayable={true} selected={true} />
     )
-    dominoElement = screen.getByTestId(`domino-${testDomino.high}-${testDomino.low}`)
+    dominoElement = screen.getByTestId(`domino-${testDominoMidRange.high}-${testDominoMidRange.low}`)
     expect(dominoElement).toHaveClass('selected')
     
     // Test face-down state
     rerender(
-      <DominoComponent domino={testDomino} faceDown={true} />
+      <DominoComponent domino={testDominoMidRange} faceDown={true} />
     )
-    dominoElement = screen.getByTestId(`domino-${testDomino.high}-${testDomino.low}`)
+    dominoElement = screen.getByTestId(`domino-${testDominoMidRange.high}-${testDominoMidRange.low}`)
     expect(dominoElement).toHaveClass('face-down')
   })
 
   it('renders both orientations correctly', () => {
-    const testDomino = allDominoes[15]
-
     // Horizontal orientation
     const { rerender } = render(
-      <DominoComponent domino={testDomino} orientation="horizontal" />
+      <DominoComponent domino={testDominoOrientation} orientation="horizontal" />
     )
-    let dominoElement = screen.getByTestId(`domino-${testDomino.high}-${testDomino.low}`)
+    let dominoElement = screen.getByTestId(`domino-${testDominoOrientation.high}-${testDominoOrientation.low}`)
     expect(dominoElement).toHaveClass('horizontal')
 
     // Vertical orientation
     rerender(
-      <DominoComponent domino={testDomino} orientation="vertical" />
+      <DominoComponent domino={testDominoOrientation} orientation="vertical" />
     )
-    dominoElement = screen.getByTestId(`domino-${testDomino.high}-${testDomino.low}`)
+    dominoElement = screen.getByTestId(`domino-${testDominoOrientation.high}-${testDominoOrientation.low}`)
     expect(dominoElement).toHaveClass('vertical')
   })
 
   it('displays point values correctly for count dominoes', () => {
-    // Test 5-point dominoes: 5-0, 4-1, 3-2
-    const fivePointDominoes = [
-      createDomino(5, 0),
-      createDomino(4, 1),
-      createDomino(3, 2)
-    ]
-
+    // Test 5-point dominoes
     fivePointDominoes.forEach(domino => {
       const { unmount } = render(
         <DominoComponent domino={domino} showPointValue={true} />
@@ -105,12 +91,7 @@ describe('DominoComponent Visual Tests', () => {
       unmount()
     })
 
-    // Test 10-point dominoes: 6-4, 5-5
-    const tenPointDominoes = [
-      createDomino(6, 4),
-      createDomino(5, 5)
-    ]
-
+    // Test 10-point dominoes
     tenPointDominoes.forEach(domino => {
       const { unmount } = render(
         <DominoComponent domino={domino} showPointValue={true} />
@@ -128,9 +109,6 @@ describe('DominoComponent Visual Tests', () => {
   })
 
   it('highlights count dominoes when enabled', () => {
-    const countDomino = createDomino(5, 0) // 5-point domino
-    const regularDomino = createDomino(6, 1) // 0-point domino
-
     // Test count domino highlighting
     const { rerender } = render(
       <DominoComponent domino={countDomino} highlightCount={true} />
@@ -147,11 +125,9 @@ describe('DominoComponent Visual Tests', () => {
   })
 
   it('hides point values when face down', () => {
-    const countDomino = createDomino(6, 4) // 10-point domino
-
     const { container } = render(
       <DominoComponent
-        domino={countDomino}
+        domino={tenPointDomino}
         showPointValue={true}
         faceDown={true}
       />
