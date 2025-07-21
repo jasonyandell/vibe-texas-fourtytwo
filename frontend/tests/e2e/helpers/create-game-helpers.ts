@@ -16,6 +16,13 @@ export class CreateGameHelpers {
     
     const modal = this.getModal();
     await expect(modal).toBeVisible();
+    
+    // Wait for the form to be fully rendered
+    const gameNameInput = this.page.locator('input#game-name');
+    await expect(gameNameInput).toBeVisible();
+    
+    // Wait for React to fully initialize the component
+    await this.page.waitForTimeout(100);
   }
 
   async fillGameName(name: string): Promise<void> {

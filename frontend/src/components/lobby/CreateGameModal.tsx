@@ -98,6 +98,7 @@ export const CreateGameModal: React.FC<CreateGameModalProps> = ({
               disabled={isCreating}
               maxLength={GAME_NAME_MAX_LENGTH}
               required
+              autoComplete="off"
             />
             <div className={styles.inputHelp}>
               {gameName.length > 0 && !validationError && !serverError && (
