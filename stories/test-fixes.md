@@ -55,7 +55,7 @@
 - [x] **Unbound Method References**: Fix method binding in state persistence ✅
   - File: `/home/jason/fourtytwo/frontend/src/utils/statePersistence/index.ts:21-30`
 
-- [ ] **Promise Misuse**: Fix async/await issues
+- [x] **Promise Misuse**: Fix async/await issues ✅
   - Files: `SpectatorManager.tsx` (Promise-returning functions), `create-game-helpers.ts` (missing await)
 
 ### Test Setup Issues

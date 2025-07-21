@@ -69,8 +69,8 @@ export const SpectatorManager: React.FC<SpectatorManagerProps> = ({
         isJoining={isJoining}
         isLeaving={isLeaving}
         buttonText={getSpectatorButtonText()}
-        onJoin={() => void handleJoinSpectating()}
-        onLeave={() => void handleLeaveSpectating()}
+        onJoin={handleJoinSpectating}
+        onLeave={handleLeaveSpectating}
       />
 
       <SpectatorList

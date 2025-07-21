@@ -88,8 +88,8 @@ test.describe('Story 002: Create Game', () => {
     const helpers = new CreateGameHelpers(page);
     
     // Mock a server error response
-    await page.route('**/api/games', route => {
-      void route.fulfill({
+    await page.route('**/api/games', async route => {
+      await route.fulfill({
         status: 500,
         contentType: 'application/json',
         body: JSON.stringify({ error: 'Internal server error' })
