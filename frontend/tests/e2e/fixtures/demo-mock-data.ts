@@ -1,4 +1,4 @@
-import { GameState, Domino, Trick, PlayedDomino, Bid, BiddingState, DominoSuit } from '@texas42/shared-types';
+import { GameState, Domino, Trick, PlayedDomino, Bid, BiddingState, DominoSuit, getSuitName } from '@texas42/shared-types';
 
 // Mock dominoes for demo purposes
 export const mockDominoes = {
@@ -67,15 +67,15 @@ export const createMockBiddingState = (): BiddingState => {
   const winningBid: Bid = {
     playerId: 'north',
     amount: 32,
-    trump: 6 as DominoSuit,
+    trump: getSuitName(6),
     isSpecialContract: false,
     timestamp: new Date().toISOString()
   };
 
   return {
     bidHistory: [
-      { playerId: 'north', amount: 30, trump: 6 as DominoSuit, isSpecialContract: false, timestamp: new Date().toISOString() },
-      { playerId: 'east', amount: 31, trump: 5 as DominoSuit, isSpecialContract: false, timestamp: new Date().toISOString() },
+      { playerId: 'north', amount: 30, trump: getSuitName(6), isSpecialContract: false, timestamp: new Date().toISOString() },
+      { playerId: 'east', amount: 31, trump: getSuitName(5), isSpecialContract: false, timestamp: new Date().toISOString() },
       winningBid
     ],
     currentBid: winningBid,
@@ -250,9 +250,9 @@ export const createDemoPlayersGameState = (): GameState => {
     phase: 'bidding',
     biddingState: {
       bidHistory: [
-        { playerId: 'demo-north', amount: 30, trump: 6 as DominoSuit, isSpecialContract: false, timestamp: new Date().toISOString() }
+        { playerId: 'demo-north', amount: 30, trump: getSuitName(6), isSpecialContract: false, timestamp: new Date().toISOString() }
       ],
-      currentBid: { playerId: 'demo-north', amount: 30, trump: 6 as DominoSuit, isSpecialContract: false, timestamp: new Date().toISOString() },
+      currentBid: { playerId: 'demo-north', amount: 30, trump: getSuitName(6), isSpecialContract: false, timestamp: new Date().toISOString() },
       biddingComplete: false,
       passCount: 0,
       minimumBid: 31,

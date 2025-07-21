@@ -2,7 +2,7 @@
 
 Fix the tests.
 
-[ ] Typescript errors
+✅ Typescript errors
 [ ] Frontend tests failing
 [ ] Typescript errors
 [ ] E2E test errors
