@@ -2,7 +2,7 @@ import React from 'react';
 import { PlayerSlot } from './PlayerSlot';
 import { PartnershipsDisplay } from './PartnershipsDisplay';
 import { POSITIONS, PARTNERSHIPS } from './constants';
-import type { Player, PlayerSlotsProps } from './types';
+import type { PlayerSlotsProps } from './types';
 import styles from './PlayerSlots.module.css';
 
 export const PlayerSlots: React.FC<PlayerSlotsProps> = ({

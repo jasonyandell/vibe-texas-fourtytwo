@@ -26,7 +26,7 @@ describe('GameStartManager - Game Start Functionality', () => {
     const startButton = screen.getByRole('button', { name: 'Start Game' });
     await user.click(startButton);
     
-    await expect(mockHandlers.onGameStarted).toHaveBeenCalledWith(mockGameState);
+    expect(mockHandlers.onGameStarted).toHaveBeenCalledWith(mockGameState);
   });
 
   it('does not start game when not ready', async () => {
