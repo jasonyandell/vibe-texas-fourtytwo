@@ -7,5 +7,6 @@ Fix the tests.
 ✅ Typescript errors
 [ ] E2E test errors
 [ ] Frontend tests failing
+[ ] E2E test errors
 [ ] Linting errors
 [ ] Typescript errors

@@ -3,5 +3,5 @@
  * Re-exports the modularized persistence functionality
  */
 
-export { StatePersistence, storageManager } from './statePersistence/';
-export type { StorageType, PersistenceOptions } from './statePersistence/';
+export { StatePersistence, storageManager } from './statePersistence/index';
+export type { StorageType, PersistenceOptions } from './statePersistence/index';
