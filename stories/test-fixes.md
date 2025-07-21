@@ -10,7 +10,7 @@ Fix the tests.
 [✅] Linting errors
 [✅] Typescript errors
 [✅] Comprehensive test run errors and warnings 1
-[ ] act warnings in tests
+[✅] act warnings in tests
 [ ] E2E test errors
 [ ] Linting errors
 [ ] Comprehensive test run errors and warnings 2
