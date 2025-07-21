@@ -49,3 +49,4 @@ scripts/verify-setup.js
 frontend/src/components/lobby/ReadySystem.tsx
 frontend/src/components/lobby/__tests__/GameStartManager.startButton.test.tsx
 frontend/src/contexts/GameStateContext/GameStateContext.tsx
+frontend/src/components/Lobby.tsx
