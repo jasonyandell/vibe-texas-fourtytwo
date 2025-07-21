@@ -78,7 +78,7 @@ export const BiddingSection: React.FC = () => {
         className={styles.srOnly}
       >
         {selectedTrumpSuit &&
-          `${trumpSuits.find(t => t.suit === selectedTrumpSuit)?.label} trump selected.`
+          `${trumpSuits.find(t => t.suit === selectedTrumpSuit)?.label} trump selected. 7 dominoes highlighted.`
         }
       </div>
     </div>
