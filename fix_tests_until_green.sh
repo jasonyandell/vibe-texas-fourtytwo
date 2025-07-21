@@ -14,7 +14,7 @@ while true; do
     echo "======================================"
     
     # Run claude with updated prompt
-    timeout --foreground 300 claude "TODO: Complete ONE checklist item from @stories/test-fixes.md
+    timeout --foreground 600 claude "TODO: Complete ONE checklist item from @stories/test-fixes.md
 
 STEPS:
 1. Open @stories/test-fixes.md
