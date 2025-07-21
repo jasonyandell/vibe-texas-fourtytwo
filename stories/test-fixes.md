@@ -138,7 +138,7 @@ The tests expect demo showcase pages at routes like:
 - [x] **GameBoard Components**: Add required test IDs to game board elements ✅
 - [x] **Domino Components**: Add test IDs to domino display and interaction elements ✅  
 - [x] **Player Components**: Add test IDs to player layout and partnership elements ✅
-- [ ] **Lobby Components**: Add test IDs to lobby and game creation elements
+- [x] **Lobby Components**: Add test IDs to lobby and game creation elements ✅
 
 #### **Test Infrastructure**:
 - [ ] **Helper Functions**: Review and fix `create-game-helpers.ts` and other utilities
