@@ -49,7 +49,7 @@
   - Files: `PlayerSlots.tsx` (unused `Player`), `types/game.ts` (unused `TrickState`)
 
 ### Type Safety Issues
-- [ ] **Unsafe Any Usage**: Fix `any` types in persistence actions
+- [x] **Unsafe Any Usage**: Fix `any` types in persistence actions ✅
   - Files: `usePersistenceActions.ts`, `useSerializationActions.ts`
 
 - [ ] **Unbound Method References**: Fix method binding in state persistence

@@ -1,9 +1,10 @@
 import { useCallback } from 'react';
 import { serializeGameStateToUrl, parseGameStateFromUrl } from '@/utils/urlSerialization';
 import { GameStateContextState } from '../types';
+import { GameState } from '@texas42/shared-types';
 
 interface GameStateActions {
-  updateGameState: (gameState: any) => void;
+  updateGameState: (gameState: GameState) => void;
   setError: (error: Error | null) => void;
 }
 

@@ -1,9 +1,10 @@
 import { useCallback } from 'react';
 import { StatePersistence } from '@/utils/statePersistence';
 import { GameStateContextState } from '../types';
+import { GameState } from '@texas42/shared-types';
 
 interface GameStateActions {
-  updateGameState: (gameState: any) => void;
+  updateGameState: (gameState: GameState) => void;
 }
 
 export function usePersistenceActions(
