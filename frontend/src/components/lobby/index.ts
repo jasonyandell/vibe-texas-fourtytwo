@@ -7,6 +7,16 @@ export { ScoreDisplay, type ScoreDisplayProps } from './ScoreDisplay';
 export { LoadingSpinner, type LoadingSpinnerProps } from './LoadingSpinner';
 export { EmptyState, type EmptyStateProps } from './EmptyState';
 export { CreateGameModal, type CreateGameModalProps } from './CreateGameModal';
+export { CloseButton, type CloseButtonProps } from './CloseButton';
+export { 
+  validateGameName, 
+  isValidGameName, 
+  getServerErrorMessage,
+  GAME_NAME_MIN_LENGTH,
+  GAME_NAME_MAX_LENGTH,
+  type ValidationResult 
+} from './GameNameValidator';
+export { useModalKeyboardHandling, type UseModalKeyboardHandlingOptions } from './useModalKeyboardHandling';
 export { ReadySystem, type ReadySystemProps } from './ReadySystem';
 export { GameStartManager, type GameStartManagerProps } from './GameStartManager';
 export { SpectatorManager, type SpectatorManagerProps } from './SpectatorManager';
