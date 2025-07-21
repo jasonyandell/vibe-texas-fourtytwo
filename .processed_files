@@ -76,3 +76,4 @@ frontend/src/contexts/GameStateContext/reducer.ts
 frontend/src/components/lobby/__tests__/GameStartManager.errors.test.tsx
 frontend/src/components/__tests__/DominoHand.layout.test.tsx
 frontend/src/components/lobby/PlayerSlots.tsx
+frontend/src/contexts/__tests__/LobbyStateContext.test.tsx
