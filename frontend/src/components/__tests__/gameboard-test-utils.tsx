@@ -1,3 +1,4 @@
+import React from 'react'
 import { vi } from 'vitest'
 import { render } from '@/test/test-utils'
 import { GameBoard } from '../GameBoard'

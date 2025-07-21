@@ -57,5 +57,10 @@ describe('CreateGameModal - Edge Cases', () => {
     
     // Verify only one submission
     expect(slowCreateGame).toHaveBeenCalledTimes(1);
+    
+    // Wait for the promise to resolve to avoid unhandled rejection
+    await vi.waitFor(() => {
+      return slowCreateGame.mock.results[0]?.value !== undefined;
+    });
   });
 });

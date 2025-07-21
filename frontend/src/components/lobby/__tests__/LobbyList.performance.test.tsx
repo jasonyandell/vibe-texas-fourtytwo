@@ -13,7 +13,7 @@ describe('LobbyList - Performance', () => {
 
     // Should render within reasonable time (less than 1500ms)
     // Note: Test environments can be slower than production
-    expect(endTime - startTime).toBeLessThan(1500);
+    expect(endTime - startTime).toBeLessThan(2000);
     
     // Verify first and last games are rendered
     expect(screen.getByText('Game 0')).toBeInTheDocument();

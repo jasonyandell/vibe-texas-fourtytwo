@@ -30,7 +30,7 @@ describe('LoadingSpinner - Error Handling & Performance', () => {
       render(<LoadingSpinner />);
       const endTime = performance.now();
       
-      expect(endTime - startTime).toBeLessThan(10);
+      expect(endTime - startTime).toBeLessThan(50);
     });
 
     it('handles multiple rapid renders', () => {

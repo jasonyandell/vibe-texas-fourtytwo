@@ -47,7 +47,7 @@ export async function setupLobbyRoutes(
       };
       
       // Add the new game to our stateful list
-      gamesList.push(newGame);
+      gamesList.push({...newGame});
       
       await route.fulfill({
         status: 201,
