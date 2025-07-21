@@ -3,9 +3,9 @@ import { getDemoMockData } from './demo-mock-data';
 
 export interface MockApiOptions {
   gameState?: 'board' | 'dominoes' | 'players' | 'custom';
-  customGameState?: any;
+  customGameState?: Record<string, unknown>;
   enableLobby?: boolean;
-  lobbyGames?: any[];
+  lobbyGames?: Record<string, unknown>[];
 }
 
 /**
@@ -53,7 +53,7 @@ export class MockApiSetup {
   /**
    * Set up mock responses for lobby functionality
    */
-  async setupLobbyMocks(games: any[] = []): Promise<void> {
+  async setupLobbyMocks(games: Record<string, unknown>[] = []): Promise<void> {
     // Mock games list endpoint
     await this.page.route('**/api/games', async route => {
       if (route.request().method() === 'GET') {
@@ -64,10 +64,10 @@ export class MockApiSetup {
         });
       } else if (route.request().method() === 'POST') {
         // Mock game creation
-        const requestBody = await route.request().postDataJSON();
+        const requestBody = await route.request().postDataJSON() as Record<string, unknown>;
         const newGame = {
           id: 'new-game-' + Date.now(),
-          name: requestBody.name,
+          name: requestBody.name as string,
           creator: 'test-user',
           players: [{ id: 'test-user', name: 'Test User', position: 'north' }],
           status: 'waiting',
@@ -88,7 +88,7 @@ export class MockApiSetup {
       const gameId = route.request().url().split('/').pop();
       
       if (route.request().method() === 'GET') {
-        const game = games.find(g => g.id === gameId) || {
+        const game = games.find(g => (g.id as string) === gameId) || {
           id: gameId,
           name: 'Test Game',
           creator: 'test-user',
@@ -109,8 +109,8 @@ export class MockApiSetup {
     // Mock WebSocket connections (placeholder)
     await this.page.addInitScript(() => {
       // Override WebSocket to prevent actual connections during tests
-      (window as any).WebSocket = class MockWebSocket {
-        constructor(url: string) {
+      (window as typeof window & { WebSocket: typeof WebSocket }).WebSocket = class MockWebSocket {
+        constructor(_url: string) {
           setTimeout(() => {
             if (this.onopen) this.onopen({} as Event);
           }, 100);

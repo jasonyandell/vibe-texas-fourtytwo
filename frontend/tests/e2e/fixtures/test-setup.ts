@@ -46,7 +46,7 @@ export class TestSetup {
   /**
    * Navigate to lobby with mock games
    */
-  async navigateToLobby(games: any[] = []): Promise<void> {
+  async navigateToLobby(games: Record<string, unknown>[] = []): Promise<void> {
     const mockOptions: MockApiOptions = {
       enableLobby: true,
       lobbyGames: games
@@ -119,30 +119,22 @@ export class TestSetup {
   /**
    * Print console errors
    */
-  async printConsoleErrors(): Promise<void> {
-    const errors: string[] = [];
-    
+  printConsoleErrors(): void {
     this.page.on('console', msg => {
       if (msg.type() === 'error') {
-        errors.push(msg.text());
+        console.log(`Console error: ${msg.text()}`);
       }
     });
 
     this.page.on('pageerror', error => {
-      errors.push(`Page error: ${error.message}`);
+      console.log(`Page error: ${error.message}`);
     });
-
-    if (errors.length > 0) {
-      console.log('=== CONSOLE ERRORS ===');
-      errors.forEach(error => console.log(error));
-      console.log('=== END ERRORS ===');
-    }
   }
 
   /**
    * Setup comprehensive debugging for failing tests
    */
-  async setupDebugging(): Promise<void> {
+  setupDebugging(): void {
     this.page.on('console', msg => {
       if (msg.type() === 'error') {
         console.log(`Console error: ${msg.text()}`);

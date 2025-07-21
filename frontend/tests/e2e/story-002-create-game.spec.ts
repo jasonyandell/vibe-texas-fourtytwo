@@ -15,7 +15,7 @@ test.describe('Story 002: Create Game', () => {
 
     await helpers.verifyModalClosed();
     
-    const gameCard = await helpers.getGameCard('My Custom Game');
+    const gameCard = helpers.getGameCard('My Custom Game');
     await expect(gameCard).toBeVisible();
     await expect(gameCard).toContainText('Waiting for players');
     await expect(gameCard).toContainText('1/4 players');
@@ -46,7 +46,7 @@ test.describe('Story 002: Create Game', () => {
     
     await helpers.createGame('Auto Join Game');
     
-    const gameCard = await helpers.getGameCard('Auto Join Game');
+    const gameCard = helpers.getGameCard('Auto Join Game');
     await expect(gameCard).toContainText('1/4 players');
     
     // Verify join button is not shown for creator
@@ -63,7 +63,7 @@ test.describe('Story 002: Create Game', () => {
     
     await helpers.createGame('Shareable Game');
     
-    const gameCard = await helpers.getGameCard('Shareable Game');
+    const gameCard = helpers.getGameCard('Shareable Game');
     const gameCode = gameCard.locator('[data-testid="game-code"]');
     await expect(gameCode).toBeVisible();
     
@@ -109,7 +109,7 @@ test.describe('Story 002: Create Game', () => {
     
     // Create first game
     await helpers.createGame('Unique Game Name');
-    await expect(await helpers.getGameCard('Unique Game Name')).toBeVisible();
+    await expect(helpers.getGameCard('Unique Game Name')).toBeVisible();
 
     // Try to create second game with same name
     await helpers.openCreateGameModal();
