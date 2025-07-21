@@ -22,6 +22,16 @@ export {
   DOMINO_CONSTANTS
 } from './dominoes';
 
+export {
+  createDomino,
+  createFullDominoSet as createFullDominoSetFromFactory
+} from './domino-factory';
+
+export {
+  isValidDomino as isValidDominoFromValidators,
+  isValidDominoSet as isValidDominoSetFromValidators
+} from './domino-validators';
+
 // ============================================================================
 // Trump System Types and Utilities
 // ============================================================================
@@ -217,8 +227,7 @@ export {
   isValidBid,
   validatePlayerPosition,
   validateGamePhase,
-  validateDominoSuit,
-  createDomino
+  validateDominoSuit
 } from './type-guards';
 
 // ============================================================================
