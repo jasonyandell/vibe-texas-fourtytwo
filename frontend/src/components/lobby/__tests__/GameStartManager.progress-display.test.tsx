@@ -8,7 +8,11 @@ import { GameState } from '@/types/texas42';
 describe('GameStartManager - Start Progress Display', () => {
   it('shows progress steps when starting', async () => {
     const user = userEvent.setup();
-    const slowStartGame = vi.fn(() => new Promise<GameState>(resolve => setTimeout(() => resolve(mockGameState), 100)));
+    let resolveStartGame: (value: GameState) => void = () => {};
+    const startGamePromise = new Promise<GameState>(resolve => {
+      resolveStartGame = resolve;
+    });
+    const slowStartGame = vi.fn(() => startGamePromise);
     
     render(
       <GameStartManager 
@@ -26,15 +30,25 @@ describe('GameStartManager - Start Progress Display', () => {
     expect(screen.getByText('Dealing hands...')).toBeInTheDocument();
     expect(screen.getByText('Starting bidding...')).toBeInTheDocument();
     
-    // Wait for the promise to resolve
+    // Resolve the promise and wait for state updates
+    resolveStartGame(mockGameState);
     await waitFor(() => {
       expect(slowStartGame).toHaveBeenCalled();
+    });
+    
+    // Ensure all state updates have completed
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: 'Start Game' })).toBeInTheDocument();
     });
   });
 
   it('shows progress icons', async () => {
     const user = userEvent.setup();
-    const slowStartGame = vi.fn(() => new Promise<GameState>(resolve => setTimeout(() => resolve(mockGameState), 100)));
+    let resolveStartGame: (value: GameState) => void = () => {};
+    const startGamePromise = new Promise<GameState>(resolve => {
+      resolveStartGame = resolve;
+    });
+    const slowStartGame = vi.fn(() => startGamePromise);
     
     render(
       <GameStartManager 
@@ -52,9 +66,15 @@ describe('GameStartManager - Start Progress Display', () => {
     expect(screen.getByText('🃏')).toBeInTheDocument();
     expect(screen.getByText('🎯')).toBeInTheDocument();
     
-    // Wait for the promise to resolve
+    // Resolve the promise and wait for state updates
+    resolveStartGame(mockGameState);
     await waitFor(() => {
       expect(slowStartGame).toHaveBeenCalled();
+    });
+    
+    // Ensure all state updates have completed
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: 'Start Game' })).toBeInTheDocument();
     });
   });
 
