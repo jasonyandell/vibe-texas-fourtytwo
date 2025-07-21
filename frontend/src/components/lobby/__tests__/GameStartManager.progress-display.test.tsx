@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { GameStartManager } from '../GameStartManager';
 import { mockFullReadyPlayers, mockGameState, mockHandlers } from './fixtures/gameStartManagerFixtures';
@@ -25,6 +25,11 @@ describe('GameStartManager - Start Progress Display', () => {
     expect(screen.getByText('Shuffling dominoes...')).toBeInTheDocument();
     expect(screen.getByText('Dealing hands...')).toBeInTheDocument();
     expect(screen.getByText('Starting bidding...')).toBeInTheDocument();
+    
+    // Wait for the promise to resolve
+    await waitFor(() => {
+      expect(slowStartGame).toHaveBeenCalled();
+    });
   });
 
   it('shows progress icons', async () => {
@@ -46,6 +51,11 @@ describe('GameStartManager - Start Progress Display', () => {
     expect(screen.getByText('🎲')).toBeInTheDocument();
     expect(screen.getByText('🃏')).toBeInTheDocument();
     expect(screen.getByText('🎯')).toBeInTheDocument();
+    
+    // Wait for the promise to resolve
+    await waitFor(() => {
+      expect(slowStartGame).toHaveBeenCalled();
+    });
   });
 
   it('hides progress when not starting', () => {
