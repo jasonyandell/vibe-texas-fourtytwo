@@ -1,5 +1,6 @@
 import { Page, expect } from '@playwright/test';
 import { MockApiSetup, MockApiOptions } from './mock-api-setup';
+import { TestDebugUtilities } from './test-debug-utilities';
 
 /**
  * Comprehensive test setup utilities for E2E tests
@@ -7,10 +8,12 @@ import { MockApiSetup, MockApiOptions } from './mock-api-setup';
 export class TestSetup {
   private page: Page;
   private mockApi: MockApiSetup;
+  private debugUtils: TestDebugUtilities;
 
   constructor(page: Page) {
     this.page = page;
     this.mockApi = new MockApiSetup(page);
+    this.debugUtils = new TestDebugUtilities(page);
   }
 
   /**
@@ -100,54 +103,28 @@ export class TestSetup {
    * Take screenshot for debugging
    */
   async takeDebugScreenshot(name: string): Promise<void> {
-    await this.page.screenshot({ 
-      path: `test-results/debug-${name}-${Date.now()}.png`,
-      fullPage: true 
-    });
+    await this.debugUtils.takeDebugScreenshot(name);
   }
 
   /**
    * Print page HTML for debugging
    */
   async printPageHTML(): Promise<void> {
-    const html = await this.page.content();
-    console.log('=== PAGE HTML ===');
-    console.log(html);
-    console.log('=== END HTML ===');
+    await this.debugUtils.printPageHTML();
   }
 
   /**
    * Print console errors
    */
   printConsoleErrors(): void {
-    this.page.on('console', msg => {
-      if (msg.type() === 'error') {
-        console.log(`Console error: ${msg.text()}`);
-      }
-    });
-
-    this.page.on('pageerror', error => {
-      console.log(`Page error: ${error.message}`);
-    });
+    this.debugUtils.printConsoleErrors();
   }
 
   /**
    * Setup comprehensive debugging for failing tests
    */
   setupDebugging(): void {
-    this.page.on('console', msg => {
-      if (msg.type() === 'error') {
-        console.log(`Console error: ${msg.text()}`);
-      }
-    });
-
-    this.page.on('pageerror', error => {
-      console.log(`Page error: ${error.message}`);
-    });
-
-    this.page.on('requestfailed', request => {
-      console.log(`Failed request: ${request.url()} - ${request.failure()?.errorText}`);
-    });
+    this.debugUtils.setupDebugging();
   }
 
   /**
@@ -172,44 +149,5 @@ export const createTestSetup = (page: Page): TestSetup => {
   return new TestSetup(page);
 };
 
-/**
- * Common test data for reuse across tests
- */
-export const testData = {
-  games: {
-    waiting: {
-      id: 'test-game-waiting',
-      name: 'Waiting Game',
-      creator: 'test-user',
-      players: [
-        { id: 'test-user', name: 'Test User', position: 'north' }
-      ],
-      playerCount: 1,
-      maxPlayers: 4,
-      status: 'waiting',
-      gameCode: 'WAIT01',
-      createdAt: new Date().toISOString()
-    },
-    full: {
-      id: 'test-game-full',
-      name: 'Full Game',
-      creator: 'test-user',
-      players: [
-        { id: 'test-user-1', name: 'Player 1', position: 'north' },
-        { id: 'test-user-2', name: 'Player 2', position: 'east' },
-        { id: 'test-user-3', name: 'Player 3', position: 'south' },
-        { id: 'test-user-4', name: 'Player 4', position: 'west' }
-      ],
-      playerCount: 4,
-      maxPlayers: 4,
-      status: 'playing',
-      gameCode: 'FULL01',
-      createdAt: new Date().toISOString()
-    }
-  },
-  players: {
-    creator: { id: 'creator-1', name: 'Game Creator' },
-    joiner: { id: 'joiner-1', name: 'Game Joiner' },
-    spectator: { id: 'spectator-1', name: 'Spectator' }
-  }
-};
+// Re-export test data for backwards compatibility
+export { testData } from './test-data';
