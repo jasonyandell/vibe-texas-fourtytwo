@@ -141,7 +141,7 @@ The tests expect demo showcase pages at routes like:
 - [x] **Lobby Components**: Add test IDs to lobby and game creation elements ✅
 
 #### **Test Infrastructure**:
-- [ ] **Helper Functions**: Review and fix `create-game-helpers.ts` and other utilities
+- [x] **Helper Functions**: Review and fix `create-game-helpers.ts` and other utilities ✅
 - [ ] **Test Data**: Ensure tests have proper mock data and setup
 - [ ] **Route Configuration**: Verify frontend routing includes demo paths
 

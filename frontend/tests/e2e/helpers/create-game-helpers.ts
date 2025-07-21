@@ -51,7 +51,7 @@ export class CreateGameHelpers {
     await expect(errorMessage).toContainText(message);
   }
 
-  async getGameCard(gameName: string): Promise<Locator> {
+  getGameCard(gameName: string): Locator {
     return this.page.locator('[data-testid="game-card"]').filter({ hasText: gameName });
   }
 
