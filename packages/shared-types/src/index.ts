@@ -1,234 +1,31 @@
 /**
  * Texas 42 Shared Types Package
- * Main export file for all shared types and utilities
+ * Main export file - re-exports all functionality from organized export modules
  */
 
-// ============================================================================
-// Domino Types and Utilities
-// ============================================================================
-export type {
-  Domino,
-  DominoSet
-} from './dominoes';
+// Re-export all domino-related types and utilities
+export * from './exports/domino-exports';
 
-export {
-  calculateDominoPointValue,
-  isCountDomino,
-  isCountDominoByValues,
-  createFullDominoSet,
-  getCountDominoes,
-  calculateTotalPoints,
-  isValidDominoSet,
-  DOMINO_CONSTANTS
-} from './dominoes';
+// Re-export all trump system types and utilities
+export * from './exports/trump-exports';
 
-// ============================================================================
-// Trump System Types and Utilities
-// ============================================================================
-export type {
-  DominoSuit,
-  TrumpSystem,
-  DominoSuitMapping,
-  TrumpHierarchy,
-  NoTrumpConfig
-} from './trump';
+// Re-export all bidding system types and utilities
+export * from './exports/bidding-exports';
 
-export {
-  getSuitValue,
-  getSuitName,
-  getDominoSuits,
-  isTrumpDomino,
-  getTrumpRank,
-  compareTrumpDominoes,
-  compareNonTrumpDominoes,
-  getTrumpDominoes,
-  createTrumpHierarchy,
-  isValidTrumpSuit,
-  createNoTrumpConfig,
-  TRUMP_CONSTANTS
-} from './trump';
+// Re-export all player types
+export * from './exports/player-exports';
 
-// ============================================================================
-// Bidding System Types and Utilities
-// ============================================================================
-export type {
-  SpecialContractType,
-  Bid,
-  SpecialContract,
-  BidValidationResult
-} from './bidding';
+// Re-export all partnership types and utilities
+export * from './exports/partnership-exports';
 
-export {
-  BiddingValidationError,
-  createPassBid,
-  createRegularBid,
-  createMarkBid,
-  createSpecialContractBid,
-  getSpecialContractAmount,
-  convertBidToMarks,
-  convertMarksToBid,
-  validateBid,
-  validateSpecialContract,
-  isPassBid,
-  isMarkBid,
-  getMinimumBidAmount,
-  BIDDING_CONSTANTS
-} from './bidding';
+// Re-export all game state types and utilities
+export * from './exports/game-state-exports';
 
-// ============================================================================
-// Game State Types and Utilities
-// ============================================================================
-export type {
-  PlayerPosition,
-  GamePhase,
-  PartnershipTeam,
-  Player,
-  PlayedDomino,
-  Trick,
-  HandScore,
-  Partnership,
-  PartnershipState,
-  PartnershipMarks,
-  PartnershipScore,
-  BiddingState,
-  ScoringState,
-  GameState,
-  GameAction,
-  LobbyGame,
-  LobbyState,
-  ApiResponse,
-  WebSocketMessage
-} from './game-state';
+// Re-export all validation types and utilities
+export * from './exports/validation-exports';
 
-export {
-  createEmptyGameState,
-  createEmptyPartnershipState,
-  createEmptyScoringState,
-  createEmptyBiddingState,
-  createEmptyLobbyState,
-  GAME_CONSTANTS
-} from './game-state';
+// Re-export type aggregations
+export * from './exports/type-aggregations-exports';
 
-// ============================================================================
-// Validation Types and Utilities
-// ============================================================================
-export type {
-  ValidationResult,
-  ValidationContext,
-  ValidationError,
-  RuleValidationFunction,
-  DominoPlayValidationFunction,
-  BidValidationFunction,
-  GameStateValidationFunction
-} from './validation';
-
-export {
-  ValidationSeverity,
-  ValidationErrorType,
-  createValidResult,
-  createInvalidResult,
-  createValidationError,
-  createValidationWarning,
-  combineValidationResults,
-  validateRequiredFields,
-  validateFieldType,
-  validateArrayLength,
-  validateNumericRange,
-  VALIDATION_CONSTANTS
-} from './validation';
-
-// ============================================================================
-// Type Guards and Runtime Validation
-// ============================================================================
-export {
-  isValidDomino,
-  isValidPlayer,
-  isValidGameState,
-  isValidLobbyState,
-  isValidBiddingState,
-  isValidScoringState,
-  isValidTrick,
-  isValidBid,
-  validatePlayerPosition,
-  validateGamePhase,
-  validateDominoSuit,
-  createDomino
-} from './type-guards';
-
-// ============================================================================
-// Re-export commonly used types for convenience
-// ============================================================================
-
-// Import types for re-export
-import type { Domino } from './dominoes';
-import type { DominoSuit } from './trump';
-import type { Player, GameState, Trick } from './game-state';
-import type { Bid } from './bidding';
-import type { ValidationResult, ValidationError, ValidationContext } from './validation';
-import type { Partnership, PartnershipState, PartnershipMarks, PartnershipTeam } from './game-state';
-
-/**
- * Core game types that are frequently used together
- */
-export type CoreGameTypes = {
-  Domino: Domino;
-  DominoSuit: DominoSuit;
-  Player: Player;
-  GameState: GameState;
-  Bid: Bid;
-  Trick: Trick;
-};
-
-/**
- * Validation types that are frequently used together
- */
-export type ValidationTypes = {
-  ValidationResult: ValidationResult;
-  ValidationError: ValidationError;
-  ValidationContext: ValidationContext;
-};
-
-/**
- * Partnership types that are frequently used together
- */
-export type PartnershipTypes = {
-  Partnership: Partnership;
-  PartnershipState: PartnershipState;
-  PartnershipMarks: PartnershipMarks;
-  PartnershipTeam: PartnershipTeam;
-};
-
-// ============================================================================
-// Frontend Compatibility Layer
-// ============================================================================
-
-/**
- * Legacy types and functions for frontend migration compatibility
- * Use these during migration from frontend types to shared types
- */
-export type { LegacyGameState } from './frontend-compat';
-export {
-  convertToLegacyGameState,
-  convertFromLegacyGameState,
-  isValidLegacyGameState,
-  createEmptyGameState as createEmptyLegacyGameState,
-  createCompatibleBid,
-  createCompatiblePlayedDomino,
-  createCompatibleBiddingState,
-  createCompatibleTrick
-} from './frontend-compat';
-
-// ============================================================================
-// Package Information
-// ============================================================================
-
-/**
- * Package version and metadata
- */
-export const PACKAGE_INFO = {
-  name: '@texas42/shared-types',
-  version: '1.0.0',
-  description: 'Shared TypeScript types for Texas 42 game frontend and backend',
-  author: 'Texas 42 Development Team',
-  license: 'MIT'
-} as const;
+// Re-export miscellaneous types and utilities
+export * from './exports/misc-exports';

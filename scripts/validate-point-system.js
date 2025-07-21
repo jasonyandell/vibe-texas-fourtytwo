@@ -5,58 +5,13 @@
  * Verifies that our implementation matches the exact rules from the story requirements
  */
 
-// Implement point calculation functions directly for validation
-function calculateDominoPointValue(high, low) {
-  const total = high + low;
-  if (total === 5) return 5;   // 5-0, 4-1, 3-2
-  if (total === 10) return 10; // 6-4, 5-5
-  return 0;                    // All other dominoes
-}
-
-function createDomino(high, low) {
-  const pointValue = calculateDominoPointValue(high, low);
-  const isCountDomino = pointValue > 0;
-
-  return {
-    high,
-    low,
-    id: `${high}-${low}`,
-    pointValue,
-    isCountDomino
-  };
-}
-
-function createFullDominoSet() {
-  const dominoes = [];
-
-  // Generate all 28 domino combinations
-  for (let high = 0; high <= 6; high++) {
-    for (let low = 0; low <= high; low++) {
-      dominoes.push(createDomino(high, low));
-    }
-  }
-
-  const totalPoints = dominoes.reduce((sum, d) => sum + d.pointValue, 0);
-
-  return {
-    dominoes,
-    totalPoints,
-    isValid: totalPoints === 35 // Must equal 35 count points
-  };
-}
+const { calculateDominoPointValue, createFullDominoSet } = require('./domino-utils');
+const { expectedCountDominoes, sampleNonCountDominoes, complianceRules } = require('./test-data');
 
 console.log('🎯 Texas 42 Domino Point System Validation\n');
 
 // Test 1: Verify exact point values for count dominoes
 console.log('📊 Testing Count Domino Point Values:');
-
-const expectedCountDominoes = [
-  { high: 5, low: 0, expectedPoints: 5, name: '5-0' },
-  { high: 4, low: 1, expectedPoints: 5, name: '4-1' },
-  { high: 3, low: 2, expectedPoints: 5, name: '3-2' },
-  { high: 6, low: 4, expectedPoints: 10, name: '6-4' },
-  { high: 5, low: 5, expectedPoints: 10, name: '5-5' }
-];
 
 let countDominoTests = 0;
 let countDominoPass = 0;
@@ -75,17 +30,6 @@ console.log(`\n📈 Count Domino Tests: ${countDominoPass}/${countDominoTests} p
 
 // Test 2: Verify non-count dominoes have 0 points
 console.log('🔍 Testing Non-Count Dominoes (sample):');
-
-const sampleNonCountDominoes = [
-  { high: 0, low: 0, name: '0-0' },
-  { high: 1, low: 0, name: '1-0' },
-  { high: 2, low: 0, name: '2-0' },
-  { high: 6, low: 6, name: '6-6' },
-  { high: 4, low: 4, name: '4-4' },
-  { high: 6, low: 3, name: '6-3' },
-  { high: 6, low: 2, name: '6-2' },
-  { high: 6, low: 1, name: '6-1' }
-];
 
 let nonCountTests = 0;
 let nonCountPass = 0;

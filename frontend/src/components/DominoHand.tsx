@@ -11,6 +11,7 @@ interface DominoHandProps {
   faceDown?: boolean;
   orientation?: 'horizontal' | 'vertical';
   className?: string;
+  compact?: boolean;
 }
 
 export const DominoHand: React.FC<DominoHandProps> = ({
@@ -20,7 +21,8 @@ export const DominoHand: React.FC<DominoHandProps> = ({
   selectedDomino,
   faceDown = false,
   orientation = 'horizontal',
-  className = ''
+  className = '',
+  compact = false
 }) => {
   const isDominoPlayable = (domino: Domino): boolean => {
     return playableDominoes.some(playable => 
@@ -76,19 +78,21 @@ export const DominoHand: React.FC<DominoHandProps> = ({
     'responsive',
     styles.dominoHand,
     styles.responsive,
+    compact ? styles.compact : '',
     className
   ].filter(Boolean).join(' ');
 
   return (
     <div 
       className={classes}
+      data-testid="domino-hand"
       role="group"
       aria-label={getAriaLabel()}
     >
-      <div className={`top-row ${styles.topRow}`}>
+      <div className={`top-row ${styles.topRow}`} data-testid="domino-row-top">
         {topRowDominoes.map((domino, index) => renderDomino(domino, index))}
       </div>
-      <div className={`bottom-row ${styles.bottomRow}`}>
+      <div className={`bottom-row ${styles.bottomRow}`} data-testid="domino-row-bottom">
         {bottomRowDominoes.map((domino, index) => renderDomino(domino, index + 4))}
       </div>
     </div>

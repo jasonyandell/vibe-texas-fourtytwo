@@ -9,10 +9,22 @@ export interface EmptyStateProps {
 export const EmptyState: React.FC<EmptyStateProps> = ({
   onCreateGame
 }) => {
+  const handleCreateGame = () => {
+    if (onCreateGame) {
+      try {
+        onCreateGame();
+      } catch (error) {
+        // Log error but don't crash the component
+        console.error('Failed to create game:', error);
+      }
+    }
+  };
+
   return (
-    <div className={styles.emptyState}>
+    <div className={styles.emptyState} data-testid="lobby-empty-state">
       <div className={styles.emptyIcon}>
         <svg 
+          role="img"
           width="64" 
           height="64" 
           viewBox="0 0 24 24" 
@@ -29,13 +41,16 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
         </svg>
       </div>
       
-      <p>No games available. Create one to get started!</p>
+      <h3 role="heading">No games available</h3>
+      <p>There are currently no active games in the lobby.</p>
+      <p>Create a new game to get started!</p>
       
       {onCreateGame && (
         <Button 
           variant="primary" 
-          onClick={onCreateGame}
+          onClick={handleCreateGame}
           className={styles.createButton}
+          type="button"
         >
           Create New Game
         </Button>

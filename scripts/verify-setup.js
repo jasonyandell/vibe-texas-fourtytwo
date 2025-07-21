@@ -5,113 +5,12 @@
  * Verifies that the scaffold is complete and functional
  */
 
-const fs = require('fs');
-const path = require('path');
+const { REQUIRED_FILES, REQUIRED_DIRECTORIES, REQUIRED_SCRIPTS } = require('./verify-setup-config');
+const { checkFile, checkDirectory, checkPackageJson } = require('./verify-setup-utils');
 
-const REQUIRED_FILES = [
-  // Root files
-  'package.json',
-  'tsconfig.json',
-  '.env.example',
-  '.gitignore',
-  'README.md',
-  'docker-compose.yml',
-  'docker-compose.db.yml',
-  
-  // Frontend files
-  'frontend/package.json',
-  'frontend/tsconfig.json',
-  'frontend/tsconfig.node.json',
-  'frontend/vite.config.ts',
-  'frontend/playwright.config.ts',
-  'frontend/.env.example',
-  'frontend/index.html',
-  'frontend/src/main.tsx',
-  'frontend/src/App.tsx',
-  'frontend/src/App.css',
-  'frontend/src/index.css',
-  'frontend/Dockerfile',
-  'frontend/nginx.conf',
-  
-  // Backend files
-  'backend/package.json',
-  'backend/tsconfig.json',
-  'backend/vitest.config.ts',
-  'backend/.env.example',
-  'backend/src/index.ts',
-  'backend/Dockerfile',
-  
-  // Scripts
-  'scripts/check-prereqs.js',
-  'scripts/setup-env.js',
-  'scripts/cleanup.js',
-  
-  // Documentation
-  'docs/DEVELOPER.md',
-  'docs/DEBUGGING.md',
-  
-  // Database
-  'backend/sql/init/01-create-tables.sql',
-];
-
-const REQUIRED_DIRECTORIES = [
-  'frontend/src/components',
-  'frontend/src/game',
-  'frontend/src/types',
-  'frontend/src/utils',
-  'frontend/src/test',
-  'frontend/tests/e2e',
-  'backend/src/api',
-  'backend/src/game',
-  'backend/src/types',
-  'backend/src/utils',
-  'backend/src/test',
-  'backend/sql/init',
-  'backend/sql/dev-data',
-  'scripts',
-  'docs',
-  'nginx',
-];
-
-function checkFile(filePath) {
-  const fullPath = path.resolve(filePath);
-  const exists = fs.existsSync(fullPath);
-  
-  if (exists) {
-    const stats = fs.statSync(fullPath);
-    const isEmpty = stats.size === 0;
-    return { exists: true, isEmpty };
-  }
-  
-  return { exists: false, isEmpty: false };
-}
-
-function checkDirectory(dirPath) {
-  const fullPath = path.resolve(dirPath);
-  return fs.existsSync(fullPath) && fs.statSync(fullPath).isDirectory();
-}
-
-function checkPackageJson() {
-  try {
-    const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-    const requiredScripts = [
-      'start', 'develop', 'tdd', 'check-prereqs', 'setup-env'
-    ];
-    
-    const missingScripts = requiredScripts.filter(script => !pkg.scripts[script]);
-    return { valid: true, missingScripts };
-  } catch (error) {
-    return { valid: false, error: error.message };
-  }
-}
-
-function main() {
-  console.log('🔍 Verifying Texas 42 project setup...\n');
-  
+function verifyFiles(issues) {
   let allGood = true;
-  const issues = [];
   
-  // Check required files
   console.log('📁 Checking required files...');
   for (const file of REQUIRED_FILES) {
     const result = checkFile(file);
@@ -127,7 +26,12 @@ function main() {
     }
   }
   
-  // Check required directories
+  return allGood;
+}
+
+function verifyDirectories(issues) {
+  let allGood = true;
+  
   console.log('\n📂 Checking required directories...');
   for (const dir of REQUIRED_DIRECTORIES) {
     if (!checkDirectory(dir)) {
@@ -139,9 +43,14 @@ function main() {
     }
   }
   
-  // Check package.json structure
+  return allGood;
+}
+
+function verifyPackageJsonStructure(issues) {
+  let allGood = true;
+  
   console.log('\n📦 Checking package.json...');
-  const pkgResult = checkPackageJson();
+  const pkgResult = checkPackageJson(REQUIRED_SCRIPTS);
   if (!pkgResult.valid) {
     console.log(`❌ Invalid package.json: ${pkgResult.error}`);
     issues.push(`Invalid package.json: ${pkgResult.error}`);
@@ -154,7 +63,10 @@ function main() {
     console.log('✅ Package.json structure is valid');
   }
   
-  // Summary
+  return allGood;
+}
+
+function displaySummary(allGood, issues) {
   console.log('\n' + '='.repeat(50));
   
   if (allGood) {
@@ -178,8 +90,24 @@ function main() {
   }
 }
 
+function main() {
+  console.log('🔍 Verifying Texas 42 project setup...\n');
+  
+  const issues = [];
+  
+  // Run all verification checks
+  const filesOk = verifyFiles(issues);
+  const dirsOk = verifyDirectories(issues);
+  const pkgOk = verifyPackageJsonStructure(issues);
+  
+  // Display summary
+  const allGood = filesOk && dirsOk && pkgOk;
+  displaySummary(allGood, issues);
+}
+
 if (require.main === module) {
   main();
 }
 
-module.exports = { checkFile, checkDirectory, checkPackageJson };
+// Export for testing purposes
+module.exports = { verifyFiles, verifyDirectories, verifyPackageJsonStructure };

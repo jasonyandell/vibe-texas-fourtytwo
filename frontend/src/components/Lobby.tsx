@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { useLobbyState } from '@/hooks/useLobbyState';
-import { LobbyGame } from '@/types/texas42';
 import { Button } from '@/components/ui';
 import { LobbyList } from './lobby/LobbyList';
 import { CreateGameModal } from './lobby/CreateGameModal';
+import { CreateGameButton } from './lobby/CreateGameButton';
+import { LobbyControls, type SortOption, type FilterOption } from './lobby/LobbyControls';
+import { useCurrentUserId, getCurrentUserName } from '@/utils/userUtils';
+import { createGameAndFetchList } from '@/services/gameApi';
 import styles from './Lobby.module.css';
 
 export const Lobby: React.FC = () => {
@@ -19,25 +22,23 @@ export const Lobby: React.FC = () => {
   } = useLobbyState();
 
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const [sortBy, setSortBy] = useState<'newest' | 'oldest' | 'playerCount' | 'name'>('newest');
-  const [filterStatus, setFilterStatus] = useState<LobbyGame['status'] | 'all'>('all');
+  const [sortBy, setSortBy] = useState<SortOption>('newest');
+  const [filterStatus, setFilterStatus] = useState<FilterOption>('all');
+  
+  const currentUserId = useCurrentUserId();
+  const currentUserName = getCurrentUserName();
 
   // Get filtered and sorted games
   const sortedGames = getSortedGames(sortBy).filter(game =>
     filterStatus === 'all' || game.status === filterStatus
   );
 
-  const handleCreateGame = (gameName: string) => {
-    const newGame: LobbyGame = {
-      id: `game-${Date.now()}`,
-      name: gameName,
-      playerCount: 0,
-      maxPlayers: 4,
-      status: 'waiting',
-      createdAt: new Date().toISOString()
-    };
-    addGame(newGame);
-    setShowCreateModal(false);
+  const handleCreateGame = async (gameName: string) => {
+    const newGame = await createGameAndFetchList(gameName, currentUserId, currentUserName);
+    
+    if (newGame) {
+      addGame(newGame);
+    }
   };
 
   const handleJoinRandomGame = () => {
@@ -62,13 +63,10 @@ export const Lobby: React.FC = () => {
       </div>
 
       <div className={styles.lobbyActions}>
-        <Button
-          variant="primary"
+        <CreateGameButton
           onClick={() => setShowCreateModal(true)}
           disabled={isLoading}
-        >
-          Create New Game
-        </Button>
+        />
         <Button
           variant="secondary"
           onClick={handleJoinRandomGame}
@@ -90,42 +88,19 @@ export const Lobby: React.FC = () => {
       <div className={styles.gamesSection}>
         <h3>Available Games</h3>
 
-        <div className={styles.lobbyControls}>
-          <div className={styles.filterControls}>
-            <label htmlFor="status-filter">Filter by status:</label>
-            <select
-              id="status-filter"
-              value={filterStatus}
-              onChange={(e) => setFilterStatus((e.target as HTMLSelectElement).value as LobbyGame['status'] | 'all')}
-              className={styles.filterSelect}
-            >
-              <option value="all">All Games</option>
-              <option value="waiting">Waiting for Players</option>
-              <option value="playing">In Progress</option>
-              <option value="finished">Completed</option>
-            </select>
-          </div>
-
-          <div className={styles.sortControls}>
-            <label htmlFor="sort-select">Sort by:</label>
-            <select
-              id="sort-select"
-              value={sortBy}
-              onChange={(e) => setSortBy((e.target as HTMLSelectElement).value as typeof sortBy)}
-              className={styles.sortSelect}
-            >
-              <option value="newest">Newest First</option>
-              <option value="oldest">Oldest First</option>
-              <option value="playerCount">Player Count</option>
-              <option value="name">Game Name</option>
-            </select>
-          </div>
-        </div>
+        <LobbyControls
+          sortBy={sortBy}
+          filterStatus={filterStatus}
+          onSortChange={setSortBy}
+          onFilterChange={setFilterStatus}
+        />
 
         <LobbyList
           games={sortedGames}
           loading={isLoading}
           error={error}
+          currentUserId={currentUserId}
+          onCreateGame={() => setShowCreateModal(true)}
         />
       </div>
 

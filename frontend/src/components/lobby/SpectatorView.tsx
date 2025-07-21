@@ -41,6 +41,7 @@ export const SpectatorView: React.FC<SpectatorViewProps> = ({
       <div 
         key={player.id}
         className={`${styles.playerHandContainer} ${styles[position]} ${isSelected ? styles.selected : ''}`}
+        data-testid={`player-hand-${position}`}
         onClick={() => setSelectedPlayer(isSelected ? null : player.id)}
       >
         <div className={styles.playerInfo}>
@@ -50,22 +51,24 @@ export const SpectatorView: React.FC<SpectatorViewProps> = ({
           </Badge>
         </div>
         
-        <DominoHand
-          dominoes={player.hand}
-          faceDown={false} // Always show face-up for spectators
-          playableDominoes={[]} // No dominoes are playable for spectators
-          className={styles.spectatorHand}
-        />
+        <div data-testid="domino-hand" data-face-up="true" data-playable="false">
+          <DominoHand
+            dominoes={player.hand}
+            faceDown={false} // Always show face-up for spectators
+            playableDominoes={[]} // No dominoes are playable for spectators
+            className={styles.spectatorHand}
+          />
+        </div>
         
         <div className={styles.handStats}>
-          <span>{player.hand.length} dominoes</span>
+          <span>{player.hand.length} domino{player.hand.length !== 1 ? 'es' : ''}</span>
         </div>
       </div>
     );
   };
 
   return (
-    <div className={styles.spectatorView}>
+    <div className={styles.spectatorView} data-testid="spectator-view">
       <div className={styles.spectatorHeader}>
         <div className={styles.headerInfo}>
           <h2>Spectating: {gameState.id}</h2>
@@ -126,7 +129,8 @@ export const SpectatorView: React.FC<SpectatorViewProps> = ({
 
       <div className={styles.gameContent}>
         {gameState.phase === 'playing' && (
-          <div className={styles.gameBoard}>
+          <div className={styles.gameBoard} data-testid="game-board" data-spectator-mode="true">
+            <h3>Game Board for {gameState.id}</h3>
             <GameBoard
               gameState={gameState}
               currentPlayerId={selectedPlayer || ''}

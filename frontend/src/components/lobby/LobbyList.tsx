@@ -9,26 +9,23 @@ export interface LobbyListProps {
   games: LobbyGame[];
   loading?: boolean;
   error?: Error | null;
+  currentUserId?: string;
+  onCreateGame?: () => void;
 }
 
 export const LobbyList: React.FC<LobbyListProps> = ({
   games,
   loading = false,
-  error = null
+  error = null,
+  currentUserId,
+  onCreateGame
 }) => {
-  if (loading) {
-    return (
-      <div className={styles.lobbyList}>
-        <LoadingSpinner />
-      </div>
-    );
-  }
-
+  // Error takes precedence over loading
   if (error) {
     return (
-      <div className={styles.lobbyList}>
-        <div className={styles.errorState}>
-          <h3>Unable to load games</h3>
+      <div className={styles.lobbyList} data-testid="lobby-list">
+        <div className={styles.errorState} data-testid="error-state">
+          <h3 role="heading">Unable to load games</h3>
           <p>{error.message}</p>
           <p>Please try refreshing the page.</p>
         </div>
@@ -36,21 +33,30 @@ export const LobbyList: React.FC<LobbyListProps> = ({
     );
   }
 
+  if (loading) {
+    return (
+      <div className={styles.lobbyList} data-testid="lobby-list">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
   if (games.length === 0) {
     return (
-      <div className={styles.lobbyList}>
-        <EmptyState />
+      <div className={styles.lobbyList} data-testid="lobby-list">
+        <EmptyState onCreateGame={onCreateGame} />
       </div>
     );
   }
 
   return (
-    <div className={styles.lobbyList}>
-      <div className={styles.gameGrid}>
+    <div className={styles.lobbyList} data-testid="lobby-list">
+      <div className={styles.gameGrid} data-testid="game-grid">
         {games.map(game => (
           <GameCard 
             key={game.id} 
             game={game}
+            currentUserId={currentUserId}
           />
         ))}
       </div>

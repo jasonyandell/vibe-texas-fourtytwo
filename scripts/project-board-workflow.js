@@ -26,290 +26,72 @@
  * - Run from project root directory
  */
 
-import { execSync } from 'child_process';
-import { readFileSync, writeFileSync, existsSync } from 'fs';
-import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
+// Import all modules
+import { CONFIG, log, parseArgs, showHelp } from './github-projects/core.js';
+import { exec } from './github-projects/command-utils.js';
+import { checkPrerequisites } from './github-projects/prerequisites.js';
+import { queryProjectBoard } from './github-projects/project-queries.js';
+import { checkOpenPRs } from './github-projects/pr-management.js';
+import { filterWorkableIssues, sortIssuesByPriority, getPriorityFromLabels } from './github-projects/issue-utils.js';
+import { generateStoryPrompt } from './github-projects/prompts.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const projectRoot = join(__dirname, '..');
-
-// Configuration
-const CONFIG = {
-  defaultProject: 2,
-  owner: 'jasonyandell',
-  repo: 'vibe-texas-fourtytwo',
-  workableStatuses: ['Backlog', 'In Progress', 'Todo'],
-  priorityLabels: {
-    'priority-1-critical': 1,
-    'priority-2-high': 2,
-    'priority-3-medium': 3,
-    'priority-4-low': 4,
-    'priority-5-later': 5
-  },
-  storyLabels: ['story', 'feature', 'enhancement'],
-  designDocPath: 'docs/design.md',
-  trackerPath: 'docs/story-tracker.md'
-};
-
-/**
- * Execute command and return result
- */
-function exec(command, options = {}) {
-  try {
-    const result = execSync(command, {
-      encoding: 'utf8',
-      stdio: options.silent ? 'pipe' : 'inherit',
-      cwd: projectRoot,
-      ...options
-    });
-    return { stdout: result.trim(), success: true };
-  } catch (error) {
-    if (options.silent) {
-      return { 
-        stdout: '', 
-        stderr: error.message, 
-        success: false,
-        code: error.status || 1 
-      };
-    }
-    throw error;
-  }
-}
-
-/**
- * Logging utilities
- */
-const log = {
-  info: (msg) => console.log(`ℹ️  ${msg}`),
-  success: (msg) => console.log(`✅ ${msg}`),
-  warning: (msg) => console.log(`⚠️  ${msg}`),
-  error: (msg) => console.log(`❌ ${msg}`),
-  header: (msg) => {
-    console.log('\n' + '='.repeat(50));
-    console.log(`🚀 ${msg}`);
-    console.log('='.repeat(50));
-  },
-  step: (step, msg) => console.log(`\n${step}. ${msg}`)
-};
-
-/**
- * Check if GitHub CLI is installed and authenticated
- */
-function checkPrerequisites() {
-  log.info('Checking prerequisites...');
+// Main execution function
+async function main() {
+  const options = parseArgs();
   
-  const ghVersion = exec('gh --version', { silent: true });
-  if (!ghVersion.success) {
-    log.error('GitHub CLI is not installed. Please install it first:');
-    log.error('   https://cli.github.com/');
-    process.exit(1);
+  if (options.help) {
+    showHelp();
+    process.exit(0);
   }
-  log.success('GitHub CLI is installed');
 
-  const ghAuth = exec('gh auth status', { silent: true });
-  if (!ghAuth.success) {
-    log.error('GitHub CLI is not authenticated. Please run:');
-    log.error('   gh auth login');
-    process.exit(1);
+  checkPrerequisites();
+
+  log.header('GitHub Project Board Workflow');
+  log.info(`Working with project #${options.project}`);
+
+  // Check for open PRs first
+  const prs = await checkOpenPRs();
+  
+  if (prs.approved.length > 0) {
+    log.success(`Found ${prs.approved.length} approved PRs ready to merge`);
+    // In a real workflow, we'd handle these
   }
-  log.success('GitHub CLI is authenticated');
 
-  // Check if we're in the right directory
-  if (!existsSync(join(projectRoot, 'docs/design.md'))) {
-    log.error('docs/design.md not found. Run from project root.');
-    process.exit(1);
+  if (prs.needsFixes.length > 0) {
+    log.warning(`Found ${prs.needsFixes.length} PRs needing fixes`);
+    // In a real workflow, we'd handle these
   }
-  log.success('Project structure validated');
-}
 
-/**
- * Parse command line arguments
- */
-function parseArgs() {
-  const args = process.argv.slice(2);
-  const options = {
-    project: CONFIG.defaultProject,
-    dryRun: false,
-    help: false
-  };
+  // Query project board
+  const allIssues = await queryProjectBoard(options.project);
+  const workableIssues = filterWorkableIssues(allIssues);
+  const prioritizedIssues = sortIssuesByPriority(workableIssues);
 
-  for (let i = 0; i < args.length; i++) {
-    switch (args[i]) {
-      case '--project':
-        options.project = parseInt(args[++i]);
-        break;
-      case '--dry-run':
-        options.dryRun = true;
-        break;
-      case '--help':
-        options.help = true;
-        break;
-      default:
-        log.error(`Unknown option: ${args[i]}`);
-        options.help = true;
+  log.info(`Found ${prioritizedIssues.length} workable issues`);
+
+  if (prioritizedIssues.length > 0) {
+    const nextIssue = prioritizedIssues[0];
+    log.step(1, `Next issue to work on: #${nextIssue.number} - ${nextIssue.title}`);
+    
+    if (!options.dryRun) {
+      const prompt = generateStoryPrompt(nextIssue);
+      console.log('\n' + '='.repeat(50));
+      console.log('GENERATED PROMPT:');
+      console.log('='.repeat(50));
+      console.log(prompt);
     }
-  }
-
-  return options;
-}
-
-/**
- * Show help message
- */
-function showHelp() {
-  console.log(`
-GitHub Project Board Workflow System
-
-Usage: node scripts/project-board-workflow.js [options]
-
-Options:
-  --project <number>    GitHub project number to work with (default: ${CONFIG.defaultProject})
-  --dry-run            Show what would be done without executing
-  --help               Show this help message
-
-This script follows the plan.md implementation pattern but works with GitHub
-project boards instead of markdown checklists.
-`);
-}
-
-/**
- * Query GitHub project board for issues
- */
-async function queryProjectBoard(projectNumber) {
-  log.info(`Querying GitHub Project #${projectNumber}...`);
-
-  const result = exec(`gh project item-list ${projectNumber} --owner ${CONFIG.owner} --format json`, { silent: true });
-  if (!result.success) {
-    log.error(`Failed to query project #${projectNumber}: ${result.stderr}`);
-    return [];
-  }
-
-  try {
-    const projectData = JSON.parse(result.stdout);
-    return projectData.items || [];
-  } catch (error) {
-    log.error(`Failed to parse project data: ${error.message}`);
-    return [];
+  } else {
+    log.info('No workable issues found in the project board');
   }
 }
 
-/**
- * Filter issues for workable status and story labels
- */
-function filterWorkableIssues(issues) {
-  return issues.filter(issue => {
-    // Must have workable status
-    const hasWorkableStatus = CONFIG.workableStatuses.includes(issue.status);
+// Run main function
+main().catch(error => {
+  log.error(`Fatal error: ${error.message}`);
+  process.exit(1);
+});
 
-    // Must have story-related labels
-    const hasStoryLabel = issue.labels && issue.labels.some(label =>
-      CONFIG.storyLabels.includes(label)
-    );
-
-    return hasWorkableStatus && hasStoryLabel;
-  });
-}
-
-/**
- * Sort issues by priority
- */
-function sortIssuesByPriority(issues) {
-  return issues.map(issue => ({
-    ...issue,
-    priority: getPriorityFromLabels(issue.labels || [])
-  })).sort((a, b) => {
-    // Sort by priority first, then by issue number
-    if (a.priority !== b.priority) {
-      return a.priority - b.priority;
-    }
-    return a.number - b.number;
-  });
-}
-
-/**
- * Get priority number from issue labels
- */
-function getPriorityFromLabels(labels) {
-  for (const label of labels) {
-    if (CONFIG.priorityLabels[label]) {
-      return CONFIG.priorityLabels[label];
-    }
-  }
-  return 6; // Default priority for unlabeled issues
-}
-
-/**
- * Check for open PRs that need attention
- */
-async function checkOpenPRs() {
-  log.info('Checking for open PRs...');
-
-  const result = exec('gh pr list --state open --json number,title,reviewDecision,mergeable,author', { silent: true });
-  if (!result.success) {
-    log.warning('Failed to query PRs');
-    return { approved: [], needsReview: [], needsFixes: [] };
-  }
-
-  try {
-    const prs = JSON.parse(result.stdout);
-
-    const approved = prs.filter(pr => pr.reviewDecision === 'APPROVED' && pr.mergeable === 'MERGEABLE');
-    const needsReview = prs.filter(pr => !pr.reviewDecision);
-    const needsFixes = prs.filter(pr => pr.reviewDecision === 'CHANGES_REQUESTED');
-
-    return { approved, needsReview, needsFixes };
-  } catch (error) {
-    log.error(`Failed to parse PR data: ${error.message}`);
-    return { approved: [], needsReview: [], needsFixes: [] };
-  }
-}
-
-/**
- * Generate Augment Code prompt for story implementation
- */
-function generateStoryPrompt(issue) {
-  return `Implement exactly one GitHub issue following the plan.md workflow pattern.
-
-**Implementation Steps:**
-0. Read and understand story-tracker.md to understand the implementation workflow so far
-1. Read and understand the GitHub issue #${issue.number}: "${issue.title}"
-2. Use task management tools to break down the issue into specific implementation tasks
-3. Implement the issue following TDD approach (write tests first, then implementation)
-4. Run all existing tests to ensure no regressions
-5. Update the story-tracker.md file with a detailed summary of what was implemented along with any implementation notes, design decisions, or plan modifications
-6. Create a feature branch, commit changes, and create a PR for the issue
-
-**Issue Details:**
-- Issue #${issue.number}: ${issue.title}
-- Status: ${issue.status}
-- Priority: ${getPriorityFromLabels(issue.labels || [])}
-- Labels: ${(issue.labels || []).join(', ')}
-
-**Important Requirements:**
-- Implement only THIS issue - do not proceed to other issues automatically
-- Follow the consolidated design.md file as the authoritative source for all design decisions
-- Use frontend for move validation, backend for all other game computation
-- Create comprehensive tests for each implemented feature
-- Ensure all tests pass before marking the issue complete
-- Ask for permission before installing any new dependencies
-
-**Branch Naming Convention:**
-issue-${issue.number}-${issue.title.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').slice(0, 30)}
-
-**Commit Message Format:**
-issue: ${issue.title} - fixes #${issue.number}
-
-{detailed description of changes}
-
-- Specific change 1
-- Specific change 2
-- Addresses issue requirements
-
-Closes #${issue.number}`;
-}
-
+// Re-export everything for backward compatibility
 export {
   CONFIG,
   exec,

@@ -12,7 +12,7 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
 }) => {
   return (
     <div className={styles.loadingContainer}>
-      <div className={`${styles.spinner} ${styles[size]}`} aria-hidden="true">
+      <div className={`${styles.spinner} ${styles[size]}`} role="status" aria-hidden="true">
         <div className={styles.spinnerInner}></div>
       </div>
       <p className={styles.loadingMessage} aria-live="polite">

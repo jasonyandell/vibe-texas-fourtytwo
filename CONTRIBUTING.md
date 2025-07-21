@@ -134,6 +134,9 @@ npm run tdd
 - Explicit return types for functions
 - No `any` types (use proper typing)
 - Use interfaces for object shapes
+- **IMPORTANT**: Never use `tsc` directly - always use `npm run type-check`
+  - Direct `tsc` commands will fail with JSX errors by design
+  - This is a Vite project where TypeScript is for type checking only
 
 ### React
 - Functional components with hooks

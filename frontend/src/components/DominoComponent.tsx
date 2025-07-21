@@ -46,6 +46,13 @@ export const DominoComponent: React.FC<DominoComponentProps> = ({
     return highlightCount && domino.isCountDomino && !faceDown;
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      onClick?.();
+    }
+  };
+
   const classes = [
     'domino',
     styles.domino,
@@ -66,6 +73,7 @@ export const DominoComponent: React.FC<DominoComponentProps> = ({
     <div
       className={classes}
       onClick={onClick}
+      onKeyDown={handleKeyDown}
       data-testid={`domino-${domino.high}-${domino.low}`}
       role="button"
       aria-label={getAriaLabel()}

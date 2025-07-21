@@ -62,6 +62,13 @@ export const createUserEvent = () => {
       await act(async () => {
         await user.upload(element, file);
       });
+    },
+    
+    // Wrap selectOptions interactions in act
+    selectOptions: async (element: Element, values: string | string[]) => {
+      await act(async () => {
+        await user.selectOptions(element, values);
+      });
     }
   };
 };
