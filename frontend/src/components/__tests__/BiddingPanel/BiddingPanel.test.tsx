@@ -1,11 +1,11 @@
 import { describe, vi, beforeEach } from 'vitest';
 import { testHelpers } from './test-helpers';
-import { renderingTests } from './rendering.test';
-import { trumpSelectionTests } from './trump-selection.test';
-import { bidAmountTests } from './bid-amount.test';
-import { validationTests } from './validation.test';
-import { submissionTests } from './submission.test';
-import { accessibilityTests } from './accessibility.test';
+import { renderingTests } from './rendering-tests';
+import { trumpSelectionTests } from './trump-selection-tests';
+import { bidAmountTests } from './bid-amount-tests';
+import { validationTests } from './validation-tests';
+import { submissionTests } from './submission-tests';
+import { accessibilityTests } from './accessibility-tests';
 
 describe('BiddingPanel', () => {
   const mockOnBid = vi.fn();
