@@ -27,3 +27,5 @@ packages/shared-types/dist-cjs/trump.js
 scripts/fix-github-projects.js
 frontend/src/components/__tests__/GameBoard.players.test.tsx
 frontend/src/utils/__tests__/biddingValidation.test.ts
+frontend/tests/e2e/demo-dominoes-showcase.spec.ts
+frontend/src/hooks/useBiddingState/actions.ts
