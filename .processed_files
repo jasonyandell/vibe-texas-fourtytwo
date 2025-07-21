@@ -31,3 +31,17 @@ backend/src/api/game.ts
 frontend/src/components/__tests__/DominoHand.rendering.test.tsx
 frontend/src/utils/dominoUtils.ts
 backend/src/utils/gameValidation.ts
+packages/shared-types/src/game-state.ts
+frontend/src/components/lobby/__tests__/GameCard.actions.test.tsx
+frontend/src/components/lobby/__tests__/ReadySystem.autoStart.test.tsx
+frontend/src/components/GameBoard.tsx
+frontend/src/utils/bidding/validation.ts
+frontend/src/components/PlayersSection.tsx
+frontend/tests/e2e/story-002-create-game.spec.ts
+frontend/src/types/domino.ts
+frontend/src/components/lobby/__tests__/EmptyState.button.test.tsx
+frontend/src/components/lobby/__tests__/GameStartManager.rendering.test.tsx
+packages/shared-types/dist-cjs/validation-utils.js
+frontend/src/components/Lobby.tsx
+stories/game/001-empty-lobby/e2e.spec.ts
+frontend/src/components/__tests__/GameBoardSection.centerplay.test.tsx
