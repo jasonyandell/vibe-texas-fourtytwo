@@ -39,3 +39,4 @@ frontend/src/components/__tests__/BiddingHistory.test.tsx
 frontend/src/components/lobby/__tests__/GameStartManager.functionality.test.tsx
 frontend/tests/e2e/demo-players-showcase.spec.ts
 frontend/src/components/lobby/__tests__/SpectatorView.basic.test.tsx
+frontend/src/test/test-utils.tsx
