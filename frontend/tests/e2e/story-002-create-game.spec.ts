@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { CreateGameHelpers } from './helpers/create-game-helpers';
 
 test.describe('Story 002: Create Game', () => {
   test.beforeEach(async ({ page }) => {
@@ -6,82 +7,46 @@ test.describe('Story 002: Create Game', () => {
   });
 
   test('can create a game with custom name', async ({ page }) => {
-    // Click create game button
-    const createButton = page.locator('button', { hasText: 'Create Game' }).first();
-    await createButton.click();
-
-    // Verify modal opens
-    const modal = page.locator('[role="dialog"]');
-    await expect(modal).toBeVisible();
-
-    // Fill in game name
-    const gameNameInput = modal.locator('input#game-name');
-    await gameNameInput.fill('My Custom Game');
-
-    // Submit form
-    const submitButton = modal.locator('button[type="submit"]');
-    await submitButton.click();
-
-    // Verify modal closes
-    await expect(modal).not.toBeVisible();
-
-    // Verify game appears in lobby
-    const gameCard = page.locator('[data-testid="game-card"]');
-    await expect(gameCard).toBeVisible();
-    await expect(gameCard).toContainText('My Custom Game');
+    const helpers = new CreateGameHelpers(page);
     
-    // Verify game shows waiting for players status
+    await helpers.openCreateGameModal();
+    await helpers.fillGameName('My Custom Game');
+    await helpers.submitCreateGame();
+
+    await helpers.verifyModalClosed();
+    
+    const gameCard = await helpers.getGameCard('My Custom Game');
+    await expect(gameCard).toBeVisible();
     await expect(gameCard).toContainText('Waiting for players');
     await expect(gameCard).toContainText('1/4 players');
   });
 
   test('validates game name input', async ({ page }) => {
-    // Click create game button
-    const createButton = page.locator('button', { hasText: 'Create Game' }).first();
-    await createButton.click();
+    const helpers = new CreateGameHelpers(page);
+    
+    await helpers.openCreateGameModal();
 
     // Try to submit without entering a name
-    const submitButton = page.locator('button[type="submit"]');
-    await submitButton.click();
-
-    // Verify validation error appears
-    const errorMessage = page.locator('[role="alert"]');
-    await expect(errorMessage).toBeVisible();
-    await expect(errorMessage).toContainText('Game name is required');
+    await helpers.submitCreateGame();
+    await helpers.verifyErrorMessage('Game name is required');
 
     // Enter a name that's too short
-    const gameNameInput = page.locator('input#game-name');
-    await gameNameInput.fill('ab');
-    await submitButton.click();
-
-    // Verify validation error for minimum length
-    await expect(errorMessage).toContainText('Game name must be at least 3 characters');
+    await helpers.fillGameName('ab');
+    await helpers.submitCreateGame();
+    await helpers.verifyErrorMessage('Game name must be at least 3 characters');
 
     // Enter a name that's too long
-    await gameNameInput.fill('a'.repeat(51));
-    await submitButton.click();
-
-    // Verify validation error for maximum length
-    await expect(errorMessage).toContainText('Game name must be less than 50 characters');
+    await helpers.fillGameName('a'.repeat(51));
+    await helpers.submitCreateGame();
+    await helpers.verifyErrorMessage('Game name must be less than 50 characters');
   });
 
   test('creator automatically joins the game', async ({ page }) => {
-    // Create a game
-    const createButton = page.locator('button', { hasText: 'Create Game' }).first();
-    await createButton.click();
-
-    const gameNameInput = page.locator('input#game-name');
-    await gameNameInput.fill('Auto Join Game');
-
-    const submitButton = page.locator('button[type="submit"]');
-    await submitButton.click();
-
-    // Wait for modal to close
-    const modal = page.locator('[role="dialog"]');
-    await expect(modal).not.toBeVisible();
-
-    // Verify game card shows creator as first player
-    const gameCard = page.locator('[data-testid="game-card"]').filter({ hasText: 'Auto Join Game' });
+    const helpers = new CreateGameHelpers(page);
+    
+    await helpers.createGame('Auto Join Game');
+    
+    const gameCard = await helpers.getGameCard('Auto Join Game');
     await expect(gameCard).toContainText('1/4 players');
     
     // Verify join button is not shown for creator
@@ -94,21 +59,11 @@ test.describe('Story 002: Create Game', () => {
   });
 
   test('shows game code for sharing', async ({ page }) => {
-    // Create a game
-    const createButton = page.locator('button', { hasText: 'Create Game' }).first();
-    await createButton.click();
-
-    const gameNameInput = page.locator('input#game-name');
-    await gameNameInput.fill('Shareable Game');
-
-    const submitButton = page.locator('button[type="submit"]');
-    await submitButton.click();
-
-    // Wait for game to be created
-    const gameCard = page.locator('[data-testid="game-card"]').filter({ hasText: 'Shareable Game' });
-    await expect(gameCard).toBeVisible();
-
-    // Verify game code is displayed
+    const helpers = new CreateGameHelpers(page);
+    
+    await helpers.createGame('Shareable Game');
+    
+    const gameCard = await helpers.getGameCard('Shareable Game');
     const gameCode = gameCard.locator('[data-testid="game-code"]');
     await expect(gameCode).toBeVisible();
     
@@ -118,20 +73,11 @@ test.describe('Story 002: Create Game', () => {
   });
 
   test('can cancel game creation', async ({ page }) => {
-    // Click create game button
-    const createButton = page.locator('button', { hasText: 'Create Game' }).first();
-    await createButton.click();
-
-    // Verify modal opens
-    const modal = page.locator('[role="dialog"]');
-    await expect(modal).toBeVisible();
-
-    // Click cancel button
-    const cancelButton = modal.locator('button', { hasText: 'Cancel' });
-    await cancelButton.click();
-
-    // Verify modal closes
-    await expect(modal).not.toBeVisible();
+    const helpers = new CreateGameHelpers(page);
+    
+    await helpers.openCreateGameModal();
+    await helpers.cancelCreateGame();
+    await helpers.verifyModalClosed();
 
     // Verify no new game was created (empty state still visible if no games)
     const emptyState = page.locator('[data-testid="lobby-empty-state"]');
@@ -139,6 +85,8 @@ test.describe('Story 002: Create Game', () => {
   });
 
   test('handles server errors gracefully', async ({ page }) => {
+    const helpers = new CreateGameHelpers(page);
+    
     // Mock a server error response
     await page.route('**/api/games', route => {
       void route.fulfill({
@@ -148,53 +96,26 @@ test.describe('Story 002: Create Game', () => {
       });
     });
 
-    // Try to create a game
-    const createButton = page.locator('button', { hasText: 'Create Game' }).first();
-    await createButton.click();
+    await helpers.openCreateGameModal();
+    await helpers.fillGameName('Error Test Game');
+    await helpers.submitCreateGame();
 
-    const gameNameInput = page.locator('input#game-name');
-    await gameNameInput.fill('Error Test Game');
-
-    const submitButton = page.locator('button[type="submit"]');
-    await submitButton.click();
-
-    // Verify error message is displayed
-    const errorMessage = page.locator('[role="alert"]');
-    await expect(errorMessage).toBeVisible();
-    await expect(errorMessage).toContainText('Failed to create game');
-
-    // Verify modal stays open for retry
-    const modal = page.locator('[role="dialog"]');
-    await expect(modal).toBeVisible();
+    await helpers.verifyErrorMessage('Failed to create game');
+    await helpers.verifyModalOpen();
   });
 
   test('prevents duplicate game names', async ({ page }) => {
+    const helpers = new CreateGameHelpers(page);
+    
     // Create first game
-    const createButton = page.locator('button', { hasText: 'Create Game' }).first();
-    await createButton.click();
-
-    let gameNameInput = page.locator('input#game-name');
-    await gameNameInput.fill('Unique Game Name');
-
-    let submitButton = page.locator('button[type="submit"]');
-    await submitButton.click();
-
-    // Wait for first game to be created
-    await expect(page.locator('[role="dialog"]')).not.toBeVisible();
-    await expect(page.locator('[data-testid="game-card"]').filter({ hasText: 'Unique Game Name' })).toBeVisible();
+    await helpers.createGame('Unique Game Name');
+    await expect(await helpers.getGameCard('Unique Game Name')).toBeVisible();
 
     // Try to create second game with same name
-    await createButton.click();
-    
-    gameNameInput = page.locator('input#game-name');
-    await gameNameInput.fill('Unique Game Name');
+    await helpers.openCreateGameModal();
+    await helpers.fillGameName('Unique Game Name');
+    await helpers.submitCreateGame();
 
-    submitButton = page.locator('button[type="submit"]');
-    await submitButton.click();
-
-    // Verify error message about duplicate name
-    const errorMessage = page.locator('[role="alert"]');
-    await expect(errorMessage).toBeVisible();
-    await expect(errorMessage).toContainText('A game with this name already exists');
+    await helpers.verifyErrorMessage('A game with this name already exists');
   });
 });
