@@ -18,16 +18,16 @@ export class StatePersistence {
   /**
    * Game state methods
    */
-  static saveGameState = GameStatePersistence.save;
-  static loadGameState = GameStatePersistence.load;
-  static clearGameState = GameStatePersistence.clear;
+  static saveGameState = (...args: Parameters<typeof GameStatePersistence.save>) => GameStatePersistence.save(...args);
+  static loadGameState = (...args: Parameters<typeof GameStatePersistence.load>) => GameStatePersistence.load(...args);
+  static clearGameState = (...args: Parameters<typeof GameStatePersistence.clear>) => GameStatePersistence.clear(...args);
 
   /**
    * Lobby state methods
    */
-  static saveLobbyState = LobbyStatePersistence.save;
-  static loadLobbyState = LobbyStatePersistence.load;
-  static clearLobbyState = LobbyStatePersistence.clear;
+  static saveLobbyState = (...args: Parameters<typeof LobbyStatePersistence.save>) => LobbyStatePersistence.save(...args);
+  static loadLobbyState = (...args: Parameters<typeof LobbyStatePersistence.load>) => LobbyStatePersistence.load(...args);
+  static clearLobbyState = (...args: Parameters<typeof LobbyStatePersistence.clear>) => LobbyStatePersistence.clear(...args);
 
   /**
    * Clears all persisted data

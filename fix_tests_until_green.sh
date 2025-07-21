@@ -14,7 +14,26 @@ while true; do
     echo "======================================"
     
     # Run claude with updated prompt
-    timeout --foreground 600 claude "Look at @stories/test-fixes.md. Find the first incomplete item and complete it, then stop. CRITICAL: NEVER PROCEED TO THE NEXT ITEM IN THE CHECKLIST AND COMPLETE ONLY ONE ITEM.  If all checklist items are complete, then fix any remaining breaking tests. **CRITICAL STATUS FILE RULES:** - The status file (stories/test-fixes-status.md) should ONLY be created when ALL of these conditions are met: 1. **ALL** checklist items in stories/test-fixes.md are marked complete with ✅ 2. **AND** all tests pass (npm run test:frontend, npm run test:backend, npm run test:shared-types, npm run test:e2e) 3. **AND** linting passes with zero errors (npm run lint) **If ANY condition is not met, the status file must NOT exist. Delete it if it was created prematurely.** Once ALL conditions are met: 1. Run all test suites to confirm everything is green 2. Write a summary of what was fixed to stories/test-fixes-status.md 3. The summary should only be created after confirming all tests are actually passing Work on one incomplete checklist item at a time until all are complete, then ensure all tests pass before creating any status file" --dangerously-skip-permissions
+    timeout --foreground 600 claude "TODO: Complete ONE checklist item from @stories/test-fixes.md
+
+STEPS:
+1. Open @stories/test-fixes.md
+2. Find the FIRST item that is NOT marked with ✅
+3. Complete ONLY that one item
+4. Mark it as complete with ✅ in the checklist
+5. Save the file and STOP
+
+DO NOT:
+- Work on multiple items
+- Move to other sections
+- Continue after completing one item
+
+EXCEPTION: If ALL checklist items already have ✅, then:
+- Fix any remaining breaking tests
+- Once ALL conditions are met (all ✅, all tests pass, lint passes), create stories/test-fixes-status.md
+- The status file should ONLY exist when everything is complete and passing
+
+Remember: Complete exactly ONE uncompleted checklist item, update its checkbox to ✅, then stop immediately." --dangerously-skip-permissions
     
     echo ""
     echo "======================================"
