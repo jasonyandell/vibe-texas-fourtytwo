@@ -59,3 +59,4 @@ packages/shared-types/src/__tests__/type-guards.test.ts
 frontend/src/components/ui/__tests__/Card.test.tsx
 frontend/src/components/__tests__/accessibility.test.tsx
 frontend/src/utils/__tests__/gameUtils.play.test.ts
+packages/shared-types/dist-cjs/trump.d.ts
