@@ -8,7 +8,7 @@ Fix the tests.
 [✅] Frontend tests failing
 [✅] E2E test errors
 [✅] Linting errors
-[ ] Typescript errors
+[✅] Typescript errors
 [ ] Comprehensive test run errors and warnings 1
 [ ] E2E test errors
 [ ] Linting errors

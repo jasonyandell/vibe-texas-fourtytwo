@@ -36,7 +36,10 @@ export const GameCard: React.FC<GameCardProps> = ({
   ];
 
   // Use actual players for permission calculations if available
-  const playersForPermissions = actualPlayers.length > 0 ? actualPlayers : mockPlayers;
+  // Map actualPlayers to ensure isReady is always a boolean
+  const playersForPermissions = actualPlayers.length > 0 
+    ? actualPlayers.map(p => ({ ...p, isReady: p.isReady ?? false }))
+    : mockPlayers;
 
   // Mock scores - in real implementation this would come from game state
   const mockScores = {
