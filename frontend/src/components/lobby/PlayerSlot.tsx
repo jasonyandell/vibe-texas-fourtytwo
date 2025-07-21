@@ -14,10 +14,10 @@ export const PlayerSlot: React.FC<PlayerSlotProps> = ({
 }) => {
   const isCurrentUser = player?.id === currentUserId;
   const isEmpty = player === null;
-  const canJoin = isEmpty && gameStatus === 'waiting' && onJoinSlot;
+  const canJoin = Boolean(isEmpty && gameStatus === 'waiting' && onJoinSlot);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (canJoin && (e.key === 'Enter' || e.key === ' ')) {
+    if (canJoin && onJoinSlot && (e.key === 'Enter' || e.key === ' ')) {
       e.preventDefault();
       onJoinSlot(index);
     }
@@ -28,7 +28,7 @@ export const PlayerSlot: React.FC<PlayerSlotProps> = ({
       className={`${styles.playerSlot} ${isEmpty ? styles.emptySlot : styles.occupiedSlot}`}
       data-position={position.toLowerCase()}
       data-current-user={isCurrentUser}
-      onClick={canJoin ? () => onJoinSlot(index) : undefined}
+      onClick={canJoin && onJoinSlot ? () => onJoinSlot(index) : undefined}
       onKeyDown={canJoin ? handleKeyDown : undefined}
       role={canJoin ? 'button' : undefined}
       tabIndex={canJoin ? 0 : undefined}
