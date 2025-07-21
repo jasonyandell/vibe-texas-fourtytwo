@@ -34,3 +34,4 @@ frontend/src/components/ErrorBoundary.tsx
 frontend/src/components/BiddingPanel.tsx
 scripts/enhance-github-issues.js
 frontend/tests/e2e/story-002-create-game.spec.ts
+frontend/src/components/lobby/SpectatorView.tsx
