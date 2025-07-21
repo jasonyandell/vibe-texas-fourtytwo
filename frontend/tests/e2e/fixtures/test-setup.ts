@@ -184,6 +184,8 @@ export const testData = {
       players: [
         { id: 'test-user', name: 'Test User', position: 'north' }
       ],
+      playerCount: 1,
+      maxPlayers: 4,
       status: 'waiting',
       gameCode: 'WAIT01',
       createdAt: new Date().toISOString()
@@ -198,6 +200,8 @@ export const testData = {
         { id: 'test-user-3', name: 'Player 3', position: 'south' },
         { id: 'test-user-4', name: 'Player 4', position: 'west' }
       ],
+      playerCount: 4,
+      maxPlayers: 4,
       status: 'playing',
       gameCode: 'FULL01',
       createdAt: new Date().toISOString()

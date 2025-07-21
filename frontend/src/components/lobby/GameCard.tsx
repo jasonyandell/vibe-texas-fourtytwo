@@ -26,7 +26,8 @@ export const GameCard: React.FC<GameCardProps> = ({
   onSpectateGame,
   onMarkReady
 }) => {
-  // Mock player data - in real implementation this would come from game state
+  // Use actual game data when available, fall back to mock data for testing
+  const actualPlayers = game.players || [];
   const mockPlayers = [
     { id: 'player1', name: 'Alice', position: 'north' as const, isReady: true },
     { id: 'player2', name: 'Bob', position: 'east' as const, isReady: false },
@@ -34,13 +35,16 @@ export const GameCard: React.FC<GameCardProps> = ({
     { id: 'player4', name: 'Charlie', position: 'west' as const, isReady: true }
   ];
 
+  // Use actual players for permission calculations if available
+  const playersForPermissions = actualPlayers.length > 0 ? actualPlayers : mockPlayers;
+
   // Mock scores - in real implementation this would come from game state
   const mockScores = {
     northSouth: 3,
     eastWest: 1
   };
 
-  const permissions = useGamePermissions(game, currentUserId, mockPlayers);
+  const permissions = useGamePermissions(game, currentUserId, playersForPermissions);
   const actions = useGameActions(game.id, {
     onJoinGame,
     onLeaveGame,

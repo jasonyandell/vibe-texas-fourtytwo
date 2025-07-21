@@ -72,6 +72,8 @@ export class MockApiSetup {
           name: requestBody.name as string,
           creator: 'test-user',
           players: [{ id: 'test-user', name: 'Test User', position: 'north' }],
+          playerCount: 1,
+          maxPlayers: 4,
           status: 'waiting',
           gameCode: 'TEST01',
           createdAt: new Date().toISOString()
@@ -98,6 +100,8 @@ export class MockApiSetup {
           name: 'Test Game',
           creator: 'test-user',
           players: [],
+          playerCount: 0,
+          maxPlayers: 4,
           status: 'waiting',
           gameCode: 'TEST01',
           createdAt: new Date().toISOString()
@@ -170,6 +174,8 @@ export class MockApiSetup {
           players: [
             { id: 'test-user', name: 'Test User', position: 'north' }
           ],
+          playerCount: 1,
+          maxPlayers: 4,
           status: 'waiting',
           gameCode: 'TEST01',
           createdAt: new Date().toISOString()

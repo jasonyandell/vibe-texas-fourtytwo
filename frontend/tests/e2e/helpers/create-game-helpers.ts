@@ -28,6 +28,16 @@ export class CreateGameHelpers {
     await submitButton.click();
   }
 
+  async verifySubmitButtonDisabled(): Promise<void> {
+    const submitButton = this.page.locator('button[type="submit"]');
+    await expect(submitButton).toBeDisabled();
+  }
+
+  async verifySubmitButtonEnabled(): Promise<void> {
+    const submitButton = this.page.locator('button[type="submit"]');
+    await expect(submitButton).toBeEnabled();
+  }
+
   async cancelCreateGame(): Promise<void> {
     const cancelButton = this.getModal().locator('button', { hasText: 'Cancel' });
     await cancelButton.click();
@@ -66,6 +76,11 @@ export class CreateGameHelpers {
   }
 
   async setupMocksForTesting(): Promise<void> {
+    // Set a fixed user ID for consistent testing
+    await this.page.addInitScript(() => {
+      sessionStorage.setItem('texas42-user-id', 'test-user');
+    });
+    
     // Setup default mocks for lobby functionality
     await this.testSetup.navigateToLobby([]);
   }

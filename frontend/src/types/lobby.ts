@@ -12,6 +12,13 @@ export interface LobbyGame {
   status: 'waiting' | 'playing' | 'finished';
   createdAt: string;
   gameCode?: string;
+  creator?: string;
+  players?: Array<{
+    id: string;
+    name: string;
+    position: 'north' | 'south' | 'east' | 'west';
+    isReady?: boolean;
+  }>;
 }
 
 // Lobby state

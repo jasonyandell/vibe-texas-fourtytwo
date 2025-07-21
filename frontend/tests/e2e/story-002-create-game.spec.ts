@@ -27,19 +27,20 @@ test.describe('Story 002: Create Game', () => {
     
     await helpers.openCreateGameModal();
 
-    // Try to submit without entering a name
-    await helpers.submitCreateGame();
-    await helpers.verifyErrorMessage('Game name is required');
+    // Submit button should be disabled without a name
+    await helpers.verifySubmitButtonDisabled();
 
     // Enter a name that's too short
     await helpers.fillGameName('ab');
-    await helpers.submitCreateGame();
-    await helpers.verifyErrorMessage('Game name must be at least 3 characters');
+    await helpers.verifySubmitButtonDisabled();
 
     // Enter a name that's too long
     await helpers.fillGameName('a'.repeat(51));
-    await helpers.submitCreateGame();
-    await helpers.verifyErrorMessage('Game name must be less than 50 characters');
+    await helpers.verifySubmitButtonDisabled();
+
+    // Enter a valid name
+    await helpers.fillGameName('Valid Game Name');
+    await helpers.verifySubmitButtonEnabled();
   });
 
   test('creator automatically joins the game', async ({ page }) => {

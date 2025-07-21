@@ -89,10 +89,10 @@ export const DominoHand: React.FC<DominoHandProps> = ({
       role="group"
       aria-label={getAriaLabel()}
     >
-      <div className={`top-row ${styles.topRow}`} data-testid="domino-hand-top-row">
+      <div className={`top-row ${styles.topRow}`} data-testid="domino-row-top">
         {topRowDominoes.map((domino, index) => renderDomino(domino, index))}
       </div>
-      <div className={`bottom-row ${styles.bottomRow}`} data-testid="domino-hand-bottom-row">
+      <div className={`bottom-row ${styles.bottomRow}`} data-testid="domino-row-bottom">
         {bottomRowDominoes.map((domino, index) => renderDomino(domino, index + 4))}
       </div>
     </div>
