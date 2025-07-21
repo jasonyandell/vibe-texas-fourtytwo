@@ -58,7 +58,7 @@ describe('ReadySystem - Auto-Start Countdown', () => {
     expect(screen.getByText('Starting in 8s')).toBeInTheDocument();
   });
 
-  it('calls onStartGame when countdown reaches zero', async () => {
+  it('calls onStartGame when countdown reaches zero', () => {
     render(<ReadySystem players={allReadyPlayers} gameId="test-game" {...mockHandlers} />);
     
     act(() => {
@@ -68,7 +68,7 @@ describe('ReadySystem - Auto-Start Countdown', () => {
     expect(mockHandlers.onStartGame).toHaveBeenCalledWith('test-game');
   });
 
-  it('allows manual start before countdown', async () => {
+  it('allows manual start before countdown', () => {
     render(<ReadySystem players={allReadyPlayers} gameId="test-game" {...mockHandlers} />);
     
     const startButton = screen.getByRole('button', { name: 'Start Game Now' });
@@ -109,7 +109,7 @@ describe('ReadySystem - Auto-Start Countdown', () => {
     expect(screen.getByText('Starting in 5s')).toBeInTheDocument();
   });
 
-  it('disables buttons when game is starting', async () => {
+  it('disables buttons when game is starting', () => {
     render(<ReadySystem players={allReadyPlayers} gameId="test-game" {...mockHandlers} />);
     
     const startButton = screen.getByRole('button', { name: 'Start Game Now' });
@@ -127,7 +127,7 @@ describe('ReadySystem - Auto-Start Countdown', () => {
     });
   });
 
-  it('shows loading state on start button', async () => {
+  it('shows loading state on start button', () => {
     render(<ReadySystem players={allReadyPlayers} gameId="test-game" {...mockHandlers} />);
     
     const startButton = screen.getByRole('button', { name: 'Start Game Now' });
