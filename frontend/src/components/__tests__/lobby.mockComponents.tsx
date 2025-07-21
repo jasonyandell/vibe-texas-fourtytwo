@@ -87,7 +87,4 @@ vi.mock('../lobby/CreateGameButton', () => ({
   ))
 }));
 
-// Mock the LobbyControls component
-vi.mock('../lobby/LobbyControls', () => ({
-  LobbyControls: vi.fn(() => <div data-testid="lobby-controls">Controls</div>)
-}));
+// Don't mock LobbyControls - use the real component for proper accessibility testing

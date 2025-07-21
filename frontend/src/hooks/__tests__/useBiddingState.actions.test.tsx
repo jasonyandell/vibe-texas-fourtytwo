@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 import { useBiddingState } from '../useBiddingState';
 import { GameState, BiddingState } from '@texas42/shared-types';
@@ -10,6 +10,9 @@ import {
 } from './useBiddingState.test.fixtures';
 
 describe('useBiddingState - placing bids', () => {
+  beforeEach(() => {
+    mockUseGameStateContext.mockReturnValue(createMockContext(baseGameState));
+  });
   it('successfully places a valid bid', () => {
     const { result } = renderHook(() => useBiddingState());
 
@@ -54,6 +57,9 @@ describe('useBiddingState - placing bids', () => {
 });
 
 describe('useBiddingState - passing bids', () => {
+  beforeEach(() => {
+    mockUseGameStateContext.mockReturnValue(createMockContext(baseGameState));
+  });
   it('successfully passes a bid', () => {
     const { result } = renderHook(() => useBiddingState());
 

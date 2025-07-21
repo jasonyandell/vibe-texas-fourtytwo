@@ -1,12 +1,16 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { renderHook } from '@testing-library/react';
 import { useBiddingState } from '../useBiddingState';
 import {
   mockUseGameStateContext,
+  baseGameState,
   createMockContext
 } from './useBiddingState.test.fixtures';
 
 describe('useBiddingState - initialization', () => {
+  beforeEach(() => {
+    mockUseGameStateContext.mockReturnValue(createMockContext(baseGameState));
+  });
   it('initializes with correct bidding state', () => {
     const { result } = renderHook(() => useBiddingState());
 
