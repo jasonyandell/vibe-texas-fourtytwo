@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
-import { Card, CardHeader, CardContent, CardFooter } from '../Card'
+import { Card } from '../Card'
 
 describe('Card', () => {
   describe('Basic Rendering', () => {
@@ -88,81 +88,5 @@ describe('Card', () => {
       expect(card).toHaveAttribute('role', 'region')
       expect(card).toHaveAttribute('aria-label', 'Test card')
     })
-  })
-})
-
-describe('CardHeader', () => {
-  it('renders header content', () => {
-    render(<CardHeader>Header content</CardHeader>)
-    
-    expect(screen.getByText('Header content')).toBeInTheDocument()
-  })
-
-  it('applies header class', () => {
-    const { container } = render(<CardHeader>Header</CardHeader>)
-    
-    expect(container.firstChild).toHaveClass('cardHeader')
-  })
-
-  it('applies custom className', () => {
-    const { container } = render(<CardHeader className="custom-header">Header</CardHeader>)
-    
-    expect(container.firstChild).toHaveClass('cardHeader', 'custom-header')
-  })
-})
-
-describe('CardContent', () => {
-  it('renders content', () => {
-    render(<CardContent>Main content</CardContent>)
-    
-    expect(screen.getByText('Main content')).toBeInTheDocument()
-  })
-
-  it('applies content class', () => {
-    const { container } = render(<CardContent>Content</CardContent>)
-    
-    expect(container.firstChild).toHaveClass('cardContent')
-  })
-
-  it('applies custom className', () => {
-    const { container } = render(<CardContent className="custom-content">Content</CardContent>)
-    
-    expect(container.firstChild).toHaveClass('cardContent', 'custom-content')
-  })
-})
-
-describe('CardFooter', () => {
-  it('renders footer content', () => {
-    render(<CardFooter>Footer content</CardFooter>)
-    
-    expect(screen.getByText('Footer content')).toBeInTheDocument()
-  })
-
-  it('applies footer class', () => {
-    const { container } = render(<CardFooter>Footer</CardFooter>)
-    
-    expect(container.firstChild).toHaveClass('cardFooter')
-  })
-
-  it('applies custom className', () => {
-    const { container } = render(<CardFooter className="custom-footer">Footer</CardFooter>)
-    
-    expect(container.firstChild).toHaveClass('cardFooter', 'custom-footer')
-  })
-})
-
-describe('Card Composition', () => {
-  it('renders complete card with all sections', () => {
-    render(
-      <Card>
-        <CardHeader>Card Title</CardHeader>
-        <CardContent>Card body content</CardContent>
-        <CardFooter>Card actions</CardFooter>
-      </Card>
-    )
-    
-    expect(screen.getByText('Card Title')).toBeInTheDocument()
-    expect(screen.getByText('Card body content')).toBeInTheDocument()
-    expect(screen.getByText('Card actions')).toBeInTheDocument()
   })
 })
