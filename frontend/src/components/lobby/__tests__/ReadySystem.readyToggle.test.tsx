@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import { ReadySystem } from '../ReadySystem';
 import { Player } from '@/types/texas42';
 
@@ -68,7 +68,9 @@ describe('ReadySystem - Ready Toggle Functionality', () => {
     render(<ReadySystem players={allReadyPlayers} currentUserId="p1" gameId="test-game" {...mockHandlers} />);
     
     const startButton = screen.getByRole('button', { name: 'Start Game Now' });
-    fireEvent.click(startButton);
+    act(() => {
+      fireEvent.click(startButton);
+    });
     
     const readyButton = screen.getByRole('button', { name: 'Mark yourself as not ready' });
     expect(readyButton).toBeDisabled();

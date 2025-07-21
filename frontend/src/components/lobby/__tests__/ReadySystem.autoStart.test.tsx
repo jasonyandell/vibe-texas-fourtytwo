@@ -109,39 +109,33 @@ describe('ReadySystem - Auto-Start Countdown', () => {
     expect(screen.getByText('Starting in 5s')).toBeInTheDocument();
   });
 
-  it('disables buttons when game is starting', () => {
+  it('disables buttons when game is starting', async () => {
     render(<ReadySystem players={allReadyPlayers} gameId="test-game" {...mockHandlers} />);
     
     const startButton = screen.getByRole('button', { name: 'Start Game Now' });
     
-    act(() => {
+    await act(async () => {
       fireEvent.click(startButton);
+      // Wait for promise to resolve
+      vi.advanceTimersByTime(100);
     });
     
     // Check loading state immediately after click
     expect(screen.getByRole('button', { name: 'Starting Game...' })).toBeDisabled();
-    
-    // Wait for promise to resolve
-    act(() => {
-      vi.advanceTimersByTime(100);
-    });
   });
 
-  it('shows loading state on start button', () => {
+  it('shows loading state on start button', async () => {
     render(<ReadySystem players={allReadyPlayers} gameId="test-game" {...mockHandlers} />);
     
     const startButton = screen.getByRole('button', { name: 'Start Game Now' });
     
-    act(() => {
+    await act(async () => {
       fireEvent.click(startButton);
+      // Wait for promise to resolve
+      vi.advanceTimersByTime(100);
     });
     
     // Check loading state immediately after click
     expect(screen.getByRole('button', { name: 'Starting Game...' })).toBeInTheDocument();
-    
-    // Wait for promise to resolve
-    act(() => {
-      vi.advanceTimersByTime(100);
-    });
   });
 });
