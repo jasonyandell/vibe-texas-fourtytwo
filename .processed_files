@@ -74,3 +74,4 @@ packages/shared-types/src/validation-utils.ts
 frontend/src/utils/urlSerialization/deserializers.ts
 frontend/src/contexts/GameStateContext/reducer.ts
 frontend/src/components/lobby/__tests__/GameStartManager.errors.test.tsx
+frontend/src/components/__tests__/DominoHand.layout.test.tsx
