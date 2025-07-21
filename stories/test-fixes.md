@@ -136,7 +136,7 @@ The tests expect demo showcase pages at routes like:
 
 #### **Component-Specific Fixes**:
 - [x] **GameBoard Components**: Add required test IDs to game board elements ✅
-- [ ] **Domino Components**: Add test IDs to domino display and interaction elements  
+- [x] **Domino Components**: Add test IDs to domino display and interaction elements ✅  
 - [ ] **Player Components**: Add test IDs to player layout and partnership elements
 - [ ] **Lobby Components**: Add test IDs to lobby and game creation elements
 
