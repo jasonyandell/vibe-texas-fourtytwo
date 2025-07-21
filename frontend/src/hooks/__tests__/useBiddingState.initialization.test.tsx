@@ -1,15 +1,22 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { renderHook } from '@testing-library/react';
-import { useBiddingState } from '../useBiddingState';
 import {
-  mockUseGameStateContext,
   baseGameState,
-  createMockContext
+  createMockGameState
 } from './useBiddingState.test.fixtures';
+
+// Mock the useGameState hook at the top level
+const mockUseGameState = vi.fn();
+vi.mock('@/hooks/useGameState', () => ({
+  useGameState: mockUseGameState
+}));
+
+// Import after mocking
+const { useBiddingState } = await import('../useBiddingState');
 
 describe('useBiddingState - initialization', () => {
   beforeEach(() => {
-    mockUseGameStateContext.mockReturnValue(createMockContext(baseGameState));
+    mockUseGameState.mockReturnValue(createMockGameState(baseGameState));
   });
   it('initializes with correct bidding state', () => {
     const { result } = renderHook(() => useBiddingState());
@@ -21,7 +28,7 @@ describe('useBiddingState - initialization', () => {
   });
 
   it('handles missing game state gracefully', () => {
-    mockUseGameStateContext.mockReturnValue(createMockContext(null));
+    mockUseGameState.mockReturnValue(createMockGameState(null));
 
     const { result } = renderHook(() => useBiddingState());
 

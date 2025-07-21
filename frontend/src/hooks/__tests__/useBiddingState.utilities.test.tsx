@@ -1,15 +1,22 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { renderHook } from '@testing-library/react';
-import { useBiddingState } from '../useBiddingState';
 import {
-  mockUseGameStateContext,
   baseGameState,
-  createMockContext
+  createMockGameState
 } from './useBiddingState.test.fixtures';
+
+// Mock the useGameState hook at the top level
+const mockUseGameState = vi.fn();
+vi.mock('@/hooks/useGameState', () => ({
+  useGameState: mockUseGameState
+}));
+
+// Import after mocking
+const { useBiddingState } = await import('../useBiddingState');
 
 describe('useBiddingState - utility functions', () => {
   beforeEach(() => {
-    mockUseGameStateContext.mockReturnValue(createMockContext(baseGameState));
+    mockUseGameState.mockReturnValue(createMockGameState(baseGameState));
   });
   it('returns correct minimum bid amount', () => {
     const { result } = renderHook(() => useBiddingState());

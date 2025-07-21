@@ -1,17 +1,25 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
-import { useBiddingState } from '../useBiddingState';
 import { GameState, BiddingState } from '@texas42/shared-types';
 import {
-  mockUseGameStateContext,
   baseGameState,
-  createMockContext,
+  createMockGameState,
   mockUpdateGameState
 } from './useBiddingState.test.fixtures';
 
+// Mock the useGameState hook at the top level
+const mockUseGameState = vi.fn();
+vi.mock('@/hooks/useGameState', () => ({
+  useGameState: mockUseGameState
+}));
+
+// Import after mocking
+const { useBiddingState } = await import('../useBiddingState');
+
 describe('useBiddingState - placing bids', () => {
   beforeEach(() => {
-    mockUseGameStateContext.mockReturnValue(createMockContext(baseGameState));
+    mockUpdateGameState.mockClear();
+    mockUseGameState.mockReturnValue(createMockGameState(baseGameState));
   });
   it('successfully places a valid bid', () => {
     const { result } = renderHook(() => useBiddingState());
@@ -42,7 +50,7 @@ describe('useBiddingState - placing bids', () => {
   });
 
   it('handles missing current player', () => {
-    mockUseGameStateContext.mockReturnValue(createMockContext({ ...baseGameState, currentPlayer: undefined }));
+    mockUseGameState.mockReturnValue(createMockGameState({ ...baseGameState, currentPlayer: undefined }));
 
     const { result } = renderHook(() => useBiddingState());
 
@@ -58,7 +66,8 @@ describe('useBiddingState - placing bids', () => {
 
 describe('useBiddingState - passing bids', () => {
   beforeEach(() => {
-    mockUseGameStateContext.mockReturnValue(createMockContext(baseGameState));
+    mockUpdateGameState.mockClear();
+    mockUseGameState.mockReturnValue(createMockGameState(baseGameState));
   });
   it('successfully passes a bid', () => {
     const { result } = renderHook(() => useBiddingState());
@@ -77,7 +86,7 @@ describe('useBiddingState - passing bids', () => {
   });
 
   it('handles missing current player', () => {
-    mockUseGameStateContext.mockReturnValue(createMockContext({ ...baseGameState, currentPlayer: undefined }));
+    mockUseGameState.mockReturnValue(createMockGameState({ ...baseGameState, currentPlayer: undefined }));
 
     const { result } = renderHook(() => useBiddingState());
 

@@ -1,15 +1,22 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { renderHook } from '@testing-library/react';
-import { useBiddingState } from '../useBiddingState';
 import {
-  mockUseGameStateContext,
   baseGameState,
-  createMockContext
+  createMockGameState
 } from './useBiddingState.test.fixtures';
+
+// Mock the useGameState hook at the top level
+const mockUseGameState = vi.fn();
+vi.mock('@/hooks/useGameState', () => ({
+  useGameState: mockUseGameState
+}));
+
+// Import after mocking
+const { useBiddingState } = await import('../useBiddingState');
 
 describe('useBiddingState - bid validation', () => {
   beforeEach(() => {
-    mockUseGameStateContext.mockReturnValue(createMockContext(baseGameState));
+    mockUseGameState.mockReturnValue(createMockGameState(baseGameState));
   });
   it('validates a valid bid', () => {
     const { result } = renderHook(() => useBiddingState());
@@ -36,7 +43,7 @@ describe('useBiddingState - bid validation', () => {
   });
 
   it('rejects bid when not current player', () => {
-    mockUseGameStateContext.mockReturnValue(createMockContext({ ...baseGameState, currentPlayer: 'player2' }));
+    mockUseGameState.mockReturnValue(createMockGameState({ ...baseGameState, currentPlayer: 'player2' }));
 
     const { result } = renderHook(() => useBiddingState());
 

@@ -6,15 +6,6 @@ import {
   createCompatibleBiddingState
 } from '@texas42/shared-types';
 
-// Mock the useGameStateContext hook
-vi.mock('@/hooks/useGameStateContext', () => ({
-  useGameStateContext: vi.fn()
-}));
-
-// Import the mocked function
-export const { useGameStateContext } = await import('@/hooks/useGameStateContext');
-export const mockUseGameStateContext = vi.mocked(useGameStateContext);
-
 // Test data
 export const players: Player[] = [
   { id: 'player1', name: 'Player 1', position: 'north', hand: [], isConnected: true, isReady: true },
@@ -44,7 +35,7 @@ baseGameState.updatedAt = '2023-01-01T00:00:00Z';
 
 export const mockUpdateGameState = vi.fn();
 
-export const createMockContext = (gameState: GameState | null) => ({
+export const createMockGameState = (gameState: GameState | null) => ({
   gameState,
   updateGameState: mockUpdateGameState,
   isLoading: false,
