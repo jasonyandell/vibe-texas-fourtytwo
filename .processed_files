@@ -1,2 +1,5 @@
 frontend/tests/e2e/demo-board-showcase.spec.ts
 frontend/tests/e2e/demo-board-showcase.spec.ts
+frontend/src/components/__tests__/BiddingPanel.test.tsx
+frontend/src/components/__tests__/PlayersSection.test.tsx
+frontend/src/components/__tests__/PlayersSection.test.tsx
