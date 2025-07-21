@@ -54,6 +54,38 @@ npm run lint:fix          # Auto-fix issues
 npm run type-check        # Check TypeScript in all workspaces
 ```
 
+### TypeScript Workflow (IMPORTANT)
+**⚠️ NEVER use `tsc` directly in this project!** This is a Vite-based monorepo where TypeScript is used for type checking only, not compilation.
+
+#### Correct Commands:
+```bash
+# ✅ CORRECT - Type check all workspaces
+npm run type-check
+
+# ✅ CORRECT - Type check frontend only
+npm run --workspace=frontend type-check
+
+# ✅ CORRECT - Type check backend only
+npm run --workspace=backend type-check
+```
+
+#### Incorrect Commands (DO NOT USE):
+```bash
+# ❌ WRONG - Direct tsc usage will fail with JSX errors
+tsc --noEmit
+
+# ❌ WRONG - Will show misleading "--jsx not set" errors
+npx tsc src/components/MyComponent.tsx
+```
+
+#### Why This Matters:
+- **Vite handles compilation** - Uses esbuild for fast development builds
+- **TypeScript for types only** - We use tsc purely for type checking
+- **Different configs** - Vite and tsc have intentionally different configurations
+- **JSX errors are expected** - Direct tsc commands will fail by design
+
+If you see errors like "Module was resolved but '--jsx' is not set", you're using the wrong command. Always use the npm scripts.
+
 ### Build & Clean
 ```bash
 npm run build             # Build all packages
