@@ -3,39 +3,14 @@ import {
   compressGameState,
   decompressGameState
 } from '../urlSerialization'
-import { createEmptyGameState } from '@texas42/shared-types'
+import { createTestGameState, createSerializedState } from './helpers/compressionTestHelpers'
 
 describe('URL Serialization - Compression', () => {
-  const mockGameState = createEmptyGameState('game-123');
-  // Add test-specific data
-  mockGameState.phase = 'playing';
-  mockGameState.players = [
-    { id: 'p1', name: 'Player 1', position: 'north', hand: [], isConnected: true, isReady: true },
-    { id: 'p2', name: 'Player 2', position: 'east', hand: [], isConnected: true, isReady: true },
-    { id: 'p3', name: 'Player 3', position: 'south', hand: [], isConnected: true, isReady: true },
-    { id: 'p4', name: 'Player 4', position: 'west', hand: [], isConnected: true, isReady: true }
-  ];
-  mockGameState.dealer = 'p1';
-  mockGameState.partnerships.northSouth.currentHandScore = 15;
-  mockGameState.partnerships.eastWest.currentHandScore = 23;
-  mockGameState.gameScore = { northSouth: 1, eastWest: 2 };
+  const mockGameState = createTestGameState();
 
   describe('Compression', () => {
     it('compresses game state for shorter URLs', () => {
-      // Convert GameState to SerializedGameState for compression
-      const serializedState = {
-        version: 2,
-        gameId: mockGameState.id,
-        phase: mockGameState.phase,
-        players: mockGameState.players,
-        dealer: mockGameState.dealer,
-        scores: {
-          northSouth: mockGameState.partnerships.northSouth.currentHandScore,
-          eastWest: mockGameState.partnerships.eastWest.currentHandScore
-        },
-        gameScore: mockGameState.gameScore
-      };
-
+      const serializedState = createSerializedState(mockGameState);
       const compressionResult = compressGameState(serializedState)
       const original = JSON.stringify(serializedState)
 
@@ -49,20 +24,7 @@ describe('URL Serialization - Compression', () => {
     })
 
     it('decompresses game state correctly', () => {
-      // Convert GameState to SerializedGameState for compression
-      const serializedState = {
-        version: 2,
-        gameId: mockGameState.id,
-        phase: mockGameState.phase,
-        players: mockGameState.players,
-        dealer: mockGameState.dealer,
-        scores: {
-          northSouth: mockGameState.partnerships.northSouth.currentHandScore,
-          eastWest: mockGameState.partnerships.eastWest.currentHandScore
-        },
-        gameScore: mockGameState.gameScore
-      };
-
+      const serializedState = createSerializedState(mockGameState);
       const compressionResult = compressGameState(serializedState)
       const decompressed = decompressGameState(compressionResult.data, compressionResult.method)
 
@@ -70,20 +32,7 @@ describe('URL Serialization - Compression', () => {
     })
 
     it('handles compression round-trip', () => {
-      // Convert GameState to SerializedGameState for compression
-      const serializedState = {
-        version: 2,
-        gameId: mockGameState.id,
-        phase: mockGameState.phase,
-        players: mockGameState.players,
-        dealer: mockGameState.dealer,
-        scores: {
-          northSouth: mockGameState.partnerships.northSouth.currentHandScore,
-          eastWest: mockGameState.partnerships.eastWest.currentHandScore
-        },
-        gameScore: mockGameState.gameScore
-      };
-
+      const serializedState = createSerializedState(mockGameState);
       const compressionResult = compressGameState(serializedState)
       const decompressed = decompressGameState(compressionResult.data, compressionResult.method)
 
@@ -101,20 +50,7 @@ describe('URL Serialization - Compression', () => {
     })
 
     it('chooses best compression method automatically', () => {
-      // Convert GameState to SerializedGameState for compression
-      const serializedState = {
-        version: 2,
-        gameId: mockGameState.id,
-        phase: mockGameState.phase,
-        players: mockGameState.players,
-        dealer: mockGameState.dealer,
-        scores: {
-          northSouth: mockGameState.partnerships.northSouth.currentHandScore,
-          eastWest: mockGameState.partnerships.eastWest.currentHandScore
-        },
-        gameScore: mockGameState.gameScore
-      };
-
+      const serializedState = createSerializedState(mockGameState);
       const result = compressGameState(serializedState)
 
       // Should choose an efficient compression method for this data
@@ -123,20 +59,7 @@ describe('URL Serialization - Compression', () => {
     })
 
     it('respects preferred compression method', () => {
-      // Convert GameState to SerializedGameState for compression
-      const serializedState = {
-        version: 2,
-        gameId: mockGameState.id,
-        phase: mockGameState.phase,
-        players: mockGameState.players,
-        dealer: mockGameState.dealer,
-        scores: {
-          northSouth: mockGameState.partnerships.northSouth.currentHandScore,
-          eastWest: mockGameState.partnerships.eastWest.currentHandScore
-        },
-        gameScore: mockGameState.gameScore
-      };
-
+      const serializedState = createSerializedState(mockGameState);
       const result = compressGameState(serializedState, 'base64')
 
       expect(result.method).toBe('base64')
