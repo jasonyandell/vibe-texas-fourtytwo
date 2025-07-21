@@ -1,6 +1,5 @@
 import { vi } from 'vitest';
 import { GameState } from '@texas42/shared-types';
-import { SpectatorInfo } from '../SpectatorView';
 
 // Mock the child components
 vi.mock('@/components/DominoHand', () => ({
