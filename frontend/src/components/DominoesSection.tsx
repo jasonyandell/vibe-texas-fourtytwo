@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { DominoComponent } from './DominoComponent'
-import { createFullDominoSet, Domino } from '@/types/texas42'
+import { DominoesControls } from './DominoesControls'
+import { useDominoSelection } from './hooks/useDominoSelection'
+import { createFullDominoSet } from '@/types/texas42'
 import styles from './DominoesSection.module.css'
 
 export const DominoesSection: React.FC = () => {
@@ -8,20 +10,7 @@ export const DominoesSection: React.FC = () => {
   const [showPointValues, setShowPointValues] = useState(false)
   const [highlightCount, setHighlightCount] = useState(false)
   const [orientation, setOrientation] = useState<'horizontal' | 'vertical'>('horizontal')
-  const [selectedDominoes, setSelectedDominoes] = useState<Set<string>>(new Set())
-  const [selectionAnnouncement, setSelectionAnnouncement] = useState('')
-
-  const handleDominoClick = (domino: Domino) => {
-    const newSelected = new Set(selectedDominoes)
-    if (newSelected.has(domino.id)) {
-      newSelected.delete(domino.id)
-      setSelectionAnnouncement(`Deselected domino ${domino.high}-${domino.low}`)
-    } else {
-      newSelected.add(domino.id)
-      setSelectionAnnouncement(`Selected domino ${domino.high}-${domino.low}`)
-    }
-    setSelectedDominoes(newSelected)
-  }
+  const { selectedDominoes, selectionAnnouncement, handleDominoClick } = useDominoSelection()
 
   const handleTogglePointValues = () => {
     setShowPointValues(!showPointValues)
@@ -47,36 +36,14 @@ export const DominoesSection: React.FC = () => {
       </div>
 
       <div className={styles.mainContent}>
-        <div className={styles.controls}>
-          <button
-            type="button"
-            onClick={handleTogglePointValues}
-            data-testid="toggle-point-values"
-            className={`${styles.toggleButton} ${showPointValues ? styles.active : ''}`}
-            aria-pressed={showPointValues}
-          >
-            {showPointValues ? 'Hide' : 'Show'} Point Values
-          </button>
-
-          <button
-            type="button"
-            onClick={handleToggleCountHighlighting}
-            data-testid="toggle-count-highlighting"
-            className={`${styles.toggleButton} ${highlightCount ? styles.active : ''}`}
-            aria-pressed={highlightCount}
-          >
-            {highlightCount ? 'Hide' : 'Show'} Count Highlighting
-          </button>
-
-          <button
-            type="button"
-            onClick={handleToggleOrientation}
-            data-testid="toggle-orientation"
-            className={styles.toggleButton}
-          >
-            {orientation === 'horizontal' ? 'Vertical' : 'Horizontal'} View
-          </button>
-        </div>
+        <DominoesControls
+          showPointValues={showPointValues}
+          highlightCount={highlightCount}
+          orientation={orientation}
+          onTogglePointValues={handleTogglePointValues}
+          onToggleCountHighlighting={handleToggleCountHighlighting}
+          onToggleOrientation={handleToggleOrientation}
+        />
 
         <div
           className={styles.dominoesGrid}

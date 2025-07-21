@@ -45,3 +45,8 @@ packages/shared-types/dist-cjs/validation-utils.js
 frontend/src/components/Lobby.tsx
 stories/game/001-empty-lobby/e2e.spec.ts
 frontend/src/components/__tests__/GameBoardSection.centerplay.test.tsx
+packages/shared-types/src/bidding-validation.ts
+frontend/tests/e2e/story-001-empty-lobby.spec.ts
+frontend/src/components/lobby/__tests__/SpectatorView.accessibility.test.tsx
+frontend/src/components/DominoesSection.tsx
+frontend/src/components/DominoesSection.tsx
