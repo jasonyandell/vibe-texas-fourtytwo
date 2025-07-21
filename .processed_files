@@ -79,3 +79,4 @@ frontend/src/components/lobby/PlayerSlots.tsx
 frontend/src/contexts/__tests__/LobbyStateContext.test.tsx
 packages/shared-types/src/domino-factory.ts
 frontend/src/components/lobby/__tests__/SpectatorView.playerhand.test.tsx
+packages/shared-types/dist-cjs/validation-errors.js
