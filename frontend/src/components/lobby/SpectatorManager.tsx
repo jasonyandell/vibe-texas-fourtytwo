@@ -1,11 +1,18 @@
-import React, { useState, useCallback } from 'react';
-import { Button, Badge } from '@/components/ui';
-import { SpectatorInfo } from './SpectatorView';
+import React from 'react';
+import { SpectatorInfo as SpectatorInfoType } from './SpectatorView';
+import {
+  SpectatorInfo,
+  SpectatorActions,
+  SpectatorList,
+  SpectatorHints,
+  ErrorMessage,
+  useSpectatorActions
+} from './spectator';
 import styles from './SpectatorManager.module.css';
 
 export interface SpectatorManagerProps {
   gameId: string;
-  spectators: SpectatorInfo[];
+  spectators: SpectatorInfoType[];
   currentUserId?: string;
   isSpectating: boolean;
   canJoinAsSpectator: boolean;
@@ -24,51 +31,20 @@ export const SpectatorManager: React.FC<SpectatorManagerProps> = ({
   onLeaveSpectating,
   onError
 }) => {
-  const [isJoining, setIsJoining] = useState(false);
-  const [isLeaving, setIsLeaving] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const currentSpectator = spectators.find(s => s.id === currentUserId);
-
-  const handleJoinSpectating = useCallback(async () => {
-    if (!onJoinSpectating || !canJoinAsSpectator) return;
-
-    setIsJoining(true);
-    setError(null);
-
-    try {
-      await onJoinSpectating(gameId);
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to join as spectator';
-      setError(errorMessage);
-      
-      if (onError) {
-        onError(err instanceof Error ? err : new Error(errorMessage));
-      }
-    } finally {
-      setIsJoining(false);
-    }
-  }, [gameId, canJoinAsSpectator, onJoinSpectating, onError]);
-
-  const handleLeaveSpectating = useCallback(async () => {
-    if (!onLeaveSpectating) return;
-
-    setIsLeaving(true);
-    setError(null);
-
-    try {
-      await onLeaveSpectating(gameId);
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to leave spectating';
-      setError(errorMessage);
-      
-      if (onError) {
-        onError(err instanceof Error ? err : new Error(errorMessage));
-      }
-    } finally {
-      setIsLeaving(false);
-    }
-  }, [gameId, onLeaveSpectating, onError]);
+  const {
+    isJoining,
+    isLeaving,
+    error,
+    handleJoinSpectating,
+    handleLeaveSpectating,
+    dismissError
+  } = useSpectatorActions({
+    gameId,
+    canJoinAsSpectator,
+    onJoinSpectating,
+    onLeaveSpectating,
+    onError
+  });
 
   const getSpectatorButtonText = () => {
     if (isJoining) return 'Joining...';
@@ -77,115 +53,32 @@ export const SpectatorManager: React.FC<SpectatorManagerProps> = ({
     return 'Spectate Game';
   };
 
-  const getSpectatorCount = () => {
-    return spectators.length;
-  };
-
   return (
     <div className={styles.spectatorManager}>
-      <div className={styles.spectatorInfo}>
-        <div className={styles.spectatorCount}>
-          <Badge variant="secondary">
-            {getSpectatorCount()} Spectator{getSpectatorCount() !== 1 ? 's' : ''}
-          </Badge>
-        </div>
+      <SpectatorInfo
+        spectators={spectators}
+        currentUserId={currentUserId}
+        isSpectating={isSpectating}
+      />
 
-        {isSpectating && currentSpectator && (
-          <div className={styles.currentSpectatorInfo}>
-            <Badge variant="primary" size="small">
-              You are spectating
-            </Badge>
-            <span className={styles.joinTime}>
-              Since {new Date(currentSpectator.joinedAt).toLocaleTimeString()}
-            </span>
-          </div>
-        )}
-      </div>
+      <ErrorMessage error={error} onDismiss={dismissError} />
 
-      {error && (
-        <div className={styles.errorMessage}>
-          <Badge variant="danger">Error: {error}</Badge>
-          <Button
-            variant="ghost"
-            size="small"
-            onClick={() => setError(null)}
-          >
-            Dismiss
-          </Button>
-        </div>
-      )}
+      <SpectatorActions
+        isSpectating={isSpectating}
+        canJoinAsSpectator={canJoinAsSpectator}
+        isJoining={isJoining}
+        isLeaving={isLeaving}
+        buttonText={getSpectatorButtonText()}
+        onJoin={handleJoinSpectating}
+        onLeave={handleLeaveSpectating}
+      />
 
-      <div className={styles.spectatorActions}>
-        {!isSpectating && canJoinAsSpectator && (
-          <Button
-            variant="ghost"
-            onClick={() => void handleJoinSpectating()}
-            disabled={isJoining}
-            loading={isJoining}
-            fullWidth
-          >
-            {getSpectatorButtonText()}
-          </Button>
-        )}
+      <SpectatorList
+        spectators={spectators}
+        currentUserId={currentUserId}
+      />
 
-        {isSpectating && (
-          <Button
-            variant="secondary"
-            onClick={() => void handleLeaveSpectating()}
-            disabled={isLeaving}
-            loading={isLeaving}
-            fullWidth
-          >
-            {getSpectatorButtonText()}
-          </Button>
-        )}
-
-        {!canJoinAsSpectator && !isSpectating && (
-          <div className={styles.spectatorDisabled}>
-            <Badge variant="secondary">
-              Spectating not available
-            </Badge>
-          </div>
-        )}
-      </div>
-
-      {spectators.length > 0 && (
-        <div className={styles.spectatorList}>
-          <div className={styles.spectatorListHeader}>
-            <h5>Current Spectators</h5>
-          </div>
-          
-          <div className={styles.spectatorItems}>
-            {spectators.map(spectator => (
-              <div 
-                key={spectator.id}
-                className={`${styles.spectatorItem} ${spectator.id === currentUserId ? styles.currentUser : ''}`}
-              >
-                <span className={styles.spectatorName}>
-                  {spectator.name}
-                  {spectator.id === currentUserId && (
-                    <Badge variant="primary" size="small">You</Badge>
-                  )}
-                </span>
-                <span className={styles.spectatorJoinTime}>
-                  {new Date(spectator.joinedAt).toLocaleTimeString()}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      <div className={styles.spectatorHints}>
-        <div className={styles.hint}>
-          <span className={styles.hintIcon}>👁️</span>
-          <span>Spectators can view all player hands and game state</span>
-        </div>
-        <div className={styles.hint}>
-          <span className={styles.hintIcon}>🔄</span>
-          <span>Seamlessly switch between spectating and playing</span>
-        </div>
-      </div>
+      <SpectatorHints />
     </div>
   );
 };
