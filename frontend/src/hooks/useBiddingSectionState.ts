@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { DominoSuit } from '@/types/texas42'
 import { validateBidAmount } from '@/utils/biddingSectionUtils'
 

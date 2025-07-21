@@ -18,8 +18,9 @@ export {
 import './lobby.mockComponents';
 
 // Helper function to render the component with context
+import { Lobby } from '../Lobby';
+
 export const renderLobby = () => {
-  const { Lobby } = require('../Lobby');
   return render(
     <LobbyStateProvider>
       <Lobby />

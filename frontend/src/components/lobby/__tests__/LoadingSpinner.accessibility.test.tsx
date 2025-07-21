@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { LoadingSpinner } from '../LoadingSpinner';
 
-export describe('LoadingSpinner - Accessibility', () => {
+describe('LoadingSpinner - Accessibility', () => {
   it('has proper ARIA attributes on spinner', () => {
     render(<LoadingSpinner />);
     

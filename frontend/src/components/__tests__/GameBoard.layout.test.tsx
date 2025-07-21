@@ -4,12 +4,6 @@ import { GameBoard } from '../GameBoard'
 import {
   GameState,
   Player,
-  createDomino,
-  DominoSuit,
-  createCompatibleTrick,
-  createCompatiblePlayedDomino,
-  createCompatibleBid,
-  createCompatibleBiddingState,
   createEmptyGameState
 } from '@texas42/shared-types'
 

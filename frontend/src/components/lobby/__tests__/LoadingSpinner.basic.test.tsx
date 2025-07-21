@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { LoadingSpinner } from '../LoadingSpinner';
 
-export describe('LoadingSpinner - Basic Rendering', () => {
+describe('LoadingSpinner - Basic Rendering', () => {
   it('renders loading spinner with default message', () => {
     render(<LoadingSpinner />);
     

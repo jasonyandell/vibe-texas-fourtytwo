@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { LoadingSpinner } from '../LoadingSpinner';
 
-export describe('LoadingSpinner - Error Handling & Performance', () => {
+describe('LoadingSpinner - Error Handling & Performance', () => {
   describe('Error Handling', () => {
     it('handles undefined props gracefully', () => {
       expect(() => {

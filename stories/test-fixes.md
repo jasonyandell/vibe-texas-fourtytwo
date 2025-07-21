@@ -66,6 +66,90 @@
 - [ ] **Missing Dependencies**: Fix useCallback dependency arrays
   - Files: `LobbyActions.ts`, `useBiddingState.ts`
 
+## Playwright E2E Tests (74 tests total - MASSIVE FAILURES)
+
+### Current Status: **All 74 tests are failing**
+- **Test Command**: `npm run test:e2e` (runs all tests in Chromium)
+- **Test Directory**: `/home/jason/fourtytwo/frontend/tests/e2e/`
+- **Configuration**: `frontend/playwright.config.ts` (properly configured)
+
+### Primary Issue: Missing Test Data IDs and Elements
+Most tests are failing because they cannot find expected DOM elements with specific `data-testid` attributes.
+
+### Failing Test Categories:
+
+#### 1. **Demo Board Showcase Tests** (16 tests - ALL FAILING)
+- **Files**: `demo-board-showcase-*.spec.ts`
+- **Primary Error**: `data-testid="game-board-section-container"` not found
+- **Missing Elements**:
+  - `[data-testid="demo-center-play-area"]`
+  - `[data-testid="demo-trick-stack-north-south"]` 
+  - `[data-testid="demo-scores-display"]`
+  - `[data-testid="game-board-section-container"]`
+
+#### 2. **Demo Dominoes Showcase Tests** (18 tests - ALL FAILING)
+- **Files**: `demo-dominoes-showcase-*.spec.ts`
+- **Primary Error**: Cannot find domino showcase elements
+- **Missing Elements**: Domino display components and interactive controls
+
+#### 3. **Demo Players Showcase Tests** (12 tests - ALL FAILING)
+- **Files**: `demo-players-showcase-*.spec.ts`
+- **Primary Error**: Player layout elements not found
+- **Missing Elements**: Baseball diamond player positioning elements
+
+#### 4. **Demo Foundation Tests** (5 tests - ALL FAILING)
+- **File**: `demo-foundation.spec.ts`
+- **Primary Error**: Basic demo page structure missing
+- **Expected Route**: `/demo/board` not rendering correctly
+
+#### 5. **Story Tests** (23 tests - ALL FAILING)
+- **Files**: `story-001-empty-lobby.spec.ts`, `story-002-create-game.spec.ts`
+- **Primary Error**: Basic lobby and game creation elements missing
+- **Missing Elements**: Lobby components, game creation modals
+
+### Root Cause Analysis:
+
+#### **Missing Demo Routes/Pages**
+The tests expect demo showcase pages at routes like:
+- `/demo/board` - Board showcase demos
+- `/demo/dominoes` - Domino showcase demos  
+- `/demo/players` - Player showcase demos
+- Basic lobby functionality at root
+
+#### **Missing Test Infrastructure**
+- Components don't have required `data-testid` attributes
+- Demo pages may not exist or may be incomplete
+- Test selectors don't match actual component structure
+
+#### **Test Environment Issues**
+- Frontend server starts correctly (port 3000)
+- Tests run but pages don't load expected content
+- Timeout errors (5000ms) suggest elements never appear
+
+### Critical Tasks Needed:
+
+#### **Immediate Blockers** (Must fix first):
+- [ ] **Verify Demo Routes Exist**: Check if `/demo/*` routes are implemented
+- [ ] **Add Missing Test IDs**: Add `data-testid` attributes to components
+- [ ] **Fix Component Structure**: Ensure components match test expectations
+- [ ] **Create Demo Pages**: Build missing showcase pages if they don't exist
+
+#### **Component-Specific Fixes**:
+- [ ] **GameBoard Components**: Add required test IDs to game board elements
+- [ ] **Domino Components**: Add test IDs to domino display and interaction elements  
+- [ ] **Player Components**: Add test IDs to player layout and partnership elements
+- [ ] **Lobby Components**: Add test IDs to lobby and game creation elements
+
+#### **Test Infrastructure**:
+- [ ] **Helper Functions**: Review and fix `create-game-helpers.ts` and other utilities
+- [ ] **Test Data**: Ensure tests have proper mock data and setup
+- [ ] **Route Configuration**: Verify frontend routing includes demo paths
+
+### Priority Level: **CRITICAL**
+- **Impact**: 100% test failure rate for E2E suite
+- **Blocking**: Prevents any confidence in UI functionality
+- **Effort**: Significant - requires component updates and possibly new demo pages
+
 ## Backend Tests: ✅ All 31 passed
 - No issues - game engine, domino logic working correctly
 

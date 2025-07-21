@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { LoadingSpinner } from '../LoadingSpinner';
 
-export describe('LoadingSpinner - CSS Classes and Structure', () => {
+describe('LoadingSpinner - CSS Classes and Structure', () => {
   it('applies correct CSS classes to container', () => {
     render(<LoadingSpinner />);
     

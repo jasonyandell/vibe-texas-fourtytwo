@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { LoadingSpinner } from '../LoadingSpinner';
 
-export describe('LoadingSpinner - Size Variants', () => {
+describe('LoadingSpinner - Size Variants', () => {
   it('applies small size class', () => {
     render(<LoadingSpinner size="small" />);
     

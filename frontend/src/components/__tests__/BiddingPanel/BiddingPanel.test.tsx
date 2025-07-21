@@ -1,6 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen } from '@/test/test-utils';
-import { BiddingPanel } from '../../BiddingPanel';
+import { describe, vi, beforeEach } from 'vitest';
 import { testHelpers } from './test-helpers';
 import { renderingTests } from './rendering.test';
 import { trumpSelectionTests } from './trump-selection.test';

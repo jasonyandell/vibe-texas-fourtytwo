@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { LoadingSpinner } from '../LoadingSpinner';
 
-export describe('LoadingSpinner - Component Composition', () => {
+describe('LoadingSpinner - Component Composition', () => {
   it('renders spinner and message together', () => {
     render(<LoadingSpinner message="Loading data..." />);
     

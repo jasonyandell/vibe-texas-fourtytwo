@@ -6,7 +6,7 @@ This document outlines the critical issues identified in the frontend workspace.
 
 These issues cause a cascading effect, leading to a large number of test failures.
 
-- [ ] **Test Setup: Component Rendering:** Fix the `Element type is invalid... got: undefined` error affecting most `GameStartManager` tests. This is likely due to an incorrect import/export of the component.
+- [x] **Test Setup: Component Rendering:** Fix the `Element type is invalid... got: undefined` error affecting most `GameStartManager` tests. This is likely due to an incorrect import/export of the component.
 - [ ] **Test Setup: Missing Context:** Wrap all tests using `useGameState` or related hooks with the `GameStateProvider` to resolve the `useGameStateContext must be used within a GameStateProvider` error.
 - [ ] **Test Setup: Module Resolution:** Resolve the `Cannot find module '../Lobby'` error in all `Lobby` component tests. This may be a pathing issue or a problem with the test setup file (`Lobby.testSetup.tsx`).
 - [ ] **Test Setup: Syntax Errors:** Fix test files that cannot be parsed.

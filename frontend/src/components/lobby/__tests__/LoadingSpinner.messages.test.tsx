@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { LoadingSpinner } from '../LoadingSpinner';
 
-export describe('LoadingSpinner - Custom Messages', () => {
+describe('LoadingSpinner - Custom Messages', () => {
   it('displays custom message when provided', () => {
     render(<LoadingSpinner message="Loading players..." />);
     
