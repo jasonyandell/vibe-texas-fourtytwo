@@ -32,7 +32,7 @@ describe('GameStartManager - Game Start Functionality', () => {
     expect(mockHandlers.onGameStarted).toHaveBeenCalledWith(mockGameState);
   });
 
-  it('does not start game when not ready', async () => {
+  it('does not start game when not ready', () => {
     render(<GameStartManager gameId="test-game" players={mockPlayers} {...mockHandlers} />);
     
     const startButton = screen.getByRole('button', { name: 'Need 1 More Players' });

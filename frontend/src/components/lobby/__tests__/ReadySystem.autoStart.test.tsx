@@ -109,13 +109,13 @@ describe('ReadySystem - Auto-Start Countdown', () => {
     expect(screen.getByText('Starting in 5s')).toBeInTheDocument();
   });
 
-  it('disables buttons when game is starting', async () => {
+  it('disables buttons when game is starting', () => {
     render(<ReadySystem players={allReadyPlayers} gameId="test-game" {...mockHandlers} />);
     
     const startButton = screen.getByRole('button', { name: 'Start Game Now' });
     
     // Click and wait for all state updates
-    await act(async () => {
+    act(() => {
       fireEvent.click(startButton);
     });
     
@@ -123,18 +123,18 @@ describe('ReadySystem - Auto-Start Countdown', () => {
     expect(screen.getByRole('button', { name: 'Starting Game...' })).toBeDisabled();
     
     // Complete the async operation
-    await act(async () => {
+    act(() => {
       vi.advanceTimersByTime(100);
     });
   });
 
-  it('shows loading state on start button', async () => {
+  it('shows loading state on start button', () => {
     render(<ReadySystem players={allReadyPlayers} gameId="test-game" {...mockHandlers} />);
     
     const startButton = screen.getByRole('button', { name: 'Start Game Now' });
     
     // Click and wait for all state updates
-    await act(async () => {
+    act(() => {
       fireEvent.click(startButton);
     });
     
@@ -142,7 +142,7 @@ describe('ReadySystem - Auto-Start Countdown', () => {
     expect(screen.getByRole('button', { name: 'Starting Game...' })).toBeInTheDocument();
     
     // Complete the async operation
-    await act(async () => {
+    act(() => {
       vi.advanceTimersByTime(100);
     });
   });

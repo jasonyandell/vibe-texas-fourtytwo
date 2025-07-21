@@ -25,8 +25,8 @@ vi.mock('../lobby/CreateGameModal', () => ({
     <div data-testid="create-game-modal">
       <button 
         data-testid="create-game-button" 
-        onClick={async () => {
-          await onCreateGame('New Test Game');
+        onClick={() => {
+          void onCreateGame('New Test Game');
           onClose();
         }}
       >

@@ -130,7 +130,7 @@ export class MockApiSetup {
     // Mock WebSocket connections (placeholder)
     await this.page.addInitScript(() => {
       // Override WebSocket to prevent actual connections during tests
-      (window as typeof window & { WebSocket: typeof WebSocket }).WebSocket = class MockWebSocket {
+      (window as typeof window & { WebSocket: unknown }).WebSocket = class MockWebSocket {
         static readonly CONNECTING = 0;
         static readonly OPEN = 1;
         static readonly CLOSING = 2;
@@ -147,7 +147,7 @@ export class MockApiSetup {
         onerror: ((event: Event) => void) | null = null;
         send() { /* mock */ }
         close() { /* mock */ }
-      } as any;
+      } as unknown as typeof WebSocket;
     });
   }
 

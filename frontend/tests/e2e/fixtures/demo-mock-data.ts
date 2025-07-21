@@ -1,4 +1,4 @@
-import { GameState, Domino, Trick, PlayedDomino, Bid, BiddingState, DominoSuit, getSuitName } from '@texas42/shared-types';
+import { GameState, Domino, Trick, PlayedDomino, Bid, BiddingState, getSuitName } from '@texas42/shared-types';
 
 // Mock dominoes for demo purposes
 export const mockDominoes = {

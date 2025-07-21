@@ -7,7 +7,7 @@ Fix the tests.
 [✅] Frontend tests: Some tests have incorrect expectations about modal behavior and form validation
 [✅] Frontend tests failing
 [✅] E2E test errors
-[ ] Linting errors
+[✅] Linting errors
 [ ] Typescript errors
 [ ] Comprehensive test run errors and warnings 1
 [ ] E2E test errors
