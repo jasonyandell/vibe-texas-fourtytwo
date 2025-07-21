@@ -3,7 +3,6 @@ import { render, screen } from '@testing-library/react';
 import { TestProviders } from '@/test/test-providers';
 import { SpectatorView } from '../SpectatorView';
 import { mockGameState, mockSpectators } from './SpectatorView.test-fixtures';
-import { mockHandlers } from './SpectatorView.test-utils';
 import './SpectatorView.test-utils';
 
 describe('SpectatorView - Basic Rendering', () => {
