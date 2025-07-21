@@ -67,7 +67,7 @@ export const mockFullReadyPlayers: (Player | null)[] = [
 export const mockGameState: GameState = {
   id: 'test-game',
   phase: 'playing',
-  players: mockFullReadyPlayers.filter(p => p !== null) as Player[],
+  players: mockFullReadyPlayers.filter(p => p !== null),
   currentPlayer: 'player-1',
   trump: 'doubles',
   currentTrick: undefined,
