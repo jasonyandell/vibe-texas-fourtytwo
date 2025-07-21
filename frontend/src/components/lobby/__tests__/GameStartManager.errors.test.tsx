@@ -2,49 +2,11 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { GameStartManager } from '../GameStartManager';
-import { Player, GameState } from '@/types/texas42';
+import { mockFullReadyPlayers } from './fixtures/playerMocks';
+import { setupMockHandlers } from './fixtures/handlerMocks';
 
 describe('GameStartManager - Error Handling', () => {
-  const mockFullReadyPlayers: (Player | null)[] = [
-    {
-      id: 'player-1',
-      name: 'Alice',
-      position: 'north',
-      hand: [],
-      isConnected: true,
-      isReady: true
-    },
-    {
-      id: 'player-2',
-      name: 'Bob',
-      position: 'east',
-      hand: [],
-      isConnected: true,
-      isReady: true
-    },
-    {
-      id: 'player-3',
-      name: 'Carol',
-      position: 'south',
-      hand: [],
-      isConnected: true,
-      isReady: true
-    },
-    {
-      id: 'player-4',
-      name: 'Dave',
-      position: 'west',
-      hand: [],
-      isConnected: true,
-      isReady: true
-    }
-  ];
-
-  const mockHandlers = {
-    onStartGame: vi.fn(),
-    onGameStarted: vi.fn(),
-    onError: vi.fn()
-  };
+  const mockHandlers = setupMockHandlers();
 
   beforeEach(() => {
     vi.clearAllMocks();
