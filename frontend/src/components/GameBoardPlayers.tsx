@@ -103,6 +103,7 @@ export const GameBoardPlayers: React.FC<GameBoardPlayersProps> = ({
           faceDown={!showHand}
           onDominoClick={isCurrentUser ? (domino) => onDominoPlay?.(domino.id) : undefined}
           className={styles.playerHand}
+          compact={true}
         />
       )}
     </div>

@@ -122,15 +122,18 @@
     ". south .";
   grid-template-columns: 1fr 2fr 1fr;
   grid-template-rows: 1fr 2fr 1fr;
-  gap: 1rem;
-  padding: 2rem;
+  gap: 0.5rem;
+  padding: 1rem;
   background: radial-gradient(ellipse at center, 
     rgba(13, 95, 60, 0.8) 0%, 
     rgba(10, 77, 50, 0.9) 100%);
   border-radius: 50%;
-  margin: 1rem;
+  margin: 0.5rem;
   border: 8px solid var(--color-wood-brown);
   box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.3);
+  max-width: 900px;
+  max-height: 600px;
+  margin: 0 auto;
 }
 
 .mobileFriendly {
@@ -143,12 +146,15 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding: 0.5rem;
   background: rgba(0, 0, 0, 0.2);
   border-radius: 12px;
   border: 2px solid transparent;
   transition: all 0.3s ease;
   position: relative;
+  max-width: 300px;
+  min-height: 150px;
+  overflow: visible;
 }
 
 .playerNorth {
@@ -175,31 +181,31 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
+  gap: 0.25rem;
+  margin-bottom: 0.25rem;
 }
 
 .playerName {
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 0.875rem;
   text-align: center;
 }
 
 .dealerBadge {
   background: var(--color-gold);
   color: black;
-  padding: 0.2rem 0.5rem;
+  padding: 0.1rem 0.3rem;
   border-radius: 12px;
-  font-size: 0.7rem;
+  font-size: 0.6rem;
   font-weight: bold;
 }
 
 .currentPlayerBadge {
   background: var(--color-blue);
   color: white;
-  padding: 0.2rem 0.5rem;
+  padding: 0.1rem 0.3rem;
   border-radius: 12px;
-  font-size: 0.7rem;
+  font-size: 0.6rem;
   font-weight: bold;
   animation: pulse 2s infinite;
 }
@@ -207,9 +213,9 @@
 .currentBidderBadge {
   background: var(--color-gold);
   color: black;
-  padding: 0.2rem 0.5rem;
+  padding: 0.1rem 0.3rem;
   border-radius: 12px;
-  font-size: 0.7rem;
+  font-size: 0.6rem;
   font-weight: bold;
   animation: biddingPulse 1.5s infinite;
 }
@@ -239,7 +245,9 @@
 }
 
 .playerHand {
-  margin-top: 0.5rem;
+  margin-top: 0.25rem;
+  max-width: 100%;
+  overflow: visible;
 }
 
 /* Center Play Area */
@@ -252,8 +260,10 @@
   background: rgba(0, 0, 0, 0.3);
   border-radius: 20px;
   border: 3px solid var(--color-wood-brown);
-  padding: 1.5rem;
-  min-height: 200px;
+  padding: 1rem;
+  min-height: 150px;
+  max-height: 400px;
+  overflow: visible;
 }
 
 /* Bidding Area Styles */
@@ -263,30 +273,37 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem;
+  padding: 0.5rem;
+  overflow: visible;
 }
 
 .biddingContainer {
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem;
   align-items: flex-start;
-  max-width: 700px;
+  max-width: 500px;
   width: 100%;
+  height: auto;
+  overflow: visible;
 }
 
 .centerBiddingPanel {
   flex: 1;
-  max-width: 350px;
+  max-width: 300px;
   background: rgba(0, 0, 0, 0.6);
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  height: auto;
+  overflow-y: auto;
 }
 
 .biddingHistoryPanel {
-  flex: 0 0 280px;
+  flex: 0 0 200px;
   background: rgba(0, 0, 0, 0.6);
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  max-height: 350px;
+  overflow-y: auto;
 }
 
 .currentTrick h3 {

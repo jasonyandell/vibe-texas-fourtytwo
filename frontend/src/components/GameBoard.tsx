@@ -22,7 +22,8 @@ export const GameBoard: React.FC<GameBoardProps> = ({
   onDominoPlay,
   isSpectatorMode = false
 }) => {
-  const { gameId } = useParams<{ gameId: string }>();
+  const params = useParams<{ gameId: string }>();
+  const gameId = params?.gameId || gameState?.id || 'test-game';
 
   // Try to get the game state context, but don't fail if it's not available (for tests)
   let updateGameState: ((gameState: GameState) => void) | undefined;
