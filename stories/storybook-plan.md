@@ -6,78 +6,27 @@ This plan outlines the integration of Storybook into the Texas 42 project to enh
 
 ## Current Status ✅
 
-### Completed (Week 1) ✅
-- ✅ Storybook 9.0.18 installed with Vite builder
-- ✅ TypeScript and React configuration working
-- ✅ CSS modules and global styles configured
-- ✅ Core component stories created:
-  - `DominoComponent.stories.tsx` - All variants with interactivity
-  - `DominoHand.stories.tsx` - Hand management and selection
-  - `GameBoard.stories.tsx` - Complete game states and scenarios
-  - `GameBoardPlayers.stories.tsx` - Player positions and states
-  - `GameBoardCenter.stories.tsx` - Trick display and bidding
-- ✅ Context decorators added (MemoryRouter + GameStateProvider)
-- ✅ Shared fixtures created:
-  - `dominoes.ts` - Standard domino sets and helpers
-  - `gameStates.ts` - Various game state scenarios
-  - `players.ts` - Player configurations
-  - `tricks.ts` - Trick scenarios and utilities
-- ✅ Essential addons installed (viewport, a11y)
-- ✅ Comprehensive Playwright tests for Storybook verification
-- ✅ Fixed data structure mismatches (Bid interface, gameState properties)
-- ✅ Fixed CSS overflow issues and made layout more compact
-- ✅ Fixed Router errors in Storybook stories
-- ✅ Added root-level `npm run storybook` command
+### Completed ✅
+- ✅ Storybook setup with Vite
+- ✅ Core game components: DominoComponent, DominoHand, GameBoard, GameBoardPlayers, GameBoardCenter
+- ✅ Bidding components: BiddingPanel, BiddingHistory  
+- ✅ Info components: GameBoardHeader, TrumpSuitCard
+- ✅ Shared fixtures and test data
+- ✅ Context decorators (Router + GameState)
+- ✅ Playwright tests
+- ✅ Root-level storybook command
 
 ## Immediate Next Steps (This Week)
 
-### 0. Deploy to GitHub Pages (TOP PRIORITY) 🚀
-- Add `build-storybook` script to package.json
-- Create GitHub Action workflow for automatic deployment
-- Configure GitHub Pages to serve from gh-pages branch
-- Add deployment badge to README
+### 1. Complete Remaining Components
 
-### 1. Complete Remaining Game Components
-Create stories for other essential components:
-
-#### BiddingPanel & Related Components
+#### Game Components
 ```typescript
-// BiddingPanel.stories.tsx
-- Default (player's turn to bid)
-- NotPlayerTurn (disabled state)
-- MinimumBid (30 start)
-- MaximumBid (42)
-- WithTrumpSelection
-
-// BiddingHistory.stories.tsx
-- EmptyHistory
-- SingleBid
-- MultipleBids
-- WithPasses
-- AllPlayersPass
-```
-
-#### Game Header & Info Components
-```typescript
-// GameBoardHeader.stories.tsx
-- Default
-- WithScores
-- GameComplete
-- Disconnected
-
 // GameBoardTrickStacks.stories.tsx
 - Empty
 - PartialStacks
 - FullStacks
 - WithCountDominoes
-```
-
-#### UI Components
-```typescript
-// TrumpSuitCard.stories.tsx
-- AllSuits (blanks through sixes)
-- Selected
-- Disabled
 
 // Header.stories.tsx
 - Default
@@ -199,12 +148,14 @@ frontend/
 │   │   ├── GameBoard.stories.tsx          ✅
 │   │   ├── GameBoardPlayers.stories.tsx   ✅
 │   │   ├── GameBoardCenter.stories.tsx    ✅
-│   │   ├── BiddingPanel.stories.tsx       📝 Next
-│   │   ├── BiddingHistory.stories.tsx     📝 Next
-│   │   ├── GameBoardHeader.stories.tsx    📝 Next
-│   │   └── TrumpSuitCard.stories.tsx      📝 Next
+│   │   ├── BiddingPanel.stories.tsx       ✅
+│   │   ├── BiddingHistory.stories.tsx     ✅
+│   │   ├── GameBoardHeader.stories.tsx    ✅
+│   │   ├── TrumpSuitCard.stories.tsx      ✅
+│   │   ├── GameBoardTrickStacks.stories.tsx 📝 Next
+│   │   └── Header.stories.tsx             📝 Next
 │   └── stories/
-│       └── fixtures/    ✅ Created with all test data
+│       └── fixtures/    ✅
 ```
 
 ## Best Practices Going Forward
@@ -267,4 +218,10 @@ npm run type-check
 
 ---
 
-**Next Action**: Create `BiddingPanel.stories.tsx` and `BiddingHistory.stories.tsx` following the established patterns. These are critical game flow components that handle bid submission and display bid progression.
+**Next Action**: Create `GameBoardTrickStacks.stories.tsx` and `Header.stories.tsx` to complete the core game components.
+
+### [LATER] Deploy to GitHub Pages
+- Add `build-storybook` script to package.json
+- Create GitHub Action workflow for automatic deployment
+- Configure GitHub Pages to serve from gh-pages branch
+- Add deployment badge to README
