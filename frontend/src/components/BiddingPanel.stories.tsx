@@ -129,7 +129,7 @@ export const WithTrumpSelection: Story = {
     onBid: () => {},
     onPass: () => {},
   },
-  render: function BiddingPanelWithState(args) {
+  render: function BiddingPanelWithState(_args) {
     const [currentBid, setCurrentBid] = useState<Bid | null>(null);
     const [bidHistory, setBidHistory] = useState<string[]>([]);
     

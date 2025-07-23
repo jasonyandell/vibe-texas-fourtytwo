@@ -15,88 +15,165 @@ This plan outlines the integration of Storybook into the Texas 42 project to enh
 - ✅ Context decorators (Router + GameState)
 - ✅ Playwright tests
 - ✅ Root-level storybook command
+- ✅ GameBoardTrickStacks stories (all 4 states)
+- ✅ Header stories (all 3 states)
 
-## Immediate Next Steps (This Week)
+## Recently Completed ✅
 
-### 1. Complete Remaining Components
+### Phase 2: Lobby & Game Management Components ✅
 
-#### Game Components
+#### Lobby Components ✅
 ```typescript
-// GameBoardTrickStacks.stories.tsx
-- Empty
-- PartialStacks
-- FullStacks
-- WithCountDominoes
+// GameCard.stories.tsx ✅
+- WaitingForPlayers ✅
+- GameInProgress ✅
+- GameComplete ✅
+- SpectatorMode ✅
 
-// Header.stories.tsx
-- Default
-- WithUser
-- MobileView
+// CreateGameModal.stories.tsx ✅
+- Default ✅
+- FormValidation ✅
+- Creating ✅
+- Error ✅
+
+// PlayerSlot.stories.tsx ✅
+- Empty ✅
+- Occupied ✅
+- Ready/NotReady ✅
+- Disconnected ✅
 ```
 
-## Next Phase (Next 2 Weeks)
-
-### Phase 2: Lobby & Game Management Components
-
-#### Lobby Components
+#### Score & Status Components ✅
 ```typescript
-// GameCard.stories.tsx
-- WaitingForPlayers
-- GameInProgress
-- GameComplete
-- SpectatorMode
+// ScoreDisplay.stories.tsx ✅
+- ZeroScore ✅
+- MidGame ✅
+- NearWinning ✅
+- GameWon ✅
 
-// CreateGameModal.stories.tsx
-- Default
-- FormValidation
-- Creating
-- Error
-
-// PlayerSlot.stories.tsx
-- Empty
-- Occupied
-- Ready/NotReady
-- Disconnected
+// GameStatus.stories.tsx ✅
+- Waiting ✅
+- Bidding (N/A - component only supports waiting/playing/finished)
+- Playing ✅
+- Complete ✅
 ```
 
-#### Score & Status Components
-```typescript
-// ScoreDisplay.stories.tsx
-- ZeroScore
-- MidGame
-- NearWinning
-- GameWon
+## Next Phase: Phase 3 - Testing Integration
 
-// GameStatus.stories.tsx
-- Waiting
-- Bidding
-- Playing
-- Complete
+### Phase 3: Testing Integration (Start Small!)
+
+#### Overview
+Transform existing tests to use Storybook stories as fixtures, reducing duplication and ensuring stories stay accurate. Start with ONE component family to learn the pattern.
+
+#### Step 1: Choose Your Starting Point
+**Option A: DominoComponent** (Recommended)
+- Already has comprehensive stories
+- Tests have lots of fixture setup
+- Visual component = easy to verify
+
+**Option B: Lobby Components**
+- Just created stories (fresh in mind)
+- Simpler interactions
+- Good for learning basics
+
+#### Step 2: Integration Pattern Roadmap
+
+##### 2.1 Simple Prop Reuse (Start Here!)
+```typescript
+// Find tests that just render with props
+// Replace hardcoded props with story args
+import { Default } from './Component.stories';
+render(<Component {...Default.args} />);
 ```
 
-### Phase 3: Testing Integration
-
-1. **Import Stories in Tests**
+##### 2.2 Override Story Props
 ```typescript
-import { Default as DefaultDomino } from './DominoComponent.stories';
-import { render } from '@testing-library/react';
-
-test('renders default domino', () => {
-  render(<DefaultDomino {...DefaultDomino.args} />);
-});
+// Keep story defaults but customize for test
+render(<Component {...Default.args} domino={myTestDomino} />);
 ```
 
-2. **Play Functions**
+##### 2.3 Complex Setup Reuse
 ```typescript
-export const ClickToSelect: Story = {
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    const domino = canvas.getByTestId('domino-6-4');
-    await userEvent.click(domino);
-    await expect(domino).toHaveClass('selected');
-  },
+// Find tests with mock data/complex setup
+// Replace with story that already has that setup
+import { GameInProgress } from './GameCard.stories';
+// Use the whole story setup
+```
+
+#### Step 3: Add Play Functions (Interactive Tests)
+
+##### 3.1 Basic Click Test
+```typescript
+play: async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const domino = canvas.getByTestId('domino-3-3');
+  
+  // Test the interaction
+  await userEvent.click(domino);
+  await expect(domino).toHaveClass('selected');
+}
+```
+
+##### 3.2 Multi-Step Interactions
+Focus on these key flows:
+1. **Domino Selection** - Click to select/deselect
+2. **Join Game** - Empty slot → Join → Ready
+3. **Bid Submission** - Enter bid → Validate → Submit
+4. **Game State Changes** - Waiting → Playing → Complete
+
+#### Step 4: Implementation Checklist
+
+**Week 1: Learn the Pattern**
+- [ ] Pick ONE component (DominoComponent recommended)
+- [ ] Find 3-5 simple tests to convert
+- [ ] Import stories, use args
+- [ ] Verify tests still pass
+- [ ] Add 1 play function
+
+**Week 2: Expand & Evaluate**
+- [ ] Convert 5 more tests
+- [ ] Add 2-3 more play functions
+- [ ] Document what worked/didn't work
+- [ ] Decide: Continue or stop?
+
+#### Common Patterns You'll Find
+
+**Pattern 1: Fixture Arrays**
+```typescript
+// Before: Test has array of test data
+const testDominoes = [/* lots of setup */];
+
+// After: Import from story
+import { allDominoes } from './fixtures';
+```
+
+**Pattern 2: State Testing**
+```typescript
+// Before: Multiple tests for each state
+it('shows selected state', () => {/*...*/});
+it('shows playable state', () => {/*...*/});
+
+// After: One story with play function
+export const InteractiveStates: Story = {
+  play: async () => {
+    // Test all states in sequence
+  }
 };
 ```
+
+**Pattern 3: Mock Functions**
+```typescript
+// Keep mocks in tests, stories handle visual
+const onClick = vi.fn();
+render(<Component {...Story.args} onClick={onClick} />);
+```
+
+#### Success Metrics
+- [ ] 5-10 tests use story imports
+- [ ] 3-5 stories have play functions
+- [ ] Tests are easier to understand
+- [ ] No increase in test runtime
+- [ ] Clear decision: worth continuing?
 
 ### Phase 4: Build & Deploy
 
@@ -152,8 +229,14 @@ frontend/
 │   │   ├── BiddingHistory.stories.tsx     ✅
 │   │   ├── GameBoardHeader.stories.tsx    ✅
 │   │   ├── TrumpSuitCard.stories.tsx      ✅
-│   │   ├── GameBoardTrickStacks.stories.tsx 📝 Next
-│   │   └── Header.stories.tsx             📝 Next
+│   │   ├── GameBoardTrickStacks.stories.tsx ✅
+│   │   ├── Header.stories.tsx             ✅
+│   │   └── lobby/
+│   │       ├── GameCard.stories.tsx       ✅
+│   │       ├── CreateGameModal.stories.tsx ✅
+│   │       ├── PlayerSlot.stories.tsx     ✅
+│   │       ├── ScoreDisplay.stories.tsx   ✅
+│   │       └── GameStatus.stories.tsx     ✅
 │   └── stories/
 │       └── fixtures/    ✅
 ```
@@ -218,7 +301,7 @@ npm run type-check
 
 ---
 
-**Next Action**: Create `GameBoardTrickStacks.stories.tsx` and `Header.stories.tsx` to complete the core game components.
+**Next Action**: Phase 2 - Create Lobby & Game Management Component stories (GameCard, CreateGameModal, PlayerSlot, ScoreDisplay, GameStatus).
 
 ### [LATER] Deploy to GitHub Pages
 - Add `build-storybook` script to package.json

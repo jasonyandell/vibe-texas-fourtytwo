@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { TrumpSuitCard, TrumpSuitInfo } from './TrumpSuitCard';
+import { TrumpSuitCard } from './TrumpSuitCard';
 import { trumpSuits } from '@/utils/trumpUtils';
 import { useState } from 'react';
 import { DominoSuit } from '@/types/texas42';
@@ -88,7 +88,7 @@ export const InteractiveSelection: Story = {
     isSelected: false,
     onClick: () => {},
   },
-  render: function TrumpSuitSelector(args) {
+  render: function TrumpSuitSelector(_args) {
     const [selectedSuit, setSelectedSuit] = useState<DominoSuit | null>(null);
     
     return (
@@ -164,7 +164,7 @@ export const MultipleSelections: Story = {
     isSelected: false,
     onClick: () => {},
   },
-  render: function MultiTrumpSelector(args) {
+  render: function MultiTrumpSelector(_args) {
     const [selectedSuits, setSelectedSuits] = useState<Set<DominoSuit>>(new Set());
     
     const toggleSuit = (suit: DominoSuit) => {
