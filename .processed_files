@@ -1,8 +1,0 @@
-frontend/tests/e2e/fixtures/demo-mock-data.ts
-frontend/src/components/__tests__/BiddingPanel.test.tsx
-frontend/src/components/lobby/__tests__/GameCard.test.tsx
-frontend/src/components/__tests__/GameBoard.players.test.tsx
-frontend/src/utils/__tests__/biddingValidation.test.ts
-frontend/tests/e2e/demo-dominoes-showcase.spec.ts
-frontend/tests/e2e/fixtures/test-setup.ts
-frontend/tests/e2e/fixtures/mock-api-setup.ts

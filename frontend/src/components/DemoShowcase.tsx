@@ -5,6 +5,7 @@ import { DominoesSection } from './DominoesSection'
 import { PlayersSection } from './PlayersSection'
 import { BiddingSection } from './BiddingSection'
 import { GameBoardSection } from './GameBoardSection'
+import { LobbySection } from './LobbySection'
 import styles from './DemoShowcase.module.css'
 
 // Demo section types
@@ -94,7 +95,9 @@ export const DemoShowcase: React.FC = () => {
           >
             <h2>Lobby & Game Management</h2>
             <p>Game creation, player management, and spectator mode.</p>
-            {/* TODO: Add flow showcase content */}
+            {currentSection === 'flow' && (
+              <LobbySection />
+            )}
           </section>
         </div>
       </main>

@@ -104,3 +104,6 @@ temp/
 # Texas 42 specific
 game-state-backups/
 *.game
+
+*storybook.log
+storybook-static
