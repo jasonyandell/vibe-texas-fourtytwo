@@ -6,115 +6,124 @@ This plan outlines the integration of Storybook into the Texas 42 project to enh
 
 ## Current Status ✅
 
-### Completed (Phase 1)
+### Completed (Week 1) ✅
 - ✅ Storybook 9.0.18 installed with Vite builder
 - ✅ TypeScript and React configuration working
 - ✅ CSS modules and global styles configured
-- ✅ Controls panel moved to right side for better layout
-- ✅ Path aliases working (@/ imports)
-- ✅ Two component stories created:
-  - `DominoComponent.stories.tsx` - Complete with all variants
-  - `DominoHand.stories.tsx` - Interactive hand management
-
-### What's Working
-- All domino pips render correctly
-- CSS variables and styling load properly
-- Interactive controls for all component props
-- Count domino highlighting (orange borders)
-- Point value badges (green for 5, red for 10)
-- Component interactivity (click to select, etc.)
+- ✅ Core component stories created:
+  - `DominoComponent.stories.tsx` - All variants with interactivity
+  - `DominoHand.stories.tsx` - Hand management and selection
+  - `GameBoard.stories.tsx` - Complete game states and scenarios
+  - `GameBoardPlayers.stories.tsx` - Player positions and states
+  - `GameBoardCenter.stories.tsx` - Trick display and bidding
+- ✅ Context decorators added (MemoryRouter + GameStateProvider)
+- ✅ Shared fixtures created:
+  - `dominoes.ts` - Standard domino sets and helpers
+  - `gameStates.ts` - Various game state scenarios
+  - `players.ts` - Player configurations
+  - `tricks.ts` - Trick scenarios and utilities
+- ✅ Essential addons installed (viewport, a11y)
+- ✅ Comprehensive Playwright tests for Storybook verification
+- ✅ Fixed data structure mismatches (Bid interface, gameState properties)
+- ✅ Fixed CSS overflow issues and made layout more compact
+- ✅ Fixed Router errors in Storybook stories
+- ✅ Added root-level `npm run storybook` command
 
 ## Immediate Next Steps (This Week)
 
-### 1. Complete Core Game Components
-Create stories for the remaining critical game pieces:
+### 0. Deploy to GitHub Pages (TOP PRIORITY) 🚀
+- Add `build-storybook` script to package.json
+- Create GitHub Action workflow for automatic deployment
+- Configure GitHub Pages to serve from gh-pages branch
+- Add deployment badge to README
 
-#### GameBoard Component
+### 1. Complete Remaining Game Components
+Create stories for other essential components:
+
+#### BiddingPanel & Related Components
 ```typescript
-// GameBoard.stories.tsx
-- Default (empty board)
-- ActiveGame (with dominoes in play)
-- TrickInProgress (showing current trick)
-- GameComplete (final state)
+// BiddingPanel.stories.tsx
+- Default (player's turn to bid)
+- NotPlayerTurn (disabled state)
+- MinimumBid (30 start)
+- MaximumBid (42)
+- WithTrumpSelection
+
+// BiddingHistory.stories.tsx
+- EmptyHistory
+- SingleBid
+- MultipleBids
+- WithPasses
+- AllPlayersPass
 ```
 
-#### PlayerPosition Component  
+#### Game Header & Info Components
 ```typescript
-// PlayerPosition.stories.tsx
-- AllPositions (N, S, E, W display)
-- ActivePlayer (highlighted)
-- WithDominoCount (showing remaining dominoes)
-- Disconnected (grayed out state)
+// GameBoardHeader.stories.tsx
+- Default
+- WithScores
+- GameComplete
+- Disconnected
+
+// GameBoardTrickStacks.stories.tsx
+- Empty
+- PartialStacks
+- FullStacks
+- WithCountDominoes
 ```
 
-#### Trick Component
+#### UI Components
 ```typescript
-// Trick.stories.tsx
-- EmptyTrick
-- PartialTrick (1-3 dominoes played)
-- CompleteTrick (all 4 dominoes)
-- WinningDomino (highlighted)
-```
+// TrumpSuitCard.stories.tsx
+- AllSuits (blanks through sixes)
+- Selected
+- Disabled
 
-### 2. Add Context Decorators
-Set up global decorators in `.storybook/preview.tsx`:
-```typescript
-// Add game state context for components that need it
-export const decorators = [
-  (Story) => (
-    <MemoryRouter>
-      <GameStateProvider mockState={defaultGameState}>
-        <Story />
-      </GameStateProvider>
-    </MemoryRouter>
-  ),
-];
-```
-
-### 3. Create Shared Fixtures
-```
-frontend/src/stories/fixtures/
-├── dominoes.ts      # Standard domino sets
-├── gameStates.ts    # Various game states  
-├── players.ts       # Player configurations
-└── tricks.ts        # Trick scenarios
-```
-
-### 4. Add Essential Addons
-```bash
-npm install --save-dev @storybook/addon-a11y @storybook/addon-viewport
-```
-
-Update `.storybook/main.ts`:
-```typescript
-addons: [
-  '@storybook/addon-docs',
-  '@storybook/addon-viewport',  // Mobile testing
-  '@storybook/addon-a11y',      // Accessibility
-]
+// Header.stories.tsx
+- Default
+- WithUser
+- MobileView
 ```
 
 ## Next Phase (Next 2 Weeks)
 
-### Phase 2: Game Flow Components
+### Phase 2: Lobby & Game Management Components
 
-#### BiddingPanel
-- Bid progression (30-42)
-- Trump selection interface
-- Pass/bid states
-- Timer integration
+#### Lobby Components
+```typescript
+// GameCard.stories.tsx
+- WaitingForPlayers
+- GameInProgress
+- GameComplete
+- SpectatorMode
 
-#### ScoreBoard  
-- Various score states
-- Round winner highlights
-- Game winner celebration
-- Point breakdown display
+// CreateGameModal.stories.tsx
+- Default
+- FormValidation
+- Creating
+- Error
 
-#### GameCard (Lobby)
-- Waiting for players
-- Game in progress
-- Completed game
-- Join button states
+// PlayerSlot.stories.tsx
+- Empty
+- Occupied
+- Ready/NotReady
+- Disconnected
+```
+
+#### Score & Status Components
+```typescript
+// ScoreDisplay.stories.tsx
+- ZeroScore
+- MidGame
+- NearWinning
+- GameWon
+
+// GameStatus.stories.tsx
+- Waiting
+- Bidding
+- Playing
+- Complete
+```
 
 ### Phase 3: Testing Integration
 
@@ -180,18 +189,22 @@ export const ClickToSelect: Story = {
 ```
 frontend/
 ├── .storybook/
-│   ├── main.ts          ✅ Configured
-│   ├── preview.ts       ✅ CSS imports added
+│   ├── main.ts          ✅ Configured with addons
+│   ├── preview.tsx      ✅ Context decorators added
 │   └── manager.ts       ✅ Right panel layout
 ├── src/
 │   ├── components/
 │   │   ├── DominoComponent.stories.tsx    ✅
 │   │   ├── DominoHand.stories.tsx         ✅
-│   │   ├── GameBoard.stories.tsx          📝 Next
-│   │   ├── PlayerPosition.stories.tsx     📝 Next
-│   │   └── Trick.stories.tsx              📝 Next
+│   │   ├── GameBoard.stories.tsx          ✅
+│   │   ├── GameBoardPlayers.stories.tsx   ✅
+│   │   ├── GameBoardCenter.stories.tsx    ✅
+│   │   ├── BiddingPanel.stories.tsx       📝 Next
+│   │   ├── BiddingHistory.stories.tsx     📝 Next
+│   │   ├── GameBoardHeader.stories.tsx    📝 Next
+│   │   └── TrumpSuitCard.stories.tsx      📝 Next
 │   └── stories/
-│       └── fixtures/    📝 Create shared test data
+│       └── fixtures/    ✅ Created with all test data
 ```
 
 ## Best Practices Going Forward
@@ -254,4 +267,4 @@ npm run type-check
 
 ---
 
-**Next Action**: Create `GameBoard.stories.tsx` following the pattern established in DominoComponent and DominoHand stories.
+**Next Action**: Create `BiddingPanel.stories.tsx` and `BiddingHistory.stories.tsx` following the established patterns. These are critical game flow components that handle bid submission and display bid progression.

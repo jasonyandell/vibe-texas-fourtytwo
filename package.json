@@ -35,6 +35,7 @@
     "build:shared-types": "npm run --workspace=@texas42/shared-types build",
     "build:frontend": "npm run --workspace=frontend build",
     "build:backend": "npm run --workspace=backend build",
+    "storybook": "npm run --workspace=frontend storybook",
     "check-prereqs": "node scripts/check-prereqs.js",
     "setup-env": "node scripts/setup-env.js",
     "verify-setup": "node scripts/verify-setup.js",
