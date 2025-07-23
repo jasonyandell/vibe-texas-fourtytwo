@@ -58,124 +58,11 @@ This plan outlines the integration of Storybook into the Texas 42 project to enh
 - Complete ✅
 ```
 
-## Next Phase: Phase 3 - Testing Integration
+## Phase 3: Testing Integration - ABANDONED ❌
 
-### Phase 3: Testing Integration (Start Small!)
+**Learning**: Storybook v9 testing ecosystem not mature enough. @storybook/test only supports v8. Stories as test fixtures provide minimal benefit over existing test patterns. Focus on stories for documentation and visual testing instead.
 
-#### Overview
-Transform existing tests to use Storybook stories as fixtures, reducing duplication and ensuring stories stay accurate. Start with ONE component family to learn the pattern.
-
-#### Step 1: Choose Your Starting Point
-**Option A: DominoComponent** (Recommended)
-- Already has comprehensive stories
-- Tests have lots of fixture setup
-- Visual component = easy to verify
-
-**Option B: Lobby Components**
-- Just created stories (fresh in mind)
-- Simpler interactions
-- Good for learning basics
-
-#### Step 2: Integration Pattern Roadmap
-
-##### 2.1 Simple Prop Reuse (Start Here!)
-```typescript
-// Find tests that just render with props
-// Replace hardcoded props with story args
-import { Default } from './Component.stories';
-render(<Component {...Default.args} />);
-```
-
-##### 2.2 Override Story Props
-```typescript
-// Keep story defaults but customize for test
-render(<Component {...Default.args} domino={myTestDomino} />);
-```
-
-##### 2.3 Complex Setup Reuse
-```typescript
-// Find tests with mock data/complex setup
-// Replace with story that already has that setup
-import { GameInProgress } from './GameCard.stories';
-// Use the whole story setup
-```
-
-#### Step 3: Add Play Functions (Interactive Tests)
-
-##### 3.1 Basic Click Test
-```typescript
-play: async ({ canvasElement }) => {
-  const canvas = within(canvasElement);
-  const domino = canvas.getByTestId('domino-3-3');
-  
-  // Test the interaction
-  await userEvent.click(domino);
-  await expect(domino).toHaveClass('selected');
-}
-```
-
-##### 3.2 Multi-Step Interactions
-Focus on these key flows:
-1. **Domino Selection** - Click to select/deselect
-2. **Join Game** - Empty slot → Join → Ready
-3. **Bid Submission** - Enter bid → Validate → Submit
-4. **Game State Changes** - Waiting → Playing → Complete
-
-#### Step 4: Implementation Checklist
-
-**Week 1: Learn the Pattern**
-- [ ] Pick ONE component (DominoComponent recommended)
-- [ ] Find 3-5 simple tests to convert
-- [ ] Import stories, use args
-- [ ] Verify tests still pass
-- [ ] Add 1 play function
-
-**Week 2: Expand & Evaluate**
-- [ ] Convert 5 more tests
-- [ ] Add 2-3 more play functions
-- [ ] Document what worked/didn't work
-- [ ] Decide: Continue or stop?
-
-#### Common Patterns You'll Find
-
-**Pattern 1: Fixture Arrays**
-```typescript
-// Before: Test has array of test data
-const testDominoes = [/* lots of setup */];
-
-// After: Import from story
-import { allDominoes } from './fixtures';
-```
-
-**Pattern 2: State Testing**
-```typescript
-// Before: Multiple tests for each state
-it('shows selected state', () => {/*...*/});
-it('shows playable state', () => {/*...*/});
-
-// After: One story with play function
-export const InteractiveStates: Story = {
-  play: async () => {
-    // Test all states in sequence
-  }
-};
-```
-
-**Pattern 3: Mock Functions**
-```typescript
-// Keep mocks in tests, stories handle visual
-const onClick = vi.fn();
-render(<Component {...Story.args} onClick={onClick} />);
-```
-
-#### Success Metrics
-- [ ] 5-10 tests use story imports
-- [ ] 3-5 stories have play functions
-- [ ] Tests are easier to understand
-- [ ] No increase in test runtime
-- [ ] Clear decision: worth continuing?
-
-### Phase 4: Build & Deploy
+## Next Phase: Build & Deploy
 
 1. **Add to CI Pipeline**
 ```yaml
@@ -301,7 +188,7 @@ npm run type-check
 
 ---
 
-**Next Action**: Phase 2 - Create Lobby & Game Management Component stories (GameCard, CreateGameModal, PlayerSlot, ScoreDisplay, GameStatus).
+**Next Action**: Build & Deploy - Add Storybook to CI pipeline and set up visual regression testing.
 
 ### [LATER] Deploy to GitHub Pages
 - Add `build-storybook` script to package.json
