@@ -40,6 +40,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Build shared-types package
+        run: npm run --workspace=@texas42/shared-types build
+
       - name: Build Storybook
         run: npm run --workspace=frontend build-storybook
 
