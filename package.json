@@ -20,7 +20,7 @@
     "test:shared-types:watch": "npm run --workspace=@texas42/shared-types test:watch",
     "test:frontend:watch": "npm run --workspace=frontend test:watch",
     "test:backend:watch": "npm run --workspace=backend test:watch",
-    "test:e2e": "npm run --workspace=frontend test:e2e",
+    "test:e2e": "npm run --workspace=frontend test:e2e:all",
     "test": "npm run test:shared-types && npm run test:backend && npm run test:frontend && npm run test:e2e && npm run lint && npm run type-check",
     "lint": "npm run lint:frontend && npm run lint:backend",
     "lint:frontend": "npm run --workspace=frontend lint",

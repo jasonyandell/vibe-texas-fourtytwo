@@ -88,6 +88,11 @@ const createBasicGameState = (overrides?: Partial<GameState>): GameState => {
  * Display all four player positions in a grid
  */
 export const AllPositions: Story = {
+  args: {
+    position: 'north',
+    gameState: createBasicGameState(),
+    currentPlayerId: 'player-3',
+  },
   render: () => {
     const gameState = createBasicGameState();
     const positions: PlayerPosition[] = ['north', 'east', 'south', 'west'];
@@ -132,6 +137,11 @@ export const ActivePlayer: Story = {
  * Player showing domino count (face down for opponents)
  */
 export const WithDominoCount: Story = {
+  args: {
+    position: 'south',
+    gameState: createBasicGameState(),
+    currentPlayerId: 'player-3',
+  },
   render: () => {
     const gameState = createBasicGameState();
     
@@ -196,7 +206,6 @@ export const CurrentBidder: Story = {
     gameState: createBasicGameState({
       phase: 'bidding',
       currentPlayer: 'player-2', // Bob is current bidder
-      currentBidder: 'player-2',
     }),
     currentPlayerId: 'player-3',
   },
@@ -222,6 +231,11 @@ export const WaitingForPlayer: Story = {
  * Partnership highlighting (North-South vs East-West)
  */
 export const Partnerships: Story = {
+  args: {
+    position: 'north',
+    gameState: createBasicGameState(),
+    currentPlayerId: 'player-1',
+  },
   render: () => {
     const gameState = createBasicGameState();
     

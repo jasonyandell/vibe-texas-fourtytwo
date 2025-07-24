@@ -106,7 +106,6 @@ export const PartialTrick: Story = {
     gameState: createGameState({
       phase: 'playing',
       currentPlayer: 'player-3',
-      leadSuit: 'fours',
       currentTrick: {
         id: 'trick-1',
         dominoes: [
@@ -145,7 +144,6 @@ export const CompleteTrick: Story = {
     gameState: createGameState({
       phase: 'playing',
       currentPlayer: 'player-3', // Winner, will lead next trick
-      leadSuit: 'sixes',
       currentTrick: {
         id: 'trick-1',
         dominoes: [
@@ -178,7 +176,6 @@ export const CompleteTrick: Story = {
             timestamp: new Date().toISOString(),
           },
         ],
-        winner: 'player-3',
         pointValue: 10, // 6-4 is worth 10
         countDominoes: [createDomino(6, 4)],
         trickNumber: 3,
@@ -200,7 +197,6 @@ export const WinningDomino: Story = {
     gameState: createGameState({
       phase: 'playing',
       currentPlayer: 'player-2',
-      leadSuit: 'fives',
       currentTrick: {
         id: 'trick-4',
         dominoes: [
@@ -233,7 +229,6 @@ export const WinningDomino: Story = {
             timestamp: new Date().toISOString(),
           },
         ],
-        winner: 'player-2',
         pointValue: 15, // 5-0 (5) + 5-5 (10) = 15 points!
         countDominoes: [createDomino(5, 0), createDomino(5, 5)],
         trickNumber: 4,
@@ -254,16 +249,17 @@ export const BiddingPhase: Story = {
     gameState: createGameState({
       phase: 'bidding',
       currentPlayer: 'player-3',
-      currentBid: { playerId: 'player-2', amount: 31, trump: 'fives' },
+      currentBid: { playerId: 'player-2', amount: 31, trump: 'fives', isSpecialContract: false, timestamp: new Date().toISOString() },
       biddingState: {
-        minimumBid: 32,
-        currentBid: { playerId: 'player-2', amount: 31, trump: 'fives' },
-        passes: ['player-1'],
         bidHistory: [
-          { playerId: 'player-1', amount: 30, trump: 'threes' },
-          { playerId: 'player-2', amount: 31, trump: 'fives' },
-          { playerId: 'player-1', amount: 0 }, // Pass
+          { playerId: 'player-1', amount: 30, trump: 'threes', isSpecialContract: false, timestamp: new Date().toISOString() },
+          { playerId: 'player-2', amount: 31, trump: 'fives', isSpecialContract: false, timestamp: new Date().toISOString() },
+          { playerId: 'player-1', amount: 0, isSpecialContract: false, timestamp: new Date().toISOString() }, // Pass
         ],
+        biddingComplete: false,
+        passCount: 1,
+        minimumBid: 32,
+        forcedBidActive: false
       },
     }),
     currentPlayerId: 'player-3',
@@ -280,14 +276,15 @@ export const InteractiveBidding: Story = {
     gameState: createGameState({
       phase: 'bidding',
       currentPlayer: 'player-1',
-      currentBid: { playerId: 'player-4', amount: 30, trump: 'ones' },
+      currentBid: { playerId: 'player-4', amount: 30, trump: 'ones', isSpecialContract: false, timestamp: new Date().toISOString() },
       biddingState: {
-        minimumBid: 31,
-        currentBid: { playerId: 'player-4', amount: 30, trump: 'ones' },
-        passes: [],
         bidHistory: [
-          { playerId: 'player-4', amount: 30, trump: 'ones' },
+          { playerId: 'player-4', amount: 30, trump: 'ones', isSpecialContract: false, timestamp: new Date().toISOString() },
         ],
+        biddingComplete: false,
+        passCount: 0,
+        minimumBid: 31,
+        forcedBidActive: false
       },
     }),
     currentPlayerId: 'player-1', // Current player can interact
@@ -304,7 +301,6 @@ export const TrumpPlay: Story = {
     gameState: createGameState({
       phase: 'playing',
       currentPlayer: 'player-4',
-      leadSuit: 'threes',
       trump: 'sixes', // Sixes are trump
       currentTrick: {
         id: 'trick-5',

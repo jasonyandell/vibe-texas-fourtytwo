@@ -1,0 +1,169 @@
+.biddingInterface {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 100vh;
+  background-color: var(--background-color, #f5f5f5);
+}
+
+/* Previous Bids Section */
+.previousBids {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.previousBids h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.25rem;
+  color: #333;
+}
+
+.bidHistory {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.bidEntry {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: #f8f8f8;
+  border-radius: 4px;
+}
+
+.bidEntry.currentTurn {
+  background: #e3f2fd;
+  border: 2px solid #2196f3;
+}
+
+.playerName {
+  font-weight: 500;
+  color: #555;
+}
+
+.bidAmount {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+/* Bid Buttons Section */
+.bidSection {
+  background: white;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.bidSection h3 {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.5rem;
+  color: #333;
+  text-align: center;
+}
+
+.bidButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.bidButton {
+  min-width: 80px;
+  height: 60px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  background: white;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0 1rem;
+}
+
+.bidButton:hover:not(.disabled) {
+  background: #2196f3;
+  color: white;
+  border-color: #1976d2;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.bidButton:active:not(.disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.bidButton.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Special bid buttons */
+.bidButton:first-child {
+  background: #f44336;
+  color: white;
+  border-color: #d32f2f;
+}
+
+.bidButton:first-child:hover:not(.disabled) {
+  background: #d32f2f;
+}
+
+.bidButton:last-child {
+  background: #9c27b0;
+  color: white;
+  border-color: #7b1fa2;
+  min-width: 100px;
+}
+
+.bidButton:last-child:hover:not(.disabled) {
+  background: #7b1fa2;
+}
+
+/* Player Hand Section */
+.handSection {
+  background: white;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.handSection h3 {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.25rem;
+  color: #333;
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .biddingInterface {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .bidButtons {
+    gap: 0.5rem;
+  }
+
+  .bidButton {
+    min-width: 60px;
+    height: 50px;
+    font-size: 1rem;
+    padding: 0 0.75rem;
+  }
+}

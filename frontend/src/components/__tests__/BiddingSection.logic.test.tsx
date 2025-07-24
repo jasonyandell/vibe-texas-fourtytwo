@@ -38,7 +38,7 @@ describe('BiddingSection - Trump Logic', () => {
 
       // Each suit should have exactly 7 trump dominoes
       const announcer = screen.getByTestId('trump-announcer')
-      expect(announcer).toHaveTextContent('7 dominoes highlighted')
+      expect(announcer).toHaveTextContent('7 dominoes highlighted.')
 
       // Deselect for next iteration
       await user.click(suitCard)

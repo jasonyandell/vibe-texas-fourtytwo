@@ -8,6 +8,8 @@ const BACKEND_PORT = process.env.BACKEND_PORT || '4201';
  */
 export default defineConfig({
   testDir: './tests/e2e',
+  /* Exclude Storybook tests from regular test runs */
+  testIgnore: '**/storybook*.spec.ts',
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -18,10 +20,14 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
-    ['html'],
-    ['json', { outputFile: 'test-results/results.json' }],
-    ['junit', { outputFile: 'test-results/results.xml' }],
+    ['html', { outputFolder: 'playwright-report' }],
+    ['json', { outputFile: 'test-results/e2e-results.json' }],
+    ['junit', { outputFile: 'test-results/e2e-results.xml' }],
   ],
+  
+  /* Use separate output directory for regular test artifacts */
+  outputDir: 'test-results',
+  
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */

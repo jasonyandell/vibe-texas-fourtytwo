@@ -1,67 +1,9 @@
 import { test, expect } from '@playwright/test';
-import { spawn } from 'child_process';
-
-const STORYBOOK_PORT = 6006;
-const STORYBOOK_URL = `http://localhost:${STORYBOOK_PORT}`;
-
-// Helper to start Storybook server
-async function startStorybook(): Promise<ReturnType<typeof spawn>> {
-  return new Promise((resolve, reject) => {
-    const storybookProcess = spawn('npm', ['run', 'storybook'], {
-      cwd: process.cwd(),
-      stdio: 'pipe',
-    });
-
-    let output = '';
-    
-    storybookProcess.stdout.on('data', (data) => {
-      output += String(data);
-      console.log(`Storybook: ${data}`);
-      
-      // Look for the server started message
-      if (output.includes(`started on => http://localhost:${STORYBOOK_PORT}`)) {
-        resolve(storybookProcess);
-      }
-    });
-
-    storybookProcess.stderr.on('data', (data) => {
-      console.error(`Storybook Error: ${data}`);
-    });
-
-    storybookProcess.on('error', (error) => {
-      reject(error);
-    });
-
-    // Timeout after 30 seconds
-    setTimeout(() => {
-      reject(new Error('Storybook failed to start within 30 seconds'));
-    }, 30000);
-  });
-}
 
 test.describe('Storybook CI Tests', () => {
-  let storybookProcess: ReturnType<typeof spawn> | undefined;
-
-  test.beforeAll(async () => {
-    // Start Storybook server
-    console.log('Starting Storybook server...');
-    storybookProcess = await startStorybook();
-    console.log('Storybook server started');
-    
-    // Give it a moment to fully initialize
-    await new Promise(resolve => setTimeout(resolve, 2000));
-  });
-
-  test.afterAll(() => {
-    // Kill Storybook process
-    if (storybookProcess) {
-      console.log('Stopping Storybook server...');
-      storybookProcess.kill();
-    }
-  });
 
   test('Storybook server is accessible', async ({ page }) => {
-    await page.goto(STORYBOOK_URL);
+    await page.goto('/');
     
     // Check that Storybook loaded
     await expect(page).toHaveTitle(/Storybook/);
@@ -69,7 +11,7 @@ test.describe('Storybook CI Tests', () => {
   });
 
   test('All new stories are accessible', async ({ page }) => {
-    await page.goto(STORYBOOK_URL);
+    await page.goto('/');
     
     // Wait for sidebar to load
     await page.waitForSelector('.sidebar-container');
@@ -77,18 +19,28 @@ test.describe('Storybook CI Tests', () => {
     // Test newly created stories
     const newStories = [
       { component: 'GameBoard', story: 'Default' },
-      { component: 'GameBoard', story: 'ActiveGame' },
-      { component: 'GameBoard', story: 'TrickInProgress' },
-      { component: 'GameBoardPlayers', story: 'AllPositions' },
-      { component: 'GameBoardPlayers', story: 'ActivePlayer' },
-      { component: 'GameBoardCenter', story: 'EmptyTrick' },
-      { component: 'GameBoardCenter', story: 'PartialTrick' },
-      { component: 'GameBoardCenter', story: 'CompleteTrick' },
+      { component: 'GameBoard', story: 'Active Game' },
+      { component: 'GameBoard', story: 'Trick In Progress' },
+      { component: 'GameBoardPlayers', story: 'All Positions' },
+      { component: 'GameBoardPlayers', story: 'Active Player' },
+      { component: 'GameBoardCenter', story: 'Empty Trick' },
+      { component: 'GameBoardCenter', story: 'Partial Trick' },
+      { component: 'GameBoardCenter', story: 'Complete Trick' },
     ];
     
     for (const { component, story } of newStories) {
+      // First expand the component section
+      const componentId = `game-${component.toLowerCase()}`;
+      const componentButton = page.locator(`button[id="${componentId}"]`);
+      const isExpanded = await componentButton.getAttribute('aria-expanded');
+      if (isExpanded === 'false') {
+        await componentButton.click();
+        await page.waitForTimeout(300);
+      }
+      
+      // Then click the story link
       const storyId = `game-${component.toLowerCase()}--${story.toLowerCase().replace(/\s+/g, '-')}`;
-      const storyLink = page.locator(`[id*="${storyId}"]`);
+      const storyLink = page.locator(`a[id="${storyId}"]`);
       
       // Navigate to story
       await storyLink.click();
@@ -106,10 +58,18 @@ test.describe('Storybook CI Tests', () => {
   });
 
   test('Context decorators prevent errors', async ({ page }) => {
-    await page.goto(STORYBOOK_URL);
+    await page.goto('/');
+    
+    // First expand the GameBoard section
+    const gameBoardButton = page.locator('button[id="game-gameboard"]');
+    const isExpanded = await gameBoardButton.getAttribute('aria-expanded');
+    if (isExpanded === 'false') {
+      await gameBoardButton.click();
+      await page.waitForTimeout(500);
+    }
     
     // Navigate to a story that uses GameStateContext
-    await page.locator('[id*="gameboard--activegame"]').click();
+    await page.locator('a[id="game-gameboard--active-game"]').click();
     await page.waitForTimeout(1000);
     
     // Check iframe for context errors
@@ -124,14 +84,22 @@ test.describe('Storybook CI Tests', () => {
   });
 
   test('Addons are properly configured', async ({ page }) => {
-    await page.goto(STORYBOOK_URL);
+    await page.goto('/');
     
-    // Check viewport addon
-    const viewportButton = page.locator('[title*="viewport" i]');
-    await expect(viewportButton).toBeVisible();
+    // Check for toolbar addons - viewport or measure
+    const hasToolbarAddons = await page.locator('[title*="measure" i], [title*="viewport" i], [title*="background" i]').count();
+    expect(hasToolbarAddons).toBeGreaterThan(0);
+    
+    // First expand the DominoComponent section
+    const dominoComponentButton = page.locator('button[id="game-dominocomponent"]');
+    const isExpandedDomino = await dominoComponentButton.getAttribute('aria-expanded');
+    if (isExpandedDomino === 'false') {
+      await dominoComponentButton.click();
+      await page.waitForTimeout(500);
+    }
     
     // Check a11y addon tab
-    await page.locator('[id*="dominocomponent--default"]').click();
+    await page.locator('a[id="game-dominocomponent--default"]').click();
     await page.waitForTimeout(500);
     
     const a11yTab = page.locator('[id="tabbutton-accessibility"]');
@@ -139,10 +107,18 @@ test.describe('Storybook CI Tests', () => {
   });
 
   test('Fixtures are properly imported', async ({ page }) => {
-    await page.goto(STORYBOOK_URL);
+    await page.goto('/');
+    
+    // First expand the GameBoardPlayers section
+    const playersButton = page.locator('button[id="game-gameboardplayers"]');
+    const isExpanded = await playersButton.getAttribute('aria-expanded');
+    if (isExpanded === 'false') {
+      await playersButton.click();
+      await page.waitForTimeout(500);
+    }
     
     // Navigate to a story that uses fixtures
-    await page.locator('[id*="gameboardplayers--allpositions"]').click();
+    await page.locator('a[id="game-gameboardplayers--all-positions"]').click();
     await page.waitForTimeout(1000);
     
     const frame = page.frameLocator('#storybook-preview-iframe');

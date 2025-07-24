@@ -89,7 +89,9 @@ Thumbs.db
 
 # Test results
 test-results/
+test-results-storybook/
 playwright-report/
+playwright-report-storybook/
 playwright/.cache/
 
 # Temporary files

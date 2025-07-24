@@ -7,12 +7,23 @@ const meta = {
   title: 'Game/GameBoard',
   component: GameBoard,
   parameters: {
-    layout: 'fullscreen',
+    layout: 'centered',
+    controls: { 
+      expanded: false,
+      hideNoControlsWarning: true 
+    },
   },
   tags: ['autodocs'],
   decorators: [
     (Story) => (
-      <div style={{ height: '100vh', width: '100vw' }}>
+      <div style={{ 
+        height: '600px', 
+        width: '800px', 
+        maxWidth: '100%',
+        backgroundColor: '#1a3b2b',
+        borderRadius: '8px',
+        overflow: 'hidden'
+      }}>
         <Story />
       </div>
     ),
@@ -65,12 +76,13 @@ export const ActiveGame: Story = {
       phase: 'bidding',
       currentBid: { playerId: 'player-1', amount: 30, trump: 'threes', isSpecialContract: false, timestamp: new Date().toISOString() },
       biddingState: {
-        currentBidder: 'player-3',
-        minimumBid: 31,
         bidHistory: [
           { playerId: 'player-1', amount: 30, trump: 'threes', isSpecialContract: false, timestamp: new Date().toISOString() },
         ],
-        consecutivePasses: 1
+        biddingComplete: false,
+        passCount: 1,
+        minimumBid: 31,
+        forcedBidActive: false
       },
     }),
     currentPlayerId: 'player-3',
@@ -97,8 +109,8 @@ export const TrickInProgress: Story = {
         ],
         pointValue: 0,
         countDominoes: [],
-        wonBy: null,
-        leadDomino: createDomino(4, 2)
+        trickNumber: 1,
+        isComplete: false
       };
       
       // Give players hands with some dominoes
@@ -127,12 +139,26 @@ export const GameComplete: Story = {
   args: {
     gameState: createGameStateWithPlayers({
       phase: 'finished',
-      scores: {
-        northSouth: 250,
-        eastWest: 185,
+      partnerships: {
+        northSouth: {
+          players: ['player-1', 'player-3'],
+          currentHandScore: 250,
+          totalGameScore: 250,
+          marks: 0,
+          tricksWon: 0,
+          isBiddingTeam: false
+        },
+        eastWest: {
+          players: ['player-2', 'player-4'],
+          currentHandScore: 185,
+          totalGameScore: 185,
+          marks: 0,
+          tricksWon: 0,
+          isBiddingTeam: false
+        }
       },
-      winner: 'northSouth',
-      completedTricks: 7,
+      gameScore: { northSouth: 1, eastWest: 0 },
+      handNumber: 7,
     }),
     currentPlayerId: 'player-1',
   },
@@ -212,13 +238,14 @@ export const BiddingPhase: Story = {
       currentPlayer: 'player-3',
       currentBid: { playerId: 'player-2', amount: 31, trump: 'fives', isSpecialContract: false, timestamp: new Date().toISOString() },
       biddingState: {
-        currentBidder: 'player-3',
-        minimumBid: 32,
         bidHistory: [
           { playerId: 'player-1', amount: 30, trump: 'threes', isSpecialContract: false, timestamp: new Date().toISOString() },
           { playerId: 'player-2', amount: 31, trump: 'fives', isSpecialContract: false, timestamp: new Date().toISOString() },
         ],
-        consecutivePasses: 0
+        biddingComplete: false,
+        passCount: 0,
+        minimumBid: 32,
+        forcedBidActive: false
       },
     }),
     currentPlayerId: 'player-3',
@@ -247,8 +274,8 @@ export const CompletedTrick: Story = {
         ],
         pointValue: 5,
         countDominoes: [createDomino(6, 4)],
-        wonBy: 'player-3',
-        leadDomino: createDomino(6, 2)
+        trickNumber: 1,
+        isComplete: true
       };
       
       return state;

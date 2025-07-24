@@ -2,7 +2,7 @@
  * Game state fixtures for Storybook stories
  */
 
-import { GameState, createEmptyGameState } from '@texas42/shared-types';
+import { GameState, createEmptyGameState, createCompatibleBid, createEmptyBiddingState } from '@texas42/shared-types';
 import { exampleHands, countDominoes } from './dominoes';
 import { mockPlayers } from './players';
 
@@ -12,13 +12,11 @@ export const emptyGameState = createEmptyGameState('story-game-123');
 export const waitingForPlayersState: GameState = {
   ...emptyGameState,
   players: mockPlayers.slice(0, 2), // Only 2 players joined
-  phase: 'waiting',
 };
 
 export const readyToStartState: GameState = {
   ...emptyGameState,
   players: mockPlayers,
-  phase: 'ready',
 };
 
 // Bidding phase states
@@ -31,28 +29,24 @@ export const biddingStartState: GameState = {
   phase: 'bidding',
   dealer: 'player-1',
   currentPlayer: 'player-2',
-  biddingState: {
-    minimumBid: 30,
-    currentBid: null,
-    passes: [],
-    bidHistory: [],
-  },
+  biddingState: createEmptyBiddingState(),
 };
 
 export const biddingInProgressState: GameState = {
   ...biddingStartState,
   currentPlayer: 'player-4',
-  currentBid: { playerId: 'player-3', amount: 31, trump: 'fives' },
+  currentBid: createCompatibleBid('player-3', 31, 'fives'),
   biddingState: {
-    minimumBid: 32,
-    currentBid: { playerId: 'player-3', amount: 31, trump: 'fives' },
-    passes: ['player-1'],
     bidHistory: [
-      { playerId: 'player-1', amount: 30, trump: 'threes' },
-      { playerId: 'player-2', amount: 0 }, // Pass
-      { playerId: 'player-3', amount: 31, trump: 'fives' },
-      { playerId: 'player-1', amount: 0 }, // Pass
+      createCompatibleBid('player-1', 30, 'threes'),
+      createCompatibleBid('player-2', 0), // Pass
+      createCompatibleBid('player-3', 31, 'fives'),
+      createCompatibleBid('player-1', 0), // Pass
     ],
+    biddingComplete: false,
+    passCount: 2,
+    minimumBid: 32,
+    forcedBidActive: false
   },
 };
 
@@ -61,9 +55,7 @@ export const biddingCompleteState: GameState = {
   phase: 'playing',
   currentPlayer: 'player-3', // Winner of bid leads
   trump: 'fives',
-  bidWinner: 'player-3',
-  contractAmount: 31,
-  biddingState: undefined,
+  biddingState: createEmptyBiddingState(),
 };
 
 // Playing phase states
@@ -77,23 +69,30 @@ export const playingStartState: GameState = {
   dealer: 'player-1',
   currentPlayer: 'player-2',
   trump: 'sixes',
-  bidWinner: 'player-2',
-  contractAmount: 30,
-  scores: {
-    northSouth: 0,
-    eastWest: 0,
+  partnerships: {
+    northSouth: {
+      players: ['player-1', 'player-3'],
+      currentHandScore: 0,
+      totalGameScore: 0,
+      marks: 0,
+      tricksWon: 0,
+      isBiddingTeam: false
+    },
+    eastWest: {
+      players: ['player-2', 'player-4'],
+      currentHandScore: 0,
+      totalGameScore: 0,
+      marks: 0,
+      tricksWon: 0,
+      isBiddingTeam: false
+    }
   },
-  tricks: {
-    northSouth: [],
-    eastWest: [],
-  },
-  completedTricks: 0,
+  handNumber: 1,
 };
 
 export const trickInProgressState: GameState = {
   ...playingStartState,
   currentPlayer: 'player-4',
-  leadSuit: 'fours',
   currentTrick: {
     id: 'trick-1',
     dominoes: [
@@ -154,60 +153,100 @@ export const trickCompleteState: GameState = {
         timestamp: new Date().toISOString(),
       },
     ],
-    winner: 'player-4',
     pointValue: 10, // 6-4 is worth 10
     countDominoes: [countDominoes.sixFour],
     trickNumber: 1,
     isComplete: true,
   },
-  scores: {
-    northSouth: 0,
-    eastWest: 10, // West won 10 points
+  partnerships: {
+    northSouth: {
+      players: ['player-1', 'player-3'],
+      currentHandScore: 0,
+      totalGameScore: 0,
+      marks: 0,
+      tricksWon: 0,
+      isBiddingTeam: false
+    },
+    eastWest: {
+      players: ['player-2', 'player-4'],
+      currentHandScore: 10,
+      totalGameScore: 10,
+      marks: 0,
+      tricksWon: 1,
+      isBiddingTeam: false
+    }
   },
-  tricks: {
-    northSouth: [],
-    eastWest: ['trick-1'],
-  },
-  completedTricks: 1,
+  handNumber: 1,
 };
 
 // End game states
 export const handCompleteState: GameState = {
   ...emptyGameState,
   players: mockPlayers.map(player => ({ ...player, hand: [] })), // All dominoes played
-  phase: 'handComplete',
-  scores: {
-    northSouth: 15,
-    eastWest: 20,
+  phase: 'scoring',
+  partnerships: {
+    northSouth: {
+      players: ['player-1', 'player-3'],
+      currentHandScore: 15,
+      totalGameScore: 115,
+      marks: 0,
+      tricksWon: 0,
+      isBiddingTeam: false
+    },
+    eastWest: {
+      players: ['player-2', 'player-4'],
+      currentHandScore: 20,
+      totalGameScore: 145,
+      marks: 0,
+      tricksWon: 0,
+      isBiddingTeam: false
+    }
   },
-  handScores: {
-    northSouth: 15,
-    eastWest: 20,
-  },
-  totalScores: {
-    northSouth: 115,
-    eastWest: 145,
-  },
-  completedTricks: 7,
-  bidWinner: 'player-2',
-  contractAmount: 32,
-  contractMet: false, // East-West bid 32 but only got 20
+  handNumber: 7,
+  scoringState: {
+    trickPoints: 0,
+    countDominoes: [],
+    bonusPoints: 0,
+    penaltyPoints: 0,
+    roundComplete: true,
+    handScore: {
+      handNumber: 7,
+      countPoints: 20,
+      trickPoints: 0,
+      totalPoints: 20,
+      biddingTeam: 'eastWest',
+      winningBid: createCompatibleBid('player-2', 32, 'fives'),
+      bidFulfilled: false,
+      marksAwarded: 0,
+      opposingMarksAwarded: 1
+    }
+  }
 };
 
 export const gameOverState: GameState = {
   ...emptyGameState,
   players: mockPlayers,
-  phase: 'gameOver',
-  scores: {
-    northSouth: 250,
-    eastWest: 185,
+  phase: 'finished',
+  partnerships: {
+    northSouth: {
+      players: ['player-1', 'player-3'],
+      currentHandScore: 0,
+      totalGameScore: 250,
+      marks: 0,
+      tricksWon: 0,
+      isBiddingTeam: false
+    },
+    eastWest: {
+      players: ['player-2', 'player-4'],
+      currentHandScore: 0,
+      totalGameScore: 185,
+      marks: 0,
+      tricksWon: 0,
+      isBiddingTeam: false
+    }
   },
-  totalScores: {
-    northSouth: 250,
-    eastWest: 185,
-  },
-  winner: 'northSouth',
-  completedHands: 12,
+  gameScore: { northSouth: 1, eastWest: 0 },
+  handNumber: 12,
 };
 
 // Special states
@@ -217,9 +256,6 @@ export const disconnectedPlayerState: GameState = {
     ...player,
     isConnected: index !== 2, // South player disconnected
   })),
-  isPaused: true,
-  pausedAt: new Date().toISOString(),
-  pauseReason: 'Player disconnected',
 };
 
 export const spectatorModeState: GameState = {

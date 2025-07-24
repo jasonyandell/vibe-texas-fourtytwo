@@ -7,6 +7,7 @@ import { GameBoardHeader } from './GameBoardHeader';
 import { GameBoardPlayers } from './GameBoardPlayers';
 import { GameBoardCenter } from './GameBoardCenter';
 import { GameBoardTrickStacks } from './GameBoardTrickStacks';
+import { BiddingInterface } from './BiddingInterface';
 import styles from './GameBoard.module.css';
 
 interface GameBoardProps {
@@ -55,6 +56,18 @@ export const GameBoard: React.FC<GameBoardProps> = ({
 
   const hasIncompletePlayers = gameState.players.length < 4;
 
+  // Show focused bidding interface during bidding phase
+  if (gameState.phase === 'bidding' && !isSpectatorMode) {
+    return (
+      <BiddingInterface
+        gameState={gameState}
+        currentPlayerId={currentPlayerId}
+        onBid={(amount) => handleBid(amount)} // No trump during bidding
+        onPass={handlePass}
+      />
+    );
+  }
+
   return (
     <div
       className={`game-board responsive ${styles.gameBoard} ${styles.responsive}`}
@@ -62,14 +75,13 @@ export const GameBoard: React.FC<GameBoardProps> = ({
       role="main"
       aria-label="Texas 42 game board"
     >
-      <GameBoardHeader gameId={gameId} gameState={gameState} />
-
       <div
         className={`baseball-diamond mobile-friendly ${styles.baseballDiamond} ${styles.mobileFriendly}`}
         data-testid="baseball-diamond"
         role="region"
         aria-label="Player areas"
       >
+        <GameBoardHeader gameId={gameId} gameState={gameState} minimap={true} />
         <GameBoardPlayers
           position="north"
           gameState={gameState}
@@ -108,6 +120,7 @@ export const GameBoard: React.FC<GameBoardProps> = ({
       </div>
 
       <GameBoardTrickStacks gameState={gameState} />
+
 
       {hasIncompletePlayers && (
         <div className={styles.waitingMessage}>
