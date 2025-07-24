@@ -22,31 +22,31 @@
 
 .loadingMessage {
   text-align: center;
-  padding: 2rem;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 12px;
+  padding: var(--space-2xl);
+  background: var(--color-surface);
+  border-radius: var(--border-radius-lg);
 }
 
 .gameHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  background: rgba(0, 0, 0, 0.4);
-  border-bottom: 2px solid var(--color-wood-brown);
+  padding: var(--spacing-gap-md) var(--space-2xl);
+  background: var(--color-surface);
+  border-bottom: var(--border-width-medium) solid var(--color-wood-brown);
   flex-shrink: 0;
 }
 
 .gameInfo {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: var(--spacing-gap-md);
 }
 
 .gameInfo h2 {
   margin: 0;
   color: var(--color-gold);
-  font-size: 1.8rem;
+  font-size: var(--font-size-2xl);
 }
 
 .gameInfo p {

@@ -1,7 +1,10 @@
+/* Import design tokens */
+@import './styles/design-tokens.css';
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  font-family: var(--font-family-base);
+  line-height: var(--line-height-normal);
+  font-weight: var(--font-weight-normal);
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
@@ -12,52 +15,6 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-
-  /* Texas 42 Color Palette */
-  --color-domino-white: #f8f9fa;
-  --color-domino-black: #212529;
-  --color-felt-green: #0d5f3c;
-  --color-felt-green-dark: #0a4d32;
-  --color-wood-brown: #8b4513;
-  --color-gold: #ffd700;
-  --color-red: #dc3545;
-  --color-blue: #0066cc;
-
-  /* Count Domino Styling */
-  --count-domino-border: #ff8800;
-  --count-domino-glow: rgba(255, 136, 0, 0.4);
-
-  /* Point Value Colors */
-  --point-value-bg: rgba(0, 0, 0, 0.8);
-  --point-value-text: #fff;
-  --five-point-color: #28a745;
-  --ten-point-color: #dc3545;
-
-  /* UI Theme Colors */
-  --color-primary: #0066cc;
-  --color-primary-dark: #0052a3;
-  --color-primary-rgb: 0, 102, 204;
-  --color-secondary: #6c757d;
-  --color-secondary-dark: #545b62;
-  --color-success: #28a745;
-  --color-error: #dc3545;
-  --color-error-light: #f8d7da;
-  --color-green: #28a745;
-  
-  /* Surface and Background Colors */
-  --color-surface: rgba(0, 0, 0, 0.4);
-  --color-surface-disabled: rgba(0, 0, 0, 0.2);
-  --color-surface-hover: rgba(255, 255, 255, 0.1);
-  --color-background: rgba(0, 0, 0, 0.2);
-  
-  /* Border Colors */
-  --color-border: rgba(255, 255, 255, 0.2);
-  --color-border-light: rgba(255, 255, 255, 0.1);
-  
-  /* Text Colors */
-  --color-text-primary: rgba(255, 255, 255, 0.9);
-  --color-text-secondary: rgba(255, 255, 255, 0.7);
-  --color-text-disabled: rgba(255, 255, 255, 0.4);
 }
 
 * {
