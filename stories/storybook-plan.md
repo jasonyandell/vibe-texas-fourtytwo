@@ -62,20 +62,24 @@ This plan outlines the integration of Storybook into the Texas 42 project to enh
 
 **Learning**: Storybook v9 testing ecosystem not mature enough. @storybook/test only supports v8. Stories as test fixtures provide minimal benefit over existing test patterns. Focus on stories for documentation and visual testing instead.
 
-## Next Phase: Build & Deploy
+## GitHub Pages Deployment ✅
 
-1. **Add to CI Pipeline**
-```yaml
-- name: Build Storybook
-  run: npm run build-storybook
-- name: Deploy to Vercel/Netlify
-  run: npx vercel --prod ./storybook-static
-```
+**Setup Complete!** Your Storybook will auto-deploy to GitHub Pages.
 
-2. **Visual Regression Testing**
-- Set up Chromatic account
-- Add to PR checks
-- Establish baseline snapshots
+### What's Been Done:
+- ✅ GitHub Actions workflow created (`.github/workflows/deploy-storybook.yml`)
+- ✅ Auto-triggers on changes to `frontend/` or `main` branch
+- ✅ Builds and deploys to GitHub Pages
+
+### Next Steps (Manual):
+1. **Enable GitHub Pages**: Go to repo Settings → Pages → Source: "GitHub Actions"
+2. **Push to main**: The workflow will run and deploy your Storybook
+3. **Get your URL**: `https://jasonyandell.github.io/vibe-texas-fourtytwo/`
+
+### Usage:
+- Any push to `main` with frontend changes auto-deploys
+- Manual trigger available in Actions tab
+- Share the URL with your 4 people who care about domino games!
 
 ## Later Phases (Month 2+)
 
@@ -188,10 +192,4 @@ npm run type-check
 
 ---
 
-**Next Action**: Build & Deploy - Add Storybook to CI pipeline and set up visual regression testing.
-
-### [LATER] Deploy to GitHub Pages
-- Add `build-storybook` script to package.json
-- Create GitHub Action workflow for automatic deployment
-- Configure GitHub Pages to serve from gh-pages branch
-- Add deployment badge to README
+**Status**: Storybook deployment ready! Enable GitHub Pages in repo settings and push to main.
