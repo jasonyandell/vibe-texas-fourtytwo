@@ -1,13 +1,14 @@
 /* Badge Component Styles */
+@import '../../styles/design-tokens.css';
 
 .badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-weight: 600;
-  border-radius: 12px;
+  font-weight: var(--font-semibold);
+  border-radius: var(--radius-lg);
   white-space: nowrap;
-  transition: all 0.2s ease;
+  transition: var(--transition-all);
   text-align: center;
   line-height: 1;
   font-family: inherit;
@@ -15,46 +16,46 @@
 
 /* Size variants */
 .small {
-  padding: 0.2rem 0.5rem;
-  font-size: 0.7rem;
-  border-radius: 8px;
+  padding: calc(var(--space-xxs) * 0.8) var(--space-xs);
+  font-size: calc(var(--font-xs) * 0.93);
+  border-radius: var(--radius-base);
 }
 
 .medium {
-  padding: 0.25rem 0.75rem;
-  font-size: 0.8rem;
-  border-radius: 12px;
+  padding: calc(var(--space-xxs) * 1) calc(var(--space-xs) * 1.5);
+  font-size: var(--font-xs);
+  border-radius: var(--radius-lg);
 }
 
 .large {
-  padding: 0.4rem 1rem;
-  font-size: 0.9rem;
-  border-radius: 16px;
+  padding: calc(var(--space-xs) * 0.8) var(--space-base);
+  font-size: var(--font-sm);
+  border-radius: var(--radius-xl);
 }
 
 /* Color variants */
 .default {
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: var(--surface-glass-light);
+  color: var(--text-primary);
+  border: var(--border-subtle);
 }
 
 .primary {
   background: var(--color-blue);
-  color: white;
-  border: 1px solid var(--color-blue);
+  color: var(--text-primary);
+  border: var(--border-width-thin) solid var(--color-blue);
 }
 
 .secondary {
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: var(--surface-glass);
+  color: var(--text-primary);
+  border: var(--border-subtle);
 }
 
 .success {
-  background: #28a745;
-  color: white;
-  border: 1px solid #28a745;
+  background: var(--color-success);
+  color: var(--text-primary);
+  border: var(--border-width-thin) solid var(--color-success);
 }
 
 .warning {
@@ -65,14 +66,14 @@
 
 .danger {
   background: var(--color-red);
-  color: white;
-  border: 1px solid var(--color-red);
+  color: var(--text-primary);
+  border: var(--border-width-thin) solid var(--color-red);
 }
 
 /* Hover effects */
 .badge:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transform: var(--transform-hover);
+  box-shadow: var(--shadow-sm);
 }
 
 /* High contrast mode support */
@@ -82,9 +83,9 @@
   }
   
   .default {
-    background: #000;
-    color: #fff;
-    border-color: #fff;
+    background: var(--text-primary-contrast);
+    color: var(--text-primary);
+    border-color: var(--text-primary);
   }
 }
 

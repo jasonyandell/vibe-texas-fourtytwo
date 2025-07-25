@@ -37,15 +37,15 @@ export const GameBoardHeader: React.FC<GameBoardHeaderProps> = ({ gameId, gameSt
           )}
         </div>
 
-        <div className={styles.scoreDisplayMinimap}>
-          <div className={styles.scoreTeamMinimap}>
+        <div className={`${styles.scoreDisplayMinimap} flex-between`}>
+          <div className={`${styles.scoreTeamMinimap} flex-column-center`}>
             <span className={styles.teamName}>N-S</span>
             <span className={styles.teamScore}>{gameState.partnerships?.northSouth?.currentHandScore || 0}</span>
             {gameState.gameScore && (
               <span className={styles.gameScoreMinimap}>Games: {gameState.gameScore.northSouth || 0}</span>
             )}
           </div>
-          <div className={styles.scoreTeamMinimap}>
+          <div className={`${styles.scoreTeamMinimap} flex-column-center`}>
             <span className={styles.teamName}>E-W</span>
             <span className={styles.teamScore}>{gameState.partnerships?.eastWest?.currentHandScore || 0}</span>
             {gameState.gameScore && (
@@ -58,7 +58,7 @@ export const GameBoardHeader: React.FC<GameBoardHeaderProps> = ({ gameId, gameSt
   }
 
   return (
-    <div className={styles.gameHeader}>
+    <div className={`${styles.gameHeader} flex-between`}>
       <div className={styles.gameInfo}>
         <h2>Texas 42</h2>
         <p>Game ID: {gameId}</p>
@@ -71,13 +71,13 @@ export const GameBoardHeader: React.FC<GameBoardHeaderProps> = ({ gameId, gameSt
         )}
       </div>
 
-      <div className={styles.scoreDisplay}>
-        <div className={styles.scoreTeam}>
+      <div className={`${styles.scoreDisplay} flex`}>
+        <div className={`${styles.scoreTeam} flex-items-center`}>
           <span className={styles.teamName}>North-South</span>
           <span className={styles.teamScore}>{gameState.partnerships?.northSouth?.currentHandScore || 0}</span>
           <span className={styles.gameScore}>Games: {gameState.gameScore?.northSouth || 0}</span>
         </div>
-        <div className={styles.scoreTeam}>
+        <div className={`${styles.scoreTeam} flex-items-center`}>
           <span className={styles.teamName}>East-West</span>
           <span className={styles.teamScore}>{gameState.partnerships?.eastWest?.currentHandScore || 0}</span>
           <span className={styles.gameScore}>Games: {gameState.gameScore?.eastWest || 0}</span>

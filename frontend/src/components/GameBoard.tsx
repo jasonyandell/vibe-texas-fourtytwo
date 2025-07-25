@@ -43,10 +43,10 @@ export const GameBoard: React.FC<GameBoardProps> = ({
 
   if (!gameState) {
     return (
-      <div className={`game-board ${styles.gameBoard} ${styles.loading}`} data-testid="game-board">
-        <div className={styles.loadingMessage}>
-          <h2>Loading Game...</h2>
-          <p>Game ID: {gameId}</p>
+      <div className={`game-board ${styles.gameBoard} ${styles.loading} flex-column flex-center`} data-testid="game-board">
+        <div className={`${styles.loadingMessage} card text-center`}>
+          <h2 className="mb-sm">Loading Game...</h2>
+          <p className="text-muted">Game ID: {gameId}</p>
         </div>
       </div>
     );
@@ -70,7 +70,7 @@ export const GameBoard: React.FC<GameBoardProps> = ({
 
   return (
     <div
-      className={`game-board responsive ${styles.gameBoard} ${styles.responsive}`}
+      className={`game-board responsive ${styles.gameBoard} ${styles.responsive} flex-column`}
       data-testid="game-board"
       role="main"
       aria-label="Texas 42 game board"

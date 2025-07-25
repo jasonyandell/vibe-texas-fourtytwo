@@ -4,88 +4,79 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--spacing-gap-md);
 }
 
 .gameGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 1.5rem;
-  padding: 1rem 0;
+  gap: var(--spacing-gap-lg);
+  padding: var(--spacing-gap-md) 0;
 }
 
 .errorState {
   text-align: center;
-  padding: 3rem 2rem;
-  background: rgba(220, 53, 69, 0.1);
-  border: 2px solid rgba(220, 53, 69, 0.3);
-  border-radius: 12px;
-  color: #dc3545;
+  padding: var(--space-3xl) var(--space-2xl);
+  background: var(--color-error-bg-light);
+  border: var(--border-width-medium) solid var(--color-error-border-light);
+  border-radius: var(--border-radius-lg);
+  color: var(--color-error);
 }
 
 .errorState h3 {
-  margin: 0 0 1rem 0;
-  font-size: 1.5rem;
-  font-weight: 600;
+  margin: 0 0 var(--spacing-gap-md) 0;
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
 }
 
 .errorState p {
-  margin: 0.5rem 0;
-  font-size: 1rem;
+  margin: var(--spacing-gap-sm) 0;
+  font-size: var(--font-size-base);
   opacity: 0.9;
 }
 
 /* Responsive design */
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-md)) {
   .gameGrid {
     grid-template-columns: 1fr;
-    gap: 1rem;
-    padding: 0.5rem 0;
+    gap: var(--spacing-gap-md);
+    padding: var(--spacing-gap-sm) 0;
   }
 
   .errorState {
-    padding: 2rem 1rem;
+    padding: var(--space-2xl) var(--spacing-gap-md);
   }
 
   .errorState h3 {
-    font-size: 1.25rem;
+    font-size: var(--font-size-xl);
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: var(--breakpoint-sm)) {
   .gameGrid {
     grid-template-columns: 1fr;
-    gap: 0.75rem;
+    gap: var(--space-md);
   }
 
   .errorState {
-    padding: 1.5rem 0.75rem;
+    padding: var(--spacing-gap-lg) var(--space-md);
   }
 }
 
 /* High contrast mode support */
 @media (prefers-contrast: high) {
   .errorState {
-    background: #fff;
-    color: #000;
-    border-color: #000;
+    background: var(--color-domino-white);
+    color: var(--color-domino-black);
+    border-color: var(--color-domino-black);
   }
 }
 
 /* Loading animation */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+/* fadeIn animation imported from patterns/animations.css */
 
 .gameGrid {
-  animation: fadeIn 0.3s ease-out;
+  animation: fadeIn var(--transition-slow) var(--transition-ease-out);
 }
 
 /* Reduced motion support */

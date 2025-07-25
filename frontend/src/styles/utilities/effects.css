@@ -1,0 +1,38 @@
+/* Visual Effects Utilities */
+
+/* Shadows */
+.shadow-xs { box-shadow: var(--shadow-xs); }
+.shadow-sm { box-shadow: var(--shadow-sm); }
+.shadow-md { box-shadow: var(--shadow-md); }
+.shadow-lg { box-shadow: var(--shadow-lg); }
+.shadow-xl { box-shadow: var(--shadow-xl); }
+.shadow-none { box-shadow: none; }
+
+/* Inset Shadows */
+.shadow-inset-sm { box-shadow: var(--shadow-inset-sm); }
+.shadow-inset-md { box-shadow: var(--shadow-inset-md); }
+
+/* Transitions */
+.transition-fast { transition: var(--transition-fast); }
+.transition-base { transition: var(--transition-base); }
+.transition-slow { transition: var(--transition-slow); }
+.transition-none { transition: none; }
+
+/* Transition Properties */
+.transition-colors { transition-property: color, background-color, border-color; transition-duration: var(--duration-fast); }
+.transition-opacity { transition-property: opacity; transition-duration: var(--duration-fast); }
+.transition-transform { transition-property: transform; transition-duration: var(--duration-base); }
+.transition-all { transition-property: all; transition-duration: var(--duration-base); }
+
+/* Opacity */
+.opacity-0 { opacity: 0; }
+.opacity-subtle { opacity: var(--opacity-subtle); }
+.opacity-disabled { opacity: var(--opacity-disabled); }
+.opacity-75 { opacity: 0.75; }
+.opacity-90 { opacity: 0.9; }
+.opacity-full { opacity: 1; }
+
+/* Backdrop Filters */
+.backdrop-blur { backdrop-filter: blur(8px); }
+.backdrop-blur-sm { backdrop-filter: blur(4px); }
+.backdrop-blur-lg { backdrop-filter: blur(16px); }

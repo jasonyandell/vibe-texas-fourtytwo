@@ -1,0 +1,46 @@
+/* Border Utilities */
+
+/* Border Width */
+.border { border: var(--border-base); }
+.border-light { border: var(--border-light); }
+.border-0 { border-width: 0; }
+.border-2 { border-width: 2px; }
+.border-4 { border-width: 4px; }
+
+/* Border Style */
+.border-solid { border-style: solid; }
+.border-dashed { border-style: dashed; }
+.border-dotted { border-style: dotted; }
+.border-none { border: none; }
+
+/* Border Color */
+.border-primary { border-color: var(--color-primary); }
+.border-secondary { border-color: var(--color-secondary); }
+.border-success { border-color: var(--color-success); }
+.border-warning { border-color: var(--color-warning); }
+.border-error { border-color: var(--color-error); }
+.border-info { border-color: var(--color-info); }
+.border-surface { border-color: var(--border-color); }
+.border-transparent { border-color: transparent; }
+.border-current { border-color: currentColor; }
+
+/* Directional Borders */
+.border-t { border-top: var(--border-base); }
+.border-r { border-right: var(--border-base); }
+.border-b { border-bottom: var(--border-base); }
+.border-l { border-left: var(--border-base); }
+
+.border-x { border-left: var(--border-base); border-right: var(--border-base); }
+.border-y { border-top: var(--border-base); border-bottom: var(--border-base); }
+
+/* Remove Directional Borders */
+.border-t-0 { border-top-width: 0; }
+.border-r-0 { border-right-width: 0; }
+.border-b-0 { border-bottom-width: 0; }
+.border-l-0 { border-left-width: 0; }
+
+/* Outline */
+.outline-none { outline: none; }
+.outline { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+.outline-dashed { outline-style: dashed; }
+.outline-dotted { outline-style: dotted; }

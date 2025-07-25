@@ -1,14 +1,26 @@
 /* GameBoard Component Styles - Baseball Diamond Layout */
+@import '../styles/design-tokens.css';
+@import '../styles/utilities/index.css';
+
+/* 
+  REFACTORING NOTES:
+  This CSS module has been refactored to use utility classes.
+  The comments below each selector indicate which utility classes
+  should be added to the component's className prop.
+  
+  Pattern: Keep only styles that cannot be replaced with utilities:
+  - Complex selectors (pseudo-classes, nested selectors)
+  - Custom values not in design tokens
+  - Gradients and complex backgrounds
+  - Specific positioning values
+*/
 
 .gameBoard {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
+  /* Custom gradient background - cannot be replaced with utility */
   background: linear-gradient(135deg, var(--color-felt-green-dark), var(--color-felt-green));
-  color: white;
-  overflow: hidden;
+  color: var(--color-white);
 }
+/* Add utilities: w-full h-screen overflow-hidden */
 
 /* When inside a container (like Storybook), use available height */
 .gameBoard:not(.fullscreen) {
@@ -16,684 +28,225 @@
   min-height: 500px;
 }
 
-.responsive {
-  max-width: 100%;
-  max-height: 100%;
-}
+/* REMOVED - Use utilities: max-w-full max-h-full */
+/* .responsive {} */
 
-.loading {
-  justify-content: center;
-  align-items: center;
-}
-
-.loadingMessage {
-  text-align: center;
-  padding: var(--space-2xl);
-  background: var(--color-surface);
-  border-radius: var(--border-radius-lg);
-}
+/* REMOVED - Use utilities: text-center p-2xl bg-surface rounded-lg */
+/* .loadingMessage {} */
 
 .gameHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: var(--spacing-gap-md) var(--space-2xl);
-  background: var(--color-surface);
-  border-bottom: var(--border-width-medium) solid var(--color-wood-brown);
+  border-bottom: 2px solid var(--color-wood-brown);
   flex-shrink: 0;
 }
+/* Add utilities: py-md px-2xl bg-surface */
 
 /* Minimap version - compact header in top-left corner */
 .gameHeaderMinimap {
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
-  z-index: 100;
-  background: rgba(0, 0, 0, 0.8);
-  border: 2px solid var(--color-wood-brown);
-  border-radius: 8px;
-  backdrop-filter: blur(4px);
-  padding: 0.5rem;
-  min-width: 160px;
-  max-width: 200px;
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  font-size: 0.75rem;
-  color: white;
+  top: var(--space-md);
+  left: var(--space-md);
+  z-index: var(--z-header);
+  background: var(--bg-black-alpha);
+  border: var(--border-default) solid var(--color-wood-brown);
+  min-width: var(--width-sidebar-narrow);
+  max-width: var(--width-sidebar-wide);
 }
+/* Add utilities: absolute p-sm rounded-md backdrop-blur-sm flex-column gap-xs text-sm text-primary */
 
-.gameInfoMinimap {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-}
+/* REMOVED - Use utilities: flex-column gap-xs */
+/* .gameInfoMinimap {} */
 
 .gameInfoMinimap h2 {
-  margin: 0;
-  font-size: 0.9rem;
   color: var(--color-gold);
 }
+/* Add utilities: m-0 text-md */
 
 .gameInfoMinimap p {
-  margin: 0;
-  font-size: 0.65rem;
-  opacity: 0.8;
+  opacity: var(--opacity-high);
 }
+/* Add utilities: m-0 text-xs */
 
 .scoreDisplayMinimap {
-  display: flex;
-  justify-content: space-between;
-  gap: 0.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-  padding-top: 0.25rem;
-  margin-top: 0.25rem;
+  border-top: var(--border-thin) solid var(--border-white-alpha);
 }
+/* Add utilities: gap-sm pt-xs mt-xs */
 
-.scoreTeamMinimap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.1rem;
-}
+/* REMOVED - Use utilities: flex-column-center gap-xs */
+/* .scoreTeamMinimap {} */
 
 .scoreTeamMinimap .teamName {
-  font-size: 0.6rem;
-  opacity: 0.8;
+  opacity: var(--opacity-low);
 }
+/* Add utilities: text-xs font-semibold */
 
 .scoreTeamMinimap .teamScore {
-  font-size: 0.8rem;
-  font-weight: bold;
   color: var(--color-gold);
 }
+/* Add utilities: text-lg font-bold */
 
-.phaseBadgeMinimap {
-  padding: 0.2rem 0.4rem;
-  border-radius: 8px;
-  font-size: 0.65rem;
-  font-weight: bold;
-  text-align: center;
-}
-
-.bidDisplayMinimap {
-  background: var(--color-green);
-  color: white;
-  padding: 0.15rem 0.3rem;
-  border-radius: 6px;
-  font-size: 0.65rem;
-  font-weight: bold;
-  text-align: center;
-}
-
-.gameInfo {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-gap-md);
-}
-
-.gameInfo h2 {
-  margin: 0;
-  color: var(--color-gold);
-  font-size: var(--font-size-2xl);
-}
-
-.gameInfo p {
-  margin: 0;
-  opacity: 0.8;
-  font-size: 0.9rem;
-}
-
-.gamePhase {
-  background: var(--color-blue);
-  color: white;
-  padding: 0.25rem 0.75rem;
-  border-radius: 16px;
-  font-size: 0.8rem;
-  font-weight: bold;
-}
-
-.trumpSuit {
-  background: var(--color-red);
-  color: white;
-  padding: 0.25rem 0.75rem;
-  border-radius: 16px;
-  font-size: 0.8rem;
-  font-weight: bold;
-}
-
-.bidDisplay {
-  background: var(--color-green);
-  color: white;
-  padding: 0.25rem 0.75rem;
-  border-radius: 16px;
-  font-size: 0.8rem;
-  font-weight: bold;
-}
+/* REMOVED - Use utility: gap-md */
+/* .gameStatus {} */
 
 .scoreDisplay {
-  display: flex;
-  gap: 2rem;
-  font-family: 'Courier New', monospace;
+  background: var(--surface-variant);
 }
+/* Add utilities: gap-lg py-sm px-md rounded-md */
 
-.scoreTeam {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.25rem;
+/* REMOVED - Use utility: gap-sm */
+/* .scoreTeam {} */
+
+.scoreTeam .teamName {
+  /* All styles can be replaced with utilities */
 }
+/* Add utilities: font-semibold text-secondary */
 
-.teamName {
-  font-size: 0.8rem;
-  opacity: 0.8;
+.scoreTeam .teamScore {
+  color: var(--primary);
 }
+/* Add utilities: text-xl font-bold */
 
-.teamScore {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: var(--color-gold);
-}
-
-.gameScore {
-  font-size: 0.7rem;
-  opacity: 0.6;
-}
-
-/* Baseball Diamond Layout */
-.baseballDiamond {
+.mainContent {
   flex: 1;
-  position: relative;
-  display: grid;
-  grid-template-areas: 
-    ". north ."
-    "west center east"
-    ". south .";
-  grid-template-columns: 1fr 3fr 1fr;
-  grid-template-rows: 1fr 3fr 1fr;
-  gap: 1rem;
-  padding: 2rem;
-  background: radial-gradient(ellipse at center, 
-    rgba(13, 95, 60, 0.8) 0%, 
-    rgba(10, 77, 50, 0.9) 100%);
-  border-radius: 20px;
-  margin: 0.5rem;
-  border: 4px solid var(--color-wood-brown);
-  box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.3);
-  max-width: 100%;
-  max-height: 100%;
-  margin: 0 auto;
 }
+/* Add utilities: p-lg relative overflow-hidden */
 
-.mobileFriendly {
-  min-height: 400px;
+/* Diamond Layout Container */
+.diamondContainer {
+  width: var(--width-almost-full);
+  max-width: var(--max-width-lg);
+  aspect-ratio: var(--aspect-square);
 }
+/* Add utilities: relative mx-auto */
 
-/* Player Area Positioning */
-.playerArea {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 12px;
-  border: 2px solid transparent;
-  transition: all 0.3s ease;
-  position: relative;
-  max-width: 300px;
-  min-height: 150px;
-  overflow: visible;
+/* Player Position Classes */
+.player {
+  transition: var(--transition-normal);
 }
+/* Add utilities: absolute flex-column-center gap-md */
 
 .playerNorth {
-  grid-area: north;
-  align-self: start;
+  top: 0;
+  left: 50%;
+  transform: var(--transform-center-x);
 }
 
 .playerEast {
-  grid-area: east;
-  align-self: center;
+  top: 50%;
+  right: 0;
+  transform: var(--transform-center-y);
 }
 
 .playerSouth {
-  grid-area: south;
-  align-self: end;
+  bottom: 0;
+  left: 50%;
+  transform: var(--transform-center-x);
 }
 
 .playerWest {
-  grid-area: west;
-  align-self: center;
+  top: 50%;
+  left: 0;
+  transform: var(--transform-center-y);
 }
 
-.playerInfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.25rem;
-  margin-bottom: 0.25rem;
+/* Play Area */
+.playArea {
+  transform: var(--transform-center);
+  width: var(--width-medium);
+  height: var(--height-medium);
+  background: var(--bg-black-subtle);
+  border: var(--border-default) dashed var(--border-white-alpha);
 }
+/* Add utilities: absolute-center flex-center rounded-lg */
 
-.playerName {
-  font-weight: bold;
-  font-size: 0.875rem;
-  text-align: center;
-}
+/* REMOVED - Use utilities: grid grid-cols-2 gap-md p-md */
+/* .playedDominoes {} */
 
-.dealerBadge {
-  background: var(--color-gold);
-  color: black;
-  padding: 0.1rem 0.3rem;
-  border-radius: 12px;
-  font-size: 0.6rem;
-  font-weight: bold;
-}
-
-.currentPlayerBadge {
-  background: var(--color-blue);
-  color: white;
-  padding: 0.1rem 0.3rem;
-  border-radius: 12px;
-  font-size: 0.6rem;
-  font-weight: bold;
-  animation: pulse 2s infinite;
-}
-
-.currentBidderBadge {
-  background: var(--color-gold);
-  color: black;
-  padding: 0.1rem 0.3rem;
-  border-radius: 12px;
-  font-size: 0.6rem;
-  font-weight: bold;
-  animation: biddingPulse 1.5s infinite;
-}
-
-.currentPlayer {
-  border-color: var(--color-blue);
-  box-shadow: 0 0 20px rgba(0, 102, 204, 0.5);
-}
-
-.currentBidder {
-  border-color: var(--color-gold);
-  box-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
-  animation: biddingGlow 2s infinite;
-}
-
-.dealer {
-  border-color: var(--color-gold);
-}
-
-/* Partnership Visual Indicators */
-.partnershipNorthSouth {
-  border-left: 4px solid var(--color-blue);
-}
-
-.partnershipEastWest {
-  border-left: 4px solid var(--color-red);
-}
-
-.playerHand {
-  margin-top: 0.25rem;
-  max-width: 100%;
-  overflow: visible;
-}
-
-/* Center Play Area */
-.centerPlayArea {
-  grid-area: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 20px;
-  border: 3px solid var(--color-wood-brown);
-  padding: 0.75rem;
-  min-height: 120px;
-  max-height: 300px;
-  overflow: visible;
-}
-
-/* Bidding Area Styles */
-.biddingArea {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0.5rem;
-  overflow: visible;
-}
-
+/* Bidding Interface */
 .biddingContainer {
-  display: flex;
-  gap: 0.5rem;
-  align-items: flex-start;
-  max-width: 500px;
-  width: 100%;
-  height: auto;
-  overflow: visible;
+  transform: var(--transform-center);
+  min-width: var(--width-modal-min);
+  max-width: var(--width-almost-full);
+  z-index: var(--z-modal);
 }
+/* Add utilities: absolute-center bg-surface rounded-lg shadow-xl p-xl */
 
-.centerBiddingPanel {
-  flex: 1;
-  max-width: 300px;
-  background: rgba(0, 0, 0, 0.6);
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-  height: auto;
-  overflow-y: auto;
-}
+/* REMOVED - Use utilities: flex-column gap-xs */
+/* .gameInfo {} */
 
-.biddingHistoryPanel {
-  flex: 0 0 200px;
-  background: rgba(0, 0, 0, 0.6);
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-  max-height: 350px;
-  overflow-y: auto;
+.gameInfo h2 {
+  color: var(--text-primary);
 }
+/* Add utilities: m-0 text-xl */
 
-.currentTrick h3 {
-  margin: 0 0 1rem 0;
-  color: var(--color-gold);
-  text-align: center;
+.gameInfo p {
+  /* All styles can be replaced with utilities */
 }
+/* Add utilities: m-0 text-secondary text-sm */
 
-.trickDominoes {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
-  align-items: center;
+/* Status Messages */
+.statusMessage {
+  bottom: var(--space-xl);
+  left: 50%;
+  transform: var(--transform-center-x);
+  background: var(--bg-black-alpha);
+  color: var(--color-white);
+  transition: var(--transition-normal);
 }
-
-.playedDomino {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.playerLabel {
-  font-size: 0.7rem;
-  opacity: 0.8;
-  text-align: center;
-}
-
-.emptyTrick {
-  text-align: center;
-  opacity: 0.6;
-}
-
-.turnIndicator {
-  margin-top: 1rem;
-  font-weight: bold;
-  color: var(--color-gold);
-}
-
-.waitingMessage {
-  text-align: center;
-  padding: 1rem;
-  background: rgba(255, 165, 0, 0.2);
-  border: 1px solid orange;
-  border-radius: 8px;
-  margin: 0 2rem;
-  flex-shrink: 0;
-}
-
-.gameControls {
-  padding: 1rem 2rem;
-  background: rgba(0, 0, 0, 0.3);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  flex-shrink: 0;
-}
-
-.actionButtons {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-}
-
-/* Animations */
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.7;
-  }
-}
-
-@keyframes biddingPulse {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.8;
-    transform: scale(1.05);
-  }
-}
-
-@keyframes biddingGlow {
-  0%, 100% {
-    box-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
-  }
-  50% {
-    box-shadow: 0 0 35px rgba(255, 215, 0, 0.8);
-  }
-}
+/* Add utilities: absolute py-sm px-lg rounded-md shadow-lg text-lg */
 
 /* Responsive Design */
-@media (max-width: 1024px) {
+@media (max-width: var(--breakpoint-md)) {
   .gameHeader {
-    padding: 0.75rem 1rem;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  
-  .gameInfo {
-    flex-direction: column;
-    gap: 0.5rem;
-    text-align: center;
-  }
-  
-  .scoreDisplay {
-    gap: 1rem;
-  }
-  
-  .baseballDiamond {
-    margin: 0.5rem;
-    padding: 1rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .gameBoard {
-    height: 100vh;
-  }
-  
-  .baseballDiamond {
-    grid-template-areas: 
-      "north"
-      "center"
-      "south"
-      "west"
-      "east";
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto 1fr auto auto;
-    border-radius: 12px;
-    padding: 0.75rem;
-    margin: 0.25rem;
-  }
-  
-  .playerArea {
-    padding: 0.75rem;
-  }
-  
-  .centerPlayArea {
-    min-height: 150px;
-    padding: 1rem;
+    /* Override utilities at this breakpoint: py-sm px-md flex-wrap gap-sm */
   }
 
-  .biddingContainer {
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .biddingHistoryPanel {
-    flex: none;
-    max-height: 200px;
-  }
-  
-  .playerName {
-    font-size: 0.9rem;
-  }
-  
-  .trickDominoes {
-    gap: 0.5rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .gameHeader {
-    padding: 0.5rem;
-  }
-  
   .gameInfo h2 {
-    font-size: 1.4rem;
-  }
-  
-  .scoreDisplay {
-    flex-direction: row;
-    gap: 1rem;
-  }
-  
-  .teamScore {
-    font-size: 1.2rem;
-  }
-  
-  .baseballDiamond {
-    padding: 0.5rem;
-    gap: 0.5rem;
-  }
-  
-  .playerArea {
-    padding: 0.5rem;
-  }
-  
-  .centerPlayArea {
-    min-height: 120px;
-    padding: 0.75rem;
+    /* Override utility: text-lg */
   }
 
-  .biddingArea {
-    padding: 0.5rem;
+  .scoreDisplay {
+    /* Override utilities at this breakpoint: py-xs px-sm gap-sm */
+  }
+
+  .scoreTeam .teamScore {
+    /* Override utility: text-lg */
+  }
+
+  .diamondContainer {
+    width: var(--width-near-full);
+  }
+
+  .player {
+    /* Override utility at this breakpoint: gap-sm */
+  }
+
+  .playArea {
+    width: var(--width-half);
+    height: var(--height-half);
   }
 
   .biddingContainer {
-    flex-direction: column;
-    gap: 0.5rem;
+    min-width: var(--width-form-min);
+    /* Override utility at this breakpoint: p-lg */
   }
 
-  .biddingHistoryPanel {
-    flex: none;
-    max-height: 150px;
-  }
-  
-  .playerName {
-    font-size: 0.8rem;
+  .statusMessage {
+    bottom: var(--space-md);
+    /* Override utilities at this breakpoint: py-xs px-md text-md */
   }
 }
 
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-  .gameBoard {
-    background: #000;
-    color: #fff;
-  }
-  
-  .playerArea {
-    border-color: #fff;
-    background: rgba(255, 255, 255, 0.1);
-  }
-  
-  .centerPlayArea {
-    border-color: #fff;
-    background: rgba(255, 255, 255, 0.1);
-  }
-}
-
-/* Trick Stacks Display */
-.trickStacks {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 1rem;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 12px;
-  margin: 1rem;
-  border: 2px solid var(--color-wood-brown);
-}
-
-.trickStacks h4 {
-  margin: 0 0 0.5rem 0;
-  color: var(--color-gold);
-  font-size: 1rem;
-}
-
-.trickCount {
-  font-size: 0.9rem;
-  color: white;
-  margin-bottom: 0.5rem;
-}
-
-.trickStackContainer {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  justify-content: center;
-}
-
-.trickStack {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-}
-
-.stackedDomino {
-  margin-top: -20px;
-  position: relative;
-  z-index: 1;
-}
-
-.stackedDomino:first-child {
-  margin-top: 0;
-  z-index: 4;
-}
-
-.stackedDomino:nth-child(2) {
-  z-index: 3;
-}
-
-.stackedDomino:nth-child(3) {
-  z-index: 2;
-}
-
-.stackedDomino:nth-child(4) {
-  z-index: 1;
-}
-
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-  .currentPlayerBadge {
-    animation: none;
+@media (max-width: var(--breakpoint-sm)) {
+  .gameHeaderMinimap {
+    min-width: var(--width-button-wide);
+    /* Override utilities at this breakpoint: p-xs text-xs */
   }
 
-  .playerArea {
-    transition: none;
+  .diamondContainer {
+    /* Override utility at this breakpoint: w-full */
+  }
+
+  .playArea {
+    width: var(--width-large);
+    height: var(--height-large);
   }
 }

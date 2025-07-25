@@ -37,8 +37,8 @@ export const BiddingControls: React.FC<BiddingControlsProps> = ({
   validationError
 }) => {
   return (
-    <div className={styles.biddingControls}>
-      <div className={styles.inputGroup}>
+    <div className={`flex-column gap-md ${styles.biddingControls}`}>
+      <div className={`flex-column gap-xs ${styles.inputGroup}`}>
         <label htmlFor="bid-amount" className={styles.label}>
           Bid Amount
         </label>
@@ -50,7 +50,7 @@ export const BiddingControls: React.FC<BiddingControlsProps> = ({
           value={bidAmount === 0 ? '' : bidAmount}
           onChange={onBidAmountChange}
           disabled={isDisabled}
-          className={styles.bidInput}
+          className={`form-control ${styles.bidInput}`}
           aria-describedby="bid-amount-help"
         />
         <div id="bid-amount-help" className={styles.helpText}>
@@ -58,7 +58,7 @@ export const BiddingControls: React.FC<BiddingControlsProps> = ({
         </div>
       </div>
 
-      <div className={styles.inputGroup}>
+      <div className={`flex-column gap-xs ${styles.inputGroup}`}>
         <label htmlFor="trump-suit" className={styles.label}>
           Trump Suit
         </label>
@@ -67,7 +67,7 @@ export const BiddingControls: React.FC<BiddingControlsProps> = ({
           value={selectedTrump}
           onChange={onTrumpChange}
           disabled={isDisabled}
-          className={styles.trumpSelect}
+          className={`form-control ${styles.trumpSelect}`}
           aria-describedby="trump-suit-help"
         >
           <option value="">Select trump suit</option>

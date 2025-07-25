@@ -1,202 +1,202 @@
 /* GameStartManager Component Styles */
 
 .gameStartManager {
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
-  padding: 1.5rem;
-  margin: 1rem 0;
+  background: var(--bg-overlay-dark);
+  border: var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  margin: var(--space-base) 0;
 }
 
 .statusSection {
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--space-lg);
 }
 
 .statusHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: var(--space-base);
 }
 
 .statusHeader h4 {
-  color: white;
-  font-size: 1.1rem;
-  font-weight: 600;
+  color: var(--text-white);
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
   margin: 0;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  text-shadow: var(--text-shadow);
 }
 
 .readyBreakdown {
-  margin-top: 1rem;
+  margin-top: var(--space-base);
 }
 
 .readyGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 0.5rem;
+  gap: var(--space-sm);
 }
 
 .playerStatus {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 0.75rem;
-  border-radius: 8px;
-  transition: all 0.2s ease;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  transition: var(--transition-all);
 }
 
 .ready {
-  background: rgba(40, 167, 69, 0.1);
-  border: 1px solid rgba(40, 167, 69, 0.3);
+  background: var(--bg-success);
+  border: var(--border-success);
 }
 
 .notReady {
-  background: rgba(255, 193, 7, 0.1);
-  border: 1px solid rgba(255, 193, 7, 0.3);
+  background: var(--bg-warning);
+  border: var(--border-warning);
 }
 
 .playerName {
-  color: white;
-  font-size: 0.9rem;
-  font-weight: 500;
+  color: var(--text-white);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
 }
 
 .readyIndicator {
-  font-size: 1.1rem;
-  font-weight: bold;
+  font-size: var(--text-base);
+  font-weight: var(--font-bold);
 }
 
 .ready .readyIndicator {
-  color: #28a745;
+  color: var(--color-success);
 }
 
 .notReady .readyIndicator {
-  color: #ffc107;
+  color: var(--color-warning);
 }
 
 .errorMessage {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
-  padding: 0.75rem;
-  background: rgba(220, 53, 69, 0.1);
-  border: 1px solid rgba(220, 53, 69, 0.3);
-  border-radius: 8px;
+  margin-bottom: var(--space-base);
+  padding: var(--space-md);
+  background: var(--bg-error);
+  border: var(--border-error);
+  border-radius: var(--radius-md);
 }
 
 .actionSection {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: var(--space-md);
 }
 
 .startHint {
   text-align: center;
-  padding: 0.5rem;
-  background: rgba(40, 167, 69, 0.1);
-  border: 1px solid rgba(40, 167, 69, 0.3);
-  border-radius: 8px;
+  padding: var(--space-sm);
+  background: var(--bg-success);
+  border: var(--border-success);
+  border-radius: var(--radius-md);
 }
 
 .startHint p {
-  color: #28a745;
-  font-size: 0.9rem;
-  font-weight: 500;
+  color: var(--color-success);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
   margin: 0;
 }
 
 .startingProgress {
-  margin-top: 1rem;
-  padding: 1rem;
-  background: rgba(0, 102, 204, 0.1);
-  border: 1px solid rgba(0, 102, 204, 0.3);
-  border-radius: 8px;
+  margin-top: var(--space-base);
+  padding: var(--space-base);
+  background: var(--bg-info);
+  border: var(--border-info);
+  border-radius: var(--radius-md);
 }
 
 .progressSteps {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--space-sm);
 }
 
 .progressStep {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  color: white;
-  font-size: 0.9rem;
-  opacity: 0.8;
-  animation: fadeInStep 0.5s ease-out;
+  gap: var(--space-md);
+  color: var(--text-white);
+  font-size: var(--text-sm);
+  opacity: var(--opacity-muted);
+  animation: fadeInStep var(--duration-medium) var(--ease-out);
 }
 
 .stepIcon {
-  font-size: 1.2rem;
-  width: 24px;
+  font-size: var(--text-lg);
+  width: var(--size-6);
   text-align: center;
 }
 
 @keyframes fadeInStep {
   from {
     opacity: 0;
-    transform: translateX(-10px);
+    transform: var(--transform-enter-left);
   }
   to {
-    opacity: 0.8;
-    transform: translateX(0);
+    opacity: var(--opacity-muted);
+    transform: var(--transform-none);
   }
 }
 
 /* Responsive design */
 @media (max-width: 768px) {
   .gameStartManager {
-    padding: 1rem;
+    padding: var(--space-base);
   }
 
   .statusHeader {
     flex-direction: column;
-    gap: 0.5rem;
+    gap: var(--space-sm);
     align-items: stretch;
     text-align: center;
   }
 
   .readyGrid {
     grid-template-columns: 1fr;
-    gap: 0.4rem;
+    gap: var(--space-xs);
   }
 
   .playerStatus {
-    padding: 0.4rem 0.6rem;
+    padding: var(--space-xs) var(--space-sm);
   }
 
   .playerName {
-    font-size: 0.85rem;
+    font-size: var(--text-xs);
   }
 
   .errorMessage {
     flex-direction: column;
-    gap: 0.5rem;
+    gap: var(--space-sm);
     text-align: center;
   }
 
   .progressSteps {
-    gap: 0.4rem;
+    gap: var(--space-xs);
   }
 
   .progressStep {
-    font-size: 0.85rem;
+    font-size: var(--text-xs);
   }
 }
 
 @media (max-width: 480px) {
   .statusHeader h4 {
-    font-size: 1rem;
+    font-size: var(--text-base);
   }
 
   .playerStatus {
     flex-direction: column;
-    gap: 0.25rem;
+    gap: var(--space-xs);
     text-align: center;
   }
 
@@ -208,45 +208,45 @@
 /* High contrast mode support */
 @media (prefers-contrast: high) {
   .gameStartManager {
-    background: rgba(255, 255, 255, 0.9);
-    border-color: #000;
+    background: var(--bg-primary-alpha);
+    border-color: var(--color-black);
   }
 
   .statusHeader h4 {
-    color: #000;
+    color: var(--color-black);
     text-shadow: none;
   }
 
   .playerName {
-    color: #000;
+    color: var(--color-black);
   }
 
   .ready {
-    background: #d4edda;
-    border-color: #28a745;
+    background: var(--bg-success-light);
+    border-color: var(--color-success);
   }
 
   .notReady {
-    background: #fff3cd;
-    border-color: #ffc107;
+    background: var(--bg-warning-light);
+    border-color: var(--color-warning);
   }
 
   .startHint {
-    background: #d4edda;
-    border-color: #28a745;
+    background: var(--bg-success-light);
+    border-color: var(--color-success);
   }
 
   .startHint p {
-    color: #155724;
+    color: var(--color-success-dark);
   }
 
   .startingProgress {
-    background: #cce7ff;
-    border-color: #0066cc;
+    background: var(--bg-info-light);
+    border-color: var(--color-info);
   }
 
   .progressStep {
-    color: #000;
+    color: var(--color-black);
   }
 }
 
@@ -263,33 +263,33 @@
 
 /* Focus management */
 .gameStartManager:focus-within {
-  outline: 2px solid var(--color-blue);
-  outline-offset: 2px;
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
 }
 
 /* Loading state */
 .gameStartManager[data-loading="true"] {
-  opacity: 0.8;
+  opacity: var(--opacity-disabled);
 }
 
 /* Success state animation */
 @keyframes successPulse {
   0%, 100% {
-    background: rgba(40, 167, 69, 0.1);
+    background: var(--bg-success);
   }
   50% {
-    background: rgba(40, 167, 69, 0.2);
+    background: var(--bg-success-medium);
   }
 }
 
 .gameStartManager[data-all-ready="true"] {
-  animation: successPulse 2s infinite;
+  animation: successPulse var(--duration-slow) infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .gameStartManager[data-all-ready="true"] {
     animation: none;
-    background: rgba(40, 167, 69, 0.15);
+    background: var(--bg-success-light);
   }
 }
 
@@ -304,13 +304,13 @@
 
 /* Button enhancements */
 .actionSection button[data-variant="primary"] {
-  font-weight: 600;
+  font-weight: var(--font-semibold);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: var(--letter-spacing-wide);
 }
 
 .actionSection button:disabled {
-  opacity: 0.6;
+  opacity: var(--opacity-disabled);
   cursor: not-allowed;
 }
 
@@ -320,13 +320,13 @@
 }
 
 .progressStep:nth-child(2) {
-  animation-delay: 0.2s;
+  animation-delay: var(--delay-short);
 }
 
 .progressStep:nth-child(3) {
-  animation-delay: 0.4s;
+  animation-delay: var(--delay-medium);
 }
 
 .progressStep:nth-child(4) {
-  animation-delay: 0.6s;
+  animation-delay: var(--delay-long);
 }

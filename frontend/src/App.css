@@ -1,39 +1,32 @@
 .app {
   width: 100%;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
 }
 
 .main-content {
   flex: 1;
-  display: flex;
-  flex-direction: column;
   overflow: auto;
 }
 
 /* Texas 42 specific styling */
 .texas42-container {
   background: var(--color-felt-green);
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border-radius: var(--border-radius-lg);
+  padding: var(--space-xl);
+  box-shadow: var(--shadow-lg);
 }
 
 .domino-table {
   background: radial-gradient(ellipse at center, var(--color-felt-green) 0%, var(--color-felt-green-dark) 100%);
-  border: 8px solid var(--color-wood-brown);
+  border: var(--border-width-wood) solid var(--color-wood-brown);
   border-radius: 50%;
   position: relative;
 }
 
 .game-header {
-  background: rgba(0, 0, 0, 0.8);
-  color: white;
-  padding: 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  padding: var(--space-lg);
 }
 
 .score-display {
@@ -44,9 +37,6 @@
 
 .player-area {
   position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .player-north { top: 10px; left: 50%; transform: translateX(-50%); }

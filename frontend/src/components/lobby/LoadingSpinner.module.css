@@ -1,21 +1,22 @@
 /* LoadingSpinner Component Styles */
+@import '../../styles/design-tokens.css';
 
 .loadingContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
-  padding: 2rem;
+  gap: var(--space-base);
+  padding: var(--space-2xl);
   text-align: center;
 }
 
 .spinner {
   position: relative;
   border-radius: 50%;
-  border: 3px solid rgba(255, 255, 255, 0.2);
+  border: 3px solid var(--surface-glass-light);
   border-top: 3px solid var(--color-blue);
-  animation: spin 1s linear infinite;
+  animation: spin var(--duration-slow) linear infinite;
 }
 
 .small {
@@ -59,35 +60,28 @@
 }
 
 .loadingMessage {
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 1rem;
-  font-weight: 500;
+  color: var(--text-primary);
+  font-size: var(--font-base);
+  font-weight: var(--font-medium);
   margin: 0;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  text-shadow: var(--text-shadow);
 }
 
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
+/* spin animation imported from patterns/animations.css */
 
 /* High contrast mode support */
 @media (prefers-contrast: high) {
   .spinner {
-    border-color: #000;
-    border-top-color: #fff;
+    border-color: var(--text-primary-contrast);
+    border-top-color: var(--text-primary);
   }
 
   .spinnerInner {
-    background: #fff;
+    background: var(--text-primary);
   }
 
   .loadingMessage {
-    color: #fff;
+    color: var(--text-primary);
     text-shadow: none;
   }
 }
@@ -119,7 +113,7 @@
 
 /* Focus management */
 .loadingContainer:focus {
-  outline: 2px solid var(--color-blue);
-  outline-offset: 2px;
-  border-radius: 8px;
+  outline: var(--outline-focus);
+  outline-offset: var(--space-xxs);
+  border-radius: var(--radius-base);
 }

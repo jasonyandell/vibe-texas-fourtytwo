@@ -1,42 +1,39 @@
 /* Card Component Styles */
+@import '../../styles/design-tokens.css';
 
 .card {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  transition: all 0.2s ease;
+  background: var(--surface-glass);
+  border-radius: var(--radius-lg);
+  transition: var(--transition-all);
   overflow: hidden;
   position: relative;
 }
 
 /* Variants */
 .default {
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
+  border: var(--border-subtle);
+  backdrop-filter: var(--blur-md);
 }
 
 .elevated {
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  box-shadow: 
-    0 4px 6px rgba(0, 0, 0, 0.1),
-    0 1px 3px rgba(0, 0, 0, 0.08);
+  border: var(--border-subtle);
+  backdrop-filter: var(--blur-md);
+  box-shadow: var(--shadow-md);
 }
 
 .elevated:hover {
-  box-shadow: 
-    0 8px 25px rgba(0, 0, 0, 0.15),
-    0 3px 10px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
+  box-shadow: var(--shadow-xl);
+  transform: var(--transform-hover);
 }
 
 .outlined {
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  border: 2px solid var(--border-color-light);
   background: transparent;
 }
 
 .filled {
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--surface-dark);
+  border: var(--border-subtle);
 }
 
 /* Padding variants */
@@ -45,132 +42,132 @@
 }
 
 .paddingSmall {
-  padding: 0.75rem;
+  padding: var(--space-sm);
 }
 
 .paddingMedium {
-  padding: 1.25rem;
+  padding: var(--space-md);
 }
 
 .paddingLarge {
-  padding: 2rem;
+  padding: var(--space-xl);
 }
 
 /* Card sections */
 .cardHeader {
-  padding: 1.25rem 1.25rem 0 1.25rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  margin-bottom: 1.25rem;
+  padding: var(--space-md) var(--space-md) 0 var(--space-md);
+  border-bottom: var(--border-subtle);
+  margin-bottom: var(--space-md);
 }
 
 .cardHeader:last-child {
   border-bottom: none;
   margin-bottom: 0;
-  padding-bottom: 1.25rem;
+  padding-bottom: var(--space-md);
 }
 
 .cardContent {
-  padding: 0 1.25rem;
+  padding: 0 var(--space-md);
   flex: 1;
 }
 
 .cardContent:first-child {
-  padding-top: 1.25rem;
+  padding-top: var(--space-md);
 }
 
 .cardContent:last-child {
-  padding-bottom: 1.25rem;
+  padding-bottom: var(--space-md);
 }
 
 .cardFooter {
-  padding: 0 1.25rem 1.25rem 1.25rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  margin-top: 1.25rem;
+  padding: 0 var(--space-md) var(--space-md) var(--space-md);
+  border-top: var(--border-subtle);
+  margin-top: var(--space-md);
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 0.75rem;
+  gap: var(--space-sm);
 }
 
 .cardFooter:first-child {
   border-top: none;
   margin-top: 0;
-  padding-top: 1.25rem;
+  padding-top: var(--space-md);
 }
 
 /* Responsive design */
 @media (max-width: 768px) {
   .paddingSmall {
-    padding: 0.5rem;
+    padding: var(--space-xs);
   }
   
   .paddingMedium {
-    padding: 1rem;
+    padding: var(--space-base);
   }
   
   .paddingLarge {
-    padding: 1.5rem;
+    padding: var(--space-lg);
   }
   
   .cardHeader {
-    padding: 1rem 1rem 0 1rem;
-    margin-bottom: 1rem;
+    padding: var(--space-base) var(--space-base) 0 var(--space-base);
+    margin-bottom: var(--space-base);
   }
   
   .cardHeader:last-child {
-    padding-bottom: 1rem;
+    padding-bottom: var(--space-base);
   }
   
   .cardContent {
-    padding: 0 1rem;
+    padding: 0 var(--space-base);
   }
   
   .cardContent:first-child {
-    padding-top: 1rem;
+    padding-top: var(--space-base);
   }
   
   .cardContent:last-child {
-    padding-bottom: 1rem;
+    padding-bottom: var(--space-base);
   }
   
   .cardFooter {
-    padding: 0 1rem 1rem 1rem;
-    margin-top: 1rem;
+    padding: 0 var(--space-base) var(--space-base) var(--space-base);
+    margin-top: var(--space-base);
     flex-direction: column;
     align-items: stretch;
   }
   
   .cardFooter:first-child {
-    padding-top: 1rem;
+    padding-top: var(--space-base);
   }
 }
 
 /* High contrast mode support */
 @media (prefers-contrast: high) {
   .card {
-    background: rgba(255, 255, 255, 0.9);
-    color: #000;
+    background: var(--color-card-surface);
+    color: var(--text-primary-contrast);
   }
   
   .outlined {
-    border-color: #000;
-    background: rgba(255, 255, 255, 0.9);
+    border-color: var(--text-primary-contrast);
+    background: var(--color-card-surface);
   }
   
   .filled {
-    background: rgba(0, 0, 0, 0.9);
-    color: #fff;
-    border-color: #fff;
+    background: var(--color-modal-overlay);
+    color: var(--text-primary);
+    border-color: var(--text-primary);
   }
   
   .cardHeader,
   .cardFooter {
-    border-color: #000;
+    border-color: var(--text-primary-contrast);
   }
   
   .filled .cardHeader,
   .filled .cardFooter {
-    border-color: #fff;
+    border-color: var(--text-primary);
   }
 }
 
@@ -187,17 +184,17 @@
 
 /* Focus management for interactive cards */
 .card:focus-within {
-  outline: 2px solid var(--color-blue);
-  outline-offset: 2px;
+  outline: var(--outline-focus);
+  outline-offset: var(--space-xxs);
 }
 
 /* Glass morphism effect for modern browsers */
 @supports (backdrop-filter: blur(10px)) {
   .default,
   .elevated {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--surface-glass-subtle);
+    backdrop-filter: var(--blur-md);
+    border: var(--border-subtle);
   }
 }
 
@@ -205,7 +202,7 @@
 @supports not (backdrop-filter: blur(10px)) {
   .default,
   .elevated {
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: var(--surface-dark);
+    border: 1px solid var(--border-color-light);
   }
 }

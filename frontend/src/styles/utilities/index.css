@@ -1,0 +1,15 @@
+/* Centralized Utility Classes for Texas 42 Web Game */
+/* Import design tokens to ensure they're available */
+@import '../design-tokens.css';
+
+/* Import all utility modules */
+@import './layout.css';
+@import './spacing.css';
+@import './typography.css';
+@import './interactive.css';
+@import './responsive.css';
+@import './backgrounds.css';
+@import './effects.css';
+@import './sizing.css';
+@import './borders.css';
+@import './display.css';

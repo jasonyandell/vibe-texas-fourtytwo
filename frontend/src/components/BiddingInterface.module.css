@@ -1,169 +1,150 @@
+/* BiddingInterface Component Styles */
+@import '../design-tokens.css';
+@import '../styles/utilities/index.css';
+
 .biddingInterface {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  padding: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-  height: 100vh;
-  background-color: var(--background-color, #f5f5f5);
+  composes: flex-column mx-auto h-screen from global;
+  gap: var(--space-xl);
+  padding: var(--space-xl);
+  max-width: var(--max-width-container);
+  background-color: var(--color-background);
 }
 
 /* Previous Bids Section */
 .previousBids {
-  background: white;
-  border-radius: 8px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  composes: p-lg from global;
 }
 
 .previousBids h3 {
-  margin: 0 0 1rem 0;
-  font-size: 1.25rem;
-  color: #333;
+  composes: m-0 mb-md from global;
+  font-size: var(--font-size-lg);
+  color: var(--text-primary);
 }
 
 .bidHistory {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  composes: flex-column gap-sm from global;
 }
 
 .bidEntry {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5rem 1rem;
-  background: #f8f8f8;
-  border-radius: 4px;
+  composes: py-sm px-md rounded-sm from global;
+  background: var(--surface-variant);
 }
 
 .bidEntry.currentTurn {
-  background: #e3f2fd;
-  border: 2px solid #2196f3;
+  composes: border-primary from global;
+  background: var(--primary-light);
+  border-width: var(--border-width-thin);
+  border-style: solid;
 }
 
 .playerName {
-  font-weight: 500;
-  color: #555;
+  font-weight: var(--font-weight-medium);
+  color: var(--text-secondary);
 }
 
 .bidAmount {
-  font-weight: 700;
-  font-size: 1.1rem;
-  color: #333;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-lg);
+  color: var(--text-primary);
 }
 
 /* Bid Buttons Section */
 .bidSection {
-  background: white;
-  border-radius: 8px;
-  padding: 2rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  composes: p-xl from global;
 }
 
 .bidSection h3 {
-  margin: 0 0 1.5rem 0;
-  font-size: 1.5rem;
-  color: #333;
+  composes: m-0 mb-lg from global;
+  font-size: var(--font-size-xl);
+  color: var(--text-primary);
   text-align: center;
 }
 
 .bidButtons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  justify-content: center;
-  align-items: center;
+  composes: gap-md from global;
 }
 
 .bidButton {
-  min-width: 80px;
-  height: 60px;
-  font-size: 1.25rem;
-  font-weight: 700;
-  border: 2px solid #ddd;
-  border-radius: 8px;
-  background: white;
-  color: #333;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  padding: 0 1rem;
+  composes: rounded-md cursor-pointer transition-fast px-md from global;
+  min-width: var(--width-button-narrow);
+  height: var(--height-button-tall);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  border: var(--border-default);
+  background: var(--surface);
+  color: var(--text-primary);
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .bidButton:hover:not(.disabled) {
-  background: #2196f3;
-  color: white;
-  border-color: #1976d2;
+  composes: shadow-md from global;
+  background: var(--primary);
+  color: var(--color-white);
+  border-color: var(--primary-dark);
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .bidButton:active:not(.disabled) {
-  transform: translateY(0);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  composes: shadow-sm from global;
+  transform: none;
 }
 
 .bidButton.disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+  composes: opacity-disabled cursor-not-allowed from global;
 }
 
 /* Special bid buttons */
 .bidButton:first-child {
-  background: #f44336;
-  color: white;
-  border-color: #d32f2f;
+  composes: bg-error from global;
+  color: var(--color-white);
+  border-color: var(--color-error-dark);
 }
 
 .bidButton:first-child:hover:not(.disabled) {
-  background: #d32f2f;
+  background: var(--color-error-dark);
 }
 
 .bidButton:last-child {
-  background: #9c27b0;
-  color: white;
-  border-color: #7b1fa2;
-  min-width: 100px;
+  composes: bg-secondary from global;
+  color: var(--color-white);
+  border-color: var(--color-secondary-dark);
+  min-width: var(--width-button-wide);
 }
 
 .bidButton:last-child:hover:not(.disabled) {
-  background: #7b1fa2;
+  background: var(--color-secondary-dark);
 }
 
 /* Player Hand Section */
 .handSection {
-  background: white;
-  border-radius: 8px;
-  padding: 2rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+  composes: p-xl flex-auto from global;
 }
 
 .handSection h3 {
-  margin: 0 0 1.5rem 0;
-  font-size: 1.25rem;
-  color: #333;
+  composes: m-0 mb-lg from global;
+  font-size: var(--font-size-lg);
+  color: var(--text-primary);
   text-align: center;
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-md)) {
   .biddingInterface {
-    padding: 1rem;
-    gap: 1rem;
+    padding: var(--space-md);
+    gap: var(--space-md);
   }
 
   .bidButtons {
-    gap: 0.5rem;
+    gap: var(--space-sm);
   }
 
   .bidButton {
-    min-width: 60px;
-    height: 50px;
-    font-size: 1rem;
-    padding: 0 0.75rem;
+    composes: px-sm from global;
+    min-width: var(--width-button-compact);
+    height: var(--height-button-normal);
+    font-size: var(--font-size-base);
+    padding-top: 0;
+    padding-bottom: 0;
   }
 }

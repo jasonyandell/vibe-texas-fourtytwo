@@ -4,14 +4,14 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 0.5rem;
+  gap: var(--spacing-gap-sm);
 }
 
 .statusBadge {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
-  font-weight: 600;
+  gap: var(--space-sm);
+  font-weight: var(--font-weight-semibold);
   white-space: nowrap;
 }
 
@@ -26,22 +26,22 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 0.25rem;
+  gap: var(--space-xs);
   min-width: 100px;
 }
 
 .progressText {
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 0.75rem;
-  font-weight: 500;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
   white-space: nowrap;
 }
 
 .progressBar {
   width: 100%;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 2px;
+  height: var(--space-xs);
+  background: var(--color-border);
+  border-radius: var(--border-radius-sm);
   overflow: hidden;
   position: relative;
 }
@@ -49,8 +49,8 @@
 .progressFill {
   height: 100%;
   background: linear-gradient(90deg, var(--color-blue), var(--color-gold));
-  border-radius: 2px;
-  transition: width 0.3s ease;
+  border-radius: var(--border-radius-sm);
+  transition: width var(--transition-slow) var(--transition-ease);
   position: relative;
 }
 
@@ -64,7 +64,7 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.3),
+    var(--color-progress-shimmer),
     transparent
   );
   animation: shimmer 2s infinite;
@@ -82,21 +82,21 @@
 /* Status-specific styling */
 .statusBadge[data-variant="waiting"] {
   background: var(--color-gold);
-  color: black;
+  color: var(--color-domino-black);
 }
 
 .statusBadge[data-variant="playing"] {
-  background: #28a745;
-  color: white;
+  background: var(--color-success);
+  color: var(--color-text-primary);
 }
 
 .statusBadge[data-variant="finished"] {
-  background: #6c757d;
-  color: white;
+  background: var(--color-secondary);
+  color: var(--color-text-primary);
 }
 
 /* Responsive design */
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-md)) {
   .gameStatus {
     align-items: stretch;
     width: 100%;
@@ -117,14 +117,14 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: var(--breakpoint-sm)) {
   .statusBadge {
-    font-size: 0.8rem;
-    padding: 0.3rem 0.6rem;
+    font-size: var(--font-size-sm);
+    padding: var(--space-xs) var(--space-sm);
   }
 
   .progressText {
-    font-size: 0.7rem;
+    font-size: var(--font-size-xs);
   }
 
   .progressBar {
@@ -135,34 +135,34 @@
 /* High contrast mode support */
 @media (prefers-contrast: high) {
   .progressBar {
-    background: #000;
-    border: 1px solid #fff;
+    background: var(--color-domino-black);
+    border: var(--border-width-thin) solid var(--color-domino-white);
   }
 
   .progressFill {
-    background: #fff;
+    background: var(--color-domino-white);
   }
 
   .progressText {
-    color: #000;
+    color: var(--color-domino-black);
   }
 
   .statusBadge[data-variant="waiting"] {
-    background: #ff6600;
-    color: #fff;
-    border: 2px solid #000;
+    background: var(--color-status-pending);
+    color: var(--color-domino-white);
+    border: var(--border-width-medium) solid var(--color-domino-black);
   }
 
   .statusBadge[data-variant="playing"] {
-    background: #008000;
-    color: #fff;
-    border: 2px solid #000;
+    background: var(--color-status-ready);
+    color: var(--color-domino-white);
+    border: var(--border-width-medium) solid var(--color-domino-black);
   }
 
   .statusBadge[data-variant="finished"] {
-    background: #666;
-    color: #fff;
-    border: 2px solid #000;
+    background: var(--color-text-muted);
+    color: var(--color-domino-white);
+    border: var(--border-width-medium) solid var(--color-domino-black);
   }
 }
 
@@ -188,20 +188,20 @@
 
 /* Focus management */
 .gameStatus:focus-within {
-  outline: 2px solid var(--color-blue);
-  outline-offset: 2px;
-  border-radius: 4px;
+  outline: var(--border-width-medium) solid var(--color-blue);
+  outline-offset: var(--border-width-medium);
+  border-radius: var(--border-radius-sm);
 }
 
 /* Loading state */
 .gameStatus[data-loading="true"] .progressFill {
   background: linear-gradient(
     90deg,
-    rgba(255, 255, 255, 0.3),
-    rgba(255, 255, 255, 0.1),
-    rgba(255, 255, 255, 0.3)
+    var(--color-loading-gradient-1),
+    var(--color-loading-gradient-2),
+    var(--color-loading-gradient-1)
   );
-  animation: pulse 1.5s ease-in-out infinite;
+  animation: pulse 1.5s var(--transition-ease-in-out) infinite;
 }
 
 @keyframes pulse {
@@ -224,22 +224,22 @@
   position: absolute;
   top: 100%;
   right: 0;
-  background: rgba(0, 0, 0, 0.9);
-  color: white;
-  padding: 0.5rem;
-  border-radius: 4px;
-  font-size: 0.8rem;
+  background: var(--color-tooltip-bg);
+  color: var(--color-text-primary);
+  padding: var(--spacing-gap-sm);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-sm);
   white-space: nowrap;
-  z-index: 10;
-  margin-top: 0.25rem;
+  z-index: var(--z-index-raised);
+  margin-top: var(--space-xs);
 }
 
 .gameStatus[data-tooltip]:hover::before {
   content: '';
   position: absolute;
   top: 100%;
-  right: 0.5rem;
-  border: 4px solid transparent;
-  border-bottom-color: rgba(0, 0, 0, 0.9);
-  z-index: 11;
+  right: var(--spacing-gap-sm);
+  border: var(--space-xs) solid transparent;
+  border-bottom-color: var(--color-tooltip-bg);
+  z-index: var(--z-index-raised);
 }

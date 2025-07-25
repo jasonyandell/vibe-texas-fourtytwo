@@ -1,0 +1,116 @@
+/* Interactive State Utilities for Texas 42 Web Game */
+
+/* ========================================
+   Basic Interactive Utilities
+   ======================================== */
+
+.interactive {
+  transition: var(--transition-fast);
+  cursor: pointer;
+}
+
+.interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.interactive:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+.interactive-scale {
+  transition: var(--transition-fast);
+  cursor: pointer;
+}
+
+.interactive-scale:hover {
+  transform: scale(1.05);
+}
+
+.interactive-scale:active {
+  transform: scale(0.95);
+}
+
+/* ========================================
+   Hover Lift Utilities
+   ======================================== */
+
+.hover-lift-sm {
+  transition: var(--transition-fast);
+  cursor: pointer;
+}
+
+.hover-lift-sm:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.hover-lift {
+  transition: var(--transition-fast);
+  cursor: pointer;
+}
+
+.hover-lift:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.hover-lift-lg {
+  transition: var(--transition-fast);
+  cursor: pointer;
+}
+
+.hover-lift-lg:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ========================================
+   Hover Scale Utilities
+   ======================================== */
+
+.hover-scale {
+  transition: var(--transition-fast);
+  cursor: pointer;
+}
+
+.hover-scale:hover:not(:disabled) {
+  transform: scale(1.05);
+}
+
+.hover-scale-sm {
+  transition: var(--transition-fast);
+  cursor: pointer;
+}
+
+.hover-scale-sm:hover:not(:disabled) {
+  transform: scale(1.02);
+}
+
+/* ========================================
+   Special Interactive Effects
+   ======================================== */
+
+.hover-elevate {
+  transition: var(--transition-fast);
+  cursor: pointer;
+}
+
+.hover-elevate:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-xl);
+  border-color: var(--color-primary);
+}
+
+/* ========================================
+   Disabled State Utilities
+   ======================================== */
+
+.disabled,
+[disabled] {
+  opacity: var(--opacity-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+  transform: none !important;
+}

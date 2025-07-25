@@ -1,0 +1,281 @@
+/* Status and Badge Pattern Library for Texas 42 Web Game */
+
+/* ========================================
+   Base Badge Patterns
+   ======================================== */
+
+.badge-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-weight-semibold);
+  border-radius: var(--border-radius-lg);
+  white-space: nowrap;
+  transition: var(--transition-base);
+  font-size: var(--font-size-xs);
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+/* ========================================
+   Badge Sizes
+   ======================================== */
+
+.badge-sm {
+  padding: var(--space-xs) var(--space-sm);
+  font-size: var(--font-size-xs);
+}
+
+.badge-md {
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--font-size-sm);
+}
+
+.badge-lg {
+  padding: var(--space-md) var(--space-lg);
+  font-size: var(--font-size-base);
+}
+
+/* ========================================
+   Status Badge Variants
+   ======================================== */
+
+.badge-success {
+  background: var(--color-success);
+  color: var(--text-white);
+  border: var(--border-width-thin) solid var(--color-success);
+}
+
+.badge-success-light {
+  background: var(--color-success-bg-light);
+  color: var(--color-success);
+  border: var(--border-width-thin) solid var(--color-success-border-light);
+}
+
+.badge-warning {
+  background: var(--color-gold);
+  color: var(--color-domino-black);
+  border: var(--border-width-thin) solid var(--color-gold);
+}
+
+.badge-warning-light {
+  background: var(--color-warning-bg-light);
+  color: var(--color-text-dark);
+  border: var(--border-width-thin) solid var(--color-warning-border-light);
+}
+
+.badge-error {
+  background: var(--color-error);
+  color: var(--text-white);
+  border: var(--border-width-thin) solid var(--color-error);
+}
+
+.badge-error-light {
+  background: var(--color-error-bg-light);
+  color: var(--color-error);
+  border: var(--border-width-thin) solid var(--color-error-border-light);
+}
+
+.badge-info {
+  background: var(--color-primary);
+  color: var(--text-white);
+  border: var(--border-width-thin) solid var(--color-primary);
+}
+
+.badge-info-light {
+  background: var(--color-primary-bg-light);
+  color: var(--color-primary);
+  border: var(--border-width-thin) solid var(--color-border-light);
+}
+
+/* ========================================
+   Game-Specific Status Badges
+   ======================================== */
+
+.badge-waiting {
+  background: var(--color-status-pending);
+  color: var(--text-white);
+}
+
+.badge-ready {
+  background: var(--color-status-ready);
+  color: var(--text-white);
+}
+
+.badge-playing {
+  background: var(--color-primary);
+  color: var(--text-white);
+  animation: pulse 2s infinite;
+}
+
+.badge-completed {
+  background: var(--color-success);
+  color: var(--text-white);
+}
+
+/* ========================================
+   Neutral and Secondary Badges
+   ======================================== */
+
+.badge-neutral {
+  background: var(--color-surface-variant);
+  color: var(--color-text-secondary);
+  border: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
+.badge-secondary {
+  background: var(--color-secondary);
+  color: var(--text-primary);
+  border: var(--border-width-thin) solid var(--color-secondary);
+}
+
+.badge-outline {
+  background: transparent;
+  color: var(--color-text-primary);
+  border: var(--border-width-thin) solid var(--color-border);
+}
+
+/* ========================================
+   Interactive Status Badges
+   ======================================== */
+
+.badge-interactive {
+  cursor: pointer;
+  transition: var(--transition-base);
+}
+
+.badge-interactive:hover {
+  transform: var(--transform-hover-small);
+  opacity: 0.9;
+}
+
+.badge-clickable {
+  cursor: pointer;
+  transition: var(--transition-base);
+}
+
+.badge-clickable:hover {
+  filter: brightness(1.1);
+}
+
+/* ========================================
+   Status Indicators (Dots)
+   ======================================== */
+
+.status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: var(--space-xs);
+}
+
+.status-dot-success {
+  background: var(--color-success);
+}
+
+.status-dot-warning {
+  background: var(--color-gold);
+}
+
+.status-dot-error {
+  background: var(--color-error);
+}
+
+.status-dot-info {
+  background: var(--color-primary);
+}
+
+.status-dot-neutral {
+  background: var(--color-text-secondary);
+}
+
+/* ========================================
+   Status Text Colors
+   ======================================== */
+
+.status-text-success {
+  color: var(--color-success);
+}
+
+.status-text-warning {
+  color: var(--color-text-muted);
+}
+
+.status-text-error {
+  color: var(--color-error);
+}
+
+.status-text-info {
+  color: var(--color-primary);
+}
+
+.status-text-neutral {
+  color: var(--color-text-secondary);
+}
+
+/* ========================================
+   Badge Groups and Combinations
+   ======================================== */
+
+.badge-group {
+  display: flex;
+  gap: var(--space-xs);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.badge-with-icon {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.badge-with-count {
+  position: relative;
+}
+
+.badge-with-count::after {
+  content: attr(data-count);
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: var(--color-error);
+  color: var(--text-white);
+  font-size: 10px;
+  padding: 2px 4px;
+  border-radius: 10px;
+  min-width: 16px;
+  text-align: center;
+  line-height: 1;
+}
+
+/* ========================================
+   Animations for Status Changes
+   ======================================== */
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes statusChange {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.badge-animated {
+  animation: statusChange 0.3s ease-in-out;
+}

@@ -1,15 +1,14 @@
 /* Domino Component Styles - Authentic Texas 42 Design */
+@import '../design-tokens.css';
 
 .domino {
   position: relative;
   background: var(--color-domino-white);
   border: 2px solid var(--color-domino-black);
-  border-radius: 8px;
-  box-shadow: 
-    0 2px 4px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: var(--transition-fast);
   user-select: none;
   display: flex;
   align-items: center;
@@ -18,15 +17,15 @@
 
 /* Horizontal orientation (default) */
 .domino.horizontal {
-  width: 80px;
-  height: 40px;
+  width: var(--domino-width-horizontal);
+  height: var(--domino-height-horizontal);
   flex-direction: row;
 }
 
 /* Vertical orientation */
 .domino.vertical {
-  width: 40px;
-  height: 80px;
+  width: var(--domino-width-vertical);
+  height: var(--domino-height-vertical);
   flex-direction: column;
 }
 
@@ -37,11 +36,8 @@
 
 /* Count domino visual indicators */
 .domino.countDomino {
-  border: 2px solid var(--count-domino-border, #ff8800);
-  box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8),
-    0 0 4px var(--count-domino-glow, rgba(255, 136, 0, 0.4));
+  border: 2px solid var(--count-domino-border, var(--warning));
+  box-shadow: var(--shadow-sm), 0 0 4px var(--count-domino-glow, rgba(255, 136, 0, 0.4));
 }
 
 .domino.faceDown {
@@ -64,7 +60,7 @@
     transparent 2px,
     transparent 4px
   );
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
 }
 
 /* Interactive states */
@@ -74,25 +70,20 @@
 
 .domino.playable:hover {
   transform: translateY(-2px);
-  box-shadow: 
-    0 4px 8px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
-  border-color: var(--color-blue);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary);
 }
 
 .domino.playable:active {
   transform: translateY(0);
-  box-shadow: 
-    0 1px 2px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  box-shadow: var(--shadow-sm);
 }
 
 .domino.selected {
   border-color: var(--color-gold);
   box-shadow: 
     0 0 0 2px var(--color-gold),
-    0 2px 4px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    var(--shadow-sm);
 }
 
 .domino:not(.playable) {
@@ -100,306 +91,269 @@
   opacity: 0.7;
 }
 
-/* Domino halves */
-.dominoHalf {
+/* Divider line between ends */
+.divider {
+  position: absolute;
+  background: var(--color-domino-black);
+}
+
+.domino.horizontal .divider {
+  left: 50%;
+  top: 20%;
+  width: 2px;
+  height: 60%;
+  transform: translateX(-50%);
+}
+
+.domino.vertical .divider {
+  top: 50%;
+  left: 20%;
+  width: 60%;
+  height: 2px;
+  transform: translateY(-50%);
+}
+
+.domino.faceDown .divider {
+  display: none;
+}
+
+/* Domino ends */
+.end {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 1;
   position: relative;
-  padding: 4px;
-}
-
-.domino.horizontal .dominoHalf {
-  width: 50%;
-  height: 100%;
-}
-
-.domino.vertical .dominoHalf {
   width: 100%;
-  height: 50%;
-}
-
-/* Divider between halves */
-.dominoDivider {
-  background: var(--color-domino-black);
-  z-index: 1;
-}
-
-.domino.horizontal .dominoDivider {
-  width: 2px;
-  height: 80%;
-}
-
-.domino.vertical .dominoDivider {
-  width: 80%;
-  height: 2px;
+  height: 100%;
 }
 
 /* Pip styles */
 .pip {
-  width: 6px;
-  height: 6px;
+  position: absolute;
+  width: var(--pip-size);
+  height: var(--pip-size);
   background: var(--color-domino-black);
   border-radius: 50%;
-  position: absolute;
-  transition: opacity 0.2s ease;
+  box-shadow: inset 0 1px 2px var(--color-inset-shadow);
 }
 
-/* Pip layouts for different numbers - using class-based approach for better browser support */
-/* 0 pips - no layout needed */
+/* Size variations */
+.domino.small {
+  transform: scale(0.75);
+  transform-origin: center;
+}
+
+.domino.small.horizontal {
+  width: 60px;
+  height: 30px;
+}
+
+.domino.small.vertical {
+  width: 30px;
+  height: 60px;
+}
+
+.domino.small .pip {
+  width: 4px;
+  height: 4px;
+}
+
+.domino.medium {
+  transform: scale(0.875);
+  transform-origin: center;
+}
+
+.domino.medium.horizontal {
+  width: 70px;
+  height: 35px;
+}
+
+.domino.medium.vertical {
+  width: 35px;
+  height: 70px;
+}
+
+.domino.medium .pip {
+  width: 5px;
+  height: 5px;
+}
+
+.domino.large {
+  transform: scale(1.25);
+  transform-origin: center;
+}
+
+.domino.large.horizontal {
+  width: 100px;
+  height: 50px;
+}
+
+.domino.large.vertical {
+  width: 50px;
+  height: 100px;
+}
+
+.domino.large .pip {
+  width: 8px;
+  height: 8px;
+}
+
+/* Pip positions for different values */
+/* 0 pips - blank */
+.value-0 { /* No pips */ }
 
 /* 1 pip - center */
-.pips1 .pip1 {
+.value-1 .pip-1 {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
 /* 2 pips - diagonal */
-.pips2 .pip1 {
+.value-2 .pip-1 {
   top: 25%;
   left: 25%;
   transform: translate(-50%, -50%);
 }
 
-.pips2 .pip2 {
+.value-2 .pip-2 {
   top: 75%;
   left: 75%;
   transform: translate(-50%, -50%);
 }
 
 /* 3 pips - diagonal line */
-.pips3 .pip1 {
+.value-3 .pip-1 {
   top: 25%;
   left: 25%;
-  transform: var(--transform-center);
+  transform: translate(-50%, -50%);
 }
 
-.pips3 .pip2 {
+.value-3 .pip-2 {
   top: 50%;
   left: 50%;
-  transform: var(--transform-center);
+  transform: translate(-50%, -50%);
 }
 
-.pips3 .pip3 {
+.value-3 .pip-3 {
   top: 75%;
   left: 75%;
-  transform: var(--transform-center);
+  transform: translate(-50%, -50%);
 }
 
 /* 4 pips - corners */
-.pips4 .pip1 {
+.value-4 .pip-1 {
   top: 25%;
   left: 25%;
-  transform: var(--transform-center);
+  transform: translate(-50%, -50%);
 }
 
-.pips4 .pip2 {
+.value-4 .pip-2 {
   top: 25%;
   left: 75%;
-  transform: var(--transform-center);
+  transform: translate(-50%, -50%);
 }
 
-.pips4 .pip3 {
+.value-4 .pip-3 {
   top: 75%;
   left: 25%;
-  transform: var(--transform-center);
+  transform: translate(-50%, -50%);
 }
 
-.pips4 .pip4 {
+.value-4 .pip-4 {
   top: 75%;
   left: 75%;
-  transform: var(--transform-center);
+  transform: translate(-50%, -50%);
 }
 
-/* 5 pips - corners + center */
-.pips5 .pip1 {
+/* 5 pips - corners plus center */
+.value-5 .pip-1 {
   top: 25%;
   left: 25%;
-  transform: var(--transform-center);
+  transform: translate(-50%, -50%);
 }
 
-.pips5 .pip2 {
+.value-5 .pip-2 {
   top: 25%;
   left: 75%;
-  transform: var(--transform-center);
+  transform: translate(-50%, -50%);
 }
 
-.pips5 .pip3 {
+.value-5 .pip-3 {
   top: 50%;
   left: 50%;
-  transform: var(--transform-center);
+  transform: translate(-50%, -50%);
 }
 
-.pips5 .pip4 {
+.value-5 .pip-4 {
   top: 75%;
   left: 25%;
-  transform: var(--transform-center);
+  transform: translate(-50%, -50%);
 }
 
-.pips5 .pip5 {
+.value-5 .pip-5 {
   top: 75%;
   left: 75%;
-  transform: var(--transform-center);
+  transform: translate(-50%, -50%);
 }
 
 /* 6 pips - two columns */
-.pips6 .pip1 {
-  top: 20%;
-  left: 35%;
-  transform: var(--transform-center);
+.value-6 .pip-1 {
+  top: 25%;
+  left: 30%;
+  transform: translate(-50%, -50%);
 }
 
-.pips6 .pip2 {
-  top: 20%;
-  left: 65%;
-  transform: var(--transform-center);
+.value-6 .pip-2 {
+  top: 25%;
+  left: 70%;
+  transform: translate(-50%, -50%);
 }
 
-.pips6 .pip3 {
+.value-6 .pip-3 {
   top: 50%;
-  left: 35%;
-  transform: var(--transform-center);
+  left: 30%;
+  transform: translate(-50%, -50%);
 }
 
-.pips6 .pip4 {
+.value-6 .pip-4 {
   top: 50%;
-  left: 65%;
-  transform: var(--transform-center);
+  left: 70%;
+  transform: translate(-50%, -50%);
 }
 
-.pips6 .pip5 {
-  top: 80%;
-  left: 35%;
-  transform: var(--transform-center);
+.value-6 .pip-5 {
+  top: 75%;
+  left: 30%;
+  transform: translate(-50%, -50%);
 }
 
-.pips6 .pip6 {
-  top: 80%;
-  left: 65%;
-  transform: var(--transform-center);
+.value-6 .pip-6 {
+  top: 75%;
+  left: 70%;
+  transform: translate(-50%, -50%);
 }
 
-/* Responsive scaling */
-@media (max-width: 768px) {
+/* Mobile responsiveness */
+@media (max-width: var(--breakpoint-md)) {
   .domino.horizontal {
-    width: var(--domino-width-horizontal-mobile);
-    height: var(--domino-height-horizontal-mobile);
+    width: 60px;
+    height: 30px;
   }
-  
+
   .domino.vertical {
-    width: var(--domino-width-vertical-mobile);
-    height: var(--domino-height-vertical-mobile);
-  }
-  
-  .pip {
-    width: var(--pip-size-mobile);
-    height: var(--pip-size-mobile);
-  }
-}
-
-@media (max-width: 480px) {
-  .domino.horizontal {
-    width: var(--domino-width-horizontal-small);
-    height: var(--domino-height-horizontal-small);
-  }
-  
-  .domino.vertical {
-    width: var(--domino-width-vertical-small);
-    height: var(--domino-height-vertical-small);
-  }
-  
-  .pip {
-    width: var(--pip-size-small);
-    height: var(--pip-size-small);
-  }
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-  .domino {
-    border-width: var(--border-width-thick);
-  }
-  
-  .pip {
-    background: var(--color-domino-black);
-  }
-  
-  .domino.face-up {
-    background: var(--color-domino-white);
-  }
-}
-
-/* Point value display */
-.pointValue {
-  position: absolute;
-  background: var(--point-value-bg);
-  color: var(--point-value-text);
-  border-radius: var(--border-radius-full);
-  width: var(--point-value-size);
-  height: var(--point-value-size);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--point-value-font-size);
-  font-weight: var(--font-weight-bold);
-  z-index: var(--z-index-raised);
-  border: var(--border-width-thin) solid var(--color-border);
-}
-
-/* Point value positions */
-.pointValue.corner {
-  top: var(--space-xs);
-  right: var(--space-xs);
-}
-
-.pointValue.overlay {
-  top: 50%;
-  left: 50%;
-  transform: var(--transform-center);
-  background: rgba(0, 0, 0, 0.9);
-}
-
-.pointValue.badge {
-  top: calc(-1 * var(--space-sm));
-  right: calc(-1 * var(--space-sm));
-  border: var(--border-width-medium) solid var(--color-domino-white);
-}
-
-/* Point value colors */
-.pointValue.fivePoints {
-  background: var(--five-point-color);
-}
-
-.pointValue.tenPoints {
-  background: var(--ten-point-color);
-}
-
-/* Responsive point values */
-@media (max-width: 768px) {
-  .pointValue {
-    width: var(--point-value-size-mobile);
-    height: var(--point-value-size-mobile);
-    font-size: var(--point-value-font-size-mobile);
-  }
-}
-
-@media (max-width: 480px) {
-  .pointValue {
-    width: var(--point-value-size-small);
-    height: var(--point-value-size-small);
-    font-size: var(--point-value-font-size-small);
-  }
-}
-
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-  .domino {
-    transition: none;
+    width: 30px;
+    height: 60px;
   }
 
   .pip {
-    transition: none;
+    width: 4px;
+    height: 4px;
+  }
+
+  .domino.large .pip {
+    width: 6px;
+    height: 6px;
   }
 }

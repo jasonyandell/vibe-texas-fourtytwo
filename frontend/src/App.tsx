@@ -5,13 +5,14 @@ import { Lobby } from '@/components/Lobby'
 import { Header } from '@/components/Header'
 import { DemoShowcase } from '@/components/DemoShowcase'
 import './App.css'
+import './styles/global.css'
 
 function App() {
   return (
     <Router>
-      <div className="app">
+      <div className="app flex-column">
         <Header />
-        <main className="main-content">
+        <main className="main-content flex-column">
           <Routes>
             <Route path="/" element={<Lobby />} />
             <Route path="/game/:gameId" element={<GameBoard />} />

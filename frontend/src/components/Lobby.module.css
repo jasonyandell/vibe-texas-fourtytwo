@@ -1,10 +1,11 @@
 /* Lobby Component Styles */
+@import '../styles/design-tokens.css';
 
 .lobby {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  padding: 1.5rem;
+  gap: var(--space-lg);
+  padding: var(--space-lg);
   min-height: 100vh;
   background: linear-gradient(135deg, var(--color-green) 0%, var(--color-brown) 100%);
 }
@@ -13,154 +14,154 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 0;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  padding: var(--space-base) 0;
+  border-bottom: 2px solid var(--surface-glass-light);
 }
 
 .lobbyHeader h2 {
-  color: white;
-  font-size: 2rem;
-  font-weight: 700;
+  color: var(--text-primary);
+  font-size: var(--font-3xl);
+  font-weight: var(--font-bold);
   margin: 0;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  text-shadow: var(--text-shadow-lg);
 }
 
 .connectedPlayers {
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 1rem;
-  font-weight: 500;
-  background: rgba(0, 0, 0, 0.2);
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+  font-size: var(--font-base);
+  font-weight: var(--font-medium);
+  background: var(--surface-overlay-dark);
+  padding: var(--space-xs) var(--space-base);
+  border-radius: var(--radius-full);
+  border: var(--border-subtle);
 }
 
 .welcomeMessage {
   text-align: center;
-  margin: 0.5rem 0;
+  margin: var(--space-xs) 0;
 }
 
 .welcomeMessage p {
-  color: white;
-  font-size: 1.2rem;
-  font-weight: 500;
+  color: var(--text-primary);
+  font-size: var(--font-lg);
+  font-weight: var(--font-medium);
   margin: 0;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  text-shadow: var(--text-shadow);
 }
 
 .lobbyActions {
   display: flex;
-  gap: 1rem;
+  gap: var(--space-base);
   flex-wrap: wrap;
 }
 
 .errorMessage {
-  background: rgba(220, 53, 69, 0.1);
-  border: 1px solid rgba(220, 53, 69, 0.3);
-  border-radius: 8px;
-  padding: 1rem;
+  background: var(--surface-error);
+  border: var(--border-width-thin) solid var(--border-error);
+  border-radius: var(--radius-base);
+  padding: var(--space-base);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #dc3545;
+  color: var(--color-error);
 }
 
 .errorMessage p {
   margin: 0;
-  font-weight: 500;
+  font-weight: var(--font-medium);
 }
 
 .gamesSection {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  padding: 1.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  gap: var(--space-base);
+  background: var(--surface-glass-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  border: var(--border-subtle);
 }
 
 .gamesSection h3 {
-  color: white;
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin: 0 0 1rem 0;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  color: var(--text-primary);
+  font-size: var(--font-2xl);
+  font-weight: var(--font-semibold);
+  margin: 0 0 var(--space-base) 0;
+  text-shadow: var(--text-shadow);
 }
 
 .lobbyControls {
   display: flex;
-  gap: 2rem;
+  gap: var(--space-2xl);
   flex-wrap: wrap;
   align-items: center;
-  padding: 1rem;
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: var(--space-base);
+  background: var(--surface-overlay);
+  border-radius: var(--radius-lg);
+  border: var(--border-subtle);
 }
 
 .filterControls,
 .sortControls {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--space-xs);
 }
 
 .filterControls label,
 .sortControls label {
-  color: white;
-  font-weight: 500;
-  font-size: 0.9rem;
+  color: var(--text-primary);
+  font-weight: var(--font-medium);
+  font-size: var(--font-sm);
 }
 
 .filterSelect,
 .sortSelect {
-  padding: 0.5rem 0.75rem;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-  font-size: 0.9rem;
-  min-width: 150px;
+  padding: var(--space-xs) calc(var(--space-xs) * 1.5);
+  border: var(--border-width-thin) solid var(--border-color);
+  border-radius: var(--radius-sm);
+  background: var(--surface-glass);
+  color: var(--text-primary);
+  font-size: var(--font-sm);
+  min-width: var(--size-min-width-button);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: var(--transition-all);
 }
 
 .filterSelect:hover,
 .sortSelect:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.5);
+  background: var(--surface-glass-light);
+  border-color: var(--border-color-light);
 }
 
 .filterSelect:focus,
 .sortSelect:focus {
-  outline: 2px solid var(--color-blue);
-  outline-offset: 2px;
-  background: rgba(255, 255, 255, 0.2);
+  outline: var(--outline-focus);
+  outline-offset: var(--space-xxs);
+  background: var(--surface-glass-light);
 }
 
 .filterSelect option,
 .sortSelect option {
   background: var(--color-brown);
-  color: white;
-  padding: 0.5rem;
+  color: var(--text-primary);
+  padding: var(--space-xs);
 }
 
 /* Responsive design */
 @media (max-width: 768px) {
   .lobby {
-    padding: 1rem;
-    gap: 1rem;
+    padding: var(--space-base);
+    gap: var(--space-base);
   }
 
   .lobbyHeader {
     flex-direction: column;
-    gap: 1rem;
+    gap: var(--space-base);
     text-align: center;
   }
 
   .lobbyHeader h2 {
-    font-size: 1.5rem;
+    font-size: var(--font-2xl);
   }
 
   .lobbyActions {
@@ -169,7 +170,7 @@
 
   .lobbyControls {
     flex-direction: column;
-    gap: 1rem;
+    gap: var(--space-base);
     align-items: stretch;
   }
 
@@ -186,7 +187,7 @@
 
   .errorMessage {
     flex-direction: column;
-    gap: 0.5rem;
+    gap: var(--space-xs);
     text-align: center;
   }
 }
@@ -194,40 +195,40 @@
 /* High contrast mode support */
 @media (prefers-contrast: high) {
   .lobby {
-    background: #000;
+    background: var(--text-primary-contrast);
   }
 
   .lobbyHeader {
-    border-bottom-color: #fff;
+    border-bottom-color: var(--text-primary);
   }
 
   .lobbyHeader h2 {
-    color: #fff;
+    color: var(--text-primary);
     text-shadow: none;
   }
 
   .connectedPlayers {
-    background: #fff;
-    color: #000;
-    border-color: #fff;
+    background: var(--text-primary);
+    color: var(--text-primary-contrast);
+    border-color: var(--text-primary);
   }
 
   .lobbyControls {
-    background: #333;
-    border-color: #fff;
+    background: var(--surface-dark);
+    border-color: var(--text-primary);
   }
 
   .filterSelect,
   .sortSelect {
-    background: #fff;
-    color: #000;
-    border-color: #000;
+    background: var(--text-primary);
+    color: var(--text-primary-contrast);
+    border-color: var(--text-primary-contrast);
   }
 
   .filterSelect option,
   .sortSelect option {
-    background: #fff;
-    color: #000;
+    background: var(--text-primary);
+    color: var(--text-primary-contrast);
   }
 }
 
@@ -247,6 +248,6 @@
 
 /* Focus management */
 .lobby:focus-within .lobbyControls {
-  outline: 2px solid var(--color-blue);
-  outline-offset: 2px;
+  outline: var(--outline-focus);
+  outline-offset: var(--space-xxs);
 }

@@ -1,4 +1,5 @@
 /* CreateGameModal Component Styles */
+@import '../../styles/design-tokens.css';
 
 .modalOverlay {
   position: fixed;
@@ -6,65 +7,65 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(4px);
+  background: var(--overlay-dark);
+  backdrop-filter: var(--blur-sm);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
-  padding: 1rem;
-  animation: fadeIn 0.2s ease-out;
+  z-index: var(--z-modal);
+  padding: var(--space-base);
+  animation: fadeIn var(--duration-fast) var(--easing-out);
 }
 
 .modalContent {
   background: linear-gradient(135deg, var(--color-green) 0%, var(--color-brown) 100%);
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  border-radius: 16px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  border: 2px solid var(--border-color-light);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-2xl);
   width: 100%;
   max-width: 500px;
   max-height: 90vh;
   overflow: hidden;
-  animation: slideUp 0.3s ease-out;
+  animation: slideUp var(--duration-base) var(--easing-out);
 }
 
 .modalHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 2rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding: var(--space-lg) var(--space-xl);
+  border-bottom: 1px solid var(--border-color-light);
 }
 
 .modalHeader h2 {
-  color: white;
-  font-size: 1.5rem;
-  font-weight: 600;
+  color: var(--text-primary);
+  font-size: var(--font-2xl);
+  font-weight: var(--font-semibold);
   margin: 0;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  text-shadow: var(--text-shadow);
 }
 
 .closeButton {
   background: none;
   border: none;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-primary-muted);
   cursor: pointer;
-  padding: 0.5rem;
-  border-radius: 6px;
-  transition: all 0.2s ease;
+  padding: var(--space-xs);
+  border-radius: var(--radius-sm);
+  transition: var(--transition-all);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .closeButton:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
+  background: var(--surface-glass);
+  color: var(--text-primary);
 }
 
 .closeButton:focus {
-  outline: 2px solid var(--color-blue);
-  outline-offset: 2px;
+  outline: var(--outline-focus);
+  outline-offset: var(--space-xxs);
 }
 
 .closeButton:disabled {
@@ -73,42 +74,42 @@
 }
 
 .modalForm {
-  padding: 2rem;
+  padding: var(--space-xl);
 }
 
 .formGroup {
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--space-lg);
 }
 
 .label {
   display: block;
-  color: white;
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-  font-size: 1rem;
+  color: var(--text-primary);
+  font-weight: var(--font-medium);
+  margin-bottom: var(--space-xs);
+  font-size: var(--font-base);
 }
 
 .input {
   width: 100%;
-  padding: 0.75rem 1rem;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-  font-size: 1rem;
-  transition: all 0.2s ease;
-  backdrop-filter: blur(10px);
+  padding: var(--space-sm) var(--space-base);
+  border: 2px solid var(--border-color-dashed);
+  border-radius: var(--radius-base);
+  background: var(--surface-glass);
+  color: var(--text-primary);
+  font-size: var(--font-base);
+  transition: var(--transition-all);
+  backdrop-filter: var(--blur-md);
 }
 
 .input::placeholder {
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-muted);
 }
 
 .input:focus {
   outline: none;
   border-color: var(--color-blue);
-  background: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.2);
+  background: var(--surface-glass-hover);
+  box-shadow: var(--ring-blue);
 }
 
 .input:disabled {
@@ -117,79 +118,54 @@
 }
 
 .inputHelp {
-  margin-top: 0.5rem;
-  font-size: 0.85rem;
+  margin-top: var(--space-xs);
+  font-size: var(--font-sm);
   min-height: 1.2rem;
 }
 
 .validText {
-  color: #28a745;
-  font-weight: 500;
+  color: var(--color-success);
+  font-weight: var(--font-medium);
 }
 
 .errorText {
-  color: #dc3545;
-  font-weight: 500;
+  color: var(--color-error);
+  font-weight: var(--font-medium);
 }
 
 .errorMessage {
-  background: rgba(220, 53, 69, 0.15);
-  border: 1px solid rgba(220, 53, 69, 0.3);
-  border-radius: 6px;
-  padding: 0.75rem 1rem;
-  margin-top: 1rem;
-  color: #fff;
-  font-size: 0.9rem;
-  font-weight: 500;
+  background: var(--surface-error);
+  border: 1px solid var(--border-error);
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm) var(--space-base);
+  margin-top: var(--space-base);
+  color: var(--text-primary);
+  font-size: var(--font-sm);
+  font-weight: var(--font-medium);
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  animation: slideIn 0.2s ease-out;
+  gap: var(--space-xs);
+  animation: slideIn var(--duration-fast) var(--easing-out);
 }
 
 .modalActions {
   display: flex;
-  gap: 1rem;
+  gap: var(--space-base);
   justify-content: flex-end;
-  margin-top: 2rem;
+  margin-top: var(--space-xl);
 }
 
 /* Animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
+/* fadeIn animation imported from patterns/animations.css */
 
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
+/* slideUp animation imported from patterns/animations.css */
 
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
+/* slideIn animation imported from patterns/animations.css */
 
 /* Responsive design */
 @media (max-width: 768px) {
   .modalOverlay {
-    padding: 0.5rem;
+    padding: var(--space-xs);
   }
 
   .modalContent {
@@ -198,20 +174,20 @@
   }
 
   .modalHeader {
-    padding: 1rem 1.5rem;
+    padding: var(--space-base) var(--space-lg);
   }
 
   .modalHeader h2 {
-    font-size: 1.25rem;
+    font-size: var(--font-xl);
   }
 
   .modalForm {
-    padding: 1.5rem;
+    padding: var(--space-lg);
   }
 
   .modalActions {
     flex-direction: column-reverse;
-    gap: 0.75rem;
+    gap: var(--space-sm);
   }
 
   .modalActions button {
@@ -222,48 +198,48 @@
 /* High contrast mode support */
 @media (prefers-contrast: high) {
   .modalOverlay {
-    background: rgba(0, 0, 0, 0.9);
+    background: var(--color-modal-overlay);
   }
 
   .modalContent {
-    background: #fff;
-    border-color: #000;
+    background: var(--bg-primary);
+    border-color: var(--text-primary-contrast);
   }
 
   .modalHeader {
-    border-bottom-color: #000;
+    border-bottom-color: var(--text-primary-contrast);
   }
 
   .modalHeader h2 {
-    color: #000;
+    color: var(--text-primary-contrast);
     text-shadow: none;
   }
 
   .closeButton {
-    color: #000;
+    color: var(--text-primary-contrast);
   }
 
   .closeButton:hover:not(:disabled) {
-    background: #f0f0f0;
+    background: var(--surface-secondary);
   }
 
   .label {
-    color: #000;
+    color: var(--text-primary-contrast);
   }
 
   .input {
-    background: #fff;
-    color: #000;
-    border-color: #000;
+    background: var(--bg-primary);
+    color: var(--text-primary-contrast);
+    border-color: var(--text-primary-contrast);
   }
 
   .input::placeholder {
-    color: #666;
+    color: var(--text-tertiary);
   }
 
   .input:focus {
-    border-color: #0066cc;
-    box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.3);
+    border-color: var(--color-blue);
+    box-shadow: var(--ring-blue);
   }
 }
 

@@ -1,126 +1,47 @@
-/* Button Component Styles */
+/* Button Component Styles - Extends pattern library base */
 
 .button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  composes: btn-base from '../../styles/patterns/buttons.css';
   gap: var(--spacing-gap-sm);
-  border: none;
-  border-radius: var(--border-radius-md);
-  font-family: var(--font-family-base);
-  font-weight: var(--font-weight-semibold);
-  text-decoration: none;
-  cursor: pointer;
-  transition: var(--transition-base);
   position: relative;
   overflow: hidden;
-  white-space: nowrap;
   user-select: none;
   outline: none;
 }
 
-.button:focus-visible {
-  outline: var(--border-width-medium) solid var(--color-primary);
-  outline-offset: var(--border-width-medium);
-}
-
-.button:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-/* Variants */
+/* Variants - compose from pattern library */
 .primary {
-  background: var(--color-primary);
-  color: white;
-  border: var(--border-width-medium) solid var(--color-primary);
-}
-
-.primary:hover:not(:disabled) {
-  background: var(--color-primary-dark);
-  border-color: var(--color-primary-dark);
-  transform: var(--transform-hover-lift);
-  box-shadow: var(--shadow-button-primary);
-}
-
-.primary:active:not(:disabled) {
-  transform: var(--transform-active-press);
-  box-shadow: var(--shadow-md);
+  composes: btn-primary from '../../styles/patterns/buttons.css';
 }
 
 .secondary {
-  background: transparent;
-  color: var(--color-primary);
-  border: var(--border-width-medium) solid var(--color-primary);
-}
-
-.secondary:hover:not(:disabled) {
-  background: var(--color-primary);
-  color: white;
-  transform: var(--transform-hover-lift);
-  box-shadow: var(--shadow-button-secondary);
-}
-
-.secondary:active:not(:disabled) {
-  transform: var(--transform-active-press);
-  box-shadow: var(--shadow-md);
+  composes: btn-outline from '../../styles/patterns/buttons.css';
 }
 
 .danger {
-  background: var(--color-error);
-  color: white;
-  border: var(--border-width-medium) solid var(--color-error);
-}
-
-.danger:hover:not(:disabled) {
-  background: #c82333;
-  border-color: #c82333;
-  transform: var(--transform-hover-lift);
-  box-shadow: var(--shadow-button-danger);
-}
-
-.danger:active:not(:disabled) {
-  transform: var(--transform-active-press);
-  box-shadow: var(--shadow-md);
+  composes: btn-danger from '../../styles/patterns/buttons.css';
 }
 
 .ghost {
-  background: transparent;
-  color: currentColor;
-  border: var(--border-width-medium) solid transparent;
+  composes: btn-ghost from '../../styles/patterns/buttons.css';
 }
 
-.ghost:hover:not(:disabled) {
-  background: var(--color-surface-hover);
-  border-color: var(--color-border-light);
-}
-
-.ghost:active:not(:disabled) {
-  background: var(--color-surface-disabled);
-}
-
-/* Sizes */
+/* Sizes - compose from pattern library */
 .small {
-  padding: var(--spacing-button-padding-sm);
-  font-size: var(--font-size-sm);
-  min-height: var(--button-height-sm);
+  composes: btn-sm from '../../styles/patterns/buttons.css';
 }
 
 .medium {
-  padding: var(--spacing-button-padding-md);
-  font-size: var(--font-size-base);
-  min-height: var(--button-height-md);
+  composes: btn-md from '../../styles/patterns/buttons.css';
 }
 
 .large {
-  padding: var(--spacing-button-padding-lg);
-  font-size: var(--font-size-lg);
-  min-height: var(--button-height-lg);
+  composes: btn-lg from '../../styles/patterns/buttons.css';
 }
 
 /* Full width */
 .fullWidth {
-  width: 100%;
+  composes: btn-full-width from '../../styles/patterns/buttons.css';
 }
 
 /* Loading state */
@@ -129,7 +50,7 @@
 }
 
 .loadingText {
-  opacity: 0.7;
+  opacity: var(--opacity-loading);
 }
 
 .spinner {
@@ -141,17 +62,10 @@
   animation: var(--animation-spin);
 }
 
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
+/* spin animation imported from patterns/animations.css */
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-md)) {
   .button {
     min-height: var(--button-height-md-mobile);
   }

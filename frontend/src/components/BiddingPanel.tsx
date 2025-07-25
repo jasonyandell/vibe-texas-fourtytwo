@@ -86,7 +86,7 @@ export const BiddingPanel: React.FC<BiddingPanelProps> = ({
 
   return (
     <div 
-      className={`${styles.biddingPanel} ${className}`}
+      className={`card-base flex-column ${styles.biddingPanel} ${className}`}
       role="group"
       aria-label="Bidding controls"
     >

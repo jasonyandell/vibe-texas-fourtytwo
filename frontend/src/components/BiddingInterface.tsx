@@ -47,13 +47,13 @@ export const BiddingInterface: React.FC<BiddingInterfaceProps> = ({
   return (
     <div className={styles.biddingInterface}>
       {/* Previous Bids Section */}
-      <div className={styles.previousBids}>
+      <div className={`${styles.previousBids} card`}>
         <h3>Bidding History</h3>
         <div className={styles.bidHistory}>
           {biddingState?.bidHistory?.map((bid, index) => {
             const player = gameState.players.find(p => p.id === bid.playerId);
             return (
-              <div key={index} className={styles.bidEntry}>
+              <div key={index} className={`${styles.bidEntry} flex-between`}>
                 <span className={styles.playerName}>{player?.name || 'Unknown'}</span>
                 <span className={styles.bidAmount}>
                   {bid.amount === 0 ? 'Pass' : bid.amount}
@@ -62,7 +62,7 @@ export const BiddingInterface: React.FC<BiddingInterfaceProps> = ({
             );
           })}
           {isCurrentBidder && (
-            <div className={`${styles.bidEntry} ${styles.currentTurn}`}>
+            <div className={`${styles.bidEntry} ${styles.currentTurn} flex-between`}>
               <span className={styles.playerName}>{currentPlayer?.name}</span>
               <span className={styles.bidAmount}>?</span>
             </div>
@@ -71,9 +71,9 @@ export const BiddingInterface: React.FC<BiddingInterfaceProps> = ({
       </div>
 
       {/* Bid Buttons Section */}
-      <div className={styles.bidSection}>
+      <div className={`${styles.bidSection} card card-large`}>
         <h3>{isCurrentBidder ? 'Your Bid' : `Waiting for ${gameState.players.find(p => p.id === gameState.currentPlayer)?.name}`}</h3>
-        <div className={styles.bidButtons}>
+        <div className={`${styles.bidButtons} flex flex-wrap justify-center flex-items-center`}>
           {validBids.map((bid) => (
             <button
               key={bid}
@@ -89,7 +89,7 @@ export const BiddingInterface: React.FC<BiddingInterfaceProps> = ({
 
       {/* Player Hand Section */}
       {currentPlayer && (
-        <div className={styles.handSection}>
+        <div className={`${styles.handSection} card card-large flex-column`}>
           <h3>Your Hand</h3>
           <DominoHand
             dominoes={currentPlayer.hand || []}

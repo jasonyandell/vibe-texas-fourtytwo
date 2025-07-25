@@ -1,53 +1,54 @@
 /* PlayerSlots Component Styles */
+@import '../../styles/design-tokens.css';
 
 .playerSlots {
-  margin: 1rem 0;
+  margin: var(--space-base) 0;
 }
 
 .slotsHeader {
-  margin-bottom: 1rem;
+  margin-bottom: var(--space-base);
 }
 
 .slotsHeader h4 {
-  color: white;
-  font-size: 1rem;
-  font-weight: 600;
-  margin: 0 0 0.75rem 0;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  color: var(--text-primary);
+  font-size: var(--font-base);
+  font-weight: var(--font-semibold);
+  margin: 0 0 var(--space-sm) 0;
+  text-shadow: var(--text-shadow);
 }
 
 .partnerships {
   display: flex;
-  gap: 1rem;
+  gap: var(--space-base);
   flex-wrap: wrap;
 }
 
 .partnership {
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-  padding: 0.5rem 0.75rem;
+  background: var(--surface-overlay-dark);
+  border: 1px solid var(--border-color-light);
+  border-radius: var(--radius-base);
+  padding: var(--space-xs) var(--space-sm);
   flex: 1;
   min-width: 120px;
 }
 
 .teamName {
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 0.8rem;
-  font-weight: 600;
+  color: var(--text-primary-bright);
+  font-size: var(--font-sm);
+  font-weight: var(--font-semibold);
   display: block;
-  margin-bottom: 0.25rem;
+  margin-bottom: calc(var(--space-xxs) * 0.625);
 }
 
 .teamMembers {
   display: flex;
   flex-direction: column;
-  gap: 0.1rem;
+  gap: calc(var(--space-xxs) * 0.25);
 }
 
 .teamMember {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-size: var(--font-xs);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -56,15 +57,15 @@
 .slotsGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 0.75rem;
+  gap: var(--space-sm);
 }
 
 .playerSlot {
-  background: rgba(255, 255, 255, 0.05);
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  padding: 1rem;
-  transition: all 0.2s ease;
+  background: var(--surface-glass-subtle);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--space-base);
+  transition: var(--transition-all);
   position: relative;
   min-height: 80px;
   display: flex;
@@ -74,14 +75,14 @@
 
 .positionLabel {
   position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  background: rgba(0, 0, 0, 0.3);
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 0.7rem;
-  font-weight: 500;
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
+  top: var(--space-xs);
+  right: var(--space-xs);
+  background: var(--surface-dark);
+  color: var(--text-primary-muted);
+  font-size: calc(var(--font-xs) * 0.93);
+  font-weight: var(--font-medium);
+  padding: calc(var(--space-xxs) * 0.5) var(--space-xs);
+  border-radius: var(--radius-xs);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -92,23 +93,23 @@
 }
 
 .emptySlot:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.3);
-  transform: translateY(-1px);
+  background: var(--surface-glass);
+  border-color: var(--border-color-dashed);
+  transform: translateY(calc(var(--space-xxs) * -0.25));
 }
 
 .emptySlot:focus {
-  outline: 2px solid var(--color-blue);
-  outline-offset: 2px;
+  outline: var(--outline-focus);
+  outline-offset: var(--space-xxs);
 }
 
 .occupiedSlot {
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: var(--border-color-light);
 }
 
 .occupiedSlot[data-current-user="true"] {
-  background: rgba(0, 102, 204, 0.1);
-  border-color: rgba(0, 102, 204, 0.3);
+  background: var(--surface-blue-subtle);
+  border-color: var(--border-blue);
 }
 
 .emptySlotContent {
@@ -116,9 +117,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: var(--space-xs);
   height: 100%;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-muted);
 }
 
 .emptyIcon {
@@ -126,15 +127,15 @@
 }
 
 .emptyText {
-  font-size: 0.8rem;
-  font-weight: 500;
+  font-size: var(--font-sm);
+  font-weight: var(--font-medium);
   text-align: center;
 }
 
 .playerInfo {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--space-sm);
   height: 100%;
 }
 
@@ -146,10 +147,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  font-weight: 600;
-  font-size: 1.1rem;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  color: var(--text-primary);
+  font-weight: var(--font-semibold);
+  font-size: var(--font-lg);
+  text-shadow: var(--text-shadow);
   flex-shrink: 0;
 }
 
@@ -159,13 +160,13 @@
 }
 
 .playerName {
-  color: white;
-  font-size: 0.9rem;
-  font-weight: 500;
+  color: var(--text-primary);
+  font-size: var(--font-sm);
+  font-weight: var(--font-medium);
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.25rem;
+  gap: var(--space-xs);
+  margin-bottom: calc(var(--space-xxs) * 0.625);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -176,7 +177,7 @@
 }
 
 .readyStatus {
-  margin-top: 0.25rem;
+  margin-top: calc(var(--space-xxs) * 0.625);
 }
 
 /* Position-specific styling */
@@ -200,7 +201,7 @@
 @media (max-width: 768px) {
   .partnerships {
     flex-direction: column;
-    gap: 0.5rem;
+    gap: var(--space-xs);
   }
 
   .partnership {
@@ -209,61 +210,61 @@
 
   .slotsGrid {
     grid-template-columns: 1fr;
-    gap: 0.5rem;
+    gap: var(--space-xs);
   }
 
   .playerSlot {
-    padding: 0.75rem;
+    padding: var(--space-sm);
     min-height: 70px;
   }
 
   .playerAvatar {
     width: 35px;
     height: 35px;
-    font-size: 1rem;
+    font-size: var(--font-base);
   }
 
   .playerName {
-    font-size: 0.85rem;
+    font-size: var(--font-sm);
   }
 }
 
 /* High contrast mode support */
 @media (prefers-contrast: high) {
   .playerSlot {
-    background: rgba(255, 255, 255, 0.9);
-    border-color: #000;
+    background: var(--color-card-surface);
+    border-color: var(--text-primary-contrast);
   }
 
   .positionLabel {
-    background: #000;
-    color: #fff;
+    background: var(--text-primary-contrast);
+    color: var(--text-primary);
   }
 
   .emptySlotContent {
-    color: #666;
+    color: var(--text-tertiary);
   }
 
   .playerName {
-    color: #000;
+    color: var(--text-primary-contrast);
   }
 
   .teamName {
-    color: #000;
+    color: var(--text-primary-contrast);
   }
 
   .teamMember {
-    color: #333;
+    color: var(--text-secondary-contrast);
   }
 
   .partnership {
-    background: rgba(0, 0, 0, 0.1);
-    border-color: #000;
+    background: var(--surface-overlay);
+    border-color: var(--text-primary-contrast);
   }
 
   .occupiedSlot[data-current-user="true"] {
-    background: rgba(0, 102, 204, 0.2);
-    border-color: #0066cc;
+    background: var(--color-primary-bg-light);
+    border-color: var(--color-blue);
   }
 }
 
@@ -280,8 +281,8 @@
 
 /* Keyboard navigation */
 .emptySlot:focus-visible {
-  outline: 2px solid var(--color-blue);
-  outline-offset: 2px;
+  outline: var(--outline-focus);
+  outline-offset: var(--space-xxs);
 }
 
 /* Animation for slot changes */
@@ -298,11 +299,90 @@
 }
 
 .playerSlot[data-updated="true"] {
-  animation: slotUpdate 0.3s ease-out;
+  animation: slotUpdate var(--duration-base) var(--easing-out);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .playerSlot[data-updated="true"] {
     animation: none;
+  }
+}
+
+/* Responsive design */
+/* Tablet breakpoint: var(--breakpoint-md) = 768px */
+@media (max-width: 768px) {
+  .slotsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .playerSlot {
+    min-height: 70px;
+  }
+  
+  .playerInfo {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+  
+  .avatar {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .playerName {
+    font-size: var(--font-sm);
+  }
+}
+
+/* Mobile breakpoint: var(--breakpoint-sm) = 480px */
+@media (max-width: 480px) {
+  .playerSlots {
+    margin: var(--space-sm) 0;
+  }
+  
+  .partnerships {
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+  
+  .partnership {
+    min-width: auto;
+  }
+  
+  .slotsGrid {
+    gap: var(--space-xs);
+  }
+  
+  .playerSlot {
+    padding: var(--space-sm);
+    min-height: 60px;
+  }
+  
+  .positionLabel {
+    font-size: calc(var(--font-xs) * 0.85);
+    padding: calc(var(--space-xxs) * 0.25) var(--space-xxs);
+  }
+  
+  .emptySlot:hover {
+    transform: none;
+  }
+  
+  .readyBadge {
+    padding: calc(var(--space-xxs) * 0.5) var(--space-xs);
+    font-size: calc(var(--font-xs) * 0.85);
+  }
+  
+  .actions {
+    margin-top: var(--space-sm);
+  }
+  
+  .playerName {
+    font-size: var(--font-xs);
+  }
+  
+  .readyAction {
+    padding: var(--space-xs) var(--space-sm);
+    font-size: var(--font-xs);
   }
 }

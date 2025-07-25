@@ -1,0 +1,239 @@
+/* Button Pattern Library for Texas 42 Web Game */
+
+/* ========================================
+   Base Button Pattern
+   ======================================== */
+
+.btn-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: var(--border-radius-md);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: var(--transition-base);
+  text-decoration: none;
+  font-family: var(--font-family-base);
+  white-space: nowrap;
+}
+
+.btn-base:focus-visible {
+  outline: var(--border-width-medium) solid var(--color-primary);
+  outline-offset: var(--border-width-medium);
+}
+
+.btn-base:disabled {
+  opacity: var(--opacity-disabled);
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* ========================================
+   Button Sizes
+   ======================================== */
+
+.btn-sm {
+  padding: var(--spacing-button-padding-sm);
+  font-size: var(--font-size-sm);
+  min-height: var(--button-height-sm);
+}
+
+.btn-md {
+  padding: var(--spacing-button-padding-md);
+  font-size: var(--font-size-base);
+  min-height: var(--button-height-md);
+}
+
+.btn-lg {
+  padding: var(--spacing-button-padding-lg);
+  font-size: var(--font-size-lg);
+  min-height: var(--button-height-lg);
+}
+
+/* ========================================
+   Primary Button Variants
+   ======================================== */
+
+.btn-primary {
+  background: var(--color-primary);
+  color: var(--text-white);
+  border: var(--border-width-medium) solid var(--color-primary);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+  transform: var(--transform-hover-small);
+  box-shadow: var(--shadow-button-primary);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: var(--transform-active-press);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ========================================
+   Secondary Button Variants
+   ======================================== */
+
+.btn-secondary {
+  background: var(--color-secondary);
+  color: var(--text-primary);
+  border: var(--border-width-medium) solid var(--color-secondary);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--color-secondary-dark);
+  border-color: var(--color-secondary-dark);
+  transform: var(--transform-hover-small);
+  box-shadow: var(--shadow-button-secondary);
+}
+
+/* ========================================
+   Outline Button Variants
+   ======================================== */
+
+.btn-outline {
+  background: transparent;
+  color: var(--color-primary);
+  border: var(--border-width-medium) solid var(--color-primary);
+}
+
+.btn-outline:hover:not(:disabled) {
+  background: var(--color-primary);
+  color: var(--text-white);
+  transform: var(--transform-hover-small);
+}
+
+.btn-outline-secondary {
+  background: transparent;
+  color: var(--color-secondary);
+  border: var(--border-width-medium) solid var(--color-secondary);
+}
+
+.btn-outline-secondary:hover:not(:disabled) {
+  background: var(--color-secondary);
+  color: var(--text-primary);
+}
+
+/* ========================================
+   Danger/Error Button Variants
+   ======================================== */
+
+.btn-danger {
+  background: var(--color-error);
+  color: var(--text-white);
+  border: var(--border-width-medium) solid var(--color-error);
+}
+
+.btn-danger:hover:not(:disabled) {
+  background: var(--color-button-danger-hover);
+  border-color: var(--color-button-danger-hover);
+  transform: var(--transform-hover-small);
+  box-shadow: var(--shadow-button-danger);
+}
+
+.btn-outline-danger {
+  background: transparent;
+  color: var(--color-error);
+  border: var(--border-width-medium) solid var(--color-error);
+}
+
+.btn-outline-danger:hover:not(:disabled) {
+  background: var(--color-error);
+  color: var(--text-white);
+}
+
+/* ========================================
+   Success Button Variants
+   ======================================== */
+
+.btn-success {
+  background: var(--color-success);
+  color: var(--text-white);
+  border: var(--border-width-medium) solid var(--color-success);
+}
+
+.btn-success:hover:not(:disabled) {
+  background: var(--color-ready-success);
+  border-color: var(--color-ready-success);
+  transform: var(--transform-hover-small);
+}
+
+/* ========================================
+   Ghost/Minimal Button Variants
+   ======================================== */
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-text-primary);
+  border: var(--border-width-thin) solid transparent;
+}
+
+.btn-ghost:hover:not(:disabled) {
+  background: var(--color-surface-hover);
+  border-color: var(--color-border-light);
+}
+
+.btn-minimal {
+  background: transparent;
+  color: var(--color-text-secondary);
+  border: none;
+  padding: var(--space-xs) var(--space-sm);
+}
+
+.btn-minimal:hover:not(:disabled) {
+  color: var(--color-text-primary);
+  background: var(--color-surface-hover);
+}
+
+/* ========================================
+   Special Button Patterns
+   ======================================== */
+
+.btn-full-width {
+  width: 100%;
+}
+
+.btn-loading {
+  position: relative;
+  pointer-events: none;
+}
+
+.btn-loading::after {
+  content: '';
+  position: absolute;
+  width: var(--spinner-size);
+  height: var(--spinner-size);
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: var(--animation-spin);
+}
+
+.btn-icon-only {
+  aspect-ratio: 1;
+  padding: var(--space-sm);
+}
+
+/* ========================================
+   Button Groups
+   ======================================== */
+
+.btn-group {
+  display: inline-flex;
+  gap: var(--space-xs);
+}
+
+.btn-group-attached .btn-base:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  margin-left: -1px;
+}
+
+.btn-group-attached .btn-base:not(:last-child) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
