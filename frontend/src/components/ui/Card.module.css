@@ -1,5 +1,6 @@
-/* Card Component Styles */
 @import '../../styles/design-tokens.css';
+
+/* Card Component Styles */
 
 .card {
   background: var(--surface-glass);

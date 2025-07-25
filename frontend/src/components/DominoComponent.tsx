@@ -15,6 +15,17 @@ interface DominoComponentProps {
   pointValuePosition?: 'corner' | 'overlay' | 'badge'; // Display style
 }
 
+// CSS Modules class name mapping
+const valueClassMap: Record<number, string> = {
+  0: styles.value0 || '',
+  1: styles.value1 || '',
+  2: styles.value2 || '',
+  3: styles.value3 || '',
+  4: styles.value4 || '',
+  5: styles.value5 || '',
+  6: styles.value6 || ''
+};
+
 export const DominoComponent: React.FC<DominoComponentProps> = ({
   domino,
   onClick,
@@ -80,7 +91,7 @@ export const DominoComponent: React.FC<DominoComponentProps> = ({
       aria-disabled={!isPlayable}
       tabIndex={isPlayable ? 0 : -1}
     >
-      <div className={`domino-half domino-high ${styles.dominoHalf} ${styles.dominoHigh} ${styles[`pips${domino.high}`]}`}>
+      <div className={`domino-half domino-high end ${styles.end} ${valueClassMap[domino.high]}`}>
         {Array.from({ length: domino.high }, (_, i) => (
           <div
             key={i}
@@ -89,8 +100,8 @@ export const DominoComponent: React.FC<DominoComponentProps> = ({
           />
         ))}
       </div>
-      <div className={`domino-divider ${styles.dominoDivider}`} />
-      <div className={`domino-half domino-low ${styles.dominoHalf} ${styles.dominoLow} ${styles[`pips${domino.low}`]}`}>
+      <div className={`domino-divider ${styles.divider}`} />
+      <div className={`domino-half domino-low end ${styles.end} ${valueClassMap[domino.low]}`}>
         {Array.from({ length: domino.low }, (_, i) => (
           <div
             key={i}

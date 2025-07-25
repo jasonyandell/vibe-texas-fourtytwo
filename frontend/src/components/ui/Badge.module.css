@@ -1,5 +1,6 @@
-/* Badge Component Styles */
 @import '../../styles/design-tokens.css';
+
+/* Badge Component Styles */
 
 .badge {
   display: inline-flex;

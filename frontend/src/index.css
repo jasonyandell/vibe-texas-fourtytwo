@@ -1,5 +1,6 @@
-/* Import design tokens */
 @import './styles/design-tokens.css';
+
+/* Import design tokens */
 
 :root {
   font-family: var(--font-family-base);

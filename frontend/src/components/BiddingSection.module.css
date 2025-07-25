@@ -1,5 +1,6 @@
-/* BiddingSection Component Styles */
 @import '../styles/design-tokens.css';
+
+/* BiddingSection Component Styles */
 
 /* Trump grid uses trump-grid utility class */
 .trumpSuitsGrid {
@@ -119,7 +120,7 @@
 /* Applied utility: rounded-sm */
 .bidAmountControl input,
 .trumpSelectControl select {
-  composes: rounded-sm from '../styles/utilities/index.css';
+  border-radius: var(--radius-sm);
 }
 
 .bidAmountControl input:focus,

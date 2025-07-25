@@ -1,9 +1,14 @@
-/* BiddingInterface Component Styles */
-@import '../design-tokens.css';
+@import '../styles/design-tokens.css';
 @import '../styles/utilities/index.css';
 
+/* BiddingInterface Component Styles */
+
 .biddingInterface {
-  composes: flex-column mx-auto h-screen from global;
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+  margin-right: auto;
+  height: 100vh;
   gap: var(--space-xl);
   padding: var(--space-xl);
   max-width: var(--max-width-container);
@@ -12,26 +17,33 @@
 
 /* Previous Bids Section */
 .previousBids {
-  composes: p-lg from global;
+  padding: var(--space-lg);
 }
 
 .previousBids h3 {
-  composes: m-0 mb-md from global;
+  margin: 0;
+  margin-bottom: var(--space-md);
   font-size: var(--font-size-lg);
   color: var(--text-primary);
 }
 
 .bidHistory {
-  composes: flex-column gap-sm from global;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
 }
 
 .bidEntry {
-  composes: py-sm px-md rounded-sm from global;
+  padding-top: var(--space-sm);
+  padding-bottom: var(--space-sm);
+  padding-left: var(--space-md);
+  padding-right: var(--space-md);
+  border-radius: var(--radius-sm);
   background: var(--surface-variant);
 }
 
 .bidEntry.currentTurn {
-  composes: border-primary from global;
+  border: 1px solid var(--color-primary);
   background: var(--primary-light);
   border-width: var(--border-width-thin);
   border-style: solid;
@@ -50,22 +62,27 @@
 
 /* Bid Buttons Section */
 .bidSection {
-  composes: p-xl from global;
+  padding: var(--space-xl);
 }
 
 .bidSection h3 {
-  composes: m-0 mb-lg from global;
+  margin: 0;
+  margin-bottom: var(--space-lg);
   font-size: var(--font-size-xl);
   color: var(--text-primary);
   text-align: center;
 }
 
 .bidButtons {
-  composes: gap-md from global;
+  gap: var(--space-md);
 }
 
 .bidButton {
-  composes: rounded-md cursor-pointer transition-fast px-md from global;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  padding-left: var(--space-md);
+  padding-right: var(--space-md);
   min-width: var(--width-button-narrow);
   height: var(--height-button-tall);
   font-size: var(--font-size-lg);
@@ -78,7 +95,7 @@
 }
 
 .bidButton:hover:not(.disabled) {
-  composes: shadow-md from global;
+  box-shadow: var(--shadow-md);
   background: var(--primary);
   color: var(--color-white);
   border-color: var(--primary-dark);
@@ -86,17 +103,18 @@
 }
 
 .bidButton:active:not(.disabled) {
-  composes: shadow-sm from global;
+  box-shadow: var(--shadow-sm);
   transform: none;
 }
 
 .bidButton.disabled {
-  composes: opacity-disabled cursor-not-allowed from global;
+  opacity: var(--opacity-disabled);
+  cursor: not-allowed;
 }
 
 /* Special bid buttons */
 .bidButton:first-child {
-  composes: bg-error from global;
+  background: var(--color-error);
   color: var(--color-white);
   border-color: var(--color-error-dark);
 }
@@ -106,7 +124,7 @@
 }
 
 .bidButton:last-child {
-  composes: bg-secondary from global;
+  background: var(--color-secondary);
   color: var(--color-white);
   border-color: var(--color-secondary-dark);
   min-width: var(--width-button-wide);
@@ -118,11 +136,13 @@
 
 /* Player Hand Section */
 .handSection {
-  composes: p-xl flex-auto from global;
+  padding: var(--space-xl);
+  flex: 1 1 auto;
 }
 
 .handSection h3 {
-  composes: m-0 mb-lg from global;
+  margin: 0;
+  margin-bottom: var(--space-lg);
   font-size: var(--font-size-lg);
   color: var(--text-primary);
   text-align: center;
@@ -140,7 +160,8 @@
   }
 
   .bidButton {
-    composes: px-sm from global;
+    padding-left: var(--space-sm);
+    padding-right: var(--space-sm);
     min-width: var(--width-button-compact);
     height: var(--height-button-normal);
     font-size: var(--font-size-base);

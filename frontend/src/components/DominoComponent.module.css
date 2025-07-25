@@ -1,5 +1,6 @@
+@import '../styles/design-tokens.css';
+
 /* Domino Component Styles - Authentic Texas 42 Design */
-@import '../design-tokens.css';
 
 .domino {
   position: relative;
@@ -201,138 +202,172 @@
 
 /* Pip positions for different values */
 /* 0 pips - blank */
-.value-0 { /* No pips */ }
+.value0 { /* No pips */ }
 
 /* 1 pip - center */
-.value-1 .pip-1 {
+.value1 .pip:nth-child(1) {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
 /* 2 pips - diagonal */
-.value-2 .pip-1 {
+.value2 .pip:nth-child(1) {
   top: 25%;
   left: 25%;
   transform: translate(-50%, -50%);
 }
 
-.value-2 .pip-2 {
+.value2 .pip:nth-child(2) {
   top: 75%;
   left: 75%;
   transform: translate(-50%, -50%);
 }
 
 /* 3 pips - diagonal line */
-.value-3 .pip-1 {
+.value3 .pip:nth-child(1) {
   top: 25%;
   left: 25%;
   transform: translate(-50%, -50%);
 }
 
-.value-3 .pip-2 {
+.value3 .pip:nth-child(2) {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
-.value-3 .pip-3 {
+.value3 .pip:nth-child(3) {
   top: 75%;
   left: 75%;
   transform: translate(-50%, -50%);
 }
 
 /* 4 pips - corners */
-.value-4 .pip-1 {
+.value4 .pip:nth-child(1) {
   top: 25%;
   left: 25%;
   transform: translate(-50%, -50%);
 }
 
-.value-4 .pip-2 {
+.value4 .pip:nth-child(2) {
   top: 25%;
   left: 75%;
   transform: translate(-50%, -50%);
 }
 
-.value-4 .pip-3 {
+.value4 .pip:nth-child(3) {
   top: 75%;
   left: 25%;
   transform: translate(-50%, -50%);
 }
 
-.value-4 .pip-4 {
+.value4 .pip:nth-child(4) {
   top: 75%;
   left: 75%;
   transform: translate(-50%, -50%);
 }
 
 /* 5 pips - corners plus center */
-.value-5 .pip-1 {
+.value5 .pip:nth-child(1) {
   top: 25%;
   left: 25%;
   transform: translate(-50%, -50%);
 }
 
-.value-5 .pip-2 {
+.value5 .pip:nth-child(2) {
   top: 25%;
   left: 75%;
   transform: translate(-50%, -50%);
 }
 
-.value-5 .pip-3 {
+.value5 .pip:nth-child(3) {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
-.value-5 .pip-4 {
+.value5 .pip:nth-child(4) {
   top: 75%;
   left: 25%;
   transform: translate(-50%, -50%);
 }
 
-.value-5 .pip-5 {
+.value5 .pip:nth-child(5) {
   top: 75%;
   left: 75%;
   transform: translate(-50%, -50%);
 }
 
 /* 6 pips - two columns */
-.value-6 .pip-1 {
+.value6 .pip:nth-child(1) {
   top: 25%;
   left: 30%;
   transform: translate(-50%, -50%);
 }
 
-.value-6 .pip-2 {
+.value6 .pip:nth-child(2) {
   top: 25%;
   left: 70%;
   transform: translate(-50%, -50%);
 }
 
-.value-6 .pip-3 {
+.value6 .pip:nth-child(3) {
   top: 50%;
   left: 30%;
   transform: translate(-50%, -50%);
 }
 
-.value-6 .pip-4 {
+.value6 .pip:nth-child(4) {
   top: 50%;
   left: 70%;
   transform: translate(-50%, -50%);
 }
 
-.value-6 .pip-5 {
+.value6 .pip:nth-child(5) {
   top: 75%;
   left: 30%;
   transform: translate(-50%, -50%);
 }
 
-.value-6 .pip-6 {
+.value6 .pip:nth-child(6) {
   top: 75%;
   left: 70%;
   transform: translate(-50%, -50%);
+}
+
+/* Point value display */
+.pointValue {
+  position: absolute;
+  bottom: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: var(--radius-xs);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.pointValue.fivePoints {
+  color: var(--color-primary);
+  background: var(--primary-light);
+  border-color: var(--color-primary);
+}
+
+.pointValue.tenPoints {
+  color: var(--color-success);
+  background: var(--success-light);
+  border-color: var(--color-success);
+}
+
+/* Highlight state */
+.domino.highlight {
+  background: var(--color-domino-highlight);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
 }
 
 /* Mobile responsiveness */

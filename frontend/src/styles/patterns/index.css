@@ -1,13 +1,12 @@
-/* Pattern Library for Texas 42 Web Game */
-/* Centralized component patterns for consistent styling */
-
-/* Import design tokens first */
 @import '../design-tokens.css';
-
-/* Import all component patterns */
 @import './animations.css';
 @import './common.css';
 @import './cards.css';
 @import './buttons.css';
 @import './forms.css';
 @import './status.css';
+
+/* Pattern Library for Texas 42 Web Game */
+/* Centralized component patterns for consistent styling */
+/* Import design tokens first */
+/* Import all component patterns */

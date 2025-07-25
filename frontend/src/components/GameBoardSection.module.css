@@ -1,5 +1,37 @@
-/* GameBoardSection Component Styles */
 @import '../styles/design-tokens.css';
+
+/* GameBoardSection Component Styles */
+
+.gameBoardSection {
+  padding: var(--space-xl);
+  min-height: 100vh;
+  background: var(--color-background);
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: var(--space-xl);
+}
+
+.sectionHeader h3 {
+  font-size: var(--font-size-2xl);
+  margin: 0 0 var(--space-sm) 0;
+  color: var(--text-primary);
+}
+
+.sectionHeader p {
+  font-size: var(--font-size-md);
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.sectionMainContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  max-width: var(--max-width-container);
+  margin: 0 auto;
+}
 
 /* Center play area uses game-area-base utility class */
 .centerPlayArea {

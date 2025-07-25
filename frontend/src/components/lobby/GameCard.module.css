@@ -1,5 +1,6 @@
-/* GameCard Component Styles */
 @import '../../styles/design-tokens.css';
+
+/* GameCard Component Styles */
 
 .gameCard {
   transition: var(--transition-all);

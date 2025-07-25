@@ -1,5 +1,6 @@
-/* LoadingSpinner Component Styles */
 @import '../../styles/design-tokens.css';
+
+/* LoadingSpinner Component Styles */
 
 .loadingContainer {
   display: flex;

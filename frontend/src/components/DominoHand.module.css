@@ -1,5 +1,6 @@
-/* DominoHand Component Styles - 2-row layout for Texas 42 */
 @import '../styles/design-tokens.css';
+
+/* DominoHand Component Styles - 2-row layout for Texas 42 */
 
 .dominoHand {
   display: flex;
@@ -62,6 +63,10 @@
 .handDomino.selected {
   transform: translateY(calc(var(--space-xs) * -1));
   z-index: 20;
+}
+
+.handDomino.faceDown {
+  opacity: var(--opacity-medium);
 }
 
 .dominoGap {

@@ -1,5 +1,6 @@
+@import '../styles/design-tokens.css';
+
 /* Players Section Layout */
-@import '../design-tokens.css';
 
 .playersSection {
   display: flex;
@@ -103,12 +104,29 @@
 }
 
 /* Responsive Diamond Layout */
+.playersDiamond,
 .responsiveDiamond {
   position: relative;
   width: 100%;
   max-width: var(--size-form-max);
   aspect-ratio: 1;
   margin: 0 auto;
+}
+
+.baseballDiamond {
+  display: grid;
+  grid-template-areas:
+    ". north ."
+    "west . east"
+    ". south .";
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: var(--spacing-md);
+}
+
+.mobileFriendly {
+  max-width: 100%;
+  padding: var(--spacing-sm);
 }
 
 /* Player Cards */
@@ -139,6 +157,12 @@
 .playerCard.passed {
   opacity: 0.6;
   background: var(--surface-variant);
+}
+
+.playerCard.partnershipHighlighted {
+  background: var(--primary-light);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.2);
 }
 
 .playerCard:hover:not(.passed) {
@@ -272,6 +296,35 @@
   color: var(--success-dark);
 }
 
+/* Player Status Badges */
+.dealerBadge,
+.readyBadge,
+.currentTurnBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  transition: var(--transition-fast);
+  margin-left: var(--spacing-xs);
+}
+
+.dealerBadge {
+  background: var(--color-warning);
+  color: var(--color-dark);
+}
+
+.readyBadge {
+  background: var(--color-success);
+  color: var(--color-white);
+}
+
+.currentTurnBadge {
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+
 /* Loading State */
 .loading {
   display: flex;
@@ -290,6 +343,15 @@
 }
 
 /* spin animation now imported from patterns/animations.css */
+
+/* Player hand container */
+.playerHandContainer {
+  margin-top: var(--space-sm);
+}
+
+.playerHandContainer.faceDown {
+  opacity: 0.8;
+}
 
 /* Responsive Design */
 @media (max-width: 768px) {

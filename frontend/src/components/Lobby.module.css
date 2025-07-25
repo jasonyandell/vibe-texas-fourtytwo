@@ -1,5 +1,6 @@
-/* Lobby Component Styles */
 @import '../styles/design-tokens.css';
+
+/* Lobby Component Styles */
 
 .lobby {
   display: flex;

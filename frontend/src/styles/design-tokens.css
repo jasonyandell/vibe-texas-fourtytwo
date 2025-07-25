@@ -1,6 +1,10 @@
 /* Texas 42 Design Tokens */
 /* Centralized design system tokens for consistent styling across components */
 
+/* Import base classes and patterns */
+@import './base-classes.css';
+@import './patterns/animations.css';
+
 :root {
   /* ===== COLOR TOKENS ===== */
   
@@ -569,5 +573,3 @@
 
 /* ===== IMPORT BASE CLASSES ===== */
 /* Import base component classes to make them available across all components */
-@import './base-classes.css';
-@import './patterns/animations.css';

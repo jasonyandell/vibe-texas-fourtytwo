@@ -267,10 +267,21 @@ export const Partnerships: Story = {
             display: 'flex', 
             alignItems: 'center', 
             justifyContent: 'center',
-            fontSize: '14px',
-            color: '#666'
+            fontSize: '18px',
+            fontWeight: 'bold',
+            color: '#333',
+            textAlign: 'center',
+            lineHeight: '1.5',
+            background: 'rgba(255, 255, 255, 0.9)',
+            padding: '20px',
+            borderRadius: '8px',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
           }}>
-            North-South<br />vs<br />East-West
+            <div>
+              <span style={{ color: '#2196f3' }}>North-South</span>
+              <br />vs<br />
+              <span style={{ color: '#ff9800' }}>East-West</span>
+            </div>
           </div>
           <GameBoardPlayers
             position="east"

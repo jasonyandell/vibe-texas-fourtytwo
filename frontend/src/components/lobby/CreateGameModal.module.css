@@ -1,5 +1,6 @@
-/* CreateGameModal Component Styles */
 @import '../../styles/design-tokens.css';
+
+/* CreateGameModal Component Styles */
 
 .modalOverlay {
   position: fixed;

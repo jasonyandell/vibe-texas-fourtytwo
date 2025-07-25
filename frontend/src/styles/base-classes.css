@@ -1,6 +1,7 @@
+@import './design-tokens.css';
+
 /* Base Component Classes for Texas 42 Web Game */
 /* Import design tokens to ensure they're available */
-@import './design-tokens.css';
 
 /* ========================================
    Section/Container Base Classes

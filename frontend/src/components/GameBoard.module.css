@@ -1,6 +1,7 @@
-/* GameBoard Component Styles - Baseball Diamond Layout */
 @import '../styles/design-tokens.css';
 @import '../styles/utilities/index.css';
+
+/* GameBoard Component Styles - Baseball Diamond Layout */
 
 /* 
   REFACTORING NOTES:
@@ -249,4 +250,115 @@
     width: var(--width-large);
     height: var(--height-large);
   }
+}
+
+/* Partnership indicators */
+.partnershipNorthSouth {
+  background: rgba(227, 242, 253, 0.95);
+  border: 2px solid #2196f3;
+}
+
+.partnershipEastWest {
+  background: rgba(255, 243, 205, 0.95);
+  border: 2px solid #ff9800;
+}
+
+/* Dealer indicator */
+.dealer {
+  border: 3px solid var(--color-warning) !important;
+  box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.2);
+}
+
+/* Player Area Styles */
+.playerArea {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  box-shadow: var(--shadow-sm);
+  min-width: 200px;
+  min-height: 150px;
+  transition: var(--transition-fast);
+  border: 1px solid var(--border);
+}
+
+.playerArea.currentPlayer {
+  border: 2px solid var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.2), var(--shadow-md);
+}
+
+.playerArea.currentBidder {
+  background: rgba(0, 102, 204, 0.1);
+  border: 2px solid var(--color-primary);
+}
+
+/* Player Info Section */
+.playerInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-sm);
+}
+
+.playerName {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--color-domino-black);
+  text-align: center;
+}
+
+/* Badge Styles */
+.dealerBadge,
+.currentBidderBadge,
+.currentPlayerBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.dealerBadge {
+  background: #ffc107;
+  color: #000;
+}
+
+.currentBidderBadge {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.currentPlayerBadge {
+  background: var(--color-success);
+  color: #fff;
+}
+
+/* Player Hand */
+.playerHand {
+  margin-top: var(--spacing-sm);
+}
+
+/* Partnership Text */
+.partnershipText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.partnershipNorthSouth .partnershipText {
+  color: var(--primary);
+}
+
+.partnershipEastWest .partnershipText {
+  color: var(--warning);
 }

@@ -72,19 +72,37 @@ export const Default: Story = {
  */
 export const ActiveGame: Story = {
   args: {
-    gameState: createGameStateWithPlayers({
-      phase: 'bidding',
-      currentBid: { playerId: 'player-1', amount: 30, trump: 'threes', isSpecialContract: false, timestamp: new Date().toISOString() },
-      biddingState: {
-        bidHistory: [
-          { playerId: 'player-1', amount: 30, trump: 'threes', isSpecialContract: false, timestamp: new Date().toISOString() },
+    gameState: (() => {
+      const state = createGameStateWithPlayers({
+        phase: 'bidding',
+        currentBid: { playerId: 'player-1', amount: 30, trump: 'threes', isSpecialContract: false, timestamp: new Date().toISOString() },
+        biddingState: {
+          bidHistory: [
+            { playerId: 'player-1', amount: 30, trump: 'threes', isSpecialContract: false, timestamp: new Date().toISOString() },
+          ],
+          biddingComplete: false,
+          passCount: 1,
+          minimumBid: 31,
+          forcedBidActive: false
+        },
+      });
+      
+      // Give each player 7 dominoes
+      state.players = state.players.map((player, index) => ({
+        ...player,
+        hand: [
+          createDomino(6, 6 - index),
+          createDomino(5, 5 - index),
+          createDomino(4, 4 - index),
+          createDomino(3, 3 - index),
+          createDomino(2, 2 - index),
+          createDomino(1, 1 - index),
+          createDomino(0, index),
         ],
-        biddingComplete: false,
-        passCount: 1,
-        minimumBid: 31,
-        forcedBidActive: false
-      },
-    }),
+      }));
+      
+      return state;
+    })(),
     currentPlayerId: 'player-3',
   },
 };
@@ -233,21 +251,39 @@ export const PlayerDisconnected: Story = {
  */
 export const BiddingPhase: Story = {
   args: {
-    gameState: createGameStateWithPlayers({
-      phase: 'bidding',
-      currentPlayer: 'player-3',
-      currentBid: { playerId: 'player-2', amount: 31, trump: 'fives', isSpecialContract: false, timestamp: new Date().toISOString() },
-      biddingState: {
-        bidHistory: [
-          { playerId: 'player-1', amount: 30, trump: 'threes', isSpecialContract: false, timestamp: new Date().toISOString() },
-          { playerId: 'player-2', amount: 31, trump: 'fives', isSpecialContract: false, timestamp: new Date().toISOString() },
+    gameState: (() => {
+      const state = createGameStateWithPlayers({
+        phase: 'bidding',
+        currentPlayer: 'player-3',
+        currentBid: { playerId: 'player-2', amount: 31, trump: 'fives', isSpecialContract: false, timestamp: new Date().toISOString() },
+        biddingState: {
+          bidHistory: [
+            { playerId: 'player-1', amount: 30, trump: 'threes', isSpecialContract: false, timestamp: new Date().toISOString() },
+            { playerId: 'player-2', amount: 31, trump: 'fives', isSpecialContract: false, timestamp: new Date().toISOString() },
+          ],
+          biddingComplete: false,
+          passCount: 0,
+          minimumBid: 32,
+          forcedBidActive: false
+        },
+      });
+      
+      // Give each player 7 dominoes
+      state.players = state.players.map((player, index) => ({
+        ...player,
+        hand: [
+          createDomino(6, index),
+          createDomino(5, index),
+          createDomino(4, index),
+          createDomino(3, index),
+          createDomino(2, index),
+          createDomino(1, index),
+          createDomino(0, index),
         ],
-        biddingComplete: false,
-        passCount: 0,
-        minimumBid: 32,
-        forcedBidActive: false
-      },
-    }),
+      }));
+      
+      return state;
+    })(),
     currentPlayerId: 'player-3',
   },
 };

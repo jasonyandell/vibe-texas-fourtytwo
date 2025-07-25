@@ -1,5 +1,6 @@
-/* PlayerSlots Component Styles */
 @import '../../styles/design-tokens.css';
+
+/* PlayerSlots Component Styles */
 
 .playerSlots {
   margin: var(--space-base) 0;
