@@ -20,9 +20,12 @@ vi.mock('react-router-dom', async () => {
   }
 })
 
-const renderGameBoard = (gameState?: Partial<GameState>) => {
+const renderGameBoard = (gameState?: Partial<GameState>, isSpectatorMode = true) => {
   return render(
-    <GameBoard gameState={gameState ? { ...mockGameState, ...gameState } : mockGameState} />
+    <GameBoard 
+      gameState={gameState ? { ...mockGameState, ...gameState } : mockGameState} 
+      isSpectatorMode={isSpectatorMode}
+    />
   )
 }
 

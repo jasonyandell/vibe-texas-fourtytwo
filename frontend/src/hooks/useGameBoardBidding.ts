@@ -1,4 +1,4 @@
-import { GameState, PlayerPosition, DominoSuit, createCompatibleBid, createCompatibleBiddingState } from '@texas42/shared-types';
+import { GameState, PlayerPosition, DominoSuit, createRegularBid, createPassBid } from '@texas42/shared-types';
 
 export const useGameBoardBidding = (
   gameState: GameState | undefined,
@@ -19,34 +19,39 @@ export const useGameBoardBidding = (
     return nextPlayer?.id || '';
   };
 
-  const handleBid = (amount: number, trump: DominoSuit) => {
+  const handleBid = (amount: number, trump?: DominoSuit) => {
     if (!gameState || !currentPlayerId || !updateGameState) {
       console.error('Cannot place bid: missing game state, player ID, or update function');
       return;
     }
 
     try {
-      const bid = createCompatibleBid(currentPlayerId, amount, trump);
-      const updatedBiddingState = createCompatibleBiddingState({
+      // During bidding, we don't specify trump yet - use blanks as placeholder
+      const bid = createRegularBid(currentPlayerId, amount, trump || 'blanks');
+      
+      // Reset pass count on new bid
+      const updatedBiddingState = {
         currentBid: bid,
         bidHistory: [...(gameState.biddingState?.bidHistory || []), bid],
         currentBidder: getNextBidder(currentPlayerId),
         minimumBid: amount + 1,
         biddingComplete: false,
-        passCount: gameState.biddingState?.passCount || 0
-      });
+        passCount: 0, // Reset pass count when someone bids
+        forcedBidActive: false
+      };
 
-      const passCount = gameState.biddingState?.passCount || 0;
-      if (passCount >= 3) {
+      // Check if bidding is complete (3 passes after a bid)
+      const consecutivePasses = gameState.biddingState?.passCount || 0;
+      if (consecutivePasses >= 3 && gameState.currentBid) {
         updatedBiddingState.biddingComplete = true;
       }
 
       const updatedGameState = {
         ...gameState,
         currentBid: bid,
-        trump: trump,
+        // Don't set trump until after bidding is complete
         biddingState: updatedBiddingState,
-        currentPlayer: updatedBiddingState.biddingComplete ? gameState.dealer : updatedBiddingState.currentBidder,
+        currentPlayer: updatedBiddingState.biddingComplete ? bid.playerId : updatedBiddingState.currentBidder,
         phase: updatedBiddingState.biddingComplete ? 'playing' as const : 'bidding' as const,
         updatedAt: new Date().toISOString()
       };
@@ -64,23 +69,30 @@ export const useGameBoardBidding = (
     }
 
     try {
-      const passBid = createCompatibleBid(currentPlayerId, 0, 'blanks');
+      const passBid = createPassBid(currentPlayerId);
       const newPassCount = (gameState.biddingState?.passCount || 0) + 1;
-      const biddingComplete = newPassCount >= 3 && !gameState.currentBid;
+      
+      // Bidding is complete if 3 passes after a bid exists, or 4 passes total (no one bid)
+      const biddingComplete = gameState.currentBid 
+        ? newPassCount >= 3 
+        : newPassCount >= 4;
 
-      const updatedBiddingState = createCompatibleBiddingState({
-        currentBid: gameState.biddingState?.currentBid,
+      const updatedBiddingState = {
+        currentBid: gameState.currentBid || gameState.biddingState?.currentBid,
         bidHistory: [...(gameState.biddingState?.bidHistory || []), passBid],
         currentBidder: getNextBidder(currentPlayerId),
         passCount: newPassCount,
         biddingComplete,
-        minimumBid: gameState.biddingState?.minimumBid || 30
-      });
+        minimumBid: gameState.biddingState?.minimumBid || 30,
+        forcedBidActive: gameState.biddingState?.forcedBidActive || false
+      };
 
       const updatedGameState = {
         ...gameState,
         biddingState: updatedBiddingState,
-        currentPlayer: biddingComplete ? gameState.dealer : updatedBiddingState.currentBidder,
+        currentPlayer: biddingComplete 
+          ? (gameState.currentBid?.playerId || gameState.dealer) 
+          : updatedBiddingState.currentBidder,
         phase: biddingComplete ? 'playing' as const : 'bidding' as const,
         updatedAt: new Date().toISOString()
       };

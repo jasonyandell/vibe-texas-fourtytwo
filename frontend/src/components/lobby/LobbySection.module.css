@@ -1,7 +1,7 @@
 .lobbySection {
   /* Basic section styling */
   padding: 1.5rem;
-  background-color: #f8f9fa;
+  background-color: var(--color-domino-white);
   border-radius: 8px;
   margin-bottom: 1.5rem;
 }

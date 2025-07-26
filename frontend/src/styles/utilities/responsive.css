@@ -1,0 +1,97 @@
+/* Responsive Utilities for Texas 42 Web Game */
+
+/* ========================================
+   Grid Layout Patterns
+   ======================================== */
+
+.grid-2-cols { grid-template-columns: 1fr 1fr; }
+.grid-3-cols { grid-template-columns: 1fr 1fr 1fr; }
+.grid-4-cols { grid-template-columns: 1fr 1fr 1fr 1fr; }
+
+.grid-auto-fit {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.grid-auto-fill {
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+@media (max-width: 1024px) {
+  .grid-4-cols { grid-template-columns: 1fr 1fr; }
+  .grid-3-cols { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 768px) {
+  .grid-4-cols,
+  .grid-3-cols,
+  .grid-2-cols { 
+    grid-template-columns: 1fr; 
+  }
+}
+
+/* ========================================
+   Display Utilities by Breakpoint
+   ======================================== */
+
+/* Mobile-first responsive utilities */
+@media (max-width: 480px) {
+  .mobile-only { display: block; }
+  .mobile-hidden { display: none; }
+  .mobile-flex { display: flex; }
+  .mobile-block { display: block; }
+  .mobile-stack { 
+    flex-direction: column; 
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 768px) {
+  .tablet-hidden { display: none; }
+  .tablet-flex { display: flex; }
+  .tablet-block { display: block; }
+  .tablet-stack { 
+    flex-direction: column; 
+  }
+}
+
+@media (max-width: 1024px) {
+  .desktop-hidden { display: none; }
+  .desktop-flex { display: flex; }
+  .desktop-block { display: block; }
+}
+
+@media (min-width: 481px) {
+  .mobile-only { display: none; }
+}
+
+@media (min-width: 769px) {
+  .tablet-hidden { display: block; }
+  .mobile-hidden { display: block; }
+}
+
+@media (min-width: 1025px) {
+  .desktop-hidden { display: block; }
+}
+
+/* ========================================
+   Common Responsive Patterns
+   ======================================== */
+
+@media (max-width: 768px) {
+  .responsive-padding {
+    padding: var(--space-sm);
+  }
+  
+  .responsive-gap {
+    gap: var(--space-sm);
+  }
+  
+  .responsive-text-sm {
+    font-size: var(--font-size-sm);
+  }
+  
+  .responsive-stack {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

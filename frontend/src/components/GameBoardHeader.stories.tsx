@@ -2,18 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { GameBoardHeader } from './GameBoardHeader';
 import { createEmptyGameState } from '@texas42/shared-types';
 import { mockPlayers } from '@/stories/fixtures/players';
-import { Bid, DominoSuit } from '@/types/texas42';
-
-// Helper function to create valid Bid objects
-const createBid = (
-  playerId: string, 
-  amount: number, 
-  trump?: DominoSuit
-): Bid => ({
-  playerId,
-  amount,
-  trump
-});
+import { createCompatibleBid } from '@texas42/shared-types';
 
 // Helper to create Partnership objects
 const createPartnership = (
@@ -72,7 +61,7 @@ export const BiddingPhase: Story = {
       ...createEmptyGameState('game-456'),
       phase: 'bidding',
       players: mockPlayers,
-      currentBid: createBid('player-2', 31, 'sixes'),
+      currentBid: createCompatibleBid('player-2', 31, 'sixes'),
       dealer: 'player-1',
       currentPlayer: 'player-3',
     },
@@ -89,7 +78,7 @@ export const PlayingPhase: Story = {
       ...createEmptyGameState('game-789'),
       phase: 'playing',
       players: mockPlayers,
-      currentBid: createBid('player-3', 35, 'doubles'),
+      currentBid: createCompatibleBid('player-3', 35, 'doubles'),
       trump: 'doubles',
       dealer: 'player-1',
       currentPlayer: 'player-2',
@@ -118,7 +107,7 @@ export const WithScores: Story = {
         eastWest: createPartnership(['player-2', 'player-4'], 15, 2),
       },
       gameScore: { northSouth: 210, eastWest: 185 },
-      currentBid: createBid('player-1', 40, 'blanks'),
+      currentBid: createCompatibleBid('player-1', 40, 'blanks'),
       trump: 'blanks',
     },
   },
@@ -140,7 +129,7 @@ export const NearGameEnd: Story = {
         eastWest: createPartnership(['player-2', 'player-4'], 12, 1),
       },
       gameScore: { northSouth: 245, eastWest: 220 },
-      currentBid: createBid('player-4', 42, 'fives'),
+      currentBid: createCompatibleBid('player-4', 42, 'fives'),
       trump: 'fives',
     },
   },
@@ -179,10 +168,12 @@ export const SpecialContract: Story = {
       phase: 'playing',
       players: mockPlayers,
       specialContract: {
-        type: 'nel-o',
-        declarer: 'player-2',
-        points: 42,
-        doublePoints: false,
+        type: 'nello',
+        bidder: 'player-2',
+        partner: 'player-4',
+        requirements: ['Must take zero tricks'],
+        scoringRules: ['42 points if successful', 'Opponents get 42 points if failed'],
+        partnerParticipates: false
       },
       partnerships: {
         northSouth: createPartnership(['player-1', 'player-3'], 0, 0),
@@ -211,7 +202,7 @@ export const DisconnectedPlayer: Story = {
         eastWest: createPartnership(['player-2', 'player-4'], 15, 3),
       },
       gameScore: { northSouth: 150, eastWest: 140 },
-      currentBid: createBid('player-1', 35, 'threes'),
+      currentBid: createCompatibleBid('player-1', 35, 'threes'),
       trump: 'threes',
     },
   },

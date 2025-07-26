@@ -6,79 +6,79 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 3rem 2rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 2px dashed rgba(255, 255, 255, 0.2);
-  border-radius: 16px;
+  padding: var(--space-3xl) var(--space-2xl);
+  background: var(--color-surface-light);
+  border: var(--border-width-medium) dashed var(--color-border);
+  border-radius: var(--border-radius-xl);
   backdrop-filter: blur(10px);
   min-height: 300px;
-  gap: 1.5rem;
+  gap: var(--spacing-gap-lg);
 }
 
 .emptyIcon {
-  color: rgba(255, 255, 255, 0.6);
-  margin-bottom: 0.5rem;
+  color: var(--color-text-dimmed);
+  margin-bottom: var(--spacing-gap-sm);
 }
 
 .emptyIcon svg {
-  width: 64px;
-  height: 64px;
+  width: var(--space-4xl);
+  height: var(--space-4xl);
   stroke-width: 1.5;
 }
 
 .emptyState h3 {
-  color: white;
-  font-size: 1.5rem;
-  font-weight: 600;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
   margin: 0;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  text-shadow: var(--shadow-sm);
 }
 
 .emptyState p {
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 1rem;
-  line-height: 1.5;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
   margin: 0;
   max-width: 400px;
 }
 
 .createButton {
-  margin-top: 0.5rem;
+  margin-top: var(--spacing-gap-sm);
 }
 
 /* Hover effect */
 .emptyState:hover {
-  border-color: rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.08);
-  transform: translateY(-2px);
-  transition: all 0.2s ease;
+  border-color: var(--color-border-light-theme);
+  background: var(--color-surface-interactive);
+  transform: var(--transform-hover-lift);
+  transition: var(--transition-base);
 }
 
 /* Responsive design */
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-md)) {
   .emptyState {
-    padding: 2rem 1rem;
+    padding: var(--space-2xl) var(--spacing-gap-md);
     min-height: 250px;
-    gap: 1rem;
+    gap: var(--spacing-gap-md);
   }
 
   .emptyIcon svg {
-    width: 48px;
-    height: 48px;
+    width: var(--space-3xl);
+    height: var(--space-3xl);
   }
 
   .emptyState h3 {
-    font-size: 1.25rem;
+    font-size: var(--font-size-xl);
   }
 
   .emptyState p {
-    font-size: 0.9rem;
+    font-size: var(--font-size-sm);
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: var(--breakpoint-sm)) {
   .emptyState {
-    padding: 1.5rem 0.75rem;
+    padding: var(--spacing-gap-lg) var(--space-md);
     min-height: 200px;
   }
 
@@ -88,33 +88,33 @@
   }
 
   .emptyState h3 {
-    font-size: 1.1rem;
+    font-size: var(--font-size-lg);
   }
 
   .emptyState p {
-    font-size: 0.85rem;
+    font-size: var(--font-size-xs);
   }
 }
 
 /* High contrast mode support */
 @media (prefers-contrast: high) {
   .emptyState {
-    background: rgba(255, 255, 255, 0.9);
-    border-color: #000;
-    color: #000;
+    background: var(--color-text-primary);
+    border-color: var(--color-domino-black);
+    color: var(--color-domino-black);
   }
 
   .emptyIcon {
-    color: #666;
+    color: var(--color-text-muted);
   }
 
   .emptyState h3 {
-    color: #000;
+    color: var(--color-domino-black);
     text-shadow: none;
   }
 
   .emptyState p {
-    color: #333;
+    color: var(--color-text-dark);
   }
 }
 
@@ -128,8 +128,8 @@
 
 /* Focus management */
 .emptyState:focus-within {
-  outline: 2px solid var(--color-blue);
-  outline-offset: 2px;
+  outline: var(--border-width-medium) solid var(--color-blue);
+  outline-offset: var(--border-width-medium);
 }
 
 /* Animation for when empty state appears */
@@ -145,7 +145,7 @@
 }
 
 .emptyState {
-  animation: fadeInUp 0.4s ease-out;
+  animation: fadeInUp 0.4s var(--transition-ease-out);
 }
 
 @media (prefers-reduced-motion: reduce) {

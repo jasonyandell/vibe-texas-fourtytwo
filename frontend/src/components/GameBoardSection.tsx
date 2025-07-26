@@ -30,12 +30,12 @@ export const GameBoardSection: React.FC = () => {
       data-testid="game-board-section-container"
       aria-label="Game board elements showcase"
     >
-      <div className={styles.header}>
+      <div className={styles.sectionHeader}>
         <h3>Game Board & Trick Play</h3>
         <p>Explore the center play area, trick stacks, and scoring displays that make up the active gameplay experience.</p>
       </div>
 
-      <div className={styles.mainContent}>
+      <div className={styles.sectionMainContent}>
         <CenterPlayArea
           currentTrick={currentTrick}
           onPrevTrick={handlePrevTrick}

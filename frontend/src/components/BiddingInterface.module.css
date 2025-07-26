@@ -1,0 +1,171 @@
+@import '../styles/design-tokens.css';
+@import '../styles/utilities/index.css';
+
+/* BiddingInterface Component Styles */
+
+.biddingInterface {
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+  margin-right: auto;
+  height: 100vh;
+  gap: var(--space-xl);
+  padding: var(--space-xl);
+  max-width: var(--max-width-container);
+  background-color: var(--color-background);
+}
+
+/* Previous Bids Section */
+.previousBids {
+  padding: var(--space-lg);
+}
+
+.previousBids h3 {
+  margin: 0;
+  margin-bottom: var(--space-md);
+  font-size: var(--font-size-lg);
+  color: var(--text-primary);
+}
+
+.bidHistory {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.bidEntry {
+  padding-top: var(--space-sm);
+  padding-bottom: var(--space-sm);
+  padding-left: var(--space-md);
+  padding-right: var(--space-md);
+  border-radius: var(--radius-sm);
+  background: var(--surface-variant);
+}
+
+.bidEntry.currentTurn {
+  border: 1px solid var(--color-primary);
+  background: var(--primary-light);
+  border-width: var(--border-width-thin);
+  border-style: solid;
+}
+
+.playerName {
+  font-weight: var(--font-weight-medium);
+  color: var(--text-secondary);
+}
+
+.bidAmount {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-lg);
+  color: var(--text-primary);
+}
+
+/* Bid Buttons Section */
+.bidSection {
+  padding: var(--space-xl);
+}
+
+.bidSection h3 {
+  margin: 0;
+  margin-bottom: var(--space-lg);
+  font-size: var(--font-size-xl);
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.bidButtons {
+  gap: var(--space-md);
+}
+
+.bidButton {
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  padding-left: var(--space-md);
+  padding-right: var(--space-md);
+  min-width: var(--width-button-narrow);
+  height: var(--height-button-tall);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  border: var(--border-default);
+  background: var(--surface);
+  color: var(--text-primary);
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.bidButton:hover:not(.disabled) {
+  box-shadow: var(--shadow-md);
+  background: var(--primary);
+  color: var(--color-white);
+  border-color: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+.bidButton:active:not(.disabled) {
+  box-shadow: var(--shadow-sm);
+  transform: none;
+}
+
+.bidButton.disabled {
+  opacity: var(--opacity-disabled);
+  cursor: not-allowed;
+}
+
+/* Special bid buttons */
+.bidButton:first-child {
+  background: var(--color-error);
+  color: var(--color-white);
+  border-color: var(--color-error-dark);
+}
+
+.bidButton:first-child:hover:not(.disabled) {
+  background: var(--color-error-dark);
+}
+
+.bidButton:last-child {
+  background: var(--color-secondary);
+  color: var(--color-white);
+  border-color: var(--color-secondary-dark);
+  min-width: var(--width-button-wide);
+}
+
+.bidButton:last-child:hover:not(.disabled) {
+  background: var(--color-secondary-dark);
+}
+
+/* Player Hand Section */
+.handSection {
+  padding: var(--space-xl);
+  flex: 1 1 auto;
+}
+
+.handSection h3 {
+  margin: 0;
+  margin-bottom: var(--space-lg);
+  font-size: var(--font-size-lg);
+  color: var(--text-primary);
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: var(--breakpoint-md)) {
+  .biddingInterface {
+    padding: var(--space-md);
+    gap: var(--space-md);
+  }
+
+  .bidButtons {
+    gap: var(--space-sm);
+  }
+
+  .bidButton {
+    padding-left: var(--space-sm);
+    padding-right: var(--space-sm);
+    min-width: var(--width-button-compact);
+    height: var(--height-button-normal);
+    font-size: var(--font-size-base);
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}

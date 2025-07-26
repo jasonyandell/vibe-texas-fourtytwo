@@ -26,7 +26,7 @@ export const GameCardActions: React.FC<GameCardActionsProps> = ({
   actions 
 }) => {
   return (
-    <div className={styles.cardActions}>
+    <div className={`${styles.cardActions} flex-column`}>
       {permissions.canJoin && (
         <Button 
           variant="primary" 
@@ -39,7 +39,7 @@ export const GameCardActions: React.FC<GameCardActionsProps> = ({
       )}
 
       {permissions.isUserInGame && game.status === 'waiting' && (
-        <div className={styles.playerActions}>
+        <div className={`${styles.playerActions} flex`}>
           <Button 
             variant="secondary" 
             size="small" 

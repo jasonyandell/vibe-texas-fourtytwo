@@ -7,6 +7,7 @@ import { GameBoardHeader } from './GameBoardHeader';
 import { GameBoardPlayers } from './GameBoardPlayers';
 import { GameBoardCenter } from './GameBoardCenter';
 import { GameBoardTrickStacks } from './GameBoardTrickStacks';
+import { BiddingInterface } from './BiddingInterface';
 import styles from './GameBoard.module.css';
 
 interface GameBoardProps {
@@ -42,10 +43,10 @@ export const GameBoard: React.FC<GameBoardProps> = ({
 
   if (!gameState) {
     return (
-      <div className={`game-board ${styles.gameBoard} ${styles.loading}`} data-testid="game-board">
-        <div className={styles.loadingMessage}>
-          <h2>Loading Game...</h2>
-          <p>Game ID: {gameId}</p>
+      <div className={`game-board ${styles.gameBoard} ${styles.loading} flex-column flex-center`} data-testid="game-board">
+        <div className={`${styles.loadingMessage} card text-center`}>
+          <h2 className="mb-sm">Loading Game...</h2>
+          <p className="text-muted">Game ID: {gameId}</p>
         </div>
       </div>
     );
@@ -55,21 +56,32 @@ export const GameBoard: React.FC<GameBoardProps> = ({
 
   const hasIncompletePlayers = gameState.players.length < 4;
 
+  // Show focused bidding interface during bidding phase
+  if (gameState.phase === 'bidding' && !isSpectatorMode) {
+    return (
+      <BiddingInterface
+        gameState={gameState}
+        currentPlayerId={currentPlayerId}
+        onBid={(amount) => handleBid(amount)} // No trump during bidding
+        onPass={handlePass}
+      />
+    );
+  }
+
   return (
     <div
-      className={`game-board responsive ${styles.gameBoard} ${styles.responsive}`}
+      className={`game-board responsive ${styles.gameBoard} ${styles.responsive} flex-column`}
       data-testid="game-board"
       role="main"
       aria-label="Texas 42 game board"
     >
-      <GameBoardHeader gameId={gameId} gameState={gameState} />
-
       <div
         className={`baseball-diamond mobile-friendly ${styles.baseballDiamond} ${styles.mobileFriendly}`}
         data-testid="baseball-diamond"
         role="region"
         aria-label="Player areas"
       >
+        <GameBoardHeader gameId={gameId} gameState={gameState} minimap={true} />
         <GameBoardPlayers
           position="north"
           gameState={gameState}
@@ -108,6 +120,7 @@ export const GameBoard: React.FC<GameBoardProps> = ({
       </div>
 
       <GameBoardTrickStacks gameState={gameState} />
+
 
       {hasIncompletePlayers && (
         <div className={styles.waitingMessage}>

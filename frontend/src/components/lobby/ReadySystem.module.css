@@ -1,69 +1,69 @@
 /* ReadySystem Component Styles */
 
 .readySystem {
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
-  padding: 1rem;
-  margin: 1rem 0;
+  background: var(--color-background);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-gap-md);
+  margin: var(--spacing-gap-md) 0;
 }
 
 .waitingMessage {
   text-align: center;
-  padding: 1rem;
+  padding: var(--spacing-gap-md);
 }
 
 .readyStatus {
-  margin-bottom: 1rem;
+  margin-bottom: var(--spacing-gap-md);
 }
 
 .statusHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: var(--spacing-gap-md);
 }
 
 .statusHeader h4 {
-  color: white;
-  font-size: 1rem;
-  font-weight: 600;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
   margin: 0;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  text-shadow: var(--shadow-sm);
 }
 
 .playerReadyList {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--spacing-gap-sm);
 }
 
 .playerReadyItem {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 0.75rem;
-  border-radius: 8px;
-  transition: all 0.2s ease;
+  padding: var(--spacing-gap-sm) var(--space-md);
+  border-radius: var(--border-radius-md);
+  transition: var(--transition-base);
 }
 
 .ready {
-  background: rgba(40, 167, 69, 0.1);
-  border: 1px solid rgba(40, 167, 69, 0.3);
+  background: var(--color-success-bg-light);
+  border: var(--border-width-thin) solid var(--color-success-border-light);
 }
 
 .notReady {
-  background: rgba(255, 193, 7, 0.1);
-  border: 1px solid rgba(255, 193, 7, 0.3);
+  background: var(--color-warning-bg-light);
+  border: var(--border-width-thin) solid var(--color-warning-border-light);
 }
 
 .playerName {
-  color: white;
-  font-size: 0.9rem;
-  font-weight: 500;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--spacing-gap-sm);
 }
 
 .youBadge {
@@ -73,18 +73,18 @@
 .readyActions {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: var(--space-md);
 }
 
 .startSection {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--spacing-gap-sm);
   align-items: center;
 }
 
 .countdown {
-  animation: pulse 1s infinite;
+  animation: pulse var(--transition-slow) infinite;
 }
 
 @keyframes pulse {
@@ -99,57 +99,57 @@
 }
 
 .cancelCountdown {
-  margin-top: 0.5rem;
+  margin-top: var(--spacing-gap-sm);
   text-align: center;
 }
 
 /* Success button variant */
 .readyActions button[data-variant="success"] {
-  background: #28a745;
-  color: white;
-  border: 2px solid #28a745;
-  font-weight: 600;
+  background: var(--color-success);
+  color: var(--color-text-primary);
+  border: var(--border-width-medium) solid var(--color-success);
+  font-weight: var(--font-weight-semibold);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: var(--space-xs);
 }
 
 .readyActions button[data-variant="success"]:hover:not(:disabled) {
-  background: #218838;
-  border-color: #218838;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+  background: var(--color-ready-success);
+  border-color: var(--color-ready-success);
+  transform: var(--transform-hover-lift);
+  box-shadow: var(--shadow-lg);
 }
 
 /* Responsive design */
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-md)) {
   .readySystem {
-    padding: 0.75rem;
+    padding: var(--space-md);
   }
 
   .statusHeader {
     flex-direction: column;
-    gap: 0.5rem;
+    gap: var(--spacing-gap-sm);
     align-items: stretch;
     text-align: center;
   }
 
   .playerReadyItem {
-    padding: 0.4rem 0.6rem;
+    padding: var(--space-sm) var(--space-sm);
   }
 
   .playerName {
-    font-size: 0.85rem;
+    font-size: var(--font-size-xs);
   }
 
   .startSection {
-    gap: 0.75rem;
+    gap: var(--space-md);
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: var(--breakpoint-sm)) {
   .playerReadyItem {
     flex-direction: column;
-    gap: 0.25rem;
+    gap: var(--space-xs);
     text-align: center;
   }
 
@@ -161,36 +161,36 @@
 /* High contrast mode support */
 @media (prefers-contrast: high) {
   .readySystem {
-    background: rgba(255, 255, 255, 0.9);
-    border-color: #000;
+    background: var(--color-text-primary);
+    border-color: var(--color-domino-black);
   }
 
   .statusHeader h4 {
-    color: #000;
+    color: var(--color-domino-black);
     text-shadow: none;
   }
 
   .playerName {
-    color: #000;
+    color: var(--color-domino-black);
   }
 
   .ready {
-    background: #d4edda;
-    border-color: #28a745;
+    background: var(--color-ready-success-bg);
+    border-color: var(--color-success);
   }
 
   .notReady {
-    background: #fff3cd;
-    border-color: #ffc107;
+    background: var(--color-warning-bg);
+    border-color: var(--color-gold);
   }
 
   .readyActions button[data-variant="success"] {
-    background: #28a745;
-    border-color: #000;
+    background: var(--color-success);
+    border-color: var(--color-domino-black);
   }
 
   .readyActions button[data-variant="success"]:hover:not(:disabled) {
-    background: #218838;
+    background: var(--color-ready-success);
   }
 }
 
@@ -211,8 +211,8 @@
 
 /* Focus management */
 .readySystem:focus-within {
-  outline: 2px solid var(--color-blue);
-  outline-offset: 2px;
+  outline: var(--border-width-medium) solid var(--color-blue);
+  outline-offset: var(--border-width-medium);
 }
 
 /* Loading state */
@@ -235,7 +235,7 @@
 }
 
 .playerReadyItem[data-updated="true"] {
-  animation: readyStateChange 0.3s ease-out;
+  animation: readyStateChange var(--transition-slow) var(--transition-ease-out);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -255,11 +255,11 @@
 
 /* Auto-start warning */
 .startSection[data-auto-starting="true"] {
-  background: rgba(40, 167, 69, 0.1);
-  border: 1px solid rgba(40, 167, 69, 0.3);
-  border-radius: 8px;
-  padding: 1rem;
-  margin: 0.5rem 0;
+  background: var(--color-success-bg-light);
+  border: var(--border-width-thin) solid var(--color-success-border-light);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-gap-md);
+  margin: var(--spacing-gap-sm) 0;
 }
 
 /* Button states */
@@ -278,21 +278,14 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  width: 16px;
-  height: 16px;
-  border: 2px solid transparent;
-  border-top: 2px solid currentColor;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  color: white;
+  transform: var(--transform-center);
+  width: var(--spinner-size);
+  height: var(--spinner-size);
+  border: var(--border-width-medium) solid transparent;
+  border-top: var(--border-width-medium) solid currentColor;
+  border-radius: var(--border-radius-full);
+  animation: var(--animation-spin);
+  color: var(--color-text-primary);
 }
 
-@keyframes spin {
-  0% {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  100% {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
-}
+/* spin animation imported from patterns/animations.css */

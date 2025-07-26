@@ -1,69 +1,69 @@
 .lobbySection {
-  padding: 2rem;
+  padding: var(--space-2xl);
   max-width: 1200px;
   margin: 0 auto;
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 12px;
-  color: #212529;
+  background: var(--color-lobby-surface);
+  border-radius: var(--border-radius-lg);
+  color: var(--color-domino-black);
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
-  border-bottom: 2px solid #dee2e6;
+  margin-bottom: var(--space-2xl);
+  padding-bottom: var(--spacing-gap-md);
+  border-bottom: var(--border-width-medium) solid var(--border-color-gray);
 }
 
 .header h3 {
-  font-size: 1.5rem;
-  color: #212529;
+  font-size: var(--font-size-2xl);
+  color: var(--color-domino-black);
   margin: 0;
 }
 
 .controls {
   display: flex;
-  gap: 0.75rem;
+  gap: var(--space-md);
   flex-wrap: wrap;
 }
 
 .componentDemo {
-  margin-bottom: 3rem;
-  animation: fadeIn 0.3s ease-out;
-  background: rgba(248, 249, 250, 0.8);
-  padding: 1.5rem;
-  border-radius: 8px;
-  border: 1px solid #dee2e6;
+  margin-bottom: var(--space-3xl);
+  animation: fadeIn var(--transition-slow) var(--transition-ease-out);
+  background: var(--color-lobby-surface-alt);
+  padding: var(--spacing-gap-lg);
+  border-radius: var(--border-radius-md);
+  border: var(--border-width-thin) solid var(--border-color-gray);
 }
 
 .componentDemo h4 {
-  font-size: 1.25rem;
-  color: #495057;
-  margin-bottom: 1rem;
-  font-weight: 500;
+  font-size: var(--font-size-xl);
+  color: var(--color-secondary);
+  margin-bottom: var(--spacing-gap-md);
+  font-weight: var(--font-weight-medium);
 }
 
 .gameCardGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1.5rem;
-  margin-top: 1rem;
+  gap: var(--spacing-gap-lg);
+  margin-top: var(--spacing-gap-md);
 }
 
 .showcaseInfo {
-  background: #f8f9fa;
-  border: 1px solid #dee2e6;
-  border-radius: 8px;
-  padding: 1.5rem;
-  margin-top: 3rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: var(--color-domino-white);
+  border: var(--border-width-thin) solid var(--border-color-gray);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-gap-lg);
+  margin-top: var(--space-3xl);
+  box-shadow: var(--shadow-md);
 }
 
 .showcaseInfo h4 {
-  font-size: 1.125rem;
-  color: #212529;
-  margin-bottom: 1rem;
+  font-size: var(--font-size-lg);
+  color: var(--color-domino-black);
+  margin-bottom: var(--spacing-gap-md);
 }
 
 .showcaseInfo ul {
@@ -73,10 +73,10 @@
 }
 
 .showcaseInfo li {
-  padding: 0.5rem 0;
-  border-bottom: 1px solid #e9ecef;
-  color: #495057;
-  font-size: 0.875rem;
+  padding: var(--spacing-gap-sm) 0;
+  border-bottom: var(--border-width-thin) solid var(--border-color-light-gray);
+  color: var(--color-secondary);
+  font-size: var(--font-size-sm);
 }
 
 .showcaseInfo li:last-child {
@@ -84,31 +84,22 @@
 }
 
 .showcaseInfo strong {
-  color: #212529;
-  font-weight: 600;
+  color: var(--color-domino-black);
+  font-weight: var(--font-weight-semibold);
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+/* fadeIn animation imported from patterns/animations.css */
 
 /* Responsive design */
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-md)) {
   .lobbySection {
-    padding: 1rem;
+    padding: var(--spacing-gap-md);
   }
   
   .header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 1rem;
+    gap: var(--spacing-gap-md);
   }
   
   .controls {

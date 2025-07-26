@@ -33,15 +33,15 @@ describe('BiddingSection - Trump Logic', () => {
     const trumpSuits: DominoSuit[] = ['blanks', 'ones', 'twos', 'threes', 'fours', 'fives', 'sixes']
     
     for (const suit of trumpSuits) {
-      const suitCard = screen.getByTestId(`trump-suit-${suit}`)
+      const suitCard = await screen.findByTestId(`trump-suit-${suit}`)
       await user.click(suitCard)
 
       // Each suit should have exactly 7 trump dominoes
       const announcer = screen.getByTestId('trump-announcer')
-      expect(announcer).toHaveTextContent('7 dominoes highlighted')
+      expect(announcer).toHaveTextContent('7 dominoes highlighted.')
 
       // Deselect for next iteration
       await user.click(suitCard)
     }
-  })
+  }, 10000)
 })

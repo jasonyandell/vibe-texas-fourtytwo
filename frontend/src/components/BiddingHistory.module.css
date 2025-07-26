@@ -3,24 +3,28 @@
 .biddingHistory {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 8px;
   padding: 0.75rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-box-light);
   max-width: 250px;
   max-height: 250px;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
   height: 100%;
 }
 
+/* Applied utilities: flex-column rounded-sm */
+.biddingHistory {
+  composes: flex-column rounded-sm from '../styles/utilities/index.css';
+}
+
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   margin-bottom: 0.5rem;
   padding-bottom: 0.25rem;
   border-bottom: 1px solid var(--color-border-light);
+}
+
+/* Applied utility: flex-between */
+.header {
+  composes: flex-between from '../styles/utilities/index.css';
 }
 
 .header h4 {
@@ -71,7 +75,7 @@
   background: var(--color-surface);
   border-color: var(--color-border);
   transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-box-hover);
 }
 
 .bidInfo {
@@ -135,8 +139,12 @@
   padding-top: 0.5rem;
   border-top: 1px solid var(--color-border-light);
   background: var(--color-background);
-  border-radius: 4px;
   padding: 0.75rem;
+}
+
+/* Applied utility: rounded-xs */
+.summary {
+  composes: rounded-xs from '../styles/utilities/index.css';
 }
 
 .highestBid {
@@ -147,7 +155,7 @@
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-md)) {
   .biddingHistory {
     max-width: 100%;
     padding: 0.75rem;
@@ -170,7 +178,7 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: var(--breakpoint-sm)) {
   .biddingHistory {
     padding: 0.5rem;
     max-height: 300px;
@@ -227,7 +235,7 @@
 @media print {
   .biddingHistory {
     box-shadow: none;
-    border: 1px solid #000;
+    border: 1px solid var(--border-color-dark);
     break-inside: avoid;
   }
 

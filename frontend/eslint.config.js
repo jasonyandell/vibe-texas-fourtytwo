@@ -75,6 +75,7 @@ js.configs.recommended, // TypeScript files
     'node_modules/**',
     'coverage/**',
     'build/**',
+    'storybook-static/**',
     '*.config.js',
     '*.config.ts',
     'vite.config.d.ts',

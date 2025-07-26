@@ -1,23 +1,25 @@
+@import '../styles/design-tokens.css';
+
 /* DominoHand Component Styles - 2-row layout for Texas 42 */
 
 .dominoHand {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
-  padding: 6px;
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 12px;
-  min-height: 80px;
+  gap: var(--space-xxs);
+  padding: calc(var(--space-xxs) * 1.5);
+  background: var(--surface-overlay);
+  border-radius: var(--radius-lg);
+  min-height: var(--height-domino-hand);
   position: relative;
 }
 
 /* Compact mode for player cards */
 .dominoHand.compact {
-  gap: 4px;
-  padding: 6px;
-  min-height: 80px;
-  transform: scale(0.75);
+  gap: var(--space-xxs);
+  padding: calc(var(--space-xxs) * 1.5);
+  min-height: var(--height-domino-hand);
+  transform: var(--transform-scale-compact);
   transform-origin: center;
 }
 
@@ -25,7 +27,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 3px;
+  gap: calc(var(--space-xxs) * 0.75);
   flex-wrap: nowrap;
 }
 
@@ -33,134 +35,138 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 3px;
+  gap: calc(var(--space-xxs) * 0.75);
   flex-wrap: nowrap;
-  margin-top: 2px;
+  margin-top: var(--space-xxs);
 }
 
 /* Compact mode adjustments */
 .dominoHand.compact .topRow,
 .dominoHand.compact .bottomRow {
-  gap: 3px;
+  gap: calc(var(--space-xxs) * 0.75);
 }
 
 .dominoHand.compact .bottomRow {
-  margin-top: 2px;
+  margin-top: var(--space-xxs);
 }
 
 .handDomino {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: var(--transition-all);
   position: relative;
 }
 
 .handDomino:hover {
-  transform: translateY(-4px);
+  transform: translateY(calc(var(--space-xxs) * -1));
   z-index: 10;
 }
 
 .handDomino.selected {
-  transform: translateY(-8px);
+  transform: translateY(calc(var(--space-xs) * -1));
   z-index: 20;
 }
 
+.handDomino.faceDown {
+  opacity: var(--opacity-medium);
+}
+
 .dominoGap {
-  width: 80px;
-  height: 40px;
-  border: 2px dashed rgba(255, 255, 255, 0.3);
-  border-radius: 8px;
-  background: rgba(0, 0, 0, 0.1);
+  width: var(--width-domino-gap);
+  height: var(--height-domino-gap);
+  border: var(--border-default) dashed var(--border-color-dashed);
+  border-radius: var(--radius-base);
+  background: var(--surface-overlay);
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  opacity: 0.5;
+  opacity: var(--opacity-medium);
 }
 
 .dominoGap::before {
   content: '';
-  width: 20px;
-  height: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
+  width: var(--size-indicator);
+  height: var(--size-indicator);
+  border: var(--border-thin) solid var(--border-color-light);
+  border-radius: var(--radius-circle);
+  background: var(--surface-glass);
 }
 
 /* Responsive design */
 .responsive {
-  max-width: 100%;
+  max-width: var(--width-full);
   overflow: visible;
 }
 
 /* Tablet and smaller screens */
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-md)) {
   .dominoHand {
-    gap: 6px;
-    padding: 8px;
-    min-height: 100px;
+    gap: calc(var(--space-xxs) * 1.5);
+    padding: var(--space-xs);
+    min-height: var(--height-domino-hand-tablet);
   }
   
   .topRow,
   .bottomRow {
-    gap: 4px;
+    gap: var(--space-xxs);
   }
   
   .handDomino:hover {
-    transform: translateY(-2px);
+    transform: translateY(calc(var(--space-xxs) * -0.5));
   }
   
   .handDomino.selected {
-    transform: translateY(-4px);
+    transform: translateY(calc(var(--space-xxs) * -1));
   }
   
   .dominoGap {
-    width: 60px;
-    height: 30px;
+    width: var(--width-domino-gap-tablet);
+    height: var(--height-domino-gap-tablet);
   }
   
   .dominoGap::before {
-    width: 15px;
-    height: 15px;
+    width: var(--size-indicator-tablet);
+    height: var(--size-indicator-tablet);
   }
 }
 
 /* Mobile screens */
-@media (max-width: 480px) {
+@media (max-width: var(--breakpoint-sm)) {
   .dominoHand {
-    gap: 4px;
-    padding: 6px;
-    min-height: 80px;
+    gap: var(--space-xxs);
+    padding: calc(var(--space-xxs) * 1.5);
+    min-height: var(--height-domino-hand);
   }
   
   .topRow,
   .bottomRow {
-    gap: 3px;
+    gap: calc(var(--space-xxs) * 0.75);
   }
   
   .handDomino:hover {
-    transform: translateY(-1px);
+    transform: translateY(calc(var(--space-xxs) * -0.25));
   }
   
   .handDomino.selected {
-    transform: translateY(-2px);
+    transform: translateY(calc(var(--space-xxs) * -0.5));
   }
   
   .dominoGap {
-    width: 50px;
-    height: 25px;
+    width: var(--width-domino-gap-mobile);
+    height: var(--height-domino-gap-mobile);
   }
   
   .dominoGap::before {
-    width: 12px;
-    height: 12px;
+    width: var(--size-indicator-mobile);
+    height: var(--size-indicator-mobile);
   }
 }
 
 /* Very small screens - stack dominoes if needed */
-@media (max-width: 360px) {
+@media (max-width: var(--breakpoint-xs)) {
   .topRow,
   .bottomRow {
     flex-wrap: wrap;
-    max-width: 100%;
+    max-width: var(--width-full);
   }
   
   .dominoHand {
@@ -170,33 +176,33 @@
 
 /* Vertical orientation adjustments */
 .dominoHand:has(.handDomino.vertical) .dominoGap {
-  width: 40px;
-  height: 80px;
+  width: var(--width-domino-gap-vertical);
+  height: var(--height-domino-gap-vertical);
 }
 
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-md)) {
   .dominoHand:has(.handDomino.vertical) .dominoGap {
-    width: 30px;
-    height: 60px;
+    width: var(--width-domino-gap-vertical-tablet);
+    height: var(--height-domino-gap-vertical-tablet);
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: var(--breakpoint-sm)) {
   .dominoHand:has(.handDomino.vertical) .dominoGap {
-    width: 25px;
-    height: 50px;
+    width: var(--width-domino-gap-vertical-mobile);
+    height: var(--height-domino-gap-vertical-mobile);
   }
 }
 
 /* Animation for domino interactions */
 .handDomino {
-  animation-duration: 0.2s;
-  animation-timing-function: ease-out;
+  animation-duration: var(--duration-fast);
+  animation-timing-function: var(--easing-out);
   animation-fill-mode: both;
 }
 
 .handDomino.playable {
-  cursor: pointer;
+  cursor: var(--cursor-pointer);
 }
 
 .handDomino.playable:hover {
@@ -209,43 +215,43 @@
 
 @keyframes dominoHover {
   0% {
-    transform: translateY(0);
+    transform: var(--transform-none);
   }
   100% {
-    transform: translateY(-4px);
+    transform: translateY(calc(var(--space-xxs) * -1));
   }
 }
 
 @keyframes dominoSelect {
   0% {
-    transform: translateY(0);
+    transform: var(--transform-none);
   }
   100% {
-    transform: translateY(-8px);
+    transform: translateY(calc(var(--space-xs) * -1));
   }
 }
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
   .handDomino {
-    transition: none;
-    animation: none;
+    transition: var(--transition-none);
+    animation: var(--animation-none);
   }
   
   .handDomino:hover,
   .handDomino.selected {
-    transform: none;
+    transform: var(--transform-none);
   }
   
   @keyframes dominoHover {
     0%, 100% {
-      transform: none;
+      transform: var(--transform-none);
     }
   }
 
   @keyframes dominoSelect {
     0%, 100% {
-      transform: none;
+      transform: var(--transform-none);
     }
   }
 }
@@ -253,26 +259,26 @@
 /* High contrast mode support */
 @media (prefers-contrast: high) {
   .dominoHand {
-    background: rgba(0, 0, 0, 0.3);
-    border: 2px solid #fff;
+    background: var(--surface-dark);
+    border: var(--border-default) solid var(--text-primary);
   }
   
   .dominoGap {
-    border-color: #fff;
-    background: rgba(0, 0, 0, 0.2);
+    border-color: var(--text-primary);
+    background: var(--surface-overlay-dark);
   }
   
   .dominoGap::before {
-    border-color: #fff;
-    background: rgba(255, 255, 255, 0.2);
+    border-color: var(--text-primary);
+    background: var(--surface-glass-light);
   }
 }
 
 /* Focus management for keyboard navigation */
 .handDomino:focus-within {
-  outline: 2px solid var(--color-blue);
-  outline-offset: 2px;
-  border-radius: 8px;
+  outline: var(--outline-focus);
+  outline-offset: var(--space-xxs);
+  border-radius: var(--radius-base);
 }
 
 /* Player position specific adjustments */
@@ -284,18 +290,18 @@
 .dominoHand.playerEast,
 .dominoHand.playerWest {
   /* Could be adjusted for vertical layout if needed */
-  transform: rotate(0deg);
+  transform: var(--transform-rotate-none);
 }
 
 /* Opponent hand styling (face-down dominoes) */
 .dominoHand:has(.handDomino.faceDown) {
-  opacity: 0.8;
+  opacity: var(--opacity-high);
 }
 
 .dominoHand:has(.handDomino.faceDown) .handDomino:hover {
-  transform: translateY(-2px);
+  transform: translateY(calc(var(--space-xxs) * -0.5));
 }
 
 .dominoHand:has(.handDomino.faceDown) .handDomino.selected {
-  transform: translateY(-4px);
+  transform: translateY(calc(var(--space-xxs) * -1));
 }

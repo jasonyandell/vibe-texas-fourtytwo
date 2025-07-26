@@ -1,0 +1,50 @@
+/* Media Query Utilities for Texas 42 Web Game */
+/* Centralized media query definitions using CSS variables */
+
+/* Note: CSS custom properties cannot be used directly in media queries */
+/* This file provides commented examples of the correct breakpoints to use */
+
+/* 
+  Breakpoint Reference:
+  - xs: 320px  (very small mobile)
+  - sm: 480px  (mobile)
+  - md: 768px  (tablet)
+  - lg: 1024px (desktop)
+  - xl: 1280px (large desktop)
+  - 2xl: 1536px (extra large)
+*/
+
+/* Example usage:
+@media (max-width: 480px) { /* mobile */ }
+@media (max-width: 768px) { /* tablet */ }
+@media (max-width: 1024px) { /* desktop */ }
+@media (max-width: 1280px) { /* large */ }
+*/
+
+/* Utility classes for responsive display */
+@media (max-width: 480px) {
+  .hide-mobile { display: none !important; }
+  .show-mobile { display: block !important; }
+}
+
+@media (min-width: 481px) {
+  .show-mobile { display: none !important; }
+}
+
+@media (max-width: 768px) {
+  .hide-tablet { display: none !important; }
+  .show-tablet { display: block !important; }
+}
+
+@media (min-width: 769px) {
+  .show-tablet { display: none !important; }
+}
+
+@media (max-width: 1024px) {
+  .hide-desktop { display: none !important; }
+  .show-desktop { display: block !important; }
+}
+
+@media (min-width: 1025px) {
+  .show-desktop { display: none !important; }
+}

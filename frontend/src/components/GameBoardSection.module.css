@@ -1,96 +1,68 @@
+@import '../styles/design-tokens.css';
+
 /* GameBoardSection Component Styles */
 
 .gameBoardSection {
-  padding: 0;
-  max-width: 1200px;
-  margin: 0 auto;
+  padding: var(--space-xl);
+  min-height: 100vh;
+  background: var(--color-background);
 }
 
-.header {
+.sectionHeader {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: var(--space-xl);
 }
 
-.header h3 {
-  font-size: 2rem;
-  font-weight: 600;
-  color: #2c3e50;
-  margin-bottom: 0.5rem;
+.sectionHeader h3 {
+  font-size: var(--font-size-2xl);
+  margin: 0 0 var(--space-sm) 0;
+  color: var(--text-primary);
 }
 
-.header p {
-  font-size: 1.1rem;
-  color: #7f8c8d;
-  max-width: 600px;
+.sectionHeader p {
+  font-size: var(--font-size-md);
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.sectionMainContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  max-width: var(--max-width-container);
   margin: 0 auto;
-  line-height: 1.6;
 }
 
-.mainContent {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 2rem;
-  margin-bottom: 2rem;
-}
-
-/* Center Play Area Section */
-.centerPlaySection {
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 8px;
-  border: 1px solid #e1e8ed;
-  padding: 1.5rem;
-}
-
-.centerPlaySection h4 {
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: #2c3e50;
-  margin-bottom: 0.5rem;
-}
-
-.centerPlaySection p {
-  color: #7f8c8d;
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
-}
-
+/* Center play area uses game-area-base utility class */
 .centerPlayArea {
-  background: linear-gradient(135deg, #0d5f3c, #0a4d32);
-  border-radius: 12px;
-  padding: 1.5rem;
-  color: white;
-  border: 3px solid #8b4513;
-  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
+  composes: game-area-base from '../styles/base-classes.css';
 }
 
-.trickHeader {
-  text-align: center;
-  margin-bottom: 1rem;
-}
+/* Use text-center-header utility class for .trickHeader in component */
 
 .trickHeader h5 {
-  font-size: 1.1rem;
-  margin: 0 0 0.5rem 0;
-  color: #ffd700;
+  font-size: var(--font-size-lg);
+  margin: 0 0 var(--space-xs) 0;
+  color: var(--color-highlight);
 }
 
 .trickHeader p {
-  font-size: 0.9rem;
-  margin: 0 0 0.5rem 0;
-  color: #e8e8e8;
+  font-size: var(--font-size-sm);
+  margin: 0 0 var(--space-xs) 0;
+  color: var(--text-primary-alpha);
 }
 
 .trickWinner {
-  font-size: 0.9rem;
-  color: #90ee90;
+  font-size: var(--font-size-sm);
+  color: var(--color-success-light);
 }
 
 .trickDominoes {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 1fr);
-  gap: 1rem;
-  margin: 1rem 0;
+  gap: var(--space-base);
+  margin: var(--space-base) 0;
   min-height: 120px;
 }
 
@@ -98,7 +70,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--space-xs);
 }
 
 .positionNorth {
@@ -130,8 +102,8 @@
 }
 
 .playerLabel {
-  font-size: 0.8rem;
-  color: #ffd700;
+  font-size: var(--font-size-xs);
+  color: var(--color-highlight);
   font-weight: 500;
 }
 
@@ -139,107 +111,110 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
-  margin-top: 1rem;
+  gap: var(--space-base);
+  margin-top: var(--space-base);
 }
 
 .trickButton {
-  background: #3498db;
-  color: white;
+  background: var(--color-accent);
+  color: var(--text-primary);
   border: none;
-  border-radius: 6px;
-  padding: 0.5rem 1rem;
-  font-size: 0.9rem;
+  border-radius: var(--radius-sm);
+  padding: var(--space-xs) var(--space-base);
+  font-size: var(--font-size-sm);
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: var(--transition-colors);
 }
 
 .trickButton:hover {
-  background: #2980b9;
+  background: var(--color-accent-dark);
 }
 
 .trickButton:focus {
-  outline: 2px solid #ffd700;
+  outline: 2px solid var(--color-highlight);
   outline-offset: 2px;
 }
 
 .trickCounter {
-  font-size: 0.9rem;
-  color: #e8e8e8;
+  font-size: var(--font-size-sm);
+  color: var(--text-primary-alpha);
   min-width: 80px;
   text-align: center;
 }
 
 /* Trick Stacks Section */
 .trickStacksSection {
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 8px;
-  border: 1px solid #e1e8ed;
-  padding: 1.5rem;
+  background: var(--bg-primary-alpha);
+  border-radius: var(--radius-base);
+  border: var(--border-subtle);
+  padding: var(--space-md);
 }
 
 .trickStacksSection h4 {
-  font-size: 1.3rem;
+  font-size: var(--font-size-xl);
   font-weight: 600;
-  color: #2c3e50;
-  margin-bottom: 0.5rem;
+  color: var(--color-primary);
+  margin-bottom: var(--space-xs);
 }
 
 .trickStacksSection p {
-  color: #7f8c8d;
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-base);
+  font-size: var(--font-size-sm);
 }
 
 .trickStacksContainer {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: var(--space-md);
 }
 
 .partnershipStack {
-  background: rgba(0, 0, 0, 0.05);
-  border-radius: 8px;
-  padding: 1rem;
-  border: 1px solid #e1e8ed;
+  background: var(--bg-secondary-alpha);
+  border-radius: var(--radius-base);
+  padding: var(--space-base);
+  border: var(--border-subtle);
 }
 
 .partnershipStack h5 {
-  font-size: 1rem;
-  color: #2c3e50;
-  margin: 0 0 0.5rem 0;
+  font-size: var(--font-size-base);
+  color: var(--color-primary);
+  margin: 0 0 var(--space-xs) 0;
 }
 
 .stackInfo {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
+  margin-bottom: var(--space-base);
+  font-size: var(--font-size-sm);
 }
 
 .trickCount {
-  color: #3498db;
+  color: var(--color-accent);
   font-weight: 500;
 }
 
 .stackPoints {
-  color: #e74c3c;
+  color: var(--color-error);
   font-weight: 500;
 }
 
 .trickStackDisplay {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+/* Applied utility: flex-wrap */
+.trickStackDisplay {
+  composes: flex-wrap from '../styles/utilities/index.css';
 }
 
 .trickStackItem {
   position: relative;
 }
 
+/* Applied utility: flex-column */
 .stackedDominoes {
-  display: flex;
-  flex-direction: column;
+  composes: flex-column from '../styles/utilities/index.css';
 }
 
 .stackedDomino {
@@ -249,95 +224,99 @@
 
 /* Score Display Section */
 .scoreDisplaySection {
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 8px;
-  border: 1px solid #e1e8ed;
-  padding: 1.5rem;
+  background: var(--bg-primary-alpha);
+  border: var(--border-subtle);
+  padding: var(--space-md);
+}
+
+/* Applied utility: rounded */
+.scoreDisplaySection {
+  composes: rounded from '../styles/utilities/index.css';
 }
 
 .scoreDisplaySection h4 {
-  font-size: 1.3rem;
+  font-size: var(--font-size-xl);
   font-weight: 600;
-  color: #2c3e50;
-  margin-bottom: 0.5rem;
+  color: var(--color-primary);
+  margin-bottom: var(--space-xs);
 }
 
 .scoreDisplaySection p {
-  color: #7f8c8d;
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-base);
+  font-size: var(--font-size-sm);
 }
 
 .scoreDisplayContainer {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--space-base);
 }
 
 .gameStatusCard {
-  background: rgba(0, 0, 0, 0.05);
-  border-radius: 8px;
-  padding: 1rem;
-  border: 1px solid #e1e8ed;
+  background: var(--bg-secondary-alpha);
+  border-radius: var(--radius-base);
+  padding: var(--space-base);
+  border: var(--border-subtle);
 }
 
 .gamePhase {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--space-xs);
 }
 
 .phaseLabel {
   font-weight: 500;
-  color: #7f8c8d;
+  color: var(--text-secondary);
 }
 
 .phaseValue {
   font-weight: 600;
-  color: #2c3e50;
+  color: var(--color-primary);
 }
 
 .currentBid {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: var(--space-2xs);
 }
 
 .bidLabel {
   font-weight: 500;
-  color: #7f8c8d;
-  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
 }
 
 .bidValue {
   font-weight: 600;
-  color: #e74c3c;
+  color: var(--color-error);
 }
 
 .bidder {
-  font-size: 0.8rem;
-  color: #7f8c8d;
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
   font-style: italic;
 }
 
 .scoresCard {
-  background: rgba(0, 0, 0, 0.05);
-  border-radius: 8px;
-  padding: 1rem;
-  border: 1px solid #e1e8ed;
+  background: var(--bg-secondary-alpha);
+  border-radius: var(--radius-base);
+  padding: var(--space-base);
+  border: var(--border-subtle);
 }
 
 .scoresCard h5 {
-  font-size: 1rem;
-  color: #2c3e50;
-  margin: 0 0 1rem 0;
+  font-size: var(--font-size-base);
+  color: var(--color-primary);
+  margin: 0 0 var(--space-base) 0;
   text-align: center;
 }
 
 .scoreGrid {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
-  gap: 1rem;
+  gap: var(--space-base);
   align-items: center;
 }
 
@@ -345,102 +324,102 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.25rem;
+  gap: var(--space-2xs);
 }
 
 .teamName {
-  font-size: 0.9rem;
-  color: #7f8c8d;
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
   font-weight: 500;
 }
 
 .scoreValue {
-  font-size: 1.5rem;
+  font-size: var(--font-size-xxl);
   font-weight: bold;
-  color: #2c3e50;
+  color: var(--color-primary);
 }
 
 .gameScoreValue {
-  font-size: 0.8rem;
-  color: #7f8c8d;
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
 }
 
 .scoreDivider {
-  font-size: 1.2rem;
-  color: #7f8c8d;
+  font-size: var(--font-size-xl);
+  color: var(--text-secondary);
   font-weight: 500;
 }
 
 /* Game State Controls */
 .gameStateControls {
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 8px;
-  border: 1px solid #e1e8ed;
-  padding: 1.5rem;
-  margin-top: 2rem;
+  background: var(--bg-primary-alpha);
+  border-radius: var(--radius-base);
+  border: var(--border-subtle);
+  padding: var(--space-md);
+  margin-top: var(--space-lg);
 }
 
 .gameStateControls h4 {
-  font-size: 1.3rem;
+  font-size: var(--font-size-xl);
   font-weight: 600;
-  color: #2c3e50;
-  margin-bottom: 0.5rem;
+  color: var(--color-primary);
+  margin-bottom: var(--space-xs);
   text-align: center;
 }
 
 .gameStateControls p {
-  color: #7f8c8d;
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-base);
+  font-size: var(--font-size-sm);
   text-align: center;
 }
 
 .gameStateButtons {
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: var(--space-base);
   flex-wrap: wrap;
 }
 
 .gameStateButton {
-  background: white;
-  border: 2px solid #e1e8ed;
-  border-radius: 8px;
-  padding: 1rem;
+  background: var(--bg-primary);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-base);
+  padding: var(--space-base);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: var(--transition-all);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--space-xs);
   min-width: 120px;
 }
 
 .gameStateButton:hover {
-  border-color: #3498db;
-  background: rgba(52, 152, 219, 0.05);
+  border-color: var(--color-accent);
+  background: var(--bg-accent-alpha);
 }
 
 .gameStateButton.active {
-  border-color: #3498db;
-  background: rgba(52, 152, 219, 0.1);
-  box-shadow: 0 2px 8px rgba(52, 152, 219, 0.2);
+  border-color: var(--color-accent);
+  background: var(--bg-accent-light-alpha);
+  box-shadow: 0 2px 8px var(--shadow-accent);
 }
 
 .gameStateButton:focus {
-  outline: 2px solid #3498db;
+  outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }
 
 .buttonPhase {
   font-weight: 600;
-  color: #2c3e50;
-  font-size: 0.9rem;
+  color: var(--color-primary);
+  font-size: var(--font-size-sm);
 }
 
 .buttonScore {
-  font-size: 0.8rem;
-  color: #7f8c8d;
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
 }
 
 /* Accessibility */
@@ -460,7 +439,7 @@
 @media (max-width: 1024px) {
   .mainContent {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: var(--space-md);
   }
   
   .gameStateButtons {
@@ -478,7 +457,7 @@
   .trickDominoes {
     grid-template-columns: 1fr;
     grid-template-rows: repeat(4, 1fr);
-    gap: 0.5rem;
+    gap: var(--space-xs);
   }
   
   .positionNorth,
@@ -495,13 +474,13 @@
   .positionWest { grid-row: 4; }
   
   .trickStacksContainer {
-    gap: 1rem;
+    gap: var(--space-base);
   }
   
   .scoreGrid {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto auto;
-    gap: 0.5rem;
+    gap: var(--space-xs);
     text-align: center;
   }
   

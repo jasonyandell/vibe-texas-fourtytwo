@@ -22,18 +22,18 @@ export const BiddingSection: React.FC = () => {
 
   return (
     <div 
-      className={styles.biddingSection}
+      className="section-container"
       data-testid="bidding-section-container"
       aria-label="Bidding system showcase"
     >
-      <div className={styles.header}>
+      <div className="section-header">
         <h3>Bidding & Trump System</h3>
         <p>Explore the 7 trump suits, interactive bidding controls, and see how trump selection affects domino rankings.</p>
       </div>
 
-      <div className={styles.mainContent}>
+      <div className="section-main-content">
         {/* Trump Suits Display */}
-        <div className={styles.trumpSuitsSection}>
+        <div className="section-subsection">
           <h4>Trump Suits</h4>
           <p>Click any trump suit to highlight the dominoes that become trump:</p>
           <div 

@@ -18,9 +18,12 @@ vi.mock('react-router-dom', async () => {
   }
 })
 
-const renderGameBoard = (gameState?: Partial<GameState>) => {
+const renderGameBoard = (gameState?: Partial<GameState>, isSpectatorMode = true) => {
   return render(
-    <GameBoard gameState={gameState ? { ...mockGameState, ...gameState } : mockGameState} />
+    <GameBoard 
+      gameState={gameState ? { ...mockGameState, ...gameState } : mockGameState} 
+      isSpectatorMode={isSpectatorMode}
+    />
   )
 }
 
@@ -65,9 +68,9 @@ describe('GameBoard - Game State Integration', () => {
 
     render(<GameBoard gameState={gameStateWithScores} />)
 
-    expect(screen.getByText('North-South')).toBeInTheDocument()
+    expect(screen.getByText('N-S')).toBeInTheDocument()
     expect(screen.getByText('15')).toBeInTheDocument()
-    expect(screen.getByText('East-West')).toBeInTheDocument()
+    expect(screen.getByText('E-W')).toBeInTheDocument()
     expect(screen.getByText('23')).toBeInTheDocument()
     expect(screen.getByText('Games: 2')).toBeInTheDocument()
     expect(screen.getByText('Games: 1')).toBeInTheDocument()

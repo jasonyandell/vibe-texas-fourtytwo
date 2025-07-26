@@ -1,0 +1,164 @@
+/* Card Pattern Library for Texas 42 Web Game */
+
+/* ========================================
+   Base Card Patterns
+   ======================================== */
+
+.card-base {
+  background: var(--color-surface);
+  border-radius: var(--border-radius-lg);
+  transition: var(--transition-base);
+  overflow: hidden;
+  position: relative;
+}
+
+.card-outlined {
+  border: var(--border-width-thin) solid var(--color-border);
+}
+
+.card-elevated {
+  box-shadow: var(--shadow-md);
+}
+
+.card-filled {
+  background: var(--color-surface-light);
+}
+
+/* ========================================
+   Glass Surface Cards
+   ======================================== */
+
+.card-glass {
+  background: var(--color-lobby-surface);
+  backdrop-filter: blur(8px);
+  border: var(--border-width-thin) solid var(--color-border-light);
+  border-radius: var(--border-radius-lg);
+}
+
+.card-glass-subtle {
+  background: var(--color-surface-light);
+  backdrop-filter: blur(4px);
+  border: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
+/* ========================================
+   Interactive Card Patterns
+   ======================================== */
+
+.card-interactive {
+  cursor: pointer;
+  transition: var(--transition-base);
+}
+
+.card-interactive:hover:not(:disabled) {
+  transform: var(--transform-hover-lift);
+  box-shadow: var(--shadow-xl);
+  background: var(--color-surface-hover);
+  border-color: var(--color-border);
+}
+
+.card-interactive-scale {
+  cursor: pointer;
+  transition: var(--transition-base);
+}
+
+.card-interactive-scale:hover:not(:disabled) {
+  transform: scale(1.02);
+  box-shadow: var(--shadow-lg);
+}
+
+.card-interactive-subtle {
+  cursor: pointer;
+  transition: var(--transition-base);
+}
+
+.card-interactive-subtle:hover:not(:disabled) {
+  background: var(--color-surface-hover);
+  border-color: var(--color-border-light);
+}
+
+/* ========================================
+   Card Content Patterns
+   ======================================== */
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-lg);
+  border-bottom: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
+.card-content {
+  padding: var(--space-lg);
+}
+
+.card-content-compact {
+  padding: var(--space-md);
+}
+
+.card-content-spacious {
+  padding: var(--space-xl);
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-lg);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+  background: var(--color-surface-subtle);
+}
+
+/* ========================================
+   Specialized Card Types
+   ======================================== */
+
+.card-game {
+  background: var(--color-lobby-surface);
+  border: var(--border-width-thin) solid var(--color-border-light);
+  border-radius: var(--border-radius-lg);
+  cursor: pointer;
+  transition: var(--transition-base);
+}
+
+.card-game:hover {
+  transform: var(--transform-hover-small);
+  box-shadow: var(--shadow-lg);
+  background: var(--color-surface-hover);
+}
+
+.card-player {
+  background: var(--color-surface);
+  border: var(--border-width-medium) solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  padding: var(--space-md);
+  text-align: center;
+  transition: var(--transition-base);
+}
+
+.card-player-active {
+  border-color: var(--color-primary);
+  background: var(--color-primary-bg-light);
+}
+
+.card-error {
+  background: var(--color-error-bg-light);
+  border: var(--border-width-medium) solid var(--color-error-border-light);
+  border-radius: var(--border-radius-lg);
+  color: var(--color-error);
+}
+
+.card-success {
+  background: var(--color-success-bg-light);
+  border: var(--border-width-medium) solid var(--color-success-border-light);
+  border-radius: var(--border-radius-lg);
+  color: var(--color-success);
+}
+
+.card-warning {
+  background: var(--color-warning-bg-light);
+  border: var(--border-width-medium) solid var(--color-warning-border-light);
+  border-radius: var(--border-radius-lg);
+  color: var(--color-text-dark);
+}

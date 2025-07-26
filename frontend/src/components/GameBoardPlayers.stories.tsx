@@ -88,6 +88,11 @@ const createBasicGameState = (overrides?: Partial<GameState>): GameState => {
  * Display all four player positions in a grid
  */
 export const AllPositions: Story = {
+  args: {
+    position: 'north',
+    gameState: createBasicGameState(),
+    currentPlayerId: 'player-3',
+  },
   render: () => {
     const gameState = createBasicGameState();
     const positions: PlayerPosition[] = ['north', 'east', 'south', 'west'];
@@ -132,6 +137,11 @@ export const ActivePlayer: Story = {
  * Player showing domino count (face down for opponents)
  */
 export const WithDominoCount: Story = {
+  args: {
+    position: 'south',
+    gameState: createBasicGameState(),
+    currentPlayerId: 'player-3',
+  },
   render: () => {
     const gameState = createBasicGameState();
     
@@ -196,7 +206,6 @@ export const CurrentBidder: Story = {
     gameState: createBasicGameState({
       phase: 'bidding',
       currentPlayer: 'player-2', // Bob is current bidder
-      currentBidder: 'player-2',
     }),
     currentPlayerId: 'player-3',
   },
@@ -222,6 +231,11 @@ export const WaitingForPlayer: Story = {
  * Partnership highlighting (North-South vs East-West)
  */
 export const Partnerships: Story = {
+  args: {
+    position: 'north',
+    gameState: createBasicGameState(),
+    currentPlayerId: 'player-1',
+  },
   render: () => {
     const gameState = createBasicGameState();
     
@@ -253,10 +267,21 @@ export const Partnerships: Story = {
             display: 'flex', 
             alignItems: 'center', 
             justifyContent: 'center',
-            fontSize: '14px',
-            color: '#666'
+            fontSize: '18px',
+            fontWeight: 'bold',
+            color: '#333',
+            textAlign: 'center',
+            lineHeight: '1.5',
+            background: 'rgba(255, 255, 255, 0.9)',
+            padding: '20px',
+            borderRadius: '8px',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
           }}>
-            North-South<br />vs<br />East-West
+            <div>
+              <span style={{ color: '#2196f3' }}>North-South</span>
+              <br />vs<br />
+              <span style={{ color: '#ff9800' }}>East-West</span>
+            </div>
           </div>
           <GameBoardPlayers
             position="east"

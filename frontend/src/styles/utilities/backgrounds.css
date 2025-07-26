@@ -1,0 +1,32 @@
+/* Background Utilities */
+
+/* Solid Colors */
+.bg-primary { background: var(--color-primary); }
+.bg-primary-dark { background: var(--color-primary-dark); }
+.bg-secondary { background: var(--color-secondary); }
+.bg-success { background: var(--color-success); }
+.bg-warning { background: var(--color-warning); }
+.bg-error { background: var(--color-error); }
+.bg-info { background: var(--color-info); }
+
+/* Surface Colors */
+.bg-surface { background: var(--color-surface); }
+.bg-surface-hover { background: var(--surface-hover); }
+.bg-surface-active { background: var(--surface-active); }
+.bg-surface-overlay { background: var(--surface-overlay); }
+.bg-backdrop { background: var(--surface-backdrop); }
+
+/* Game-specific Colors */
+.bg-felt { background: var(--color-felt); }
+.bg-trump { background: var(--color-trump); }
+.bg-card { background: var(--color-card); }
+.bg-table { background: var(--color-table); }
+
+/* Special */
+.bg-transparent { background: transparent; }
+.bg-current { background: currentColor; }
+
+/* Gradients */
+.bg-gradient-primary { background: var(--gradient-primary); }
+.bg-gradient-surface { background: var(--gradient-surface); }
+.bg-gradient-dark { background: var(--gradient-dark); }

@@ -9,10 +9,10 @@ interface GameCardHeaderProps {
 
 export const GameCardHeader: React.FC<GameCardHeaderProps> = ({ game }) => {
   return (
-    <div className={styles.cardHeader}>
+    <div className={`${styles.cardHeader} flex-between`}>
       <div className={styles.gameInfo}>
         <h3 className={styles.gameName}>{game.name}</h3>
-        <div className={styles.gameMetadata}>
+        <div className={`${styles.gameMetadata} flex-column`}>
           <span className={styles.playerCount}>
             {game.playerCount}/{game.maxPlayers} players
           </span>

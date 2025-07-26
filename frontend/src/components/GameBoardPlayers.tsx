@@ -43,11 +43,12 @@ export const GameBoardPlayers: React.FC<GameBoardPlayersProps> = ({
     const partnership = getPartnership(position);
     const partnershipClass = partnership === 'north-south' ? 'partnershipNorthSouth' : 'partnershipEastWest';
 
-    if (!player) return `player-area player-${position} ${styles.playerArea} ${styles[`player${position.charAt(0).toUpperCase() + position.slice(1)}`]} ${styles[partnershipClass]}`;
+    if (!player) return `player-area player-${position} flex-center ${styles.playerArea} ${styles[`player${position.charAt(0).toUpperCase() + position.slice(1)}`]} ${styles[partnershipClass]}`;
 
     return [
       'player-area',
       `player-${position}`,
+      'flex-center',
       styles.playerArea,
       styles[`player${position.charAt(0).toUpperCase() + position.slice(1)}`],
       styles[partnershipClass],
